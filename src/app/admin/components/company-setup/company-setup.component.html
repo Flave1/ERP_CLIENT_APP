@@ -1,0 +1,418 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Company General Information
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-3">
+                  Company Logo
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Company Code
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Company Name
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Email
+                </label>
+                <div class="col-md-3">
+                  <input
+                    type="file"
+                    (change)="handleFileInput($event.target.files)"
+                    name="logo"
+                    formControlName="logo"
+                    class="form-control"
+                    #fileInput
+                  />
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="code"
+                    name="code"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="name"
+                    name="name"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="email"
+                    name="email"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-3">
+                  Tax ID
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Registration No
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Website
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Industry
+                </label>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="taxId"
+                    name="taxId"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="registrationNumber"
+                    name="registrationNumber"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="webSite"
+                    name="webSite"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <select
+                    type="text"
+                    name="registryTemplate"
+                    formControlName="registryTemplate"
+                    id="registryTemplate"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Industry --</option>
+                    <option
+                      *ngFor="let row of IndustryInformation"
+                      [value]="row.industry"
+                    >
+                      {{ row.industry }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-3">
+                  Telephone
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Fax
+                </label>
+                <!--                                <label for="" class="control-label col-md-3">-->
+                <!--                                    Currency-->
+                <!--                                </label>-->
+                <label for="" class="control-label col-md-3">
+                  Apply Registry Template
+                </label>
+                <label for="" class="control-label col-md-3">
+                  FS Template Name
+                </label>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="telephone"
+                    name="telephone"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="fax"
+                    name="fax"
+                    class="form-control"
+                  />
+                </div>
+                <!--                                <div class="col-md-3">-->
+                <!--                                    <select-->
+                <!--                                        type="text"-->
+                <!--                                        name="currencyId"-->
+                <!--                                        formControlName="currencyId"-->
+                <!--                                        id="currencyId"-->
+                <!--                                        class="form-control"-->
+                <!--                                    >-->
+                <!--                                        <option value=""-->
+                <!--                                            >&#45;&#45; Select Currency &#45;&#45;</option-->
+                <!--                                        >-->
+                <!--                                        <option-->
+                <!--                                            *ngFor="let row of currencyList"-->
+                <!--                                            [value]="row.currencyId"-->
+                <!--                                        >-->
+                <!--                                            {{ row.currencyName }}-->
+                <!--                                        </option>-->
+                <!--                                    </select>-->
+                <!--                                </div>-->
+                <div class="col-md-3">
+                  <select
+                    type="text"
+                    name="applyRegistryTemplate"
+                    formControlName="applyRegistryTemplate"
+                    id="applyRegistryTemplate"
+                    class="form-control"
+                  >
+                    <option value=""
+                      >-- Select Apply Registry Template--</option
+                    >
+                    <option value="No">No</option>
+                    <option value="Yes">Yes</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="fsTemplateName"
+                    name="fsTemplateName"
+                    class="form-control"
+                    readonly
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-3">
+                  Country
+                </label>
+                <label for="" class="control-label col-md-3">
+                  State
+                </label>
+                <label for="" class="control-label col-md-3">
+                  City
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Zip/Postal Code
+                </label>
+                <div class="col-md-3">
+                  <select
+                    type="text"
+                    name="countryId"
+                    formControlName="countryId"
+                    id="countryId"
+                    class="form-control"
+                    (change)="getStateByCountry($event.target.value)"
+                  >
+                    <option value="" selected disabled
+                      >-- Select Country --</option
+                    >
+                    <option
+                      *ngFor="let row of countryList"
+                      [value]="row.lookupId"
+                    >
+                      {{ row.lookupName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select
+                    name="state"
+                    id="state"
+                    formControlName="state"
+                    class="form-control"
+                    (change)="getCityByStateId($event.target.value)"
+                  >
+                    <option value="" selected disabled>--Select State--</option>
+                    <option
+                      *ngFor="let item of states"
+                      [value]="item.lookupId"
+                      >{{ item.lookupName }}</option
+                    >
+                  </select>
+                  <!--                                    <input-->
+                  <!--                                        type="text"-->
+                  <!--                                        formControlName="state"-->
+                  <!--                                        name="state"-->
+                  <!--                                        class="form-control"-->
+                  <!--                                    />-->
+                </div>
+                <div class="col-md-3">
+                  <select
+                    formControlName="city"
+                    name="city"
+                    class="form-control"
+                  >
+                    <option value="">--Select City--</option>
+                    <option
+                      *ngFor="let city of cities"
+                      [value]="city.lookupId"
+                      >{{ city.lookupName }}</option
+                    >
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    formControlName="postalCode"
+                    name="postalCode"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-md-3">No of Employees</label>
+                <label for="" class="control-label col-md-3">
+                  Address 1
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Address 2
+                </label>
+                <label for="" class="control-label col-md-3">
+                  Notes
+                </label>
+                <div class="col-md-3">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="noOfEmployees"
+                    name="noOfEmployees"
+                  />
+                </div>
+                <div class="col-md-3">
+                  <textarea
+                    type="text"
+                    formControlName="address1"
+                    rows="4"
+                    name="address1"
+                    class="form-control"
+                  ></textarea>
+                </div>
+                <div class="col-md-3">
+                  <textarea
+                    type="text"
+                    formControlName="address2"
+                    rows="4"
+                    name="address2"
+                    class="form-control"
+                  ></textarea>
+                </div>
+                <div class="col-md-3">
+                  <textarea
+                    type="text"
+                    formControlName="description"
+                    rows="4"
+                    name="description"
+                    class="form-control"
+                  ></textarea>
+                </div>
+              </div>
+              <hr />
+
+              <div class="form-group">
+                <label for="currencyId" class="control-label col-md-2">
+                  Functional Currency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    name="currencyId"
+                    formControlName="currencyId"
+                    id="currencyId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Currency --</option>
+                    <option
+                      *ngFor="let row of currencyList"
+                      [value]="row.lookupId"
+                    >
+                      {{ row.lookupName }}
+                    </option>
+                  </select>
+                </div>
+                <label for="reportCurrencyId" class="control-label col-md-2">
+                  Reporting Currency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    formControlName="reportCurrencyId"
+                    name="reportCurrencyId"
+                    id="reportCurrencyId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Currency --</option>
+                    <option
+                      *ngFor="let row of currencyList"
+                      [value]="row.lookupId"
+                    >
+                      {{ row.lookupName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="form-group">
+            <label for="file1" class="control-label col-md-2">
+              FS Template
+            </label>
+            <div class="col-md-3">
+              <input
+                #myInput
+                style="height:35px;"
+                class="form-control"
+                type="file"
+                (change)="fsTemplateUpload($event.target.files)"
+                id="file1"
+                accept=".xls,.xlsx"
+                name="fileInput"
+              />
+            </div>
+            <button
+              type="button"
+              class="btn btn-success"
+              (click)="uploadCompanyFSTemplate()"
+            >
+              Update
+            </button>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                type="button"
+                class="btn btn-info"
+                style="float:right;"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+              <button
+                style="margin-right:5px"
+                type="button"
+                class="btn btn-success pull-right"
+                (click)="addCompanyInfo(form)"
+              >
+                Save/Update
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

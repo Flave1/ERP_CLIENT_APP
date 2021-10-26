@@ -1,0 +1,391 @@
+<form novalidate [formGroup]="form">
+  <div class="form-group">
+    <label for="" class="control-label col-md-2">
+      Customer Type
+    </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="customerTypeId"
+        formControlName="customerTypeId"
+        id="customerTypeId"
+        class="form-control"
+        (change)="onCustomerTypeChange($event.target.value)"
+      >
+        <option value="">-- Select Customer Type --</option>
+        <option value="1">Individual</option>
+        <option value="2">Corporate</option>
+      </select>
+    </div>
+    <div *ngIf="displayIndividualCustomer">
+      <label for="" class="control-label col-md-2">
+        Title
+      </label>
+      <div class="col-md-4">
+        <select
+          type="text"
+          name="titleId"
+          formControlName="titleId"
+          id="titleId"
+          class="form-control"
+        >
+          <option value="">-- Select Title --</option>
+          <option
+            *ngFor="let row of titleList"
+            [value]="row.lookupId"
+          >
+            {{ row.lookupName }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div *ngIf="displayCorperatCustomer">
+      <label for="" class="control-label col-md-2">
+        Registration Number
+      </label>
+      <div class="col-md-4">
+        <input
+          type="text"
+          formControlName="registrationNo"
+          name="registrationNo"
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="" class="control-label col-md-2">
+      {{ name }}
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="firstName"
+        name="firstName"
+        class="form-control"
+      />
+    </div>
+    <label for="" class="control-label col-md-2">
+      {{ nameDate }}
+    </label>
+    <div class="col-md-4">
+      <!--                      <input type="date" class="form-control" formControlName="dob" />-->
+      <p-calendar
+        name="dob"
+        formControlName="dob"
+        [monthNavigator]="true"
+        [yearNavigator]="true"
+        yearRange="1900:2030"
+        [showIcon]="true"
+        [inputStyle]="{ width: '100%' }"
+        [style]="{ width: '100%', 'z-index': '100' }"
+      ></p-calendar>
+    </div>
+  </div>
+
+  <div *ngIf="displayIndividualCustomer" class="form-group">
+    <label for="" class="control-label col-md-2">
+      Last Name
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="lastName"
+        name="lastName"
+        class="form-control"
+      />
+    </div>
+
+    <label for="" class="control-label col-md-2">
+      Gender
+    </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="genderId"
+        formControlName="genderId"
+        id="genderId"
+        class="form-control"
+      >
+        <option value="">-- Select Gender --</option>
+        <option
+          *ngFor="let row of genderList"
+          [value]="row.lookupId"
+        >
+          {{ row.lookupName }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div *ngIf="displayIndividualCustomer" class="form-group">
+    <label for="" class="control-label col-md-2">
+      Middle Name
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="middleName"
+        name="middleName"
+        class="form-control"
+      />
+    </div>
+    <label for="" class="control-label col-md-2">
+      Marital Status
+    </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="maritalStatusId"
+        formControlName="maritalStatusId"
+        id="maritalStatusId"
+        class="form-control"
+      >
+        <option value="">-- Select Marital Status --</option>
+        <option
+          *ngFor="let row of martialStatusList"
+          [value]="row.lookupId"
+        >
+          {{ row.lookupName }}
+        </option>
+      </select>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label for="" class="control-label col-md-2">
+      Phone Number
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="phoneNo"
+        name="phoneNo"
+        class="form-control"
+      />
+    </div>
+
+    <label for="" class="control-label col-md-2">
+      Email
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="email"
+        name="email"
+        class="form-control"
+      />
+    </div>
+  </div>
+  <div *ngIf="displayIndividualCustomer" class="form-group">
+    <label for="" class="control-label col-md-2">
+      Country
+    </label>
+
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="countryId"
+        formControlName="countryId"
+        id="countryId"
+        class="form-control"
+      >
+        <option value="">-- Select Country --</option>
+        <option
+          *ngFor="let row of countryInformation"
+          [value]="row.lookupId"
+        >
+          {{ row.lookupName }}
+        </option>
+      </select>
+    </div>
+
+    <label for="city" class="control-label col-md-2">
+      City
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        name="cityId"
+        formControlName="city"
+        id="city"
+        class="form-control"
+      />
+
+    </div>
+  </div>
+  <div *ngIf="displayIndividualCustomer" class="form-group">
+    <label for="" class="control-label col-md-2">
+      Employment Type
+    </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="employmentType"
+        formControlName="employmentType"
+        id="employmentType"
+        class="form-control"
+      >
+        <option value="">-- Select Employment Type --</option>
+        <option
+          *ngFor="let row of employerTypeList"
+          [value]="row.lookupId"
+        >
+          {{ row.lookupName }}
+        </option>
+      </select>
+    </div>
+
+    <!-- <label for="" class="control-label col-md-2">
+      Employer
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="companyName"
+        name="companyName"
+        class="form-control"
+      />
+    </div> -->
+  </div>
+  <div class="form-group">
+    <label for="" class="control-label col-md-2">
+      Address
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="address"
+        name="address"
+        class="form-control"
+      />
+    </div>
+
+    <label for="" class="control-label col-md-2">
+      Postal Address
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="postalAddress"
+        name="postalAddress"
+        class="form-control"
+      />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="" class="control-label col-md-2">
+      Relationship Officer
+    </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="relationshipOfficerId"
+        formControlName="relationshipOfficerId"
+        id="relationshipOfficerId"
+        class="form-control"
+      >
+        <option value="">-- Select Staff --</option>
+        <option
+          *ngFor="let row of staffList"
+          [value]="row.staffId"
+        >
+          {{ row.firstName }} {{ row.lastName }}
+        </option>
+      </select>
+    </div>
+    <div *ngIf="displayIndividualCustomer">
+      <label for="" class="control-label col-md-2">
+        Are you politically exposed?
+      </label>
+      <div class="col-md-4">
+        <input
+          type="checkbox"
+          formControlName="politicallyExposed"
+          name="politicallyExposed"
+          id="politicallyExposed"
+        />
+      </div>
+    </div>
+  </div>
+
+  <div *ngIf="displayCorperatCustomer" class="form-group">
+    <label for="" class="control-label col-md-2">
+      Industry
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="industry"
+        name="industry"
+        class="form-control"
+      />
+    </div>
+
+    <label for="" class="control-label col-md-2">
+      Incorporation Country
+    </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="incorporationCountry"
+        formControlName="incorporationCountry"
+        id="incorporationCountry"
+        class="form-control"
+      >
+        <option value="">-- Select Country --</option>
+        <option
+          *ngFor="let row of countryInformation"
+          [value]="row.lookupName"
+        >
+          {{ row.lookupName }}
+        </option>
+      </select>
+    </div>
+  </div>
+  <div *ngIf="displayCorperatCustomer" class="form-group">
+    <label for="" class="control-label col-md-2">
+      Annual Turnover
+    </label>
+    <div class="col-md-4">
+      <input
+        type="number"
+        formControlName="annualTurnover"
+        name="annualTurnover"
+        class="form-control"
+      />
+    </div>
+
+    <label for="" class="control-label col-md-2">
+      Shareholder Fund
+    </label>
+    <div class="col-md-4">
+      <input
+        type="number"
+        formControlName="shareholderFund"
+        name="shareholderFund"
+        class="form-control"
+      />
+    </div>
+  </div>
+  <div *ngIf="displayCorperatCustomer" class="form-group">
+    <label for="" class="control-label col-md-2">
+      Company Website
+    </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="companyWebsite"
+        name="companyWebsite"
+        class="form-control"
+      />
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="accountNumber" class="col-md-2 control-label">Account Number</label>
+    <div class="col-md-4">
+      <input type="text" id="accountNumber" class="form-control" formControlName="accountNumber" disabled/>
+    </div>
+  </div>
+</form>

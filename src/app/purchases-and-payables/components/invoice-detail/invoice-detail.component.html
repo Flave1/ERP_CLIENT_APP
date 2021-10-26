@@ -1,0 +1,343 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom: 0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">Invoice Detail</h2>
+              <div style="float: right">
+                <button
+                  class="btn btn-primary"
+                  (click)="sendToApproval(invoiceDetail.paymentTermId)"
+                >
+                  <i
+                    class="fa fa-check"
+                    aria-hidden="true"
+                    title="Process payment"
+                  ></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <!--          <div class="invoice-container">-->
+          <!--            <h1>Invoice</h1>-->
+          <!--            <div class="invoice-upper">-->
+          <!--              <div class="client-detail">-->
+          <!--                <div>From</div>-->
+          <!--                <div>Business Name</div>-->
+          <!--                <div>Address</div>-->
+          <!--              </div>-->
+          <!--              <div>-->
+          <!--                <div>For</div>-->
+          <!--                <div>Client Name</div>-->
+          <!--                <div>Client Address</div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="invoice-mid">-->
+          <!--              <div>-->
+          <!--                <span>Number</span><span></span>-->
+          <!--                <span>Date</span><span></span>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="invoice-table">-->
+          <!--              <div class="table">-->
+          <!--                <div>Description</div>-->
+          <!--                <div>Price</div>-->
+          <!--                <div>Qty</div>-->
+          <!--                <div>Amount</div>-->
+          <!--              </div>-->
+          <!--              <div class="table-content">-->
+          <!--                <div></div>-->
+          <!--                <div></div>-->
+          <!--                <div></div>-->
+          <!--                <div></div>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div class="invoice-summary">-->
+          <!--              <div>-->
+          <!--                <span>Sub Total</span>-->
+          <!--              </div>-->
+          <!--              <div>-->
+          <!--                <span>Tax</span>-->
+          <!--              </div>-->
+          <!--              <div>-->
+          <!--                <span>Total</span>-->
+          <!--              </div>-->
+          <!--              <div>-->
+          <!--                <span>Balance Due</span>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--            <div></div>-->
+          <!--          </div>-->
+
+          <table class="table">
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Invoice Number:</strong>
+                </td>
+                <td>{{ invoiceDetail?.invoiceNumber }}</td>
+                <td>
+                  <strong>LPO Number:</strong>
+                </td>
+                <td>{{ invoiceDetail?.lpoNumber }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Name of Supplier:</strong>
+                </td>
+                <td>{{ invoiceDetail?.supplier }}</td>
+                <td>
+                  <strong>Delivery Location: </strong>
+                </td>
+                <td>{{ invoiceDetail?.location }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Item Description:</strong>
+                </td>
+                <td>{{ invoiceDetail?.descriptionOfRequest }}</td>
+                <td>
+                  <strong>Amount to pay:</strong>
+                </td>
+                <td>{{ invoiceDetail?.amount | number: "1.2-2" }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Outstanding Amount:</strong>
+                </td>
+                <td>
+                  {{ invoiceDetail?.paymentOutstanding | number: "1.2-2" }}
+                </td>
+                <td>
+                  <strong>Phase: </strong>
+                </td>
+                <td>{{ invoiceDetail?.phase }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Gross Amount:</strong>
+                </td>
+                <td>{{ invoiceDetail?.amountPayable | number: "1.2-2" }}</td>
+                <td>
+                  <strong>Tax:</strong>
+                </td>
+                <td>{{ invoiceDetail?.tax | number: "1.2-2" }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Select Payment Bank</strong>
+                </td>
+                <td>
+                  <p-dropdown
+                    [options]="banksArr"
+                    placeholder="Select Bank"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="bank"
+                    (onChange)="getValue($event.value)"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span
+                        style="vertical-align: middle; margin-left: 0.5em"
+                        >{{ item.label }}</span
+                      >
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative; height: 25px"
+                      >
+                        <div style="font-size: 14px; margin-top: 4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </td>
+                <td>
+                  <strong>Select Supplier Account</strong>
+                </td>
+                <td>
+                  <p-dropdown
+                    [options]="supplierBankArr"
+                    placeholder="Select Account Number"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="bank"
+                    [(ngModel)]="supplierBankId"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span
+                        style="vertical-align: middle; margin-left: 0.5em"
+                        >{{ item.label }}</span
+                      >
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative; height: 25px"
+                      >
+                        <div style="font-size: 14px; margin-top: 4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </td>
+              </tr>
+              <!--              <tr>-->
+              <!--                <td>Select Currency</td>-->
+              <!--                <td>-->
+              <!--                  <select name="" class="form-control" id="" [(ngModel)]="currency">-->
+              <!--                    <option *ngFor="let item of currencies" [value]="item.lookupId">{{item.lookupName}}</option>-->
+              <!--                  </select>-->
+              <!--                </td>-->
+              <!--                <td></td>-->
+              <!--                <td></td>-->
+              <!--              </tr>-->
+              <tr>
+                <td>
+                  <button class="btn btn-primary" (click)="viewPaymentTerms()">
+                    View Payment terms
+                  </button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom: 0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Banks</h2>
+    </div>
+
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <form>
+          <div class="form-group">
+            <label for="bank" class="control-label col-md-2">Bank</label>
+            <div class="col-md-4">
+              <p-dropdown
+                [options]="banksArr"
+                placeholder="Select Bank"
+                [filter]="true"
+                [filterBy]="'label'"
+                class="form-control"
+                [style]="{ width: '100%' }"
+                id="bank"
+                (onChange)="getValue($event.value)"
+              >
+                <ng-template let-item pTemplate="selectedItem">
+                  <span style="vertical-align: middle; margin-left: 0.5em">{{
+                    item.label
+                  }}</span>
+                </ng-template>
+                <ng-template let-x pTemplate="item">
+                  <div
+                    class="ui-helper-clearfix"
+                    style="position: relative; height: 25px"
+                  >
+                    <div style="font-size: 14px; margin-top: 4px">
+                      {{ x.label }}
+                    </div>
+                  </div>
+                </ng-template>
+              </p-dropdown>
+            </div>
+          </div>
+          <!--          <button class="btn btn-primary pull-right" (click)="saveDirectDebit(bankForm)">-->
+          <!--            Save-->
+          <!--          </button>-->
+        </form>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row"></div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showPaymentTerms"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom: 0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Payment Terms</h2>
+    </div>
+
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <div class="row">
+          <div class="col-md-12">
+            <p-table
+              class="table-responsive"
+              [value]="proposedPaymentTerms"
+              [scrollable]="true"
+              [scrollHeight]="viewHeight"
+              [responsive]="true"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <!--                      <th class="sn_width">S/N</th>-->
+                  <th>Phase</th>
+                  <th>Payment(%)</th>
+                  <th>Completion Date</th>
+                  <th>Amount</th>
+                  <th>Payment Status</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-item let-i="rowIndex">
+                <tr>
+                  <!--                      <td class="sn_width">{{ i + 1 }}</td>-->
+                  <td>Phase {{ item.phase }}</td>
+                  <td>{{ item.payment }}</td>
+                  <td>{{ item.completionDate | date }}</td>
+                  <td>
+                    {{ item.amount | number: "1.2-2" }}
+                  </td>
+                  <td>{{ item.paymentStatusName }}</td>
+                  <!--                                      <td>{{ item.suppliers }}</td>-->
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row"></div>
+    </div>
+  </div>
+</p-dialog>

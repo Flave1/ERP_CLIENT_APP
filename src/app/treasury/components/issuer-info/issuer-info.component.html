@@ -1,0 +1,1049 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <p-tabView
+                            (onChange)="onTabChange($event)"
+                            [activeIndex]="activeIndex"
+                        >
+                            <p-tabPanel header="General Information">
+                                <form novalidate [formGroup]="form">
+                                    <div class="form-group">
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Business Type
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select
+                                                type="text"
+                                                name="businessType"
+                                                formControlName="businessType"
+                                                id="businessType"
+                                                class="form-control"
+                                            >
+                                                <option value=""
+                                                    >-- Select Customer Type
+                                                    --</option
+                                                >
+                                                <option value="Partnership"
+                                                    >Partnership</option
+                                                >
+                                                <option
+                                                    value="Sole Proprietorship"
+                                                    >Sole Proprietorship</option
+                                                >
+                                                <option
+                                                    value="Limited Liability Company"
+                                                    >Limited Liability
+                                                    Company</option
+                                                >
+                                                <option value="Association"
+                                                    >Association</option
+                                                >
+                                                <option value="Public Company"
+                                                    >Public Limited
+                                                    Company</option
+                                                >
+                                                <option value="Corporate"
+                                                    >Public Limited
+                                                    Corporate</option
+                                                >
+                                                <option value="Public"
+                                                    >Public
+                                                </option>
+                                                <option value="Government"
+                                                    >Government</option
+                                                >
+                                                <option value="Others"
+                                                    >Others</option
+                                                >
+                                            </select>
+                                        </div>
+                                        <div>
+                                            <label
+                                                for=""
+                                                class="control-label col-md-2"
+                                            >
+                                                Name
+                                            </label>
+                                            <div class="col-md-4">
+                                                <input
+                                                    type="text"
+                                                    name="issuerName"
+                                                    formControlName="issuerName"
+                                                    id="issuerName"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Date of Business Commencement
+                                        </label>
+                                        <div class="col-md-4">
+                                          <input type="date" class="form-control" formControlName="businessCommencementDate"/>
+<!--                                            <p-calendar-->
+<!--                                                name="businessCommencementDate"-->
+<!--                                                class="form-control"-->
+<!--                                                formControlName="businessCommencementDate"-->
+<!--                                                [monthNavigator]="true"-->
+<!--                                                [yearNavigator]="true"-->
+<!--                                                yearRange="1900:2030"-->
+<!--                                                [showIcon]="true"-->
+<!--                                                [inputStyle]="{ width: '100%' }"-->
+<!--                                                [style]="{-->
+<!--                                                    width: '100%',-->
+<!--                                                    'z-index': '100'-->
+<!--                                                }"-->
+<!--                                            ></p-calendar>-->
+                                        </div>
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Industry
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="text"
+                                                name="industry"
+                                                class="form-control"
+                                                formControlName="industry"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Size
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="text"
+                                                formControlName="size"
+                                                name="size"
+                                                class="form-control"
+                                            />
+                                        </div>
+
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Date of Incorporation
+                                        </label>
+                                        <div class="col-md-4">
+                                          <input type="date" class="form-control" formControlName="incorporationDate"/>
+<!--                                            <p-calendar-->
+<!--                                                name="incorporationDate"-->
+<!--                                                class="form-control"-->
+<!--                                                formControlName="incorporationDate"-->
+<!--                                                [monthNavigator]="true"-->
+<!--                                                [yearNavigator]="true"-->
+<!--                                                yearRange="1900:2030"-->
+<!--                                                [showIcon]="true"-->
+<!--                                                [inputStyle]="{ width: '100%' }"-->
+<!--                                                [style]="{-->
+<!--                                                    width: '100%',-->
+<!--                                                    'z-index': '100'-->
+<!--                                                }"-->
+<!--                                            ></p-calendar>-->
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Incorporation Number
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="text"
+                                                formControlName="incorporationNumber"
+                                                name="incorporationNumber"
+                                                class="form-control"
+                                            />
+                                        </div>
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Politically exposed?
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="checkbox"
+                                                formControlName="politicallyExposed"
+                                                name="politicallyExposed"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label for="" class="control-label col-md-2">Institution Type</label>
+                                      <div class="col-md-4">
+                                        <select
+                                          name="type"
+                                          formControlName="productType"
+                                          id="productTypeId"
+                                          class="form-control"
+                                        >
+                                          <option value="" disabled>--Select Institution Type--</option>
+                                          <option value="Government">Government</option>
+                                          <option value="Private">Private</option>
+                                          <option value="Corporate">Corporate</option>
+                                        </select>
+                                      </div>
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Other Comments
+                                        </label>
+                                        <div class="col-md-4">
+                                            <textarea
+                                                type="text"
+                                                formControlName="otherComments"
+                                                name="otherComments"
+                                                class="form-control"
+                                                style="resize: none"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </form>
+                            </p-tabPanel>
+                            <p-tabPanel
+                                [disabled]="contactInfoTabDisabled"
+                                header="Contact Information"
+                            >
+                                <form novalidate [formGroup]="contactForm">
+                                    <div class="form-group">
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Name of contact person
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="text"
+                                                name="nameOfContact"
+                                                formControlName="nameOfContact"
+                                                id="nameOfContact"
+                                                class="form-control"
+                                            />
+                                        </div>
+                                        <div>
+                                            <label
+                                                for=""
+                                                class="control-label col-md-2"
+                                            >
+                                                Phone Number
+                                            </label>
+                                            <div class="col-md-4">
+                                                <input
+                                                    type="text"
+                                                    name="phoneNumber"
+                                                    formControlName="phoneNumber"
+                                                    id="phoneNumber"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Email
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="text"
+                                                name="email"
+                                                class="form-control"
+                                                formControlName="email"
+                                            />
+                                        </div>
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Address
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="text"
+                                                name="address"
+                                                class="form-control"
+                                                formControlName="address"
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label
+                                        for=""
+                                        class="control-label col-md-2"
+                                      >
+                                        Country
+                                      </label>
+                                      <div class="col-md-4">
+                                        <select
+                                          name="countryId"
+                                          class="form-control"
+                                          formControlName="countryId"
+                                          (change)="getStates($event.target.value)"
+                                        >
+                                          <option value="" disabled
+                                          >--Select Country--</option
+                                          >
+                                          <option
+                                            *ngFor="
+                                                        let country of countryInformation
+                                                    "
+                                            [value]="country.lookupId"
+                                          >{{
+                                              country.lookupName
+                                            }}</option
+                                          >
+                                        </select>
+                                      </div>
+                                      <label
+                                        for=""
+                                        class="control-label col-md-2"
+                                      >
+                                        State
+                                      </label>
+                                      <div class="col-md-4">
+                                        <select
+                                          formControlName="stateId"
+                                          name="stateId"
+                                          class="form-control"
+                                          (change)="getCities($event.target.value)"
+                                        >
+                                          <option value="" disabled
+                                          >--Select State--</option
+                                          >
+                                          <option
+                                            *ngFor="let state of states"
+                                            [value]="state.lookupId"
+                                          >{{
+                                              state.lookupName
+                                            }}</option
+                                          >
+                                        </select>
+                                      </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                      <label
+                                        for=""
+                                        class="control-label col-md-2"
+                                      >
+                                        City
+                                      </label>
+                                      <div class="col-md-4">
+                                        <select
+                                          formControlName="cityId"
+                                          name="cityId"
+                                          class="form-control"
+                                        >
+                                          <option value="" disabled
+                                          >--Select City--</option
+                                          >
+                                          <option
+                                            *ngFor="
+                                                        let city of cityList
+                                                    "
+                                            [value]="city.lookupId"
+                                          >{{
+                                              city.lookupName
+                                            }}</option
+                                          >
+                                        </select>
+                                      </div>
+                                        <label
+                                            for=""
+                                            class="control-label col-md-2"
+                                        >
+                                            Postal Address
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input
+                                                type="text"
+                                                formControlName="postalAddress"
+                                                name="postalAddress"
+                                                class="form-control"
+                                            />
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <button
+                                            class="btn btn-primary pull-right"
+                                            (click)="
+                                                saveContactInfo(contactForm)
+                                            "
+                                            style="margin-right: 20px"
+                                        >
+                                            Save Contact Information
+                                        </button>
+                                    </div>
+                                </form>
+                            </p-tabPanel>
+                            <!--                            <p-tabPanel-->
+                            <!--                                *ngIf="displayIndividualCustomer"-->
+                            <!--                                [disabled]="identityTabDisabled"-->
+                            <!--                                header="Identity Details"-->
+                            <!--                            >-->
+                            <!--                                <div class="form-group">-->
+                            <!--                                    <div class="col-md-12">-->
+                            <!--                                        <div class="pull-right">-->
+                            <!--                                            <button-->
+                            <!--                                                (click)="-->
+                            <!--                                                    showAddNewIdentityDetails()-->
+                            <!--                                                "-->
+                            <!--                                                pButton-->
+                            <!--                                                type="button"-->
+                            <!--                                                label="Add Identity Details"-->
+                            <!--                                                icon="fa-plus"-->
+                            <!--                                            ></button>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                                <p-table-->
+                            <!--                                    [value]="loanCustomerIdentityDetails"-->
+                            <!--                                    [responsive]="true"-->
+                            <!--                                >-->
+                            <!--                                    <ng-template pTemplate="caption">-->
+                            <!--                                        <h4>Identity Details</h4>-->
+                            <!--                                    </ng-template>-->
+                            <!--                                    <ng-template pTemplate="header">-->
+                            <!--                                        <tr>-->
+                            <!--                                            <th style="width:5em">S/N</th>-->
+                            <!--                                            <th style="width:15em">Number</th>-->
+                            <!--                                            <th>Issuer</th>-->
+                            <!--                                            <th>Identification</th>-->
+                            <!--                                            <th style="width:5em"></th>-->
+                            <!--                                            <th style="width:5em"></th>-->
+                            <!--                                        </tr>-->
+                            <!--                                    </ng-template>-->
+                            <!--                                    <ng-template-->
+                            <!--                                        pTemplate="body"-->
+                            <!--                                        let-x-->
+                            <!--                                        let-i="rowIndex"-->
+                            <!--                                    >-->
+                            <!--                                        <tr>-->
+                            <!--                                            <td>{{ i + 1 }}</td>-->
+                            <!--                                            <td>{{ x.number }}</td>-->
+                            <!--                                            <td>{{ x.issuer }}</td>-->
+                            <!--                                            <td>{{ x.identity }}</td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <a-->
+                            <!--                                                    (click)="-->
+                            <!--                                                        editIdentityDetails(x)-->
+                            <!--                                                    "-->
+                            <!--                                                    >Edit</a-->
+                            <!--                                                >-->
+                            <!--                                            </td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <a-->
+                            <!--                                                    (click)="-->
+                            <!--                                                        deleteIdentityDetails(x)-->
+                            <!--                                                    "-->
+                            <!--                                                    >Delete</a-->
+                            <!--                                                >-->
+                            <!--                                            </td>-->
+                            <!--                                        </tr>-->
+                            <!--                                    </ng-template>-->
+                            <!--                                </p-table>-->
+                            <!--                            </p-tabPanel>-->
+                            <!--                            <p-tabPanel-->
+                            <!--                                [disabled]="bankTabDisabled"-->
+                            <!--                                header="Bank Details"-->
+                            <!--                            >-->
+                            <!--                                <div class="form-group">-->
+                            <!--                                    <div class="col-md-12">-->
+                            <!--                                        <div class="pull-right">-->
+                            <!--                                            <button-->
+                            <!--                                                (click)="-->
+                            <!--                                                    showAddNewBankDetails()-->
+                            <!--                                                "-->
+                            <!--                                                pButton-->
+                            <!--                                                type="button"-->
+                            <!--                                                label="Add Bank Details"-->
+                            <!--                                                icon="fa-plus"-->
+                            <!--                                            ></button>-->
+                            <!--                                        </div>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                                <p-table-->
+                            <!--                                    [value]="loanCustomerBankDetails"-->
+                            <!--                                    [responsive]="true"-->
+                            <!--                                >-->
+                            <!--                                    <ng-template pTemplate="caption">-->
+                            <!--                                        <h4>Bank Details</h4>-->
+                            <!--                                    </ng-template>-->
+                            <!--                                    <ng-template pTemplate="header">-->
+                            <!--                                        <tr>-->
+                            <!--                                            <th style="width:5em">S/N</th>-->
+                            <!--                                            <th style="width:15em">Bank</th>-->
+                            <!--                                            <th style="width:15em">Account</th>-->
+                            <!--                                            <th>BVN</th>-->
+                            <!--                                            <th style="width:5em"></th>-->
+                            <!--                                            <th style="width:5em"></th>-->
+                            <!--                                        </tr>-->
+                            <!--                                    </ng-template>-->
+                            <!--                                    <ng-template-->
+                            <!--                                        pTemplate="body"-->
+                            <!--                                        let-x-->
+                            <!--                                        let-i="rowIndex"-->
+                            <!--                                    >-->
+                            <!--                                        <tr>-->
+                            <!--                                            <td>{{ i + 1 }}</td>-->
+                            <!--                                            <td>{{ x.bankName }}</td>-->
+                            <!--                                            <td>{{ x.accountNumber }}</td>-->
+                            <!--                                            <td>{{ x.bVN }}</td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <a (click)="editBankDetails(x)"-->
+                            <!--                                                    >Edit</a-->
+                            <!--                                                >-->
+                            <!--                                            </td>-->
+                            <!--                                            <td>-->
+                            <!--                                                <a-->
+                            <!--                                                    (click)="-->
+                            <!--                                                        deleteBankDetails(x)-->
+                            <!--                                                    "-->
+                            <!--                                                    >Delete</a-->
+                            <!--                                                >-->
+                            <!--                                            </td>-->
+                            <!--                                        </tr>-->
+                            <!--                                    </ng-template>-->
+                            <!--                                </p-table>-->
+                            <!--                            </p-tabPanel>-->
+                            <p-tabPanel
+                                [disabled]="uploadTabDisabled"
+                                header="Documents"
+                            >
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div class="pull-right">
+                                            <button
+                                                (click)="showAddNewDocument()"
+                                                pButton
+                                                type="button"
+                                                label="Add New Document"
+                                                icon="fa-plus"
+                                            ></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p-table
+                                    [value]="loanCustomerDocuments"
+                                    [responsive]="true"
+                                >
+                                    <ng-template pTemplate="caption">
+                                        <h4>Document(s)</h4>
+                                    </ng-template>
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                            <th style="width:5em">S/N</th>
+                                            <th style="width:15em">
+                                                Document Name
+                                            </th>
+                                            <th style="width:15em">
+                                                Extention
+                                            </th>
+                                            <th style="width:15em">
+                                                Physical Location
+                                            </th>
+                                            <th style="width:7em"></th>
+                                            <th style="width:7em"></th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template
+                                        pTemplate="body"
+                                        let-x
+                                        let-i="rowIndex"
+                                    >
+                                        <tr>
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ x.documentName }}</td>
+                                            <td>{{ x.documentExtension }}</td>
+                                            <td>{{ x.physicalLocation }}</td>
+                                            <td>
+                                                <a
+                                                  style="text-decoration: none; cursor: pointer"
+                                                    *ngIf="
+                                                        [
+                                                            '.jpg',
+                                                            '.jpeg',
+                                                            '.png'
+                                                        ].indexOf(
+                                                            x.documentExtension.toLowerCase()
+                                                        ) > -1
+                                                    "
+                                                    (click)="
+                                                        viewDocument(
+                                                            x
+                                                        )
+                                                    "
+                                                    href="javascript:void(0)"
+                                                    >View</a
+                                                >
+                                                <a
+                                                  style="text-decoration: none; cursor: pointer"
+                                                    *ngIf="
+                                                        [
+                                                            '.doc',
+                                                            '.docx',
+                                                            '.pdf',
+                                                            '.xls',
+                                                            '.xlsx'
+                                                        ].indexOf(
+                                                            x.documentExtension.toLowerCase()
+                                                        ) > -1
+                                                    "
+                                                    (click)="
+                                                        DownloadDocument(
+                                                            x
+                                                        )
+                                                    "
+                                                    href="javascript:void(0)"
+                                                    >Download</a
+                                                >
+                                            </td>
+                                            <td>
+                                                <a
+                                                  style="text-decoration: none; cursor: pointer"
+                                                    (click)="
+                                                        deleteLoanCustoemrDocument(
+                                                            x
+                                                        )
+                                                    "
+                                                    >Delete</a
+                                                >
+                                            </td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </p-tabPanel>
+                        </p-tabView>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                *ngIf="activeIndex == 2"
+                                style="margin-right:5px"
+                                type="button"
+                                class="btn btn-primary pull-right"
+                                (click)="onSavedButtonPressed()"
+                            >
+                                Save
+                            </button>
+                            <button
+                                pButton
+                                type="button"
+                                class="btn btn-primary pull-right"
+                                *ngIf="activeIndex == 0"
+                                (click)="submitIssuerInfo(form)"
+                                icon="pi pi-less-than"
+                                iconPos="right"
+                                label="Next"
+                            ></button>
+                            <button
+                                pButton
+                                type="button"
+                                class="btn btn-primary pull-right"
+                                *ngIf="
+                                    activeIndex > 0 && activeIndex < 2"
+                                (click)="openNext()"
+                                icon="pi pi-less-than"
+                                iconPos="right"
+                                label="Next"
+                            ></button>
+                            <button
+                                pButton
+                                type="button"
+                                class="btn btn-primary pull-right"
+                                style="margin-right:10px"
+                                *ngIf="activeIndex > 0"
+                                (click)="openPrev()"
+                                icon="pi pi-greater-than"
+                                iconPos="left"
+                                label="Previous"
+                            ></button>
+
+                            <button
+                                type="button"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                                (click)="goBack()"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--<p-dialog-->
+<!--    [responsive]="true"-->
+<!--    [(visible)]="displayIdentityDetails"-->
+<!--    id="add-modal"-->
+<!--    modal="modal"-->
+<!--    showEffect="fade"-->
+<!--    width="800"-->
+<!--&gt;-->
+<!--    <div style="margin-bottom:0" class="panel panel-default">-->
+<!--        <div class="panel-heading">-->
+<!--            <h2 class="panel-title">-->
+<!--                Identity Details-->
+<!--            </h2>-->
+<!--        </div>-->
+
+<!--        <form novalidate [formGroup]="identityDetailsForm">-->
+<!--            <div class="panel-body">-->
+<!--                <div class="form-horizontal">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="" class="control-label col-md-2">-->
+<!--                            Identification Type-->
+<!--                        </label>-->
+<!--                        <div class="col-md-4">-->
+<!--                            <select-->
+<!--                                type="text"-->
+<!--                                name="identity"-->
+<!--                                formControlName="identity"-->
+<!--                                id="identity"-->
+<!--                                class="form-control"-->
+<!--                            >-->
+<!--                                <option value=""-->
+<!--                                    >&#45;&#45; Select Identification &#45;&#45;</option-->
+<!--                                >-->
+<!--                                <option-->
+<!--                                    *ngFor="-->
+<!--                                        let row of identificationInformation-->
+<!--                                    "-->
+<!--                                    [value]="row.identificationName"-->
+<!--                                >-->
+<!--                                    {{ row.identificationName }}-->
+<!--                                </option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+<!--                        <label for="" class="control-label col-md-2">-->
+<!--                            Number-->
+<!--                        </label>-->
+<!--                        <div class="col-md-4">-->
+<!--                            <input-->
+<!--                                type="text"-->
+<!--                                formControlName="number"-->
+<!--                                name="number"-->
+<!--                                class="form-control"-->
+<!--                            />-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="" class="control-label col-md-2">-->
+<!--                            Issuer-->
+<!--                        </label>-->
+<!--                        <div class="col-md-4">-->
+<!--                            <input-->
+<!--                                type="text"-->
+<!--                                formControlName="issuer"-->
+<!--                                name="issuer"-->
+<!--                                class="form-control"-->
+<!--                            />-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="panel-footer">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-12">-->
+<!--                        <button-->
+<!--                            type="submit"-->
+<!--                            [disabled]="identityDetailsForm.invalid"-->
+<!--                            (click)="saveIdentityDetails(identityDetailsForm)"-->
+<!--                            class="btn btn-success pull-right"-->
+<!--                        >-->
+<!--                            Save-->
+<!--                        </button>-->
+<!--                        <button-->
+<!--                            type="button"-->
+<!--                            (click)="displayIdentityDetails = false"-->
+<!--                            style="margin-right:5px"-->
+<!--                            class="btn btn-danger pull-right"-->
+<!--                        >-->
+<!--                            Close-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</p-dialog>-->
+
+<!--<p-dialog-->
+<!--    [responsive]="true"-->
+<!--    [(visible)]="displayBankDetails"-->
+<!--    id="add-modal"-->
+<!--    modal="modal"-->
+<!--    showEffect="fade"-->
+<!--    width="800"-->
+<!--&gt;-->
+<!--    <div style="margin-bottom:0" class="panel panel-default">-->
+<!--        <div class="panel-heading">-->
+<!--            <h2 class="panel-title">-->
+<!--                Bank Details-->
+<!--            </h2>-->
+<!--        </div>-->
+
+<!--        <form novalidate [formGroup]="bankDetailsForm">-->
+<!--            <div class="panel-body">-->
+<!--                <div class="form-horizontal">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="" class="control-label col-md-2">-->
+<!--                            Bank Name-->
+<!--                        </label>-->
+<!--                        <div class="col-md-4">-->
+<!--                            <input-->
+<!--                                type="text"-->
+<!--                                formControlName="bankName"-->
+<!--                                name="bankName"-->
+<!--                                class="form-control"-->
+<!--                            />-->
+<!--                        </div>-->
+<!--                        <label for="" class="control-label col-md-2">-->
+<!--                            Account Number-->
+<!--                        </label>-->
+<!--                        <div class="col-md-4">-->
+<!--                            <input-->
+<!--                                type="text"-->
+<!--                                formControlName="accountNumber"-->
+<!--                                name="accountNumber"-->
+<!--                                class="form-control"-->
+<!--                            />-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="" class="control-label col-md-2">-->
+<!--                            BVN-->
+<!--                        </label>-->
+<!--                        <div class="col-md-4">-->
+<!--                            <input-->
+<!--                                type="text"-->
+<!--                                formControlName="bVN"-->
+<!--                                name="bVN"-->
+<!--                                class="form-control"-->
+<!--                            />-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+
+<!--            <div class="panel-footer">-->
+<!--                <div class="row">-->
+<!--                    <div class="col-md-12">-->
+<!--                        <button-->
+<!--                            type="submit"-->
+<!--                            [disabled]="bankDetailsForm.invalid"-->
+<!--                            (click)="saveBankDetails(bankDetailsForm)"-->
+<!--                            class="btn btn-success pull-right"-->
+<!--                        >-->
+<!--                            Save-->
+<!--                        </button>-->
+<!--                        <button-->
+<!--                            type="button"-->
+<!--                            (click)="displayBankDetails = false"-->
+<!--                            style="margin-right:5px"-->
+<!--                            class="btn btn-danger pull-right"-->
+<!--                        >-->
+<!--                            Close-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--    </div>-->
+<!--</p-dialog>-->
+
+<p-dialog
+    [responsive]="true"
+    [(visible)]="displayDocumentUpload"
+    id="add-modal"
+    modal="modal"
+    showEffect="fade"
+    width="700"
+>
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Document Upload
+            </h2>
+        </div>
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label for="documentTypeId" class="control-label col-md-2"
+                        >Document Type</label
+                    >
+                    <div class="col-md-8">
+                        <select
+                            type="text"
+                            name="documentTypeId"
+                            [(ngModel)]="documentTypeId"
+                            id="documentTypeId"
+                            class="form-control"
+                            [ngClass]="'valid-input'"
+                        >
+                            <option value="">-- Select Upload Type --</option>
+                            <option
+                                *ngFor="let type of documentTypeList"
+                                [value]="type.lookupId"
+                            >
+                                {{ type.lookupName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="documentTitle" class="control-label col-md-2"
+                        >Document Title</label
+                    >
+                    <div class="col-md-8">
+                        <input
+                            type="text"
+                            [(ngModel)]="documentName"
+                            id="documentTitle"
+                            class="form-control"
+                            name="documentName"
+                            placeholder="Document name..."
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="physicalLocation" class="control-label col-md-2"
+                        >Physical Location</label
+                    >
+                    <div class="col-md-8">
+                        <input
+                            type="text"
+                            [(ngModel)]="physicalLocation"
+                            id="physicalLocation"
+                            class="form-control"
+                            name="physicalLocation"
+                            placeholder="Document Physical Location..."
+                        />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="document" class="control-label col-md-2"
+                        >Select Document</label
+                    >
+                    <div class="col-md-8">
+                        <input
+                            type="file"
+                            id="document"
+                            (change)="onFileChange($event)"
+                            placeholder="Upload file"
+                            accept=".jpg,.jpeg,.png"
+                            #fileInput
+                            name="fileInput"
+                            style="padding-top:2px;"
+                            class="form-control"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <button
+                        type="button"
+                        (click)="uploadFile()"
+                        [disabled]="documentName == null || file == undefined"
+                        class="btn btn-success pull-right"
+                    >
+                        <span class="pi pi-upload"></span> Upload
+                    </button>
+                    <button
+                        type="button"
+                        (click)="displayDocumentUpload = false"
+                        style="margin-right:5px"
+                        class="btn btn-danger pull-right"
+                    >
+                        Close
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>
+
+<p-dialog
+    [responsive]="true"
+    [(visible)]="displayDocument"
+    modal="modal"
+    showEffect="fade"
+    width="1200"
+>
+    <div
+        *ngIf="displayDocument"
+        style="margin-bottom:0"
+        class="panel panel-default"
+    >
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Document Title:
+                <strong>{{ selectedDocument }}</strong>
+            </h2>
+            <div class="pull-right">
+                <a class="close" (click)="displayDocument = false">&times;</a>
+            </div>
+        </div>
+
+        <div class="panel-body" style="overflow:auto;height:500px">
+            <div style="margin: auto; width: 50%">
+                <img
+                    *ngIf="binaryFile"
+                    style="max-width: 100%; display: block 2px black;"
+                    [src]="'data:image/jpg;base64,' + binaryFile"
+                    alt=""
+                    class="img-thumbnail"
+                />
+            </div>
+        </div>
+    </div>
+</p-dialog>

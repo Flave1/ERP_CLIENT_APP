@@ -1,0 +1,122 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  GL Code
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="glCode" name="glCode" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  GL Description
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="glDescription" name="glDescription" class="form-control" />
+                </div>
+              </div>
+               <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Opening Balance
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="openingBalance" name="openingBalance" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar id="runDate" class="form-control" formControlName="runDate" [monthNavigator]="true"
+                    [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                    [style]="{'width': '100%', 'z-index': '999'}"></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Credit Balance
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="creditBalance" name="creditBalance" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Debit Balance
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="debitBalance" name="debitBalance" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                 Balance
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="balance" name="balance" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Exchange Rate
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="exchangeRate" name="exchangeRate" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Currency
+                </label>
+                <div class="col-md-4">
+                    <select type="text" name="currencyCode" formControlName="currencyCode" id="currencyCode" class="form-control">
+                        <option value="">-- Select Currency --</option>
+                        <option *ngFor="let row of currencyInformation" [value]="row.currencyCode">
+                                                                                                                                                      {{ row.currencyName }}
+                                                                                                    </option>  
+                    </select>
+                </div>
+
+              <label for="" class="control-label col-md-2">
+                Company
+              </label>
+              <div class="col-md-4">
+                  <select type="text" name="companyCode" formControlName="companyCode" id="companyCode" class="form-control">
+                      <option value="">-- Select Company --</option>
+                      <option *ngFor="let row of companyInformation" [value]="row.name">{{ row.name }}</option>  
+                  </select>
+              </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitTrialBalanceInfo(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

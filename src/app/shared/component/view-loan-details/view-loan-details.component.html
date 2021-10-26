@@ -1,0 +1,134 @@
+ <div class="ui-g">
+    <div class="ui-g-12 no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <div class="row">
+              <div class="col-md-12">
+                <h2 class="panel-title pull-left">
+                  Loan  Details
+                </h2>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel-body">
+            <div class="row" style="padding:0 15px 0 15px;">
+              <table class="table table-casa-information">
+                <tbody>
+                  <tr>
+                    <td>
+                      <strong>Loan Reference Number:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.loanRefNumber }}</td>
+                    <td>
+                      <strong>Customer Name:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.customerName }}</td>
+                    <td>
+                      <strong>Product:</strong>
+                    </td>
+                      <td>{{ selectedLoan?.productName }}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Effective Date:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.effectiveDate | date:"dd-MM-yyyy"}}</td>
+                    <td>
+                      <strong>Maturity Date:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.maturityDate | date:"dd-MM-yyyy" }}</td>
+                    <td>
+                      <strong>Booking Date:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.bookingDate | date:"dd-MM-yyyy" }}</td>
+                  </tr>
+
+                  <tr>
+                    <td>
+                      <strong>Exchange Rate:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.exchangeRate | number:'1.2' }}</td>
+                    <td>
+                      <strong>Currency Name:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.currency }}</td>
+                    <td>
+                      <strong>Related Party:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.isRelatedParty ? 'Yes' : 'No' }}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Principal Amount:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.principalAmount | number:'1.2' }}</td>
+                    <td>
+                      <strong>First Principal Payment Date:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.firstPrincipalPaymentDate | date:"dd-MM-yyyy"}}</td>
+                    <td>
+                      <strong>First Interest Payment Date:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.firstInterestPaymentDate | date:"dd-MM-yyyy" }}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Frequency Type:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.principalFrequencyType  }}</td>
+                    <td>
+                      <strong>Loan Status:</strong>
+                    </td>
+
+                    <td><span *ngIf="selectedLoan?.loanStatusId==0">Pending</span>
+                    <span *ngIf="selectedLoan?.loanStatusId==1">Running</span>
+                     <span *ngIf="selectedLoan?.loanStatusId==2">Approved</span>
+                  </td>
+
+                    <td>
+                      <strong>Schedule Type:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.scheduleType  }}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Outstanding Principal:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.outstandingPrincipal | number:'1.2'  }}</td>
+                    <td>
+                      <strong>Outstanding Interest:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.outstandingInterest | number:'1.2' }}</td>
+                    <td>
+                      <strong>Accrued Repayment Charge:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.lateRepaymentCharge | number:'1.2'}}</td>
+                  </tr>
+                  <tr>
+                    <td>
+                      <strong>Outstanding Amortised Principal:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.outstandingAmortisedPrincipal | number:'1.2'  }}</td>
+                    <td>
+                      <strong>Outstanding Amortised Interest:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.outstandingAmortisedInterest | number:'1.2' }}</td>
+                    <td>
+                      <strong>Operating Account Balance:</strong>
+                    </td>
+                    <td>{{ selectedLoan?.operatingAccountBal | number:'1.2' }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-md-12">
+              </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,384 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="lpoNumber" class="control-label col-md-2"
+                  >LPO Number
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="lpoNumber"
+                    id="lpoNumber"
+                  />
+                  <!--                  <p-dropdown-->
+                  <!--                    [options]="lpoArr"-->
+                  <!--                    placeholder="Select an item"-->
+                  <!--                    name="lpoNumber"-->
+                  <!--                    [filter]="true"-->
+                  <!--                    [filterBy]="'label'"-->
+                  <!--                    class="form-control"-->
+                  <!--                    [style]="{ width: '100%' }"-->
+                  <!--                    id="lpoNumber"-->
+                  <!--                  >-->
+                  <!--                    <ng-template let-item pTemplate="selectedItem">-->
+                  <!--                      <span style="vertical-align:middle; margin-left: .5em">{{-->
+                  <!--                        item.label-->
+                  <!--                      }}</span>-->
+                  <!--                    </ng-template>-->
+                  <!--                    <ng-template let-x pTemplate="item">-->
+                  <!--                      <div-->
+                  <!--                        class="ui-helper-clearfix"-->
+                  <!--                        style="position: relative;height: 25px;"-->
+                  <!--                      >-->
+                  <!--                        <div style="font-size:14px;margin-top:4px">-->
+                  <!--                          {{ x.label }}-->
+                  <!--                        </div>-->
+                  <!--                      </div>-->
+                  <!--                    </ng-template>-->
+                  <!--                  </p-dropdown>-->
+                </div>
+                <label for="suppliername" class="control-label col-md-2">
+                  Supplier Name
+                </label>
+                <div class="col-md-4">
+                  <input type="text" id="suppliername" class="form-control" formControlName="name"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="supplierNumber" class="control-label col-md-2"
+                  >Supplier Number</label
+                >
+                <div class="col-md-4">
+                  <input class="form-control" id="supplierNumber" formControlName="supplierNumber"/>
+                </div>
+                <label for="supplierLocation" class="control-label col-md-2" >
+                  Supplier Location
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="supplierLocation"
+                    formControlName="supplierAddress"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="Item Description" class="control-label col-md-2">
+                  Item Description
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="Item Description"
+                    formControlName="description"
+                  />
+                </div>
+                <label for="Request Date" class="control-label col-md-2"
+                  >Request Date</label
+                >
+                <div class="col-md-4">
+                  <p-calendar
+                    id="Request Date"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{ width: '100%', 'z-index': '100' }"
+                    formControlName="requestDate"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="Delivery Date" class="control-label col-md-2"
+                  >Delivery Date</label
+                >
+                <div class="col-md-4">
+                  <p-calendar
+                    id="Delivery Date"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{ width: '100%', 'z-index': '100' }"
+                    formControlName="deliveryDate"
+                  ></p-calendar>
+                </div>
+                <label for="Delivery Location" class="control-label col-md-2">
+                  Delivery Location
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="usefulLife"
+                    class="form-control"
+                    id="Delivery Location"
+                    formControlName="location"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="Gross Amount" class="control-label col-md-2"
+                  >Gross Amount</label
+                >
+                <div class="col-md-4">
+                  <input type="text" id="Gross Amount" class="form-control" formControlName="grossAmount"/>
+                </div>
+
+                <label for="Tax Exemption" class="control-label col-md-2">
+                  Tax Exemption
+                </label>
+                <div class="col-md-4">
+                  <ng-select
+                    [items]="taxLists"
+                    bindValue="taxID"
+                    bindLabel="taxName"
+                    formControlName="taxId"
+                    [multiple]="true"
+                  >
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                      <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"/> {{item.taxName}}
+                    </ng-template>
+                  </ng-select>
+<!--                  <p-multiSelect-->
+<!--                    [options]="taxArr"-->
+<!--                   formControlName="taxId"-->
+<!--                    styleClass="form-control"-->
+<!--                    [panelStyle]="{ minWidth: '25em' }"-->
+<!--                    id="Tax Exemption"-->
+<!--                    (onChange)="getValue($event.value)"-->
+<!--                  ></p-multiSelect>-->
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="Tax Amount" class="col-md-2 control-label"
+                  >Tax Amount</label
+                >
+                <div class="col-md-4">
+                  <input type="text" class="form-control" id="Tax Amount" formControlName="tax"/>
+                </div>
+                <label for="Amount Payable" class="col-md-2 control-label"
+                  >Amount Payable(after tax)</label
+                >
+                <div class="col-md-4">
+                  <input type="text" id="Amount Payable" class="form-control" formControlName="amountPayable"/>
+                </div>
+              </div>
+              <div class="form-group">
+<!--                <label for="status" class="control-label col-md-2"-->
+<!--                  >Status</label-->
+<!--                >-->
+<!--                <div class="col-md-4">-->
+<!--                  <select name="" id="status" class="form-control">-->
+<!--                    <option value="">Executed Successfully</option>-->
+<!--                    <option value="">In-Progress</option>-->
+<!--                    <option value="">Cancelled</option>-->
+<!--                    <option value="">Not Executed</option>-->
+<!--                    <option value="">Not Started</option>-->
+<!--                  </select>-->
+<!--                </div>-->
+                <label for="Service Terms" class="control-label col-md-2"
+                  >Service Terms</label
+                >
+                <div class="col-md-4">
+                  <select name="" id="Service Terms" class="form-control" formControlName="servicetermsId">
+                    <option value="" disabled>--Select an Item--</option>
+                    <option
+                      *ngFor="let item of serviceTerms"
+                      [value]="item.serviceTermsId"
+                      >{{ item.header }} | {{ item.content }}</option
+                    >
+                  </select>
+                </div>
+<!--                <label for="Gl" class="control-label col-md-2">GL</label>-->
+<!--                <div class="col-md-4">-->
+<!--                  <p-dropdown-->
+<!--                    [options]="subGlArr"-->
+<!--                    placeholder="Select an item"-->
+<!--                    [filter]="true"-->
+<!--                    [filterBy]="'label'"-->
+<!--                    class="form-control"-->
+<!--                    [style]="{ width: '100%' }"-->
+<!--                    id="Gl"-->
+<!--                    formControlName="debitGl"-->
+<!--                  >-->
+<!--                    <ng-template let-item pTemplate="selectedItem">-->
+<!--                      <span style="vertical-align:middle; margin-left: .5em">{{-->
+<!--                          item.label-->
+<!--                        }}</span>-->
+<!--                    </ng-template>-->
+<!--                    <ng-template let-x pTemplate="item">-->
+<!--                      <div-->
+<!--                        class="ui-helper-clearfix"-->
+<!--                        style="position: relative;height: 25px;"-->
+<!--                      >-->
+<!--                        <div style="font-size:14px;margin-top:4px">-->
+<!--                          {{ x.label }}-->
+<!--                        </div>-->
+<!--                      </div>-->
+<!--                    </ng-template>-->
+<!--                  </p-dropdown>-->
+<!--                </div>-->
+              </div>
+
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="submitInfo(form)"
+              >
+                Submit
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="ui-g" *ngIf="approvalStatus === 2">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                <strong>PAYMENT TERMS</strong>
+              </h2>
+<!--              <button class="lpo-download" id="lpo download">Download LPO</button>-->
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="row">
+              <div class="col-md-12">
+                <p-table
+                  class="table-responsive"
+                  [value]="proposedPaymentTerms"
+                  [scrollable]="true"
+                  [scrollHeight]="viewHeight"
+                  [responsive]="true"
+                  [style]="{'overflow':'auto!important'}"
+                  [resizableColumns]="true"
+                  columnResizeMode="expand"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <!--                      <th class="sn_width">S/N</th>-->
+                      <th style="width: 60px;">Phase</th>
+                      <th class="bw">Payment(%)</th>
+                      <th class="bw">Project status Description </th>
+                      <th>% of completion</th>
+                      <th style="width: 200px">Status</th>
+                      <th style="width: 120px" class="bw">Certificate of completion</th>
+                      <th>Gross Amount</th>
+                      <th>Tax</th>
+                      <th>Net Amount</th>
+                      <th></th>
+<!--                      <th style="width: 100px"></th>-->
+                      <th>Payment Status</th>
+                      <th></th>
+                      <!--                                      <th>Suppliers</th>-->
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-item let-i="rowIndex">
+                    <tr>
+                      <!--                      <td class="sn_width">{{ i + 1 }}</td>-->
+                      <td style="width: 60px">{{ item.phase }}</td>
+                      <td>{{ item.payment }}</td>
+                      <td>{{ item.projectStatusDescription }}</td>
+                      <td>
+                        {{ item.completion }}
+                      </td>
+                      <td style="width: 200px">
+                        <select name="" class="form-control" id="" [(ngModel)]="item.status">
+                          <option value="" disabled>--Select Status--</option>
+                          <option value="1">Executed Successfully</option>
+                          <option value="2">In-Progress</option>
+                          <option value="3">Cancelled</option>
+                          <option value="4">Not Executed</option>
+                          <option value="5">Not Started</option>
+                        </select>
+                      </td>
+                      <td style="width: 120px">
+                        <input type="file" class="form-control" (change)="handleFileUpload($event.target.files)"
+                               #phaseFile/>
+                      </td>
+                      <td>
+                        {{ item.amount | number: '1.2-2' }}
+                      </td>
+                      <td>{{item.phaseTax}}</td>
+                      <td>{{item.netAmount | number: '1.2-2'}}</td>
+                      <td>
+                        <button class="save-btn" (click)="savePaymentDetails(item)">Save</button>
+                      </td>
+<!--                      <td style="width: 100px">-->
+<!--                        <button class="pmt-btn" (click)="requestPayment(item)">Request Payment</button>-->
+<!--                      </td>-->
+                      <td>{{item.paymentStatusName}}</td>
+                      <td>
+                        <button
+                          pButton
+                          style="padding:0.5em 0"
+                          type="button"
+                          class="ui-button-raised ui-button-secondary"
+                          (click)="download(item.paymentTermId)"
+                          icon="ui-icon-file-download"
+                          pTooltip="Download Certificate of completion"
+                          tooltipPosition="top"
+                          iconPos="center"
+                          label=""
+                        ></button>
+                      </td>
+                      <!--                                      <td>{{ item.suppliers }}</td>-->
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

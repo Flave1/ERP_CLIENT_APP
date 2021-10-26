@@ -1,0 +1,54 @@
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-gap: 1rem;
+  cursor: pointer;
+}
+.req-card {
+  /*background: #fbec5d;*/
+  padding: 1rem;
+  /* margin: 1rem 0; */
+  background: #fff;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.req-card-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
+}
+.req-card-mid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background:#ebf6f7;
+  border-radius: 6px;
+  padding: 1rem;
+}
+.card-item-content {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: .5rem;
+  padding: 1rem 0.5rem;
+  align-items: center;
+}
+.item-title {
+font-weight: bold;
+}
+.item-desc-title, .item-desc {
+  margin: 0;
+}
+.card-date {
+  background: #ebf6f7;
+  border-radius: 6px;
+  padding: 1rem;
+}
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.check-input {
+  margin: 0 10px 0 0;
+}

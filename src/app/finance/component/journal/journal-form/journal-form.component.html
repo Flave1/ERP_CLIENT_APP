@@ -1,0 +1,397 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate>
+                            <div class="form-group">
+                                <label for="transactionReference" class="control-label col-md-2 pr_0">
+                                    Transaction Reference
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <input
+                                        type="text"
+                                        name="transactionReference"
+                                        [(ngModel)]="transactionReference"
+                                        id="transactionReference"
+                                        class="form-control"
+                                        disabled
+                                   />
+                                </div>
+                                <label for="" class="control-label col-md-2 pr_0">
+                                    Company
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select
+                                        type="text"
+                                        name="companyId"
+                                        [(ngModel)]="companyId"
+                                        id="companyId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Company --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                let row of companyInformation
+                                            "
+                                            [value]="row.companyStructureId"
+                                        >
+                                            {{ row.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <label for="" class="control-label col-md-2 pr_0">
+                                    Date
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <p-calendar
+                                        [monthNavigator]="true"
+                                        [yearNavigator]="false"
+                                        [showIcon]="true"
+                                        [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                        name="journalDate"
+                                        [(ngModel)]="journalDate"
+                                        [disabled]="disableFields"
+                                    ></p-calendar>
+                                </div>
+
+                                <label for="" class="control-label col-md-2 pr_0">
+                                    Transaction Type
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select class="form-control" name="transType" [(ngModel)]="transactionType">
+                                        <option value="" disabled>--Selct transaction type--</option>
+                                        <option value="1">Credit</option>
+                                        <option value="2">Debit</option>
+                                    </select>
+                                </div>
+
+                                <label for="" class="control-label col-md-2 pr_0">
+                                    Journal Type
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select name="journalType" id="" class="form-control" [(ngModel)]="journalType" [disabled]="disableFields">
+                                        <option value="">-- Select Journal Type</option>
+                                        <option value="Adjustment Journal">Adjustment Journal</option>
+                                        <option value="Reclassification Journal">Reclassification Journal</option>
+                                        <option value="Consolidation Journal">Consolidation Journal</option>
+                                    </select>
+                                </div>
+
+                                <label for="" class="control-label col-md-2 pr_0">
+                                    GL Name
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select
+                                        type="text"
+                                        name="glName"
+                                        class="form-control"
+                                        [(ngModel)]="glDetails"
+                                        (ngModelChange)="getGlCodeName($event)"
+                                    >
+                                        <option value="">--Select GL--</option>
+                                        <option *ngFor="let glInfo of glInformation" [ngValue]="glInfo">{{glInfo.subGLName}} | {{glInfo.subGLCode}}</option>
+                                    </select>
+                                </div>
+                                <label for="" class="control-label col-md-2 pr_0">
+                                   Amount
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <input
+                                        type="text"
+                                        name="amount"
+                                        [(ngModel)]="amount"
+                                        id="amount"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <label for="" class="control-label col-md-2 pr_0">
+                                    Narration
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <textarea
+                                        type="text"
+                                        name="narration"
+                                        [(ngModel)]="narration"
+                                        id="narration"
+                                        class="form-control"
+                                        style="resize: none"
+                                        [disabled]="disableFields"
+                                    ></textarea>
+                                </div>
+                               <div class="total_flex">
+                                   <div>
+                                       <label class="control-label">Total Credit: </label>
+                                       <span>{{totalCredit | number: '1.2-2'}}</span>
+                                   </div>
+                                   <div>
+                                       <label class="control-label">Total Debit: </label>
+                                       <span>{{totalDebit | number: '1.2-2'}}</span>
+                                   </div>
+                               </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                class="btn btn-primary pull-right"
+                                (click)="submitJournal()"
+                            >
+                                Save
+                            </button>
+<!--                            <button-->
+<!--                                type="button"-->
+<!--                                style="margin-right:5px"-->
+<!--                                class="btn btn-danger pull-right"-->
+<!--                                (click)="goBack()"-->
+<!--                            >-->
+<!--                                Close-->
+<!--                            </button>-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div class="ui-g">
+        <div class="ui-g-12 no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                Journals
+                            </h2>
+                            <div
+                                style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                                class="col-md-1 pull-right"
+                            >
+                                <button
+                                    pButton
+                                    style="padding:0.5em 0"
+                                    type="button"
+                                    class="ui-button-raised ui-button-danger"
+                                    (click)="multipleDelete()"
+                                    icon="ui-icon-delete"
+                                    iconPos="center"
+                                    pTooltip="Delete"
+                                    tooltipPosition="top"
+                                    label=""
+                                ></button>
+                            </div>
+                            <div
+                                style="padding-right: 5px;padding-left: 5px;"
+                                class="col-md-1 pull-right"
+                            >
+                                <button
+                                  class="journal-btn"
+                                    (click)="clearEntries()"
+                                >Clear</button>
+                            </div>
+                            <div
+                                style="padding-right: 5px;padding-left: 5px; margin-right: 5px"
+                                class="col-md-1 pull-right"
+                            >
+                                <button
+                                  class="journal-btn"
+                                    (click)="passEntries()"
+                                >Submit</button>
+                            </div>
+                            <div
+                                style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                                class="col-md-1 pull-right"
+                            >
+                                <button
+                                    pButton
+                                    style="padding:0.5em 0"
+                                    type="button"
+                                    class="ui-button-raised ui-button-secondary"
+                                    (click)="exportJournals()"
+                                    icon="ui-icon-file-download"
+                                    pTooltip="Download"
+                                    tooltipPosition="top"
+                                    iconPos="center"
+                                    label=""
+                                ></button>
+                            </div>
+                            <div
+                                style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                                class="col-md-1 pull-right"
+                            >
+                                <button
+                                    pButton
+                                    type="button"
+                                    style="padding:0.5em 0"
+                                    class="ui-button-raised ui-button-secondary"
+                                    icon="ui-icon-file-upload"
+                                    iconPos="center"
+                                    pTooltip="cvs file: Transaction Reference, Company, Date, Dr, Cr, Journal Type (Adjustment Journal, Reclassification Journal, Consolidation Journal), GL Name, Amount,Narration"
+                                    tooltipPosition="top"
+                                    label=""
+                                ></button>
+                            </div>
+                            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+                                <input
+                                    style="height:35px;"
+                                    class="form-control"
+                                    type="file"
+                                    id="file1"
+                                    accept=".xls,.xlsx"
+                                    #fileInput
+                                    name="fileInput"
+                                    #fileInput
+                                    name="fileInput"
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <p-table
+                            #dt
+                            [value]="journals"
+                            dataKey="journalEntryId"
+                            [(selection)]="selectedJournalInformation"
+                            [paginator]="false"
+                            [rows]="journals?.length"
+                            [scrollable]="true"
+                            [scrollHeight]=""
+                            [responsive]="true"
+                        >
+                            <ng-template pTemplate="caption">
+                                <div style="text-align: right">
+                                    <input
+                                        type="text"
+                                        pInputText
+                                        size="50"
+                                        class="form-control"
+                                        placeholder="Search..."
+                                        (keyup)="
+                                        dt.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                                        style="width:auto"
+                                    />
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th class="checkbox_row">
+                                        <p-tableHeaderCheckbox>
+                                        </p-tableHeaderCheckbox>
+                                    </th>
+                                    <!-- <th style="width:1em">S/N</th> -->
+                                    <th [pSortableColumn]="'transactionReference'">Transaction Reference
+
+                                    </th>
+                                    <th [pSortableColumn]="'company'">Company
+
+                                    </th>
+                                    <th [pSortableColumn]="'journalDate'">Date
+
+                                    </th>
+                                    <th [pSortableColumn]="'debitAmount'">Dr
+
+                                    </th>
+                                    <th [pSortableColumn]="'creditAmount'">Cr
+
+                                    </th>
+                                    <th [pSortableColumn]="'journalType'">Journal Type
+
+                                    </th>
+                                    <th [pSortableColumn]="'glName'">GL Name
+
+                                    </th>
+                                    <th [pSortableColumn]="'amount'">Amount
+
+                                    </th>
+                                    <th [pSortableColumn]="'narration'">Narration
+
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-x let-i="rowIndex">
+                                <tr [pSelectableRow]="x">
+                                    <td class="checkbox_row">
+                                        <p-tableCheckbox
+                                            [value]="x"
+                                        ></p-tableCheckbox>
+                                    </td>
+                                    <td>
+                                        <a class="table_link" (click)="editJournal(x)">{{
+                                            x.transactionReference
+                                            }}</a>
+                                    </td>
+                                    <td>
+                                        <a class="table_link" (click)="editJournal(x)">{{x.company}}</a>
+                                    </td>
+                                    <td>
+                                        <a class="table_link" (click)="editJournal(x)">{{
+                                            x.journalDate | date
+                                            }}</a>
+                                    </td>
+                                    <td>
+                                        <a class="table_link" (click)="editJournal(x)">{{x.debitAmount | number:'1.2-2'}}</a>
+                                    </td>
+                                    <td>
+                                        <a class="table_link" (click)="editJournal(x)">{{x.creditAmount | number:'1.2-2'}}</a>
+                                    </td>
+                                    <td>
+                                        <a class="table_link" (click)="editJournal(x)">{{x.journalType}}</a>
+                                        <!-- <a class="table_link" (click)="editJournal(x)" *ngIf="x.journalType == 1">Adjustment Journal</a>
+                                        <a class="table_link" (click)="editJournal(x)" *ngIf="x.journalType == 2">Reclassification Journal</a>
+                                        <a class="table_link" (click)="editJournal(x)" *ngIf="x.journalType == 3">Consolidation Journal</a> -->
+                                    </td>
+                                    <td><a class="table_link" (click)="editJournal(x)">{{x.glName}}</a></td>
+                                    <td><a class="table_link" (click)="editJournal(x)">{{x.amount | number: '1.2-2'}}</a></td>
+                                    <td><a class="table_link" (click)="editJournal(x)">{{x.narration}}</a></td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <!-- <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                    (click)="submitUserAccount(form)">
+                    Save
+                  </button>
+                  <button type="button" style="margin-right:5px" class="btn btn-danger pull-right">
+                    Close
+                  </button> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

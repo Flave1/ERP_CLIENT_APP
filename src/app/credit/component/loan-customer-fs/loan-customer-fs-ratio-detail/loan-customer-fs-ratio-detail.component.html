@@ -1,0 +1,208 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <div class="form-group">
+                                <div class="col-md-6">
+                                    <div class="col-sm-12">
+                                        <label for="" class="control-label col-md-4">
+                                            Ratio Name
+                                        </label>
+                                        <div class="col-md-8">
+                                            <input for="ratioName"
+                                                type="text"
+                                                name="ratioName"
+                                                formControlName="ratioName"
+                                                id="ratioName"
+                                            class="form-control" />
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="margin-top:5px;">
+                                        <label for="" class="control-label col-md-4">
+                                                Caption Group
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select
+                                                type="text"
+                                                (change) = "onChangeCaptionGroupId($event.target.value)"
+                                                class="form-control"
+                                            >
+                                                <option value=""
+                                                    >-- Select Caption Group
+                                                    --</option
+                                                >
+                                                <option
+                                                    *ngFor="
+                                                        let row of fSCaptionGroupList
+                                                    "
+                                                    [value]="row.fsCaptionGroupId"
+                                                >
+                                                    {{ row.fsCaptionGroupName }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-12"  style="margin-top:5px;">
+                                        <label for="" class="control-label col-md-4">
+                                            FS Caption
+                                        </label>
+                                        <div class="col-md-8">
+                                            <select
+                                                type="text"
+                                                (change) = "onChangeCaptionId(form.value, $event.target.value)"
+                                                class="form-control"
+                                            >
+                                                <option value=""
+                                                    >-- Select Caption --</option
+                                                >
+                                                <option
+                                                    *ngFor="let row of fsCaptionList"
+                                                    [value]="row.fsCaptionId"
+                                                >
+                                                    {{ row.fsCaptionName }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12"  style="margin-top:15px;">
+                                        <label for="" class="control-label col-md-4">
+                                                Operators
+                                        </label>
+                                        <div class="col-md-8" style="text-align:center;">
+                                            <button
+                                            type="button"
+                                            style="margin-right:10px"
+                                            class="btn btn-secondary"
+                                            (click)="operationsSign('+', form.value)"
+                                            >
+                                            +
+                                            </button>
+                                            <button
+                                            type="button"
+                                            style="margin-right:10px"
+                                            class="btn btn-secondary"
+                                            (click)="operationsSign('-', form.value)"
+                                            >
+                                            -
+                                            </button>
+                                            <button
+                                            type="button"
+                                            style="margin-right:10px"
+                                            class="btn btn-secondary"
+                                            (click)="operationsSign('*', form.value)"
+                                            >
+                                            x
+                                            </button>
+                                            <button
+                                            type="button"
+                                            style="margin-right:10px"
+                                            class="btn btn-secondary"
+                                            (click)="operationsSign('(', form.value)"
+                                            >
+                                            (
+                                            </button>
+                                            <button
+                                            type="button"
+                                            style="margin-right:10px"
+                                            class="btn btn-secondary"
+                                            (click)="operationsSign(')', form.value)"
+                                            >
+                                            )
+                                            </button>
+                                            <button
+                                            type="button"
+                                            style="margin-right:10px"
+                                            class="btn btn-secondary"
+                                            (click)="operationsSign('/', form.value)"
+                                            >
+                                            /
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12" style="margin-top: 10px;">
+                                        <label for="" class="control-label col-md-4">
+
+                                        </label>
+                                        <div class="col-md-8">
+                                            <button
+                                            style="background-color: lightgrey"
+                                            class="btn btn-secondary form-control"
+                                            (click)="clear(form.value)"
+                                            >
+                                            Clear
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <label for="" class="control-label col-md-4">
+                                                Description
+                                        </label>
+                                        <div class="col-md-8">
+                                            <textarea
+                                                type="text"
+                                                rows="8"
+                                                readonly="readonly"
+                                                formControlName="description"
+                                                name="description"
+                                                class="form-control"
+                                            ></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="form-group">
+
+
+                            </div>
+                            <div class="form-group">
+
+
+                            </div>
+                            <div class="form-group">
+
+                            </div> -->
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                [disabled]="!form.valid"
+                                class="btn btn-primary pull-right"
+                                (click)="submitFSCaptionRatioDetail(form)"
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                                (click)="goBack()"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

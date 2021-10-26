@@ -1,0 +1,423 @@
+<div *ngIf="viewCustomerFinancialStatement && fsRatioValueData.length > 0">
+  <p-table
+    [value]="fsRatioValueData"
+    sortField="fsGroupCaption"
+    sortMode="single"
+    (onSort)="onSort()"
+    [style]="{ overflow: 'auto', 'max-height': '400px', width: '100%' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Caption</th>
+        <th *ngFor="let col of fsRatioValueTableCols">
+          {{ col.header }}
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+      <tr
+        class="ui-widget-header"
+        *ngIf="rowGroupMetadata[rowData.fsGroupCaption].index === rowIndex"
+      >
+        <td colspan="5">
+          <span style="color: #222; font-weight:bold">{{
+            rowData["fsGroupCaption"]
+          }}</span>
+        </td>
+      </tr>
+      <tr>
+        <td>{{ rowData.ratioCaptionName }}</td>
+        <td style="text-align: right" *ngFor="let col of fsRatioValueTableCols">
+          {{ rowData[col.field] }}
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>
+
+<div class="ui-g" *ngIf="displayFinancialStatement">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0;" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">Set Caption Details</h2>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <p-tabView [activeIndex]="activeIndex" (onChange)="onTabChange($event)">
+          <!-- <p-tabPanel  header="View Mapped Financial Caption" [disabled]="hideCaptionDetails">
+                    <p-table
+                        [value]="mappedFSCaptionDetailTableData"
+                        dataKey="creditRiskCategoryId"
+                        [responsive]="true"
+                        [style]="{'overflow': 'auto', 'max-height': '400px', 'width':'100%'}"
+                    >
+                        <ng-template pTemplate="caption">
+
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width: 1em">
+                                    <p-tableHeaderCheckbox>
+                                    </p-tableHeaderCheckbox>
+                                </th>
+                                <th style="width:1em">S/N</th>
+                                <th style="width:8em">Caption</th>
+                                <th style="width:15em">Caption Group</th>
+                                <th style="width:5em">Date</th>
+                                <th style="width:5em">Amount</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                            <tr [pSelectableRow]="x">
+                                <td>
+                                    <p-tableCheckbox
+                                        [value]="x"
+                                    ></p-tableCheckbox>
+                                </td>
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ x.fSCaptionName }}</td>
+                                <td>{{ x.fSGroupName }}</td>
+                                <td>{{ x.fSDate | date : 'dd-MMM-yyyy'}}</td>
+                                <td>{{ x.amount | number :'1.2' }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+            </p-tabPanel> -->
+          <p-tabPanel header="Set Financial Caption Amounts">
+            <form novalidate>
+              <div class="form-horizontal">
+                <div style="margin: 40px auto" class="form-group">
+                  <label for="captionDate" class="control-label col-md-2"
+                    >Caption Date</label
+                  >
+                  <div class="col-md-4">
+                    <p-calendar
+                      id="captionDate"
+                      dateFormat="yy/mm/dd"
+                      [(ngModel)]="selectedDate"
+                      [ngModelOptions]="{ standalone: true }"
+                      [monthNavigator]="true"
+                      [yearNavigator]="true"
+                      yearRange="2010:2050"
+                      [showIcon]="true"
+                      [inputStyle]="{ width: '100%' }"
+                      [style]="{ width: '100%', 'z-index': '100' }"
+                      (onSelect)="onCaptionDateSelect(selectedDate)"
+                    ></p-calendar>
+                  </div>
+                  <label for="fsCaptionGroups" class="control-label col-md-2"
+                    >Caption Group</label
+                  >
+                  <div class="col-md-4">
+                    <select
+                      [disabled]="!selectedDate"
+                      id="fsCaptionGroups"
+                      name="fsCaptionGroups"
+                      class="form-control"
+                      (change)="onFSCaptionGroupSelect($event.target.value)"
+                      [ngClass]="
+                        !fsCaptionGroups ? 'required-input' : 'valid-input'
+                      "
+                    >
+                      <option value="">--- Select FS Caption Group ---</option>
+                      <option
+                        *ngFor="let item of customerFsCaptionGroups"
+                        [value]="item.fsCaptionGroupId"
+                        >{{ item.fsCaptionGroupName }}</option
+                      >
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </form>
+            <div class="row">
+              <div
+                class="col-md-6"
+                style="overflow-y: scroll; max-height:350px;"
+              >
+                <fieldset>
+                  <legend style="margin-bottom: 5px;font-size: 15px;">
+                    UNMAPPED FS CAPTIONS
+                  </legend>
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <td>Caption</td>
+                        <td>Caption Group</td>
+                        <td style="width: 15%"></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="
+                          let item of unMappedFsCaptionsTableData;
+                          let i = index
+                        "
+                      >
+                        <td>{{ item.fsCaptionName }}</td>
+                        <td>{{ item.fsCaptionGroupName }}</td>
+                        <td>
+                          <a
+                            style="text-decoration: none;"
+                            (click)="createCustomerFsMap(i, $event)"
+                          >
+                            <i class="glyphicon glyphicon-plus"></i> Map</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </fieldset>
+              </div>
+              <div
+                class="col-md-6"
+                style="overflow-y: scroll; max-height:350px;"
+              >
+                <fieldset>
+                  <legend style="margin-bottom: 5px;font-size: 15px;">
+                    MAPPED FS CAPTIONS
+                  </legend>
+                  <table class="table table-striped table-hover">
+                    <thead>
+                      <tr>
+                        <td>FS Caption Name</td>
+                        <td>FS Date</td>
+                        <td>Amount</td>
+                        <td style="width: 20%"></td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="
+                          let item of mappedFSCaptionTableData;
+                          let i = index
+                        "
+                      >
+                        <td>{{ item.fsCaptionName }}</td>
+                        <td>{{ item.fsDate | date: "dd-MMM-yyyy" }}</td>
+                        <td>{{ item.amount | number }}</td>
+                        <td>
+                          <a
+                            style="text-decoration: none;color:#ff0000"
+                            (click)="removeCustomerFsMap(i, $event)"
+                          >
+                            <i class="glyphicon glyphicon-remove"></i> Remove</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </fieldset>
+              </div>
+            </div>
+          </p-tabPanel>
+          <p-tabPanel header="View Financial Statement">
+            <p-table
+              [value]="fsRatioValueData"
+              sortField="fsGroupCaption"
+              sortMode="single"
+              (onSort)="onSort()"
+              [style]="{
+                overflow: 'auto',
+                'max-height': '400px',
+                width: '100%'
+              }"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Caption</th>
+                  <th *ngFor="let col of fsRatioValueTableCols">
+                    {{ col.header }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <tr
+                  class="ui-widget-header"
+                  *ngIf="
+                    rowGroupMetadata[rowData.fsGroupCaption].index === rowIndex
+                  "
+                >
+                  <td colspan="5">
+                    <span style="color: #222; font-weight:bold">{{
+                      rowData["fsGroupCaption"]
+                    }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ rowData.ratioCaptionName }}</td>
+                  <td
+                    style="text-align: right"
+                    *ngFor="let col of fsRatioValueTableCols"
+                  >
+                    {{ rowData[col.field] | number: "1.2" }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabPanel>
+          <p-tabPanel header="View Financial Ratio">
+            <p-table
+              [value]="fsCaptionRatios"
+              sortField="fsGroupCaption"
+              sortMode="single"
+              (onSort)="onSort()"
+              [style]="{
+                overflow: 'auto',
+                'max-height': '400px',
+                width: '100%'
+              }"
+            >
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>Ratio</th>
+                  <th *ngFor="let col of fsRatiosTableCols">
+                    {{ col.header }}
+                  </th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-rowData let-rowIndex="rowIndex">
+                <tr class="ui-widget-header">
+                  <td colspan="5">
+                    <span style="color: #222; font-weight:bold">{{
+                      rowData["fsName"]
+                    }}</span>
+                  </td>
+                </tr>
+                <tr>
+                  <td>{{ rowData.ratioName }}</td>
+                  <td
+                    style="text-align: right"
+                    *ngFor="let col of fsRatiosTableCols"
+                  >
+                    {{ rowData[col.field] | number: "1.2" }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayCreateEditModal"
+  id="create-edit-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div class="panel panel-default" style="margin-bottom:0">
+    <div class="panel-heading">
+      <div class="row">
+        <div class="col-md-12">
+          <h2 class="panel-title pull-left">
+            Caption Details
+          </h2>
+        </div>
+      </div>
+    </div>
+    <form [formGroup]="setCaptionAmountsForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <!-- <div class="form-group">
+            <label for="custName" class="col-md-2 control-label">Customer Name</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" [value]="customerModel.customerName" [ngClass]="customerModel.customerName ? 'valid-input':'required-input'"
+                [attr.disabled]="true">
+            </div>
+            <label for="custCode" class="col-md-2 control-label">Customer Code</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" [value]="customerModel.customerCode" [ngClass]="customerModel.customerCode ? 'valid-input':'required-input'"
+                [attr.disabled]="true">
+            </div>
+          </div> -->
+          <div class="form-group" *ngIf="selectedUnmappedFsCaption">
+            <label for="fsCaption" class="col-md-2 control-label"
+              >FS Caption</label
+            >
+            <div class="col-md-4">
+              <input
+                type="text"
+                class="form-control"
+                [value]="selectedUnmappedFsCaption.fsCaptionName"
+                [ngClass]="
+                  selectedUnmappedFsCaption.fsCaptionName
+                    ? 'valid-input'
+                    : 'required-input'
+                "
+                [attr.disabled]="true"
+              />
+            </div>
+            <label for="fsDate" class="col-md-2 control-label">FS Date</label>
+            <div class="col-md-4">
+              <p-calendar
+                id="captionDate"
+                dateFormat="yy/mm/dd"
+                [(ngModel)]="selectedDate"
+                [ngModelOptions]="{ standalone: true }"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="2010:2050"
+                [showIcon]="true"
+                [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%', 'z-index': '100' }"
+                [disabled]="true"
+                [ngClass]="selectedDate ? 'valid-input' : 'required-input'"
+              ></p-calendar>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="fsAmount" class="col-md-2 control-label">Amount</label>
+            <div class="col-md-4">
+              <input
+                type="number"
+                class="form-control"
+                formControlName="amount"
+                formatM
+                [ngClass]="
+                  setCaptionAmountsForm.controls['amount'].valid
+                    ? 'valid-input'
+                    : 'required-input'
+                "
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              type="submit"
+              [disabled]="setCaptionAmountsForm.invalid"
+              (click)="submitForm(setCaptionAmountsForm)"
+              class="btn btn-success pull-right"
+            >
+              Save FS Caption Detail
+            </button>
+            <button
+              type="button"
+              (click)="displayCreateEditModal = false"
+              style="margin-right:5px"
+              class="btn btn-danger pull-right"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>

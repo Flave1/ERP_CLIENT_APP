@@ -1,0 +1,128 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  PD
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    formControlName="pd"
+                    name="pd"
+                    class="form-control"
+                  />
+                </div>
+                <label for="product" class="control-label col-md-2">
+                  Products
+                </label>
+                <div class="col-md-4">
+                  <select
+                    name="product"
+                    id="product"
+                    class="form-control"
+                    formControlName="productId"
+                  >
+                    <option value="" disabled>-- Select Product --</option>
+                    <option
+                      *ngFor="let product of productsArr"
+                      [value]="product.productId"
+                      >{{ product.productName }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Minimum Range Score %
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="minRange"
+                    name="minRange"
+                    class="form-control"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Maximum Range Score %
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="maxRange"
+                    name="maxRange"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="interestRate" class="control-label col-md-2"
+                  >Interest Rate</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    id="interestRate"
+                    name="interestRate"
+                    formControlName="interestRate"
+                    class="form-control"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Rate Description
+                </label>
+                <div class="col-md-4">
+                  <textarea
+                    rows="5"
+                    class="form-control"
+                    type="checkbox"
+                    formControlName="description"
+                    name="description"
+                  ></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitCreditRating(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

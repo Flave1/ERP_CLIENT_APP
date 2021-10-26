@@ -1,0 +1,9 @@
+.item-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.bal-title {
+  font-weight: bold;
+  font-size: 18px !important;
+}

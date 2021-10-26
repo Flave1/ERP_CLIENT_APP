@@ -1,0 +1,222 @@
+.dashboard_container {
+  //background: #eee;
+}
+.dashboard_header {
+  display: flex;
+  //flex-direction: row;
+  justify-content: center;
+  //align-items: center;
+  //height: 100px;
+  //width: 100%;
+}
+.dashboard_header_content {
+  width: 205px;
+  height: 70px;
+  margin-right: 5px;
+  //border: 1px solid;
+  display: flex;
+  padding: 10px;
+  justify-content: space-around;
+  align-items: center;
+  color: #ffffff;
+  border-radius: 6px;
+}
+.dashboard_header_content:last-child {
+  margin-right: 0;
+}
+.dashboard_header_content_flex {
+  display: flex;
+  flex-direction: column;
+}
+.icon_font {
+  font-size: 25px;
+}
+.blue_grey_bg {
+  background: #3d4d62;
+}
+.tomato_bg {
+  background: #f44666;
+}
+.teal_bg {
+  background: #00a689;
+}
+.dashboard_mid_section {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  margin: 0 3px;
+}
+.box {
+  height: 500px;
+  background: #fff;
+  border-radius: 10px;
+  margin: 0 5px;
+}
+.box_1 {
+  flex: 1;
+}
+.box_2 {
+  flex: 2;
+}
+.chart_section {
+  display: flex;
+  width: 100%;
+  padding: 0 8px 10px;
+}
+.loan_calc_container {
+  padding: 15px;
+  height: 500px;
+}
+.quick_link_icon_div {
+  height: 83px;
+  margin: 5px;
+  width: 66px;
+  padding: 10px 0;
+  cursor: pointer;
+}
+.quick_link_icon {
+  height: 100%;
+}
+.quick_links_container {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  flex-wrap: wrap;
+  padding: 8px 15px;
+}
+.topbar_header {
+  text-align: center;
+  font-weight: bold;
+}
+.section_header {
+  color: #24c8e5;
+  text-align: center;
+  margin-top: 0;
+  font-size: 20px !important;
+}
+.recent_activities_container,
+.quick_links_wrapper {
+  padding: 10px;
+}
+.recent_activities_list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.activity {
+  padding: 10px;
+  height: 50px;
+  border: 1px solid #eee;
+}
+.total_provisioning {
+  margin: 5px 10px 0;
+  padding: 7px;
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.p_margin {
+  margin: 10px 0;
+}
+.calc_div {
+  margin-top: 10px;
+  display: flex;
+  justify-content: center;
+}
+.calc_btn {
+  padding: 5px 10px;
+  background: #24c8e5;
+  border: none;
+  outline: none;
+  color: #fff;
+  border-radius: 4px;
+  //height: 35px;
+  width: 150px;
+}
+.calc_btn:hover {
+  background: #fff;
+  border: 1px solid #24c8e5;
+  color: #24c8e5;
+}
+.select_flex {
+  display: flex;
+  flex-wrap: wrap;
+}
+.select_form {
+  width: 94px;
+}
+.select_form:first-child {
+  margin-right: 5px;
+}
+.attr_div {
+  margin-top: 10px;
+}
+
+.loan_calc_wrapper {
+  background: #eee;
+}
+.calc_wrapper {
+  background: #fff;
+  border-radius: 10px;
+  padding-bottom: 3rem;
+}
+.calc_wrapper_2 {
+  padding-bottom: 68px;
+}
+.abs_span {
+  position: absolute;
+  background: #f44666;
+  width: 20px;
+  text-align: center;
+  color: #fff;
+  border-radius: 50%;
+  height: 17px;
+  left: 37px;
+}
+//@media only screen and (max-width: 2130px) {
+//    .quick_link_icon_div {
+//        height: 45px;
+//        margin: 5px;
+//        width: 45px;
+//        padding: 10px 0;
+//        cursor: pointer;
+//    }
+//    .select_form {
+//        width: 65px;
+//    }
+//    h3 {
+//        font-size: 14px;
+//    }
+//}
+.dash_label {
+  font-size: 12px;
+}
+
+@media only screen and (max-width: 600px){
+  .dashboard_header {
+    flex-direction: column;
+    margin-bottom: 5px;
+    align-items: center;
+  }
+  .dashboard_header_content {
+    width: 250px;
+    margin-bottom: 5px;
+  }
+  .dashboard_mid_section {
+    flex-direction: column;
+  }
+  .quick_links_wrapper {
+    height: 200px !important;
+  }
+  .quick_link_icon_div {
+    height: 60px;
+    width: 57px;
+  }
+  .chart_section {
+    flex-direction: column;
+  }
+  .box {
+    margin-bottom: 5px;
+  }
+
+}

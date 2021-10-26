@@ -1,0 +1,160 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="panel-body">
+            <div class="form-horizontal">
+            <label for="" class="control-label col-md-2">
+                Statement Type
+            </label>
+            <div class="col-md-3">
+                <select type="text" name="statementTypeId" formControlName="statementTypeId" id="statementTypeId" class="form-control" (change)="onStatementChange($event.target.value)">
+                    <option value="">-- Select Statement Type --</option>
+                    <option *ngFor="let row of statementTypeInformation" [value]="row.statementTypeId">
+                                                                                                                                                  {{ row.statementTypeAlias }}
+                                                                                                </option>
+                </select>
+            </div>
+            </div>
+        </div> -->
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+
+                  <label for="" class="control-label col-md-2">
+                      Statement Type
+                  </label>
+                  <div class="col-md-4 mb_5">
+                      <select type="text" name="statementTypeId" formControlName="statementTypeId" id="statementTypeId" class="form-control" >
+                          <option value="">-- Select Statement Type --</option>
+                          <option *ngFor="let row of statementTypeInformation" [value]="row.statementTypeId">
+                                                                                                                                                        {{ row.statementTypeAlias }}
+                                                                                                      </option>
+                      </select>
+                  </div>
+
+                <label for="" class="control-label col-md-2">
+                  Industry
+                </label>
+                <div class="col-md-4 mb_5">
+                  <input type="text" formControlName="industry" name="industry" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  FS Line
+                </label>
+                <div class="col-md-4 mb_5">
+                  <input type="text" formControlName="fsLine" name="fsLine" class="form-control" />
+                </div>
+
+                <!-- <label for="" class="control-label col-md-2">
+                  SubCaption
+                </label>
+                <div class="col-md-4 mb_5">
+                  <input type="text" formControlName="subCaption" name="subCaption" class="form-control" />
+                </div> -->
+
+
+
+                <label for="" class="control-label col-md-2">
+                  FSLine Caption 
+                </label>
+                <div class="col-md-4 mb_5">
+                  <input type="text" formControlName="fslineCaption" name="fslineCaption" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Account Type
+              </label>
+              <div class="col-md-4 mb_5">
+                  <select type="text" name="accountTypeId" formControlName="accountTypeId" id="accountTypeId" class="form-control">
+                      <option value="">-- Select Account Type --</option>
+                      <option *ngFor="let row of accountTypeInformation" [value]="row.accountTypeId">
+                                                                                                                                                    {{ row.accountTypeName }}
+                                                                                                  </option>
+                  </select>
+              </div>
+
+              <label for="" class="control-label col-md-2">
+                Parent Caption
+              </label>
+              <div class="col-md-4 mb_5">
+                <input type="text" formControlName="parentCaption" name="parentCaption" class="form-control" />
+              </div>
+
+
+              <label for="" class="control-label col-md-2">
+                  NoteLine
+                </label>
+                <div class="col-md-4 mb_5">
+                  <input type="text" formControlName="noteLine" name="noteLine" class="form-control" />
+                </div>
+
+
+                <!-- <label for="" class="control-label col-md-2">
+                    SubLedger
+                  </label>
+
+                  <div class="col-md-4 mb_5">
+                      <select type="text" name="subLedger" formControlName="subLedger" id="subLedger" class="form-control">
+                          <option value="">-- Select SubLedger --</option>
+                          <option *ngFor="let row of subGLInformation" [value]="row.subGLName">
+                                                                                                                                                        {{ row.subGLName }}
+                                                                                                      </option>
+                      </select>
+                  </div> -->
+
+
+                <label for="" class="control-label col-md-2">
+                    Position
+                  </label>
+                  <div class="col-md-4 mb_5">
+                    <input type="number" formControlName="position" name="position" class="form-control" />
+                  </div>
+
+
+
+              <!-- <label for="" class="control-label col-md-2">
+                Account Type
+            </label>
+            <div class="col-md-4">
+                <select type="text" name="industry" formControlName="industry" id="industry" class="form-control">
+                    <option value="">-- Select Account Type --</option>
+                    <option *ngFor="let row of IndustryInformation" [value]="row.industry">
+                                                                                                                                                  {{ row.industry }}
+                                                                                                </option>
+                </select>
+            </div> -->
+              </div>
+              </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitRegistryTemplateInfo(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

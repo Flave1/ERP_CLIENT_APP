@@ -1,0 +1,407 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Disposal Approvals
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <p-tabView
+              [activeIndex]="activeIndex"
+              (onChange)="tabChange($event)"
+            >
+              <p-tabPanel header="Disposals Awaiting Approval">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-table
+                      [value]="awaitingApprovals"
+                      [scrollable]="true"
+                      [scrollHeight]="viewHeight"
+                      [responsive]="true"
+                      dataKey="derecognitionId"
+                      [(selection)]="selectedItem"
+                    >
+                      <ng-template pTemplate="caption">
+                        <div class="multiapprove_wrapper">
+                          <h4>List of Disposals Awaiting Approval</h4>
+                          <button
+                            type="button"
+                            class="btn btn-success"
+                            (click)="multiApprove()"
+                          >
+                            Multi Approve
+                          </button>
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="checkbox_row">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                          </th>
+                          <th class="sn_width">S/N</th>
+                          <th>Request Date</th>
+                          <th>Proposed Disposal Date</th>
+                          <th>Reason For Disposal</th>
+                          <!-- <th>NBV</th> -->
+                          <th></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr [pSelectableRow]="x">
+                          <td class="checkbox_row">
+                            <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                          </td>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <td>{{ x.requestDate | date }}</td>
+                          <td>{{ x.proposedDisposalDate | date }}</td>
+                          <td>{{ x.reasonForDisposal }}</td>
+                          <!-- <td>{{ x.nbv }}</td> -->
+                          <td>
+                            <a (click)="viewApprovalDetails(x)">View</a>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Disposal Details" [disabled]="!tabSelected">
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                <strong>DISPOSAL DETAILS</strong>
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <table class="table table-customer-information">
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <strong>Request Date</strong>
+                                      </td>
+                                      <td>
+                                        {{
+                                          disposalDetails?.requestDate | date
+                                        }}
+                                      </td>
+                                      <td>
+                                        <strong>Proposed Disposal Date</strong>
+                                      </td>
+                                      <td>
+                                        {{
+                                          disposalDetails?.proposedDisposalDate
+                                            | date
+                                        }}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <strong>Reason For Disposal</strong>
+                                      </td>
+                                      <td>{{ disposalDetails?.reasonForDisposal }}</td>
+                                      <td>
+                                        <strong>NBV</strong>
+                                      </td>
+                                      <td>
+                                        {{
+                                          disposalDetails?.nbv | number: "1.2-2"
+                                        }}
+                                      </td>
+                                    </tr>
+                                    <br />
+
+                                    <!--                                  <tr>-->
+                                    <!--                                    <td>-->
+                                    <!--                                      <strong>Comment</strong>-->
+                                    <!--                                    </td>-->
+                                    <!--                                    <td>-->
+                                    <!--                              <textarea-->
+                                    <!--                                class="form-control"-->
+                                    <!--                                [(ngModel)]="disposalDetails.comment"-->
+                                    <!--                                name="comment"-->
+                                    <!--                                cols="15"-->
+                                    <!--                                rows="3"-->
+                                    <!--                              ></textarea>-->
+                                    <!--                                    </td>-->
+                                    <!--                                    <td>-->
+                                    <!--                                      <strong>Status</strong>-->
+                                    <!--                                    </td>-->
+                                    <!--                                    <td>-->
+                                    <!--                                      <select-->
+                                    <!--                                        name="approvalStatusId"-->
+                                    <!--                                        id="approvalStatusId"-->
+                                    <!--                                        class="form-control"-->
+                                    <!--                                        [(ngModel)]="disposalDetails.approvalStatusId"-->
+                                    <!--                                        [ngClass]="-->
+                                    <!--                                  !disposalDetails.approvalStatusId-->
+                                    <!--                                    ? 'required-input'-->
+                                    <!--                                    : 'valid-input'-->
+                                    <!--                                "-->
+                                    <!--                                      >-->
+                                    <!--                                        <option value=""-->
+                                    <!--                                        >-&#45;&#45; Select Approval -&#45;&#45;</option-->
+                                    <!--                                        >-->
+                                    <!--                                        <option value="2"> Approve </option>-->
+                                    <!--                                        <option value="3"> Disapprove </option>-->
+                                    <!--                                        <option value="5"> Revert </option>-->
+                                    <!--                                      </select>-->
+                                    <!--                                    </td>-->
+                                    <!--                                  </tr>-->
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                <strong>ASSETS FOR DISPOSAL</strong>
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <p-table
+                                  [value]="disposals"
+                                  [responsive]="true"
+                                  [scrollable]="true"
+                                  [scrollHeight]="viewHeight"
+                                  dataKey="disposalId"
+                                >
+                                  <ng-template pTemplate="caption">
+                                    <h2 class="panel-title">
+                                      Assets for Disposal
+                                    </h2>
+                                  </ng-template>
+                                  <ng-template pTemplate="header">
+                                    <tr>
+                                      <th>Asset number</th>
+                                      <th>Classification</th>
+                                      <th>Description</th>
+                                      <th>Location</th>
+                                      <th>Cost</th>
+                                      <th>Accumulated Depreciation</th>
+                                      <th>Net Book Value</th>
+                                      <th>Proceed from Disposal</th>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template
+                                    pTemplate="body"
+                                    let-row
+                                    let-i="rowIndex"
+                                  >
+                                    <tr>
+                                      <td>{{ row.assetNumber }}</td>
+                                      <td>{{ row.classificationName }}</td>
+                                      <td>{{ row.description }}</td>
+                                      <td>{{ row.location }}</td>
+                                      <td>{{ row.cost | number: "1.2-2" }}</td>
+                                      <td>
+                                        {{ row.depreciationForThePeriod }}
+                                      </td>
+                                      <td>
+                                        {{ row.netBookValue | number: "1.2-2" }}
+                                      </td>
+                                      <td>
+                                        {{ row.proceedFromDisposal }}
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                Approval
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div style="display: flex">
+                                  <label class="col-md-2 control-label">
+                                    <strong>Comment</strong>
+                                  </label>
+
+                                  <div class="col-md-4">
+                                    <textarea
+                                      class="form-control"
+                                      [(ngModel)]="disposalDetails.comment"
+                                      name="comment"
+                                      cols="15"
+                                      rows="3"
+                                    ></textarea>
+                                  </div>
+
+                                  <label class="col-md-2 control-label">
+                                    <strong>Status</strong>
+                                  </label>
+                                  <div class="col-md-4">
+                                    <select
+                                      name="approvalStatusId"
+                                      id="approvalStatusId"
+                                      class="form-control"
+                                      (change)="getValue($event.target.value)"
+                                      [(ngModel)]="
+                                        disposalDetails.approvalStatusId
+                                      "
+                                      [ngClass]="
+                                        !disposalDetails.approvalStatusId
+                                          ? 'required-input'
+                                          : 'valid-input'
+                                      "
+                                    >
+                                      <option value=""
+                                        >--- Select Approval ---</option
+                                      >
+                                      <option value="2"> Approve </option>
+                                      <option value="3"> Disapprove </option>
+                                      <option value="5"> Revert </option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <button
+                                type="submit"
+                                (click)="submitApproval(disposalDetails)"
+                                class="btn btn-success pull-right"
+                              >
+                                Save
+                              </button>
+                              <!--                              <button-->
+                              <!--                                type="button"-->
+                              <!--                                (click)="displayApproval = false"-->
+                              <!--                                style="margin-right:5px"-->
+                              <!--                                class="btn btn-danger pull-right"-->
+                              <!--                              >-->
+                              <!--                                Close-->
+                              <!--                              </button>-->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Approval Details" [disabled]="!tabSelected">
+                <app-approval-details
+                  [approvalDetails]="approvalDetails"
+                ></app-approval-details>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Revert to staff
+      </h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select
+            name="staff"
+            id="staff"
+            class="form-control"
+            [(ngModel)]="staffId"
+            (change)="dismissDialog()"
+          >
+            <option value="" [selected]="true" [disabled]="true"
+              >--Select Staff--</option
+            >
+            <option *ngFor="let item of staffs" [value]="item.staffId">{{
+              item.name
+            }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

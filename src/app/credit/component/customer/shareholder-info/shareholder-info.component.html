@@ -1,0 +1,53 @@
+<form novalidate [formGroup]="directorShareHolderForm">
+  <div class="panel-body">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="" class="control-label col-md-2"> Company Name </label>
+        <div class="col-md-4">
+          <input
+            type="text"
+            formControlName="companyName"
+            name="companyName"
+            class="form-control"
+          />
+        </div>
+        <label for="" class="control-label col-md-2">
+          Percentage Holder
+        </label>
+        <div class="col-md-4">
+          <input
+            type="number"
+            formControlName="percentageHolder"
+            name="percentageHolder"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-md-12">
+        <button
+          type="submit"
+          [disabled]="directorShareHolderForm.invalid"
+          (click)="
+                submitLoanCustomerDirectorShareHolders(directorShareHolderForm)
+              "
+          class="btn btn-success pull-right"
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          (click)="closeDirectorModal(false)"
+          style="margin-right: 5px"
+          class="btn btn-danger pull-right"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

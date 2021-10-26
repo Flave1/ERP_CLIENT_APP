@@ -1,0 +1,179 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                           Historical PD Information
+                        </h2>
+                       <div class="flex_div">
+                           <div
+                               style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                               class="col-md-1 pull-right"
+                           >
+                               <button
+                                   pButton
+                                   style="padding:0.5em 0"
+                                   type="button"
+                                   class="ui-button-raised ui-button-danger"
+                                   (click)="multipleDelete()"
+                                   icon="ui-icon-delete"
+                                   iconPos="center"
+                                   pTooltip="Delete"
+                                   tooltipPosition="top"
+                                   label=""
+                               ></button>
+                           </div>
+                           <div style="padding-right: 5px;padding-left: 5px;width: 45px;" class="col-md-1 pull-right">
+                               <button
+                                   pButton
+                                   style="padding:0.5em 0"
+                                   type="button"
+                                   class="ui-button-raised ui-button-secondary"
+                                   (click)="exportScoreCardHistory()"
+                                   icon="ui-icon-file-download"
+                                   pTooltip="Download"
+                                   tooltipPosition="top"
+                                   iconPos="center"
+                                   label=""
+                               ></button>
+                           </div>
+                           <div style="padding-right: 5px; padding-left: 5px" class="col-md-1 pull-right">
+                               <button
+                                   pButton
+                                   type="button"
+                                   style="padding:0.5em 0; width: 70px"
+                                   class="ui-button-raised ui-button-secondary"
+                                   (click)="uploadScoreCardHistory()"
+                                   icon="ui-icon-file-upload"
+                                   iconPos="center"
+                                   pTooltip="Excel file: LoanAmount, OutstandingBalance, CustomerType, CustomerName, LoanReferenceNumber, ProductCode, ProductName, EffectiveDate, MaturityDate, Field1 - Field30"
+                                   tooltipPosition="top"
+                                   label="PD SM"
+                               ></button>
+                           </div>
+                           <div style="padding-right: 5px; padding-left: 5px" class="col-md-1 pull-right">
+                            <button
+                                pButton
+                                type="button"
+                                style="padding:0.5em 0; width: 70px"
+                                class="ui-button-raised ui-button-secondary"
+                                (click)="uploadScoreCardHistoryIR()"
+                                icon="ui-icon-file-upload"
+                                iconPos="center"
+                                pTooltip="Excel file: LoanAmount, OutstandingBalance, CustomerType, CustomerName, LoanReferenceNumber, ProductCode, ProductName, EffectiveDate, MaturityDate, Field1 - Field30"
+                                tooltipPosition="top"
+                                label="PD IR"
+                            ></button>
+                        </div>
+
+                           <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+                               <input
+                                   style="height:35px;"
+                                   class="form-control"
+                                   type="file"
+                                   (change)="handleFileInput($event.target.files)"
+                                   id="file1"
+                                   #fileInput
+                                   accept=".xls,.xlsx"
+                               />
+                           </div>
+<!--                           <div class="col-md-3 col-sm-6 col-xs-12 pull-right">-->
+<!--                               <select type="text" [(ngModel)]="productId" name="productId" id="productId" class="form-control">-->
+<!--                                   <option value="0">&#45;&#45; Select Product &#45;&#45;</option>-->
+<!--                                   <option *ngFor="let x of products" [value]="x.productId">{{ x.productName }}</option>-->
+<!--                               </select>-->
+<!--                           </div>-->
+<!--                           <div class="col-md-3 col-sm-6 col-xs-12 pull-right">-->
+<!--                               <select type="text" [(ngModel)]="customerTypeId" name="customerTypeId" id="customerTypeId" class="form-control">-->
+<!--                                   <option value="0">&#45;&#45; Select Customer Type &#45;&#45;</option>-->
+<!--                                   <option value="1">Individual</option>-->
+<!--                                   <option value="2">Cooperate</option>-->
+<!--                               </select>-->
+<!--                           </div>-->
+                       </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <p-table
+                        #dt
+                        [columns]="cols"
+                        [value]="scoreCardHistoryList"
+                        dataKey="applicationScoreCardId"
+                        [(selection)]="selectedScoreCardHistory"
+                        [paginator]="false"
+                        [rows]="scoreCardHistoryList?.length"
+                        [scrollable]="true"
+                        [scrollHeight]="viewHeight"
+                        [responsive]="true"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div style="text-align: right">
+                                <input
+                                    type="text"
+                                    pInputText
+                                    size="50"
+                                    class="form-control"
+                                    placeholder="Search..."
+                                    (keyup)="
+                                        dt.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                                    style="width:auto"
+                                />
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="checkbox_row">
+                                    <p-tableHeaderCheckbox>
+                                    </p-tableHeaderCheckbox>
+                                </th>
+                                <th>Loan Ref No</th>
+                                <th >Customer Name</th>
+                                <th >Product Name</th>
+                                <th >Product Code</th>
+                                <th >Effective Date</th>
+                                <th >Maturity Date</th>
+<!--                                <th style="width:3em"></th>-->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                            <tr [pSelectableRow]="x" >
+                                <td class="checkbox_row">
+                                    <p-tableCheckbox
+                                        [value]="x"
+                                    ></p-tableCheckbox>
+                                </td>
+
+                                <td>{{ x.loanReferenceNumber }}</td>
+                                <td>{{ x.customerName }}</td>
+                                <td>{{ x.productName }}</td>
+                                <td>{{ x.productCode }}</td>
+                                <td>{{ x.effectiveDate | date }}</td>
+                                <td>{{ x.maturityDate | date }}</td>
+
+<!--                                <td>-->
+<!--                                    <a (click)="deleteScoreCardHistory(x)"-->
+<!--                                        >Delete</a-->
+<!--                                    >-->
+<!--                                </td>-->
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,71 @@
+<form novalidate [formGroup]="identityDetailsForm">
+  <div class="panel-body">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="" class="control-label col-md-2">
+          Identification Type
+        </label>
+        <div class="col-md-4">
+          <select
+            type="text"
+            name="identificationId"
+            formControlName="identificationId"
+            id="identificationId"
+            class="form-control"
+          >
+            <option value="">-- Select Identification --</option>
+            <option
+              *ngFor="let row of identificationInformation"
+              [value]="row.lookupId"
+            >
+              {{ row.lookupName }}
+            </option>
+          </select>
+        </div>
+        <label for="" class="control-label col-md-2"> Number </label>
+        <div class="col-md-4">
+          <input
+            type="text"
+            formControlName="number"
+            name="number"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="control-label col-md-2"> Issuer </label>
+        <div class="col-md-4">
+          <input
+            type="text"
+            formControlName="issuer"
+            name="issuer"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-md-12">
+        <button
+          type="submit"
+          [disabled]="identityDetailsForm.invalid"
+          (click)="submitLoanCustomerIdentityDetails(identityDetailsForm)"
+          class="btn btn-success pull-right"
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          (click)="closeIdentityModal(false)"
+          style="margin-right: 5px"
+          class="btn btn-danger pull-right"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

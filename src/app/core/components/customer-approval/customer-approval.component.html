@@ -1,0 +1,144 @@
+ <div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Customer Approval
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+              <p-table [value]="customerAwaitingApproval" [responsive]="true" [scrollable]="true" [scrollHeight]="viewHeight">
+                <ng-template pTemplate="caption">
+                  <h4>List of Customer Awaiting Approval</h4>
+                </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th style="width:5em">S/N</th>
+                      <th style="width:8em">Customer Type</th>
+                      <th style="width:15em">Customer Name</th>
+                      <th>Reg. Number</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th style="width:5em"></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ x.customerTypeName }}</td>
+                      <td>{{ x.customerName }}</td>
+                      <td>{{ x.registrationNumber }}</td>
+                      <td>{{ x.email }}</td>
+                      <td>{{ x.phoneNumber }}</td>
+                      <td>
+                        <a (click)="viewApprovalDetails(x)">View</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+              </p-table>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [responsive]="true" [(visible)]="displayApproval" id="add-modal" modal="modal" showEffect="fade"
+  width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Customer Approval
+      </h2>
+    </div>
+
+    <div class="panel-body">
+        <div class="form-horizontal">
+          <table class="table table-customer-information">
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Customer Type</strong>
+                </td>
+                <td>{{ selectedApprovalData.customerTypeName }}</td>
+                <td>
+                  <strong>Customer Name</strong>
+                </td>
+                <td>{{ selectedApprovalData.customerName }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Registration Number</strong>
+                </td>
+                <td>{{ selectedApprovalData.registrationNumber }}</td>
+                <td>
+                  <strong>Email</strong>
+                </td>
+                <td>{{ selectedApprovalData.email}}</td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Phone Number</strong>
+                </td>
+                <td>{{ selectedApprovalData.phoneNumber }}</td>
+                <td>
+                  <strong>Address</strong>
+                </td>
+                <td>{{ selectedApprovalData.address }}</td>
+              </tr>
+              <br />
+              <tr>
+          
+                <td>
+                  <strong>Comment</strong>
+                </td>
+                <td>
+                  <textarea [ngClass]="!selectedApprovalData.comment ? 'required-input' : 'valid-input'" class="form-control"
+                    [(ngModel)]="selectedApprovalData.comment" name="comment" cols="15" rows="3"></textarea>
+                </td>
+                <td>
+                  <strong>Status</strong>
+                </td>
+                <td>
+                  <select name="approvalStatusId" id="approvalStatusId" class="form-control"
+                    [(ngModel)]="selectedApprovalData.approvalStatusId"
+                    [ngClass]="!selectedApprovalData.approvalStatusId ? 'required-input' : 'valid-input'">
+                    <option value="">--- Select Approval ---</option>
+                    <option value="2"> Approve </option>
+                    <option value="3"> Disapprove </option>
+
+                  </select>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="!selectedApprovalData.comment || !selectedApprovalData.approvalStatusId" (click)="submitApproval(selectedApprovalData)" class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="displayApproval = false" style="margin-right:5px"
+              class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+</p-dialog>

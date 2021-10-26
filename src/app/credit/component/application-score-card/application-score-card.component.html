@@ -1,0 +1,59 @@
+<div class="row">
+    <div class="col-md-12" *ngIf="fields">
+        <form novalidate [formGroup]="form">
+            <div class="col-md-6" *ngFor="let x of fields">
+                <div   *ngIf="x.showField" class="form-group">
+                    <label for="" class="control-label col-md-4">
+                        {{ x.labelName }}
+                    </label>
+                    <div class="col-md-8">
+                        <select
+                            type="text"                           
+                            (change)="
+                                onSelectionChanged(
+                                    x.fieldName,
+                                    $event.target.value
+                                )
+                            "
+                            [disabled]="!x.disableField"
+                            name="x.fieldName"
+                            [formControlName]="x.fieldName"
+                            id="x.fieldName"
+                            class="form-control"
+                        >
+                            <option value=""
+                                >-- Select {{ x.labelName }} --</option
+                            >
+                            <option
+                                *ngFor="let x of x.options"                              
+                                [value]="x.score"
+                                >{{ x.value }}</option
+                            >
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <button
+                    type="submit"
+                    id="btn_submit"
+                    [disabled]="!form.valid"
+                    (click)="submitForm(form)"
+                    class="btn btn-success pull-right"
+                >
+               <span *ngIf="!initialButton"> Proceed To Approval</span>
+               <div *ngIf="initialButton" style="width: 150px;"><i class="fa fa-spinner fa-spin"></i></div>
+                </button>
+
+                        <button
+                            type="button"
+                            style="margin-right:5px"
+                            class="btn btn-danger pull-right"
+                            (click)="goBack()"
+                        >
+                            Close
+                        </button>
+            </div>
+        </form>
+    </div>
+</div>

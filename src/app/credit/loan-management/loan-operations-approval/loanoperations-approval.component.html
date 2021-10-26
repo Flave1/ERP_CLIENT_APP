@@ -1,0 +1,196 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Loan Operations Approval
+              </h2>
+            </div>
+          </div>
+        </div>
+      
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <p-tabView
+                    (onChange)="onTabChange($event)"
+                    [activeIndex]="activeIndex"
+                >
+                    <p-tabPanel header="List of LoanOperations Awaiting Approval">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <p-table
+                                    #dt
+                                    [value]="loanoperationsAwaitingApproval"
+                                    dataKey="loanId"
+                                    selectionMode="single"
+                                    (onRowSelect)="viewApprovalDetails($event)"
+                                    [(selection)]="selectedApprovalData"
+                                    [paginator]="false"
+                                    [rows]="loanoperationsAwaitingApproval?.length"
+                                    [responsive]="true"
+                                    [scrollable]="true"
+                                    [scrollHeight]="viewHeight"
+                                >
+                                    <ng-template pTemplate="caption">
+                                        <div style="text-align: right">
+                                            <input
+                                                type="text"
+                                                pInputText
+                                                size="50"
+                                                class="form-control"
+                                                placeholder="Search..."
+                                                (keyup)="
+                                                    dt.filterGlobal(
+                                                        $event.target.value,
+                                                        'contains'
+                                                    )
+                                                "
+                                                style="width:auto"
+                                            />
+                                        </div>
+                                    </ng-template>
+                                    <ng-template pTemplate="header">
+                                        <tr>
+                                                <th style="width:2em">
+                                                        S/N
+                                                    </th>
+                                            <th style="width:10em">Reference Number</th>
+                                            <th style="width:15em">Operation Type</th>
+                                            <th style="width:15em">Customer Name</th>
+                                        </tr>
+                                    </ng-template>
+                                    <ng-template
+                                        pTemplate="body"
+                                        let-x
+                                        let-i="rowIndex"
+                                    >
+                                        <tr [pSelectableRow]="x">
+                                                <td>{{ i + 1 }}</td>
+                                                <td>{{ x.loanReferenceNumber}}</td>
+                                                <td>{{ x.operationTypeName }}</td>
+                                                <td>{{ x.customerName }}</td>
+                                        </tr>
+                                    </ng-template>
+                                </p-table>
+                            </div>
+                        </div>
+                    </p-tabPanel>
+                
+                     <p-tabPanel [disabled]="loanNotSelected" header="LoanOperations Approval">
+                            <app-view-loan-details [loanId]="loanId"></app-view-loan-details>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="form-horizontal">
+                                  <table class="table table-customer-information">
+                                    <tbody>
+                                      <tr>
+                                        <td>
+                                          <strong>Customer Name</strong>
+                                        </td>
+                                        <td>{{ selectedApprovalData.customerName }}</td>
+                                        <td>
+                                          <strong>Operation Type</strong>
+                                        </td>
+                                        <td>{{ selectedApprovalData.operationTypeName }}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <strong>Product</strong>
+                                        </td>
+                                        <td>{{ selectedApprovalData.productName }}</td>
+                                        <td>
+                                          <strong>Effective Date</strong>
+                                        </td>
+                                        <td>{{ selectedApprovalData.newEffectiveDate | date}}</td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <strong>Reference Number</strong>
+                                        </td>
+                                        <td>{{ selectedApprovalData.loanReferenceNumber }}</td>
+                                        <td>
+                                          <strong>Review Details</strong>
+                                        </td>
+                                        <td>{{ selectedApprovalData.reviewDetails }}</td>
+                                      </tr>
+                                      <br />
+                                      <tr>
+                                  
+                                        <td>
+                                          <strong>Comment</strong>
+                                        </td>
+                                        <td>
+                                          <textarea [ngClass]="!selectedApprovalData.comment ? 'required-input' : 'valid-input'" class="form-control"
+                                            [(ngModel)]="selectedApprovalData.comment" name="comment" cols="15" rows="3"></textarea>
+                                        </td>
+                                        <td>
+                                          <strong>Status</strong>
+                                        </td>
+                                        <td>
+                                          <select name="approvalStatusId" id="approvalStatusId" class="form-control"
+                                            [(ngModel)]="selectedApprovalData.approvalStatusId"
+                                            [ngClass]="!selectedApprovalData.approvalStatusId ? 'required-input' : 'valid-input'">
+                                            <option value="">--- Select Approval ---</option>
+                                            <option value="2"> Approve </option>
+                                            <option value="3"> Disapprove </option>
+                        
+                                          </select>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                        
+                              <div class="panel-footer">
+                                <div class="row">
+                                  <div class="col-md-12">
+                                    <button type="submit" [disabled]="!selectedApprovalData.comment || !selectedApprovalData.approvalStatusId" (click)="submitApproval(selectedApprovalData)" class="btn btn-success pull-right">
+                                      Save
+                                    </button>
+                                    <button type="button"  style="margin-right:5px"
+                                      class="btn btn-danger pull-right">
+                                      Close
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                        </div>
+                    </p-tabPanel>
+
+                </p-tabView>
+            </div>
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+                <div class="col-md-12">
+                    <!-- <button
+                        type="button"
+                        class="btn btn-primary pull-right"
+                        *ngIf="activeIndex == 0 || activeIndex < 1"
+                        (click)="openNext()"
+                    >
+                        Next
+                    </button> -->
+                    <button
+                        type="button"
+                        class="btn btn-primary pull-right"
+                        style="margin-right:5px"
+                        *ngIf="activeIndex > 0"
+                        (click)="openPrev()"
+                    >
+                        Previous
+                    </button>
+                
+                </div>
+            </div>
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>

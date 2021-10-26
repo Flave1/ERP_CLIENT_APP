@@ -1,0 +1,71 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="active-directory" class="control-label col-md-2">
+                 Active Directory
+                </label>
+                <div class="col-md-4">
+                  <select
+                    id="active-directory"
+                    name="activeDirectory"
+                    class="form-control"
+                    (change)="getValue($event.target.value)"
+                  >
+                    <option value="" selected disabled>--Select Active Directory--</option>
+                    <option value="yes">Yes</option>
+                    <option value="no">No</option>
+                  </select>
+                </div>
+                <ng-container *ngIf="show === 'yes'">
+                  <label for="ldap-url" class="control-label col-md-2">
+                    LDAP URL
+                  </label>
+                  <div class="col-md-4">
+                    <input type="text" id="ldap-url" class="form-control" />
+                  </div>
+                </ng-container>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="submitInfo(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

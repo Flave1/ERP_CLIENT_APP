@@ -1,0 +1,74 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label class="control-label col-md-2">
+                  Run Automatically?
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="checkbox"
+                    name="shouldRunAutomatically"
+                    formControlName="shouldRunAutomatically"
+                    (change)="getValue($event)"
+                  />
+                </div>
+
+                <ng-container *ngIf="runAutomatically">
+                  <label class="control-label col-md-2">
+                   When to run
+                  </label>
+                  <div class="col-md-4">
+                    <select  name="whenToRun" formControlName="whenToRun" class="form-control" disabled>
+                      <option value="0" disabled>--Select an option--</option>
+                      <option  value="11">11</option>
+                    </select>
+                  </div>
+                </ng-container>
+                <div style="margin-top:50px;" *ngIf="runAutomatically">
+                  <label class="control-label col-md-2">
+                    Time of day
+                  </label>
+                  <div class="col-md-4">
+                    <select  name="meridiem" formControlName="meridiem" class="form-control" disabled>
+                      <option value="0" disabled>--Select an option--</option>
+                      <option  value="pm">PM</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                class="btn btn-success pull-right"
+                (click)="submit(form)"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

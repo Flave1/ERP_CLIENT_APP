@@ -1,0 +1,287 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Collection Appraisal
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-tabView
+            (onChange)="onTabChange($event)"
+            [activeIndex]="activeIndex"
+          >
+            <p-tabPanel header="Investments">
+              <div class="row">
+                <div class="col-md-12">
+                  <p-table
+                      #dt
+                      [value]="loanApplicationList"
+                      dataKey="loanApplicationId"
+                      selectionMode="single"
+                      (onRowSelect)="onRowSelect($event)"
+                      [(selection)]="selectedLoanApplication"
+                      [paginator]="false"
+                      [scrollable]="true"
+                      [scrollHeight]="viewHeight"
+                      [rows]="loanApplicationList?.length"
+                      [responsive]="true"
+                  >
+                    <ng-template pTemplate="caption">
+                      <div style="text-align: right">
+                        <input
+                          type="text"
+                          pInputText
+                          size="50"
+                          class="form-control"
+                          placeholder="Search..."
+                          (keyup)="
+                            dt.filterGlobal($event.target.value, 'contains')
+                          "
+                          style="width:auto"
+                        />
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th class="sn_width">
+                          S/N
+                        </th>
+                        <th>
+                          Date
+                        </th>
+                        <th>
+                          Application Ref No
+                        </th>
+                        <th>Customer Name</th>
+                        <th>Proposed Amount</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-x let-i="rowIndex">
+                      <tr [pSelectableRow]="x" class="table_row">
+                        <td class="sn_width">{{ i + 1 }}</td>
+                        <td>
+                          {{ x.applicationDate | date }}
+                        </td>
+                        <td>
+                          {{ x.refNumber }}
+                        </td>
+                        <td>
+                          {{ x.investorName }}
+                        </td>
+                        <td>
+                          {{ x.proposedAmount | number: "1.2" }}
+                        </td>
+                        <td>
+                          <a class="link_deco" (click)="onSelectClicked(x)"
+                          >Select</a
+                          >
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel
+              [disabled]="loanNotSelected"
+              header="Application information"
+            >
+              <app-investment-customer-details
+                [customerId]="customerId"
+              ></app-investment-customer-details>
+              <app-collection-details
+                [investmentId]="investmentId"
+                [collectionId]="collectionId"
+                [caneditPrivilege]="privilege?.canEdit"
+              ></app-collection-details>
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div style="margin-bottom:0" class="panel panel-default">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">Actions</h2>
+                    </div>
+                    <div class="panel-body">
+                      <div>
+                        <form [formGroup]="recommendationCommentForm">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="col-md-7">
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <label for="comment">Comment</label>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <textarea
+                                      style="height:87px;"
+                                      formControlName="comment"
+                                      name="comment"
+                                      id="comment"
+                                      class="form-control"
+                                      [ngClass]="
+                                        !recommendationCommentForm.controls[
+                                          'comment'
+                                        ].valid
+                                          ? 'required-input'
+                                          : 'valid-input'
+                                      "
+                                    ></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-5">
+                                <div class="form-group">
+                                  <label for="" class="col-md-12"
+                                  >Decision</label
+                                  >
+                                  <div class="col-md-12">
+                                    <select
+                                      name="vote"
+                                      formControlName="vote"
+                                      [ngClass]="
+                                        !recommendationCommentForm.controls[
+                                          'vote'
+                                        ].valid
+                                          ? 'required-input'
+                                          : 'valid-input'
+                                      "
+                                      id="vote"
+                                      class="form-control"
+                                      (change)="getValue($event.target.value)"
+                                    >
+                                      <option value=""
+                                      >-- Select Decision --
+                                      </option
+                                      >
+                                      <option value="2">Approve</option>
+                                      <option value="5">Revert</option>
+                                      <option value="3">Disapprove</option>
+
+                                      <!-- <option *ngIf="privilege?.canApprove" value="2">Approve</option>
+                                                                            <option *ngIf="privilege?.canViewApproval && !privilege?.canApprove" value="2">Reviewed</option>
+                                                                            <option *ngIf="privilege?.canApprove" value="3">Disapprove</option> -->
+                                      <!-- <option  *ngIf="trails.length>0" value="5">Refer Back</option> -->
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+
+                      <!-- <button style="margin-right:5px;" *ngIf="trails.length>1" [disabled]="recommendationCommentForm.invalid" (click)="submitApproval(2,recommendationCommentForm)"
+                                                class="btn btn-primary"><span class="glyphicon glyphicon-chevron-left" style="padding-right:4px;"></span>
+                                                Refer Back</button>
+
+                                            <button style="margin-right:5px;" *ngIf="privilege?.canViewApproval" [disabled]="recommendationCommentForm.invalid"  (click)="submitApproval(2,recommendationCommentForm)"
+                                                class="btn btn-success"><span class="glyphicon glyphicon-chevron-right" style="padding-right:4px;"></span>
+                                                Submit</button>
+
+                                            <button style="margin-right:5px;" *ngIf="privilege?.canApprove" [disabled]="recommendationCommentForm.invalid" (click)="submitApproval(3,recommendationCommentForm)"
+                                                class="btn btn-danger"><span class="glyphicon glyphicon-remove" style="padding-right:4px;"></span>
+                                                Reject</button>
+
+                                            <button style="margin-right:5px;" *ngIf="privilege?.canApprove" [disabled]="recommendationCommentForm.invalid" (click)="submitApproval(2,recommendationCommentForm)"
+                                                class="btn btn-success"><span class="glyphicon glyphicon-ok" style="padding-right:4px;"></span><span [innerHTML]="getApproveButtonLabel()"></span></button>
+
+                                            <button style="margin-right:5px;" *ngIf="privilege?.canEscalate" [disabled]="recommendationCommentForm.invalid" (click)="submitApproval(2,recommendationCommentForm)" class="btn btn-warning"><span
+                                                    class="glyphicon glyphicon-export" style="padding-right:4px;"></span> Escalate</button> -->
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel [disabled]="loanNotSelected" header="Comments">
+              <div class="panel panel-default">
+                <app-approval-comment
+                  [workFlowToken]="workFlowToken"
+                  [applicationId]="collectionId"
+                ></app-approval-comment>
+              </div>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              *ngIf="activeIndex > 0"
+              style="margin-left:5px"
+              type="button"
+              [disabled]="recommendationCommentForm.invalid"
+              (click)="submitApproval(recommendationCommentForm)"
+              class="btn btn-success pull-right"
+            >
+              Submit
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary pull-right"
+              *ngIf="activeIndex > 0 && activeIndex < 2"
+              (click)="openNext()"
+            >
+              View Comments
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-primary pull-right"
+              style="margin-right:5px"
+              *ngIf="activeIndex > 0"
+              (click)="openPrev()"
+            >
+              Previous
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Revert to staff
+      </h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select
+            name="staff"
+            id="staff"
+            class="form-control"
+            [(ngModel)]="staffId"
+            (change)="dismissDialog()"
+          >
+            <option value="" [selected]="true" [disabled]="true"
+            >--Select Staff--
+            </option
+            >
+            <option *ngFor="let item of staffs" [value]="item.staffId">{{
+                item.name
+              }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

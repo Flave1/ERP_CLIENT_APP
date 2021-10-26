@@ -1,0 +1,319 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Reassessment List
+            </h2>
+            <div
+              style="width: 16%"
+              class="col-md-1 pull-right"
+            >
+              <button
+                style="padding:10px"
+                type="button"
+                (click)="ReassessUsefulLife()"
+                class="btn btn-primary"
+              >
+                Reassess Useful Life
+              </button>
+            </div>
+            <div style="width: 16%; margin-right: 35px;" class="col-md-1 pull-right">
+              <button
+                style="padding:10px"
+                type="button"
+                (click)="ReassessResidualValue()"
+                class="btn btn-primary"
+              >
+                Reassess Residual Value
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="registerList"
+            dataKey="registerId"
+            [(selection)]="selectedItem"
+            [paginator]="false"
+            [rows]="registerList?.length"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search..."
+                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'assetNumber'">
+                  Asset Number
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'classificationName'">
+                  Classification
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'quantity'">
+                  Description
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'cost'">
+                  Cost
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'subGlAddition'">
+                  Depreciation period
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'location'">
+                  Accumulated Depreciation
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th>
+                  Net Book Value
+                </th>
+                <th></th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link">{{ i + 1 }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.assetNumber
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.classificationName
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.description
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{ x.cost | number: '1.2-2'}}</a>
+                </td>
+
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.depreciationForThePeriod | number: '1.2-2'
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.accumulatedDepreciation | number: '1.2-2'
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.netBookValue | number: '1.2-2'
+                  }}</a>
+                </td>
+                <td>
+                  <span class="table_link" (click)="reassessUsefulLife(x)"
+                    >Reassess Useful Life
+                  </span>
+                </td>
+                <td>
+                  <span class="table_link" (click)="reassessResidualValue(x)">
+                    Reassess Residual value
+                  </span>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                label="Next"></button>
+            <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                label="Previous"></button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayReassessment"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading"></div>
+
+    <div class="panel-body">
+      <p-table
+        [value]="reassessmentList"
+        [responsive]="true"
+        [scrollable]="true"
+        [scrollHeight]="viewHeight"
+      >
+        <ng-template pTemplate="caption">
+          <h2 class="panel-title">
+            Reassess Useful Life
+          </h2>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Asset number</th>
+            <th>Description</th>
+            <th>Residual value</th>
+            <th>Useful life</th>
+            <th>Remaining useful life</th>
+            <th>Proposed useful life</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
+          <tr>
+            <td>{{ row.assetNumber }}</td>
+            <td>{{ row.description }}</td>
+            <td>{{ row.residualValue | number: '1.2-2'}}</td>
+            <td>{{row.usefulLife}}</td>
+            <td>{{row.remainingUsefulLife}}</td>
+            <td>
+              <input
+                class="form-control"
+                [(ngModel)]="row.proposedUsefulLife"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <button
+            type="submit"
+            class="btn btn-success pull-right"
+            (click)="saveUsefulLife(selectedItem)"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            (click)="closeReassessUsefulLife()"
+            style="margin-right:5px"
+            class="btn btn-danger pull-right"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayReassessResidual"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading"></div>
+
+    <div class="panel-body">
+      <p-table
+        [value]="reassessmentResidualList"
+        [responsive]="true"
+        [scrollable]="true"
+        [scrollHeight]="viewHeight"
+      >
+        <ng-template pTemplate="caption">
+          <h2 class="panel-title">
+            Reassess Residual Value
+          </h2>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Asset number</th>
+            <th>Description</th>
+            <th>Cost</th>
+            <th>Residual value</th>
+            <th>Remaining useful life</th>
+            <th>Proposed residual value</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
+          <tr>
+            <td>{{ row.assetNumber }}</td>
+            <td>{{ row.description }}</td>
+            <td>{{row.cost | number: '1.2-2'}}</td>
+            <td>{{ row.residualValue | number: '1.2-2'}}</td>
+            <td>{{row.remainingUsefulLife}}</td>
+            <td>
+              <input
+                class="form-control"
+                (blur)="validateInput($event.target.value, row, i)"
+                [(ngModel)]="row.proposedResidualValue"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <button
+            type="submit"
+            class="btn btn-success pull-right"
+            (click)="saveResidual(selectedItem)"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            (click)="closeReassessResidual()"
+            style="margin-right:5px"
+            class="btn btn-danger pull-right"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+

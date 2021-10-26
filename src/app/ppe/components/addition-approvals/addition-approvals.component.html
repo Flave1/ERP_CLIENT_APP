@@ -1,0 +1,270 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Addition Approvals
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <p-tabView
+              [activeIndex]="activeIndex"
+              (onChange)="tabChange($event)"
+            >
+              <p-tabPanel header="Addition Awaiting Approval">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-table
+                      [value]="awaitingApprovals"
+                      [scrollable]="true"
+                      [scrollHeight]="viewHeight"
+                      [responsive]="true"
+                      dataKey="additionFormId"
+                      [(selection)]="selectedItem"
+                    >
+                      <ng-template pTemplate="caption">
+                       <div class="multiapprove_wrapper">
+                         <h4>List of Addition Awaiting Approval</h4>
+                         <button
+                           type="button"
+                           class="btn btn-success"
+                           (click)="multiApprove()"
+                         >
+                           Multi Approve
+                         </button>
+                       </div>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="checkbox_row">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                          </th>
+                          <th class="sn_width">S/N</th>
+                          <th>LPO number </th>
+                          <th>Date of purchase</th>
+                          <!-- <th>Description </th> -->
+                          <th>Quantity </th>
+                          <th>Cost </th>
+                          <!-- <th>Sub GL selected</th> -->
+                          <!-- <th>Location</th> -->
+
+                          <th></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr [pSelectableRow]="x">
+                          <td class="checkbox_row">
+                            <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                          </td>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <td>{{ x.lpoNumber }}</td>
+                          <td>{{ x.dateOfPurchase | date }}</td>
+                          <!-- <td>{{ x.description }}</td> -->
+                          <td>{{ x.quantity  }}</td>
+                          <td>{{ x.cost | number: "1.2-2" }}</td>
+                          <!-- <td>{{x.subGlAddition}}</td> -->
+                          <!-- <td>{{x.location}}</td> -->
+                          <td>
+                            <a (click)="viewApprovalDetails(x)">Select</a>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Addition Details" [disabled]="!tabSelected">
+                <div style="margin-bottom:0" class="panel panel-default">
+                  <div class="panel-heading">
+                    <h2 class="panel-title">
+                      Addition Details
+                    </h2>
+                  </div>
+
+                  <div class="panel-body">
+                    <div class="form-horizontal">
+                      <table class="table table-customer-information">
+                        <tbody>
+                        <tr>
+                          <td>
+                            <strong>LPO Number</strong>
+                          </td>
+                          <td>{{ additionDetails?.lpoNumber }}</td>
+                          <td>
+                            <strong>Date of Purchase</strong>
+                          </td>
+                          <td>{{ additionDetails?.dateOfPurchase | date }}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong>Description</strong>
+                          </td>
+                          <td>{{ additionDetails?.description }}</td>
+                          <td>
+                            <strong>Quantity</strong>
+                          </td>
+                          <td>
+                            {{ additionDetails?.quantity  }}
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong>Cost</strong>
+                          </td>
+                          <td>
+                            {{ additionDetails?.cost | number: "1.2-2" }}
+                          </td>
+                                      <td>
+                                        <strong>Sub GL</strong>
+                                      </td>
+                                      <td>{{ additionDetails?.subGlAdditionName }}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong>Location</strong>
+                          </td>
+                          <td>{{additionDetails?.location}}</td>
+                          <td>
+                            <strong>Useful Life</strong>
+                          </td>
+                          <td>{{additionDetails?.usefulLife}}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong>Residual Value</strong>
+                          </td>
+                          <td>{{additionDetails?.residualValue}}</td>
+                          <td>
+                            <strong>Asset Classification</strong>
+                          </td>
+                          <td>{{additionDetails?.classificationName}}</td>
+                        </tr>
+                        <br />
+                        <tr>
+                          <td>
+                            <strong>Comment</strong>
+                          </td>
+                          <td>
+                              <textarea
+                                class="form-control"
+                                [(ngModel)]="additionDetails.comment"
+                                name="comment"
+                                cols="15"
+                                rows="3"
+                              ></textarea>
+                          </td>
+                          <td>
+                            <strong>Status</strong>
+                          </td>
+                          <td>
+                            <select
+                              name="approvalStatusId"
+                              id="approvalStatusId"
+                              class="form-control"
+                              (change)="getValue($event.target.value)"
+                              [(ngModel)]="additionDetails.approvalStatusId"
+                              [ngClass]="
+                                  !additionDetails.approvalStatusId
+                                    ? 'required-input'
+                                    : 'valid-input'
+                                "
+                            >
+                              <option value=""
+                              >--- Select Approval ---</option
+                              >
+                              <option value="2"> Approve </option>
+                              <option value="3"> Disapprove </option>
+                              <option value="5"> Revert </option>
+                            </select>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="panel-footer">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button
+                          type="submit"
+                          [disabled]="
+                            !additionDetails.comment || !additionDetails.approvalStatusId
+                          "
+                          (click)="submitApproval(additionDetails)"
+                          class="btn btn-success pull-right"
+                        >
+                          Save
+                        </button>
+                        <!--                        <button type="button" (click)="displayApproval = false" style="margin-right:5px"-->
+                        <!--                                class="btn btn-danger pull-right">-->
+                        <!--                          Close-->
+                        <!--                        </button>-->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Approval Details" [disabled]="!tabSelected">
+                <app-approval-details
+                  [approvalDetails]="approvalDetails"
+                ></app-approval-details>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Revert to staff
+      </h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select
+            name="staff"
+            id="staff"
+            class="form-control"
+            [(ngModel)]="staffId"
+            (change)="dismissDialog()"
+          >
+            <option value="" [selected]="true" [disabled]="true"
+            >--Select Staff--</option
+            >
+            <option *ngFor="let item of staffs" [value]="item.staffId">{{
+                item.name
+              }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

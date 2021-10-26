@@ -1,0 +1,270 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="classificationName" class="control-label col-md-2"
+                  >Classification name
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="classificationName"
+                    id="classificationName"
+                    class="form-control"
+                    formControlName="classificationName"
+                  />
+                </div>
+                <label for="usefulLifeMin" class="control-label col-md-2">
+                  Useful life in months(min)
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="usefulLifeMin"
+                    class="form-control"
+                    id="usefulLifeMin"
+                    formControlName="usefulLifeMin"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="usefulLifeMax" class="control-label col-md-2">
+                  Useful life in months(max)
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="usefulLifeMax"
+                    class="form-control"
+                    id="usefulLifeMax"
+                    formControlName="usefulLifeMax"
+                  />
+                </div>
+                <label for="residualValue" class="control-label col-md-2"
+                  >Residual value (%)</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    id="residualValue"
+                    formControlName="residualValue"
+                    name="residualValue"
+                    class="form-control"
+                  />
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label for="subGlDisposal" class="control-label col-md-2">
+                  Disposal Sub GL
+                </label>
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="glArr"
+                    placeholder="Select an item"
+                    formControlName="subGlDisposal"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="subGlDisposal"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+                <label for="subGlDepreciation" class="control-label col-md-2">
+                  Depreciation Charge Sub GL
+                </label>
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="glArr"
+                    placeholder="Select an item"
+                    formControlName="subGlDepreciation"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="subGlDepreciation"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="form-group">
+                <label
+                  for="subGlAccumulatedDepreciation"
+                  class="control-label col-md-2"
+                >
+                  Accumulated Depreciation Charge Sub GL
+                </label>
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="glArr"
+                    placeholder="Select an item"
+                    formControlName="subGlAccumulatedDepreciation"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="subGlAccumulatedDepreciation"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+                <label for="subGlAddition" class="control-label col-md-2">
+                  Sub GL for Addition
+                </label>
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="glArr"
+                    placeholder="Select an item"
+                    formControlName="subGlAddition"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="subGlAddition"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                          item.label
+                        }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="form-group" >
+                <label for="depreciable" class="control-label col-md-2"
+                >Depreciable (Yes/No)</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="checkbox"
+                    formControlName="depreciable"
+                    name="depreciable"
+                    id="depreciable"
+                    (change)="onChecked($event)"
+                  />
+                </div>
+                <label for="subGlRevaluation" class="control-label col-md-2">
+                  Sub GL for Revaluation
+                </label>
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="glArr"
+                    placeholder="Select an item"
+                    formControlName="subGlRevaluation"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="subGlRevaluation"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                          item.label
+                        }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitInfo(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

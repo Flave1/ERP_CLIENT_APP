@@ -1,0 +1,131 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Loan Application Eligibility Check
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <p-tabView
+                        (onChange)="onTabChange($event)"
+                        [activeIndex]="activeIndex"
+                    >
+                        <!-- <p-tabPanel header="Credit Bureau">
+                            <app-Loan-credit-bureau
+                                [loanApplicationId]="loanApplicationId"
+                            ></app-Loan-credit-bureau>
+                        </p-tabPanel> -->
+                        <p-tabPanel header="Score Card">
+                            <app-application-score-card
+                                [loanApplicationId]="loanApplicationId"
+                                [customerId]="customerId"
+                            ></app-application-score-card>
+                        </p-tabPanel>
+                        <!-- <p-tabPanel header="Credit Rating">
+                            <div class="ui-g">
+                            <div class="ui-g-12 no-padding">
+                                <div style="margin-bottom:0" class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2 class="panel-title pull-left">
+                                               Credit Rating
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="panel-body">
+                                    <div class="row" style="padding:0 15px 0 15px;">
+                                        <h6>
+                                            <strong> Credit Rating Score and PD </strong>
+                                        </h6>
+                                        <table class="table table-casa-information">
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <strong>Credit Score:</strong>
+                                                    </td>
+                                                    <td>{{ loanInfo?.creditScore }}</td>
+                                                    <td>
+                                                        <strong>Probability of Default:</strong>
+                                                    </td>
+                                                    <td>{{ loanInfo?.probabilityOfDefault | number: "1.30"  }}</td>
+                                                </tr>
+                                                  <tr>
+                                                    <td>
+                                                        <strong>Product Weighted Score:</strong>
+                                                    </td>
+                                                    <td>{{ loanInfo?.productWeightedScore  }}</td>
+                                                    <td>
+                                                        <strong>Credit Rating:</strong>
+                                                    </td>
+                                                    <td>{{ creditRating }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div class="col-md-12">
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                         </div>
+                        </p-tabPanel> -->
+                    </p-tabView>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <button
+                            type="button"
+                            class="btn btn-primary pull-right"
+                            *ngIf="activeIndex == 0 || activeIndex < 1"
+                            (click)="openNext()"
+                        >
+                            Next
+                        </button> -->
+                        <!-- <button
+
+                            style="margin-right:5px"
+                            type="button"
+                            (click)="ProceedToApproval()"
+                            class="btn btn-primary pull-right"
+                        >
+                            Proceed To Approval
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary pull-right"
+                            style="margin-right:5px"
+                            *ngIf="activeIndex > 0"
+                            (click)="openPrev()"
+                        >
+                            Previous
+                        </button>
+                        <button
+                            type="button"
+                            style="margin-right:5px"
+                            class="btn btn-danger pull-right"
+                            (click)="goBack()"
+                        >
+                            Close
+                        </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

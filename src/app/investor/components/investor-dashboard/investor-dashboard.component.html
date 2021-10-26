@@ -1,0 +1,168 @@
+<section class="investor-dashboard-wrapper">
+    <div class="dashboard_header">
+        <div class="header_item blue_grey_bg cursor_pointer" (click)="goToInvestments()">
+<!--            <div>-->
+<!--                <i class="fa fa-bank icon_font"></i>-->
+<!--            </div>-->
+            <div class="header_flex">
+                <h4 class="item__heading">Pending Investments</h4>
+                <span>{{ investmentDetails?.pendingInvestment }}</span>
+            </div>
+        </div>
+        <div class="header_item teal_bg cursor_pointer" (click)="goToPendingCollections()">
+<!--            <div>-->
+<!--                <i class="fa fa-money icon_font"></i>-->
+<!--            </div>-->
+            <div class="header_flex">
+                <h4 class="item__heading">Pending Collections</h4>
+                <span>{{investmentDetails?.pendingCollection}}</span>
+            </div>
+        </div>
+        <div class="header_item tomato_bg cursor_pointer" (click)="goToPendingLiquidations()">
+<!--            <div>-->
+<!--                <i class="fa fa-bank icon_font"></i>-->
+<!--            </div>-->
+            <div class="header_flex">
+                <h4 class="item__heading">Pending Liquidations</h4>
+                <span>{{investmentDetails?.pendingLiquidation}}</span>
+            </div>
+        </div>
+        <div class="header_item teal_bg cursor_pointer" (click)="goToPendingRollover()">
+<!--            <div>-->
+<!--                <i class="fa fa-bank icon_font"></i>-->
+<!--            </div>-->
+            <div class="header_flex">
+                <h4 class="item__heading">Pending RollOver</h4>
+                <span>{{investmentDetails?.rollOverAppraisal}}</span>
+            </div>
+        </div>
+        <div class="header_item blue_grey_bg cursor_pointer" (click)="goToPendingTopUp()">
+<!--            <div>-->
+<!--                <i class="fa fa-bank icon_font"></i>-->
+<!--            </div>-->
+            <div class="header_flex">
+                <h4 class="item__heading">Pending Top Up</h4>
+                <span>{{investmentDetails?.topUpAppraisal}}</span>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard_mid_section">
+        <div class="mid_content">
+            <div class="quick_links">
+                <div class="link_container">
+                    <span
+                        ><a
+                            class="link"
+                            routerLink="/investor/investor-list-info"
+                            >Invest</a
+                        ></span
+                    >
+                </div>
+                <div class="link_container">
+                    <span
+                        ><a class="link" routerLink="/investor/investments-list"
+                            >Investments</a
+                        ></span
+                    >
+                </div>
+                <div class="link_container">
+                    <span
+                        ><a
+                            class="link"
+                            routerLink="/investor/investment-appraisal"
+                            >Investment Appraisal <span>({{investmentDetails?.investmentAppraisal}})</span></a
+                        ></span
+                    >
+                </div>
+                <div class="link_container">
+                    <span
+                        ><a
+                            class="link"
+                            routerLink="/investor/collection-appraisal"
+                            >Collection Appraisal <span>({{investmentDetails?.collectionAppraisal}})</span></a
+                        ></span
+                    >
+                </div>
+                <div class="link_container">
+                    <span
+                        ><a
+                            class="link"
+                            routerLink="/investor/liquidation-appraisal"
+                            >Liquidation Appraisal <span>({{investmentDetails?.liquidationAppraisal}})</span></a
+                        ></span
+                    >
+                </div>
+            </div>
+            <div class="investment_calculator">
+                <h3>FV Calculator</h3>
+                <div class="calc_content">
+                    <div class="calc_first">
+                        <div class="calc_first_div">
+                            <select
+                                name="productId"
+                                [(ngModel)]="productId"
+                                id=""
+                                class="form-control"
+                                (change)="getProduct($event.target.value)"
+                            >
+                                <option value="">Select Product</option>
+                                <option
+                                    *ngFor="let product of productLists"
+                                    [value]="product.productId"
+                                >{{ product.productName }}</option
+                                >
+                            </select>
+                        </div>
+                        <div>
+                            <input
+                                type="text"
+                                name="amount"
+                                class="form-control"
+                                [(ngModel)]="amount"
+                                placeholder="Amount"
+                            />
+                        </div>
+                    </div>
+                   <div class="calc_second">
+                       <div class="calc_first_div">
+                           <input
+                               type="text"
+                               name="interest"
+                               class="form-control"
+                               [(ngModel)]="display"
+                               placeholder="Interest"
+                               [value]="interest"
+                               disabled
+                           />
+                       </div>
+                       <div>
+                           <input
+                               type="text"
+                               name="interest"
+                               class="form-control"
+                               [(ngModel)]="period"
+                               placeholder="Period"
+                               disabled
+                           />
+                       </div>
+                   </div>
+                </div>
+                <div style="text-align: center; margin-top: 10px
+                 ;">
+                    <button (click)="calculateFv()" class="calc_btn">Calculate</button>
+                </div>
+              <h4>Future Value: {{fv_value | number: '1.2'}}</h4>
+            </div>
+        </div>
+        <div class="mid_content">
+            <p-chart type="line" [data]="data" [height]="height"></p-chart>
+        </div>
+        <div class="mid_content">
+            <p-chart
+                type="doughnut"
+                [data]="doughnutData"
+                [height]="height"
+            ></p-chart>
+        </div>
+    </div>
+</section>

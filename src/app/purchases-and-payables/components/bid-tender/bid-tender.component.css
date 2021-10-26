@@ -1,0 +1,65 @@
+.upload_btn {
+  float: right;
+  margin-top: 10px;
+  width: 100px;
+  height: 40px;
+  outline: none;
+  border: 1px solid #fff;
+  border-radius: 4px;
+  background: #3a7be0;
+  color: #fff;
+}
+
+.upload_btn:hover {
+  background: #fff;
+  color: #3a7be0;
+  border: 1px solid #3a7be0;
+}
+.btn_container {
+  float: right;
+}
+.pmt-btn {
+  width: 100px;
+  height: 40px;
+  outline: none;
+  border: none;
+  color: #fff;
+  border-radius: 4px;
+}
+.tomato {
+  background: tomato;
+  margin-right: 5px;
+}
+.tomato:hover {
+  background: #fff;
+  color: tomato;
+  border: 1px solid tomato;
+}
+.add {
+  background: #3a7be0;
+}
+
+.add:hover {
+  background: #fff;
+  color: #3a7be0;
+  border: 1px solid #3a7be0;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+}
+.proposal-btn {
+  background: #3a7be0;
+  border: 1px solid #ddd;
+  width: 85px;
+  padding: 7px;
+  border-radius: 5px;
+  color: #fff;
+  transition: 1s;
+}
+
+.proposal-btn:hover {
+  background: #fff;
+  border: 1px solid #3a7be0;
+  color: #3a7be0;
+}

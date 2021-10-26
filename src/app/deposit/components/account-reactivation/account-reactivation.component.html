@@ -1,0 +1,177 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Account Name
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    name="accountName"
+                    formControlName="customerId"
+                    (change)="getDetails($event.target.value)"
+                  >
+                    <option value="" selected disabled
+                      >--Select Customer--</option
+                    >
+                    <option
+                      *ngFor="let customer of customers"
+                      [value]="customer.customerId"
+                      >{{ customer.name }}</option
+                    >
+                  </select>
+                </div>
+
+                <label for="" class="control-label col-md-2 pr_0">
+                  Account Number
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="account_number"
+                    name="accountNumber"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Account Balance
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="accountBalance"
+                    class="form-control"
+                    formControlName="accountBalance"
+                    readonly
+                  />
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Currency
+                </label>
+                <div class="col-md-4">
+                  <ng-select
+                    [items]="currencies"
+                    bindValue="lookupId"
+                    bindLabel="lookupName"
+                    formControlName="currency"
+                    [multiple]="true"
+                    [closeOnSelect]="false"
+                    [searchable]="true"
+                  >
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                      <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"/> {{item.lookupName}}
+                    </ng-template>
+                  </ng-select>
+<!--                  <select-->
+<!--                    class="form-control"-->
+<!--                    formControlName="currency"-->
+<!--                    name="currency"-->
+<!--                  >-->
+<!--                    <option-->
+<!--                      *ngFor="let currency of currencies"-->
+<!--                      [value]="currency.lookupId"-->
+<!--                      >{{ currency.lookupName }}</option-->
+<!--                    >-->
+<!--                  </select>-->
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Reason for reactivating account
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="reactivation_reason"
+                    name="reason"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Charges
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="charges"
+                    name="charges"
+                    readonly
+                  />
+                </div>
+              </div>
+<!--              <div class="form-group">-->
+<!--                <label for="" class="control-label col-md-2">-->
+<!--                  Available Balance-->
+<!--                </label>-->
+<!--                <div class="col-md-4">-->
+<!--                  <input-->
+<!--                    type="text"-->
+<!--                    formControlName="approverName"-->
+<!--                    name="approverName"-->
+<!--                    class="form-control"-->
+<!--                  />-->
+<!--                </div>-->
+<!--                <label for="" class="control-label col-md-2">-->
+<!--                  Comments-->
+<!--                </label>-->
+<!--                <div class="col-md-4">-->
+<!--                  <input-->
+<!--                    type="text"-->
+<!--                    formControlName="approverComment"-->
+<!--                    name="approverComment"-->
+<!--                    class="form-control"-->
+<!--                  />-->
+<!--                </div>-->
+<!--              </div>-->
+              <!--                            <div class="form-group">-->
+              <!--                                -->
+              <!--                            </div>-->
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitAccountClosure(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

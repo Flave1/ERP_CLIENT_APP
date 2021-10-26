@@ -1,0 +1,66 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="bank" class="control-label col-md-2">
+                 Secret Keys
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="secret_keys"
+                    class="form-control"
+                    formControlName="secret_keys"
+                  />
+                </div>
+
+                <label for="public_keys" class="control-label col-md-2">
+                  Public Keys
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="public_keys" formControlName="public_keys" class="form-control" />
+                </div>
+                <div style="margin-top:50px;">
+                  <label for="public_keys" class="control-label col-md-2">
+                    Use this setup
+                  </label>
+                  <div class="col-md-4">
+                    <input type="checkbox" name="useFlutterWave" id="useFlutterWave" formControlName="useFlutterWave" />
+                  </div>
+                </div>                
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                class="btn btn-success pull-right"
+                (click)="submit(form)"
+              >
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

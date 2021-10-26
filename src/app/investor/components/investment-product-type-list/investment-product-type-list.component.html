@@ -1,0 +1,234 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Product Type Information
+            </h2>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-danger"
+                (click)="multipleDelete()"
+                icon="ui-icon-delete"
+                iconPos="center"
+                pTooltip="Delete"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="showAddNew()"
+                icon="ui-icon-plus"
+                iconPos="center"
+                pTooltip="Add"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="exportProductInformation()"
+                icon="ui-icon-file-download"
+                pTooltip="Download"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                type="button"
+                style="padding:0.5em 0"
+                class="ui-button-raised ui-button-secondary"
+                (click)="uploadProductInformation()"
+                icon="ui-icon-file-upload"
+                iconPos="center"
+                pTooltip="Excel file: Product Type, Description"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+              <input
+                style="height:35px;"
+                class="form-control"
+                type="file"
+                (change)="handleFileInput($event.target.files)"
+                id="file1"
+                accept=".xls,.xlsx"
+                #fileInput
+                name="fileInput"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="productInformation"
+            dataKey="productTypeId"
+            [(selection)]="selectedProductInformation"
+            [paginator]="false"
+            [rows]="productInformation?.length"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search..."
+                  (keyup)="
+                                        dt.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                  style="width:auto"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'name'">
+                  Name
+                  <i
+                    class="ui-icon-arrow-drop-down sort--icon__special"
+                  ></i>
+                </th>
+                <!--                                <th [pSortableColumn]="'requirePrincipalGL'">-->
+                <!--                                    Require Principal GL-->
+                <!--                                    <i-->
+                <!--                                        class="ui-icon-arrow-drop-down sort&#45;&#45;icon__special"-->
+                <!--                                    ></i>-->
+                <!--                                </th>-->
+                <!--                                <th [pSortableColumn]="'requireInterestIncomeExpenseGL'">-->
+                <!--                                    Require Interest Income/Expense GL-->
+                <!--                                    <i-->
+                <!--                                        class="ui-icon-arrow-drop-down sort&#45;&#45;icon__special"-->
+                <!--                                    ></i>-->
+                <!--                                </th>-->
+                <!--                                <th [pSortableColumn]="'requireInterestReceivablePayableGL'">-->
+                <!--                                    Require Interest Receivable/Payable GL-->
+                <!--                                    <i-->
+                <!--                                        class="ui-icon-arrow-drop-down sort&#45;&#45;icon__special"-->
+                <!--                                    ></i>-->
+                <!--                                </th>-->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox
+                    [value]="x"
+                  ></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link">{{ i + 1 }}</a>
+                </td>
+                <td>
+                  <a
+                    class="table_link"
+                    (click)="editProduct(x)"
+                  >{{ x.name }}</a
+                  >
+                </td>
+                <!--                                <td>-->
+                <!--                                    <a-->
+                <!--                                        class="table_link"-->
+                <!--                                        (click)="editProduct(x)"-->
+                <!--                                        *ngIf="x.requirePrincipalGL"-->
+                <!--                                        >Yes</a-->
+                <!--                                    >-->
+                <!--                                    <a-->
+                <!--                                        class="table_link"-->
+                <!--                                        (click)="editProduct(x)"-->
+                <!--                                        *ngIf="!x.requirePrincipalGL"-->
+                <!--                                        >No</a-->
+                <!--                                    >-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <a-->
+                <!--                                        class="table_link"-->
+                <!--                                        (click)="editProduct(x)"-->
+                <!--                                        *ngIf="x.requireInterestIncomeExpenseGL"-->
+                <!--                                        >Yes</a-->
+                <!--                                    >-->
+                <!--                                    <a-->
+                <!--                                        class="table_link"-->
+                <!--                                        (click)="editProduct(x)"-->
+                <!--                                        *ngIf="!x.requireInterestIncomeExpenseGL"-->
+                <!--                                        >No</a-->
+                <!--                                    >-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <a-->
+                <!--                                        class="table_link"-->
+                <!--                                        (click)="editProduct(x)"-->
+                <!--                                        *ngIf="x.requireInterestReceivablePayableGL"-->
+                <!--                                        >Yes</a-->
+                <!--                                    >-->
+                <!--                                    <a-->
+                <!--                                        class="table_link"-->
+                <!--                                        (click)="editProduct(x)"-->
+                <!--                                        *ngIf="!x.requireInterestReceivablePayableGL"-->
+                <!--                                        >No</a-->
+                <!--                                    >-->
+                <!--                                </td>-->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                label="Next"></button>
+            <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                label="Previous"></button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

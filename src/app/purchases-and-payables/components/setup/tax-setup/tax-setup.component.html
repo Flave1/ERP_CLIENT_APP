@@ -1,0 +1,126 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="name" class="control-label col-md-2"
+                  >Tax Name</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="name"
+                    formControlName="taxName"
+                    id="name"
+                    class="form-control"
+                  />
+                </div>
+                <label for="percentage" class="control-label col-md-2">
+                 Percentage
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    formControlName="percentage"
+                    name="percentage"
+                    class="form-control"
+                    id="percentage"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="type" class="control-label col-md-2"
+                >Type</label
+                >
+                <div class="col-md-4">
+                  <select name="" id="type" formControlName="type" class="form-control">
+                    <option value="">--Select Type--</option>
+                    <option value="+">Charge (+)</option>
+                    <option value="-">Deduction (-)</option>
+                  </select>
+                </div>
+                <label for="subGl" class="control-label col-md-2">
+                  Sub GL
+                </label>
+<!--                <div class="col-md-4">-->
+<!--                  <select-->
+<!--                    type="text"-->
+<!--                    formControlName="subGl"-->
+<!--                    name="subGl"-->
+<!--                    class="form-control"-->
+<!--                    id="subGl"-->
+<!--                  >-->
+<!--                    <option value="" selected disabled>&#45;&#45;Select GL&#45;&#45;</option>-->
+<!--                    <option *ngFor="let item of subGls" [value]="item.glId">{{item.glName}}</option>-->
+<!--                  </select>-->
+<!--                </div>-->
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="glArr"
+                    formControlName="subGl"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="subGl"
+                    placeholder="Select an Item"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                          item.label
+                        }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitInfo(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

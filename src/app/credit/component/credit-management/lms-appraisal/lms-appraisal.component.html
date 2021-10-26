@@ -1,0 +1,321 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Loan Review Appraisal
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-tabView
+            (onChange)="onTabChange($event)"
+            [activeIndex]="activeIndex"
+          >
+            <p-tabPanel header="Loan Applications">
+              <div class="row">
+                <div class="col-md-12">
+                  <p-table
+                      #dt
+                      [value]="loanReviewApplicationList"
+                      [columns]="cols"
+                      dataKey="loanReviewApplicationId"
+                      selectionMode="single"
+                      (onRowSelect)="onRowSelect($event)"
+                      [(selection)]="selectedLoanApplication"
+                      [paginator]="false"
+                      [rows]="loanReviewApplicationList?.length"
+                      [scrollable]="true"
+                      [scrollHeight]="viewHeight"
+                      [responsive]="true"
+                  >
+                    <ng-template pTemplate="caption">
+                      <div style="text-align: right">
+                        <input
+                          type="text"
+                          pInputText
+                          size="50"
+                          class="form-control"
+                          placeholder="Search..."
+                          (keyup)="
+                            dt.filterGlobal($event.target.value, 'contains')
+                          "
+                          style="width:auto"
+                        />
+                      </div>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th class="sn_width">
+                          S/N
+                        </th>
+                        <th>
+                          Product Name
+                        </th>
+                        <th>
+                          Application Ref No
+                        </th>
+                        <th>Customer Name</th>
+                        <th>Operation Type</th>
+                        <!-- <th>Tenor</th> -->
+                        <th>Loan Amount</th>
+                        <th>Outstanding Balance</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-x let-i="rowIndex">
+                      <tr [pSelectableRow]="x">
+                        <td class="sn_width">{{ i + 1 }}</td>
+                        <td>
+                          {{ x.productName }}
+                        </td>
+                        <td>
+                          {{ x.loanRefNumber }}
+                        </td>
+                        <td>
+                          {{ x.customerName }}
+                        </td>
+                        <td>
+                          {{ x.operationType }}
+                        </td>
+                        <!-- <td>
+                                                     {{
+                                                        x.propposedTenor
+                                                            | number: "1.2"
+                                                    }}
+                                                </td> -->
+                        <td>
+                          {{ x.propposedAmount | number: "1.2" }}
+                        </td>
+                        <td>
+                          {{ x.outstandingBalance | number: "1.2" }}
+                        </td>
+                        <td>
+                          <a class="link_deco" (click)="onSelectClicked(x)"
+                          >Select</a
+                          >
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel
+              [disabled]="loanNotSelected"
+              header="Application information"
+            >
+              <app-lms-application-details
+                [loanReviewApplicationId]="loanReviewApplicationId"
+                [pOperation]="prepaymentOperation"
+                [loanId]="loanId"
+                [caneditPrivilege]="privilege"
+              >
+              </app-lms-application-details>
+              <app-view-loan-details [loanId]="loanId"></app-view-loan-details>
+              <app-view-loan-schedule
+                [loanId]="loanId"
+              ></app-view-loan-schedule>
+              <!-- <app-view-deleted-loan-schedule [loanId]="loanId"></app-view-deleted-loan-schedule> -->
+              <div *ngIf="privilege">
+                <app-loan-schedule
+                  [loanAmount]="Amount"
+                  [loanDate]="loandate"
+                  [interestRate]="InterateRate"
+                  [tenor]="Tenor"
+                  [integralFeeAmount]="0"
+                  [loanApplicationId]="loanApplicationId"
+                  (notify)="getSchedule($event)"
+                ></app-loan-schedule>
+              </div>
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div style="margin-bottom:0" class="panel panel-default">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">Actions</h2>
+                    </div>
+                    <div class="panel-body">
+                      <div *ngIf="canSubmit">
+                        <form [formGroup]="recommendationCommentForm">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="col-md-7">
+                                <div class="form-group">
+                                  <div class="col-md-12">
+                                    <label for="comment">Comment</label>
+                                  </div>
+                                  <div class="col-md-12">
+                                    <textarea
+                                      style="height:87px;"
+                                      formControlName="comment"
+                                      name="comment"
+                                      id="comment"
+                                      class="form-control"
+                                      [ngClass]="
+                                        !recommendationCommentForm.controls[
+                                          'comment'
+                                        ].valid
+                                          ? 'required-input'
+                                          : 'valid-input'
+                                      "
+                                    ></textarea>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-5">
+                                <div class="form-group">
+                                  <label for="" class="col-md-12"
+                                  >Decision</label
+                                  >
+                                  <div class="col-md-12">
+                                    <select
+                                      name="approvalStatusId"
+                                      formControlName="approvalStatusId"
+                                      [ngClass]="
+                                        !recommendationCommentForm.controls[
+                                          'approvalStatusId'
+                                        ].valid
+                                          ? 'required-input'
+                                          : 'valid-input'
+                                      "
+                                      id="approvalStatusId"
+                                      class="form-control"
+                                      (change)="getValue($event.target.value)"
+                                    >
+                                      <option value="0"
+                                      >-- Select Decision --
+                                      </option
+                                      >
+                                      <option value="2">Approve</option>
+                                      <option value="5">Revert</option>
+                                      <option value="3">Disapprove</option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+
+                      <button
+                        style="margin-right:5px;"
+                        *ngIf="privilege"
+                        (click)="
+                          saveGeneratedSchedule(recommendationCommentForm)
+                        "
+                        class="btn btn-success pull-right"
+                      >
+                        <span
+                          class="glyphicon glyphicon-chevron-right"
+                          style="padding-right:4px;"
+                        ></span>
+                        Save Schedule
+                      </button>
+                      <div *ngIf="canSubmit">
+                        <button
+                          style="margin-right:5px;"
+                          [disabled]="recommendationCommentForm.invalid"
+                          (click)="submitApproval(recommendationCommentForm)"
+                          class="btn btn-success pull-right"
+                        >
+                          <span
+                            class="glyphicon glyphicon-chevron-right"
+                            style="padding-right:4px;"
+                          ></span>
+                          Submit
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel [disabled]="loanNotSelected" header="Comments">
+              <div class="panel panel-default">
+                <app-approval-comment
+                  [workFlowToken]="workFlowToken"
+                  [applicationId]="loanApplicationId"
+                ></app-approval-comment>
+              </div>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              type="button"
+              class="btn btn-primary pull-right"
+              *ngIf="activeIndex > 0 && activeIndex < 2"
+              (click)="openNext()"
+            >
+              Next
+            </button>
+            <!-- <button
+                            *ngIf="activeIndex == 6"
+                            style="margin-right:5px"
+                            type="button"
+                            class="btn btn-primary pull-right"
+                        >
+                            Proceed To Approval
+                        </button> -->
+            <button
+              type="button"
+              class="btn btn-primary pull-right"
+              style="margin-right:5px"
+              *ngIf="activeIndex > 0"
+              (click)="openPrev()"
+            >
+              Previous
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Revert to staff
+      </h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px;">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select
+            name="staff"
+            id="staff"
+            class="form-control"
+            [(ngModel)]="staffId"
+            (change)="dismissDialog()"
+          >
+            <option value="" [selected]="true" [disabled]="true"
+            >--Select Staff--
+            </option
+            >
+            <option *ngFor="let item of staffs" [value]="item.staffId">{{
+                item.name
+              }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

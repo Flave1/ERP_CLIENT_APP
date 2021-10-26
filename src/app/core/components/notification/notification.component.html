@@ -1,0 +1,20 @@
+<div class="notification_container" *ngIf="notification">
+  <h4 class="notif_heading">Notification</h4>
+  <div class="notif_wrapper">
+<!--    <h4>{{notification?.category}}</h4>-->
+    <div class="notification_header">
+      <h5 class="notification_heading">{{notification?.subject}}</h5>
+      <span class="notification_date">{{notification?.dateSent | date }} </span>
+    </div>
+    <div class="notification_body">
+      <div class="notification_para" [innerHTML]="notification?.content"></div>
+    </div>
+
+      <button class="back-btn" (click)="goBack()">Back</button>
+
+<!--    <div class="btn_container">-->
+<!--      <button class="notification_btn" (click)="goToLink(notification.link)">Click Here To View</button>-->
+<!--    </div>-->
+  </div>
+
+</div>

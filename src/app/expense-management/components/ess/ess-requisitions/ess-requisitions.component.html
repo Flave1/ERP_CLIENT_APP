@@ -1,0 +1,267 @@
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">Requisition List</h2>
+
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-danger"
+                (click)="multipleDelete()"
+                icon="ui-icon-delete"
+                iconPos="center"
+                pTooltip="Delete"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="showAddNew()"
+                icon="ui-icon-plus"
+                iconPos="center"
+                pTooltip="Add"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <!-- <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="exportItems()"
+                icon="ui-icon-file-download"
+                pTooltip="Download"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+            </div> -->
+<!--            <div-->
+<!--              style="padding-right: 5px; padding-left: 5px; width: 45px"-->
+<!--              class="col-md-1 pull-right"-->
+<!--            >-->
+<!--              <button-->
+<!--                pButton-->
+<!--                type="button"-->
+<!--                style="padding: 0.5em 0"-->
+<!--                class="ui-button-raised ui-button-secondary"-->
+<!--                (click)="uploadItems()"-->
+<!--                icon="ui-icon-file-upload"-->
+<!--                iconPos="center"-->
+<!--                pTooltip="Excel file: Classification name, Description, Sub GL Code"-->
+<!--                tooltipPosition="top"-->
+<!--                label=""-->
+<!--              ></button>-->
+<!--            </div>-->
+<!--            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">-->
+<!--              <input-->
+<!--                style="height: 35px"-->
+<!--                class="form-control"-->
+<!--                type="file"-->
+<!--                (change)="handleFileInput($event.target.files)"-->
+<!--                id="file1"-->
+<!--                accept=".xls,.xlsx"-->
+<!--                #fileInput-->
+<!--                name="fileInput"-->
+<!--              />-->
+<!--            </div>-->
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="filter-flex" style="margin-bottom: 1rem;">
+          <input
+            type="text"
+            pInputText
+            size="50"
+            class="form-control filter-input"
+            placeholder="Search..."
+            (keyup)="searchItems($event.target.value)"
+          />
+          <div style="display: flex; align-items: center">
+            <label for="" style="margin-right: 10px">Filter By Status</label>
+            <select name="" class="form-control filter-select" id="" (change)="filterByStatus($event.target.value)">
+              <option value="" disabled>--Filter--</option>
+              <option value="10">All</option>
+              <option value="APPROVED">Approved</option>
+              <option value="PENDING">Pending</option>
+              <option value="DECLINED">Declined</option>
+            </select>
+          </div>
+        </div>
+        <div class="checkbox-container">
+          <input type="checkbox" id="checkall" class="check-input" (change)="checkAll($event)"/>
+          <span>Check All</span>
+        </div>
+        <div class="card-grid">
+          <div class="req-card" *ngFor="let item of filteredResults" (click)="editItem(item)">
+           <div (click)="stopParentEvent($event)">
+             <input type="checkbox" [checked]="selectedId.includes(item.requisitionId)" (change)="checkItem($event, item.requisitionId)"/>
+           </div>
+            <div class="req-card-item">
+              <div class="card-item-content">
+                <span class="item-title">ERN Number</span>
+                <span>{{item.erNnumber}}</span>
+              </div>
+              <div class="card-item-content">
+                <span class="item-title">Total Amount</span>
+                <span>{{item.totalAmount | number : '1.2-2'}}</span>
+              </div>
+            </div>
+            <div class="req-card-mid">
+              <h3 class="item-desc-title item-title">Description</h3>
+              <p class="item-desc">{{item.description}}</p>
+            </div> 
+            <div class="req-card-item">
+              <div class="card-item-content">
+                <span class="item-title">Requisition Date</span>
+                <span>{{item.requestDate | date}}</span>
+              </div>
+              <div class="card-item-content ">
+                <span class="item-title">Delivery Date</span>
+                <span>{{item.expectedDeleiveryDate | date}}</span>
+              </div>
+            </div>
+            <div class="req-card-last card-date" style="text-align: right;">
+              <div class="fa-ul">
+                <i class="fa-li fa fa-user fa-spin"></i> {{item.requisitionStatusName}}
+              </div>
+            </div>
+          </div>
+        </div>
+<!--        <div class="form-horizontal">-->
+<!--          <p-table-->
+<!--            #dt-->
+<!--            [columns]="cols"-->
+<!--            [value]="filteredResults"-->
+<!--            dataKey="requisitionId"-->
+<!--            [(selection)]="selectedItem"-->
+<!--            [paginator]="false"-->
+<!--            [responsive]="true"-->
+<!--            [scrollable]="true"-->
+<!--            [scrollHeight]="viewHeight"-->
+<!--          >-->
+<!--            <ng-template pTemplate="caption">-->
+<!--              <div class="filter-flex">-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  pInputText-->
+<!--                  size="50"-->
+<!--                  class="form-control filter-input"-->
+<!--                  placeholder="Search..."-->
+<!--                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"-->
+<!--                />-->
+<!--                <div style="display: flex; align-items: center">-->
+<!--                  <label for="" style="margin-right: 10px">Filter By Status</label>-->
+<!--                  <select name="" class="form-control filter-select" id="" (change)="filterByStatus($event.target.value)">-->
+<!--                    <option value="" disabled>&#45;&#45;Filter&#45;&#45;</option>-->
+<!--                    <option value="10">All</option>-->
+<!--                    <option value="APPROVED">Approved</option>-->
+<!--                    <option value="PENDING">Pending</option>-->
+<!--                    <option value="DECLINED">Declined</option>-->
+<!--                  </select>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </ng-template>-->
+<!--            <ng-template pTemplate="header">-->
+<!--              <tr>-->
+<!--                <th class="checkbox_row">-->
+<!--                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
+<!--                </th>-->
+<!--                <th class="sn_width">S/N</th>-->
+<!--                <th [pSortableColumn]="'erNnumber'">ERN Number</th>-->
+<!--                <th [pSortableColumn]="'description'">Description</th>-->
+<!--                <th [pSortableColumn]="'requestBy'">Requested By</th>-->
+<!--                <th [pSortableColumn]="'department'">Department</th>-->
+<!--                <th pSortableColumn="requisitionDate">Requisition Date</th>-->
+<!--                <th [pSortableColumn]="'totalAmount'">Total Amount</th>-->
+
+<!--                <th [pSortableColumn]="'expectedDeliveryDate'">Expected Delivery Date</th>-->
+<!--                <th [pSortableColumn]="'status'">Status</th>-->
+<!--&lt;!&ndash;                <th></th>&ndash;&gt;-->
+<!--&lt;!&ndash;                <th></th>&ndash;&gt;-->
+<!--              </tr>-->
+<!--            </ng-template>-->
+<!--            <ng-template pTemplate="body" let-x let-i="rowIndex">-->
+<!--              <tr [pSelectableRow]="x">-->
+<!--                <td class="checkbox_row">-->
+<!--                  <p-tableCheckbox [value]="x"></p-tableCheckbox>-->
+<!--                </td>-->
+<!--                <td class="sn_width">-->
+<!--                  <a class="table_link">{{ i + 1 }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <a class="table_link" (click)="editItem(x)">{{-->
+<!--                    x.erNnumber-->
+<!--                    }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <a class="table_link" (click)="editItem(x)">{{-->
+<!--                    x.description | titlecase-->
+<!--                    }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <a class="table_link" (click)="editItem(x)">{{-->
+<!--                    x.requestByName | titlecase-->
+<!--                    }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <a class="table_link" (click)="editItem(x)">{{-->
+<!--                    x.deparmentmentName | titlecase-->
+<!--                    }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <a class="table_link" (click)="editItem(x)">{{-->
+<!--                    x.requestDate | date-->
+<!--                    }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <a class="table_link" (click)="editItem(x)">{{-->
+<!--                    x.totalAmount | number : '1.2-2'-->
+<!--                    }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <a class="table_link" (click)="editItem(x)">{{-->
+<!--                    x.expectedDeleiveryDate | date-->
+<!--                    }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                  <a class="table_link" (click)="editItem(x)">{{ x.requisitionStatusName }}</a>-->
+<!--                </td>-->
+<!--&lt;!&ndash;                <td>&ndash;&gt;-->
+<!--&lt;!&ndash;                  <a class="link_deco">Request Payment</a>&ndash;&gt;-->
+<!--&lt;!&ndash;                </td>&ndash;&gt;-->
+<!--&lt;!&ndash;                <td><a class="link_deco">Retire</a></td>&ndash;&gt;-->
+<!--              </tr>-->
+<!--            </ng-template>-->
+<!--          </p-table>-->
+<!--        </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+

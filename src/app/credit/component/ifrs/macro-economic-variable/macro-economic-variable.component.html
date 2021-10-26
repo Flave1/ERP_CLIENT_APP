@@ -1,0 +1,97 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                Year
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="year" name="year" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Unemployement
+                </label>
+                 <div class="col-md-4">
+                   <input type="number" formControlName="unemployement" name="unemployement" class="form-control" />
+                 </div>
+              </div>
+               <!-- <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Erosion
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="erosion" name="erosion" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  foregnEx
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="foregnEx" name="foregnEx" class="form-control" />
+                </div>
+              </div> -->
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  GDP(%)
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="gdp" name="gdp" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                 Inflation
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="inflation" name="inflation" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <!-- <label for="" class="control-label col-md-2">
+                 Other Factor
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="otherfactor" name="otherfactor" class="form-control" />
+                </div> -->
+
+                <label for="" class="control-label col-md-2">
+                Others
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="others" name="others" class="form-control" />
+                </div>
+              </div>
+              </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitMacroEconomicVariable(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

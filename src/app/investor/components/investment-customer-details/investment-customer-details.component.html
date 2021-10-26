@@ -1,0 +1,245 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Customer Information
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <p-tabView (onChange)="onTabChange($event)" [activeIndex]="activeIndex">
+                        <p-tabPanel header="Customer Information">
+                            <table class="table table-customer-information">
+                                <tbody>
+                                <tr>
+                                    <td>
+                                        <strong> Customer Name:</strong>
+                                    </td>
+                                    <td>{{ loanCustomerInformation?.firstName }} {{ loanCustomerInformation?.middleName }} {{ loanCustomerInformation?.lastName }}</td>
+                                    <td>
+                                        <strong>{{nameDate}}:</strong>
+                                    </td>
+                                    <td>{{ loanCustomerInformation?.dob | date}}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong> Address:</strong>
+                                    </td>
+                                    <td>{{ loanCustomerInformation?.address }} </td>
+                                    <td>
+                                        <strong>Postal Address:</strong>
+                                    </td>
+                                    <td>{{ loanCustomerInformation?.postalAddress || "N/A"}}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong> Phone Number:</strong>
+                                    </td>
+                                    <td>{{ loanCustomerInformation?.phoneNo }}</td>
+                                    <td>
+                                        <strong>Email:</strong>
+                                    </td>
+                                    <td>{{ loanCustomerInformation?.email}}</td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <strong> Registration Number:</strong>
+                                    </td>
+                                    <td>{{ loanCustomerInformation?.registrationNo || "N/A"}}</td>
+<!--                                    <td>-->
+<!--                                        <strong>Company Website:</strong>-->
+<!--                                    </td>-->
+<!--                                    <td>{{ loanCustomerInformation?.companyWebsite}}</td>-->
+                                </tr>
+                                </tbody>
+                            </table>
+                        </p-tabPanel>
+                        <p-tabPanel *ngIf="displayCorperatCustomer" header="Director/Shareholder">
+
+                            <p-table  [value]="loanCustomerDirectors" [responsive]="true">
+                                <ng-template pTemplate="caption">
+                                    <h4>Director/Shareholder</h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:5em">S/N</th>
+                                        <th style="width:15em">Full Name</th>
+                                        <th>Type</th>
+                                        <th >Email</th>
+                                        <th>Phone Number</th>
+                                        <th>% Share</th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-x let-i="rowIndex">
+                                    <tr >
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ x.name }}</td>
+                                        <td>{{ x.directorType }}</td>
+                                        <td>{{ x.email }}</td>
+                                        <td>{{ x.phoneNo }}</td>
+                                        <td>{{ x.percentageShare || "N/A"  }}</td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+                        <p-tabPanel *ngIf="displayIndividualCustomer"  header="Identity Details">
+
+                            <p-table [value]="loanCustomerIdentityDetails" [responsive]="true">
+                                <ng-template pTemplate="caption">
+                                    <h4>Identity Details</h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:5em">S/N</th>
+                                        <th style="width:15em">Number</th>
+                                        <th>Issuer</th>
+                                        <th>Identification</th>
+                                        <th style="width:5em"></th>
+                                        <th style="width:5em"></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-x let-i="rowIndex">
+                                    <tr>
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ x.number }}</td>
+                                        <td>{{ x.issuer }}</td>
+                                        <td>{{ x.identification }}</td>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+                        <p-tabPanel *ngIf="displayIndividualCustomer"  header="Next Of Kin">
+
+                            <p-table [value]="loanCustomerNextOfKins" [responsive]="true">
+                                <ng-template pTemplate="caption">
+                                    <h4>Next Of Kin</h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:5em">S/N</th>
+                                        <th style="width:15em"> Name</th>
+                                        <th style="width:15em">Relationship</th>
+                                        <th>Address</th>
+                                        <th>Phone Number</th>
+                                        <th>Email</th>
+
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-x let-i="rowIndex">
+                                    <tr>
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ x.name }}</td>
+                                        <td>{{ x.relationship }}</td>
+                                        <td>{{ x.address }}</td>
+                                        <td>{{ x.phoneNo }}</td>
+                                        <td>{{ x.email }}</td>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+                        <p-tabPanel header="Bank Details">
+
+                            <p-table [value]="loanCustomerBankDetails" [responsive]="true">
+                                <ng-template pTemplate="caption">
+                                    <h4>Bank Details</h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:5em">S/N</th>
+                                        <th style="width:15em">Bank Name</th>
+                                        <th style="width:15em">Account Number</th>
+                                        <th>BVN</th>
+
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-x let-i="rowIndex">
+                                    <tr>
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ x.bank }}</td>
+                                        <td>{{ x.account }}</td>
+                                        <td>{{ x.bvn }}</td>
+
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+                        <p-tabPanel  header="Documents">
+                            <p-table [value]="loanCustomerDocuments" [responsive]="true">
+                                <ng-template pTemplate="caption">
+                                    <h4>Customer Document(s)</h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:5em">S/N</th>
+                                        <th style="width:15em">Document Name</th>
+                                        <th style="width:15em">Extention</th>
+                                        <th style="width:15em">Physical Location</th>
+                                        <th style="width:7em"></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body" let-x let-i="rowIndex">
+                                    <tr>
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ x.documentName }}</td>
+                                        <td>{{ x.documentExtension }}</td>
+                                        <td>{{ x.physicalLocation }}</td>
+                                        <td>
+                                            <a *ngIf="['.jpg','.jpeg', '.png'].indexOf(x.documentExtension.toLowerCase()) > -1" (click)="viewDocument(x.customerDocumentId)" href="javascript:void(0)">View</a>
+                                            <a *ngIf="['.doc','.docx', '.pdf','.xls', '.xlsx'].indexOf(x.documentExtension.toLowerCase()) > -1" (click)="DownloadDocument(x.customerDocumentId)"
+                                               href="javascript:void(0)">Download</a>
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </p-tabPanel>
+                    </p-tabView>
+
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button pButton type="button"  class="btn btn-primary pull-right"
+                                *ngIf="displayIndividualCustomer && activeIndex >= 0 && activeIndex < 4 || displayCorperatCustomer && activeIndex >= 0 && activeIndex < 3" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                                label="Next"></button>
+                        <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px"
+                                *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                                label="Previous"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog [responsive]=true [(visible)]="displayDocument" modal="modal" showEffect="fade" width="1200">
+    <div *ngIf="displayDocument" style="margin-bottom:0" class="panel panel-default">
+
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Document Title:
+                <strong>{{ selectedDocument }}</strong>
+            </h2>
+            <div class="pull-right">
+                <a class="close" (click)="displayDocument=false">&times;</a>
+            </div>
+        </div>
+
+        <div class="panel-body" style="overflow:auto;height:500px">
+            <div style="margin: auto; width: 50%">
+                <img *ngIf="binaryFile" style="max-width: 100%; display: block 2px black;" [src]="'data:image/jpg;base64,'+binaryFile" alt=""
+                     class="img-thumbnail">
+            </div>
+        </div>
+
+    </div>
+</p-dialog>

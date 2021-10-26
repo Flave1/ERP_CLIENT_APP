@@ -1,0 +1,224 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal page-flex">
+            <div class="employee-details" [hidden]="transactionDetails == {}">
+              <div class="detail-div">
+                <span class="employee-details-span">Employee ID:  </span>
+                <span>{{ transactionDetails?.employee_ID }}</span>
+              </div>
+              <div class="detail-div">
+                <span class="employee-details-span">Structure:  </span>
+                <select name="" id="" class="form-control" [(ngModel)]="structure" style="width: 200px">
+                  <option *ngFor="let item of structures" [value]="item.companyStructureId">{{item.name}}</option>
+                </select>
+<!--                <span>{{ transactionDetails?.structure_name }}</span>-->
+              </div>
+              <div class="detail-div">
+                <span class="employee-details-span">Cashier Number:  </span>
+                <span>{{ transactionDetails?.subStructure }}</span>
+              </div>
+              <div class="detail-div">
+                <span class="employee-details-span">Date:  </span>
+                <span>{{ transactionDetails?.date | date }}</span>
+              </div>
+            </div>
+            <form [formGroup]="form" novalidate>
+              <div class="form-group" style="display:flex;">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Currency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    formControlName="currency"
+                    name="currency"
+                  >
+                    <option
+                      *ngFor="let currency of currencies"
+                      [value]="currency.lookupId"
+                      >{{ currency.lookupName }}</option
+                    >
+                  </select>
+                </div>
+                <label for="amount" class="col-md-2 control-label"
+                  >Amount</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="amount"
+                  />
+                </div>
+                <button
+                  style="margin-right:5px"
+                  type="button"
+                  [disabled]="!form.valid"
+                  class="btn btn-primary pull-right"
+                  (click)="submitCallOver(form)"
+                >
+                  Save
+                </button>
+                <!--                                <label for="" class="control-label col-md-2 pr_0">-->
+                <!--                                    Date-->
+                <!--                                </label>-->
+                <!--                                <div class="col-md-4">-->
+                <!--                                    <p-calendar-->
+                <!--                                        name="transactionDate"-->
+                <!--                                        class="form-control"-->
+                <!--                                        formControlName="date"-->
+                <!--                                        [monthNavigator]="true"-->
+                <!--                                        [yearNavigator]="true"-->
+                <!--                                        yearRange="1900:2100"-->
+                <!--                                        [showIcon]="true"-->
+                <!--                                        [inputStyle]="{ width: '100%' }"-->
+                <!--                                        [style]="{-->
+                <!--                                            width: '100%',-->
+                <!--                                            'z-index': '100'-->
+                <!--                                        }"-->
+                <!--                                    ></p-calendar>-->
+                <!--                                </div>-->
+              </div>
+
+              <!--                            <div class="form-group">-->
+              <!--                                <label-->
+              <!--                                    for=""-->
+              <!--                                    class="control-label col-md-2 pr_0"-->
+              <!--                                >-->
+              <!--                                   Opening Balance-->
+              <!--                                </label>-->
+              <!--                                <div class="col-md-4">-->
+              <!--                                    <input-->
+              <!--                                        type="text"-->
+              <!--                                        name="openingBalance"-->
+              <!--                                        class="form-control"-->
+              <!--                                        formControlName="openingBalance"-->
+              <!--                                    />-->
+              <!--                                </div>-->
+              <!--                                <label-->
+              <!--                                    for=""-->
+              <!--                                    class="control-label col-md-2 pr_0"-->
+              <!--                                >-->
+              <!--                                    Closing Balance-->
+              <!--                                </label>-->
+              <!--                                <div class="col-md-4">-->
+              <!--                                    <input-->
+              <!--                                        type="text"-->
+              <!--                                        name="closingBalance"-->
+              <!--                                        class="form-control"-->
+              <!--                                        formControlName="closingBalance"-->
+              <!--                                    />-->
+              <!--                                </div>-->
+              <!--                            </div>-->
+            </form>
+          </div>
+        </div>
+        <p-table
+          #dt
+          [value]="currencyTransactions"
+          [paginator]="false"
+          [scrollable]="true"
+          [scrollHeight]="viewHeight"
+          [responsive]="true"
+        >
+          <ng-template pTemplate="caption">
+            <h3>Currencies Transactions</h3>
+          </ng-template>
+          <ng-template pTemplate="header">
+            <tr>
+              <th [pSortableColumn]="'currency_name'">
+                Currency
+              </th>
+              <th [pSortableColumn]="'opening_bal'">Opening Bal</th>
+              <th [pSortableColumn]="'dr_amount'">
+                Dr
+              </th>
+              <th [pSortableColumn]="'cr_amount'">
+                Cr
+              </th>
+              <th [pSortableColumn]="'closing_bal'">Closing Bal</th>
+              <th></th>
+              <!--                <th></th>-->
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-x let-i="rowIndex">
+            <tr [pSelectableRow]="x">
+              <td>{{ x.currency_name }}</td>
+              <td class="table_link">
+                {{ x.opening_bal | number: "1.2-2" }}
+              </td>
+              <td class="table_link">
+                {{ x.dr_amount | number: "1.2-2" }}
+              </td>
+              <td class="table_link">
+                {{ x.cr_amount | number: "1.2-2" }}
+              </td>
+              <td class="table_link">
+                {{ x.closing_bal | number: "1.2-2" }}
+              </td>
+              <td>
+                <a (click)="showTransactions(x.id)">View</a>
+              </td>
+              <!--                                <td>{{ x.description }}</td>-->
+              <!--                <td>-->
+              <!--                  <a -->
+              <!--                  >Edit</a-->
+              <!--                  >-->
+              <!--                </td>-->
+            </tr>
+          </ng-template>
+        </p-table>
+        <!--                <div class="panel-footer">-->
+        <!--                    <div class="row">-->
+        <!--                        <div class="col-md-12">-->
+        <!--                            <button-->
+        <!--                                style="margin-right:5px"-->
+        <!--                                type="button"-->
+        <!--                                [disabled]="!form.valid"-->
+        <!--                                class="btn btn-primary pull-right"-->
+        <!--                                (click)="submitCallOver(form)"-->
+        <!--                            >-->
+        <!--                                Save-->
+        <!--                            </button>-->
+        <!--                            <button-->
+        <!--                                type="button"-->
+        <!--                                style="margin-right:5px"-->
+        <!--                                class="btn btn-danger pull-right"-->
+        <!--                                (click)="goBack()"-->
+        <!--                            >-->
+        <!--                                Close-->
+        <!--                            </button>-->
+        <!--                        </div>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [responsive]="true" [(visible)]="displayTransactions" id="add-modal" modal="modal" showEffect="fade">
+  <div style="margin-bottom:0" class="panel panel-default">
+
+      <h2 class="panel-title">
+        Transactions
+      </h2>
+
+
+    <p-table>
+
+    </p-table>
+  </div>
+</p-dialog>

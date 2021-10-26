@@ -1,0 +1,183 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Structure
+                </label>
+                <div class="col-md-4">
+                  <select class="form-control" name="accountName">
+                    <option value="" selected disabled
+                      >--Select Branch--</option
+                    >
+                    <option *ngFor="let item of structures" [value]="item">{{
+                      item.name
+                    }}</option>
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Customer
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    formControlName="customerId"
+                    (change)="getCustomer($event.target.value)"
+                  >
+                    <option value="" disabled selected
+                      >--Select Customer--</option
+                    >
+                    <option
+                      *ngFor="let customer of customers"
+                      [value]="customer.customerId"
+                      >{{ customer.name }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Account Number
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="account_number"
+                    disabled
+                  />
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Amount
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="deposit_amount"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Value Date
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="date"
+                    class="form-control"
+                    formControlName="value_date"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Transaction Particulars
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="transaction_particulars"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Mode of transaction
+                </label>
+                <div class="col-md-4">
+                  <select
+                    name=""
+                    class="form-control"
+                    formControlName="transaction_mode"
+                  >
+                    <option value="" disabled
+                      >--Select mode of transaction--</option
+                    >
+                    <option value="1">Cash</option>
+                    <option value="2">Cheque</option>
+                    <option value="3">Payment Instruction</option>
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Instrument Number
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="instrument_number"
+                    name="reason"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Instrument Date
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="date"
+                    class="form-control"
+                    formControlName="instrument_date"
+                    name="charges"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Remark
+                </label>
+                <div class="col-md-4">
+                  <textarea
+                    name=""
+                    class="form-control"
+                    formControlName="remark"
+                   style="resize: none"
+                  ></textarea>
+                </div>
+              </div>
+              <!--                            <div class="form-group">-->
+              <!--                                -->
+              <!--                            </div>-->
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitForm(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

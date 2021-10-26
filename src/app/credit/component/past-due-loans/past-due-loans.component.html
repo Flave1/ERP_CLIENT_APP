@@ -1,0 +1,90 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+             Overdue Loans
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+        <p-tabView [activeIndex]="activeIndex" (onChange)="onTabChange($event)">
+          <p-tabPanel header="Past Due Loans">
+            <p-table
+                #dt
+                [value]="overdues"
+                [columns]="cols"
+                [(selection)]="loanSelected"
+                dataKey="pastDueId"
+                selectionMode="single"
+                [paginator]="false"
+                [scrollable]="true"
+                [scrollHeight]="viewHeight"
+                [rows]="overdues?.length"
+                [responsive]="true"
+                (onRowSelect)="selectLoan($event)"
+            >
+              <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                  <input
+                    type="text"
+                    pInputText
+                    size="50"
+                    class="form-control"
+                    placeholder="Search..."
+                    (keyup)="
+                                        dt.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                    style="width:auto"
+                  />
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th class="checkbox_row">S/N</th>
+                  <th>Loan Ref no</th>
+                  <th >Payment Date</th>
+                  <th>Customer Name</th>
+                  <th>Amount</th>
+                  <th>Past Due Amount</th>
+                  <th>Days in Overdue</th>
+                  <th>Late Repayment</th>
+                  <th>Description</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-x let-i="rowIndex">
+                <tr [pSelectableRow]="x">
+                  <td class="checkbox_row">{{ i + 1 }}</td>
+                  <td>{{x.loanRefNumber}}</td>
+                  <td>{{ x.paymentDate | date }}</td>
+                  <td>{{ x.customerName }}</td>
+                  <td>{{ x.principalAmount | number: "1.2-2" }}</td>
+                  <td>{{x.pastDueAmount | number: '1.2-2'}}</td>
+                  <td>{{x.daysInOverdue}}</td>
+                  <td>{{x.lateRepaymentCharge | number: '1.2-2'}}</td>
+                  <td>{{x.description}}</td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </p-tabPanel>
+          <p-tabPanel header="Manage Loan" [disabled]="!loanSelected">
+            <app-lms-application-manage [loanId]="loanId"></app-lms-application-manage>
+          </p-tabPanel>
+        </p-tabView>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+<!--<section id="wrapper" class="login-register">-->
+<!--    <div class="login-left">-->
+<!--        <div class="login-logo">-->
+<!--            <img src="../../../assets/layout/images/logo2x.png" alt="Home" height="50" width="250" />-->
+<!--        </div>-->
+<!--        <div class="login-svg"></div>-->
+<!--    </div>-->
+<!--    <div class="login-box login-sidebar">-->
+<!--        <div class="white-box">-->
+<!--            <form [formGroup]="form" class="form-horizontal form-material">-->
+<!--                <a href="javascript:void(0)" class="text-center db m-t-100">-->
+<!--                    <img src="../../../assets/layout/images/logo2x.png" alt="Home" height="40" width="200" />-->
+<!--                </a>-->
+
+<!--                <div class="form-group m-t-60">-->
+<!--                    <div class="col-xs-12">-->
+<!--                        <input name="username" class="form-control" type="text" formControlName="userName" placeholder="Username" />-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group m-t-40">-->
+<!--                    <div class="col-xs-12">-->
+<!--&lt;!&ndash;                        <div style="display: none">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <input type="password" />&ndash;&gt;-->
+<!--&lt;!&ndash;                        </div>&ndash;&gt;-->
+<!--                        <input name="password" class="form-control" type="password" formControlName="password"-->
+<!--                            placeholder="Password" />-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="form-group text-center m-t-40">-->
+<!--                    <div class="col-xs-12">-->
+<!--                        <button (click)="onSubmit(form)" class="btn btn-info btn-lg btn-block text-uppercase waves-effect waves-light btn_special"-->
+<!--                            type="submit">-->
+<!--                            Log In-->
+<!--                        </button>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</section>-->
+<section class="login-wrapper">
+  <div class="login-container">
+    <div class="logo-wrapper">
+      <img class="logo-img" src="../../../assets/layout/images/loan.png" alt="">
+    </div>
+    <div class="form-container">
+      <form action="" class="form" [formGroup]="form">
+<!--        <img src="../../../assets/layout/images/ERP%20LOGO.png" alt="">-->
+        <h1 class="login-header">
+          Welcome, Login
+        </h1>
+        <div class="input-wrapper">
+          <label for="username">Username</label>
+          <input type="text" id="username" class="input-control" placeholder="Username" formControlName="userName">
+        </div>
+        <div class="input-wrapper">
+          <label for="password">Password</label>
+          <input type="password" id="password" class="input-control" placeholder="Password" formControlName="password">
+        </div>
+        <button class="input-btn" (click)="onSubmit(form)">Login</button>
+        <div style="margin-top: 5px;">
+          <span>Forgot Password?<a routerLink="/auth/forgot-password" style="color: #303960; text-decoration: none">Click Here</a></span>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

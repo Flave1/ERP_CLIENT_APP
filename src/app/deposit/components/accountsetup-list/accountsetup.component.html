@@ -1,0 +1,362 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Account Name
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="accountName" name="accountName" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Account Type
+                </label>
+                <div class="col-md-4">
+                  <select type="text" name="accountTypeId" formControlName="accountTypeId" class="form-control">
+                    <option value="">-- Select Account Type --</option>
+                    <option *ngFor="let row of accountype" [value]="row.accountTypeId">
+                      {{ row.name }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Dormancy Days
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="dormancyDays" name="dormancyDays" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Initial Deposit
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="initialDeposit" name="initialDeposit" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Category Applicable
+                </label>
+                <div class="col-md-4">
+                  <select type="text" name="categoryId" formControlName="categoryId" id="categoryId"
+                    class="form-control" (change)="getValue($event.target.value)">
+                    <option value="">-- Select Category --</option>
+                    <option *ngFor="let row of category" [value]="row.categoryId">
+                      {{ row.name }}
+                    </option>
+                  </select>
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Interest Rate
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="interestRate" name="interestRate" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <div *ngIf="categoryValue == 2">
+                  <label for="" class="control-label col-md-2">
+                    Business Category
+                  </label>
+                  <div class="col-md-4">
+                    <select type="text" name="businessCategoryId" formControlName="businessCategoryId"
+                      id="businessCategoryId" class="form-control">
+                      <option value="">-- Select Business Category --</option>
+                      <option *ngFor="let row of businessCategory" [value]="row.businessCategoryId">
+                        {{ row.name }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <!-- <label for="" class="control-label col-md-2">
+                  GL Mapping
+                </label>
+                <div class="col-md-4">
+                  <p-dropdown [options]="glArr" formControlName="gLMapping" placeholder="Select an item" [filter]="true"
+                    [filterBy]="'label'" [style]="{ width: '100%' }">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{ item.label }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Bank GL
+                </label>
+                <div class="col-md-4">
+                  <p-dropdown [options]="glArr" placeholder="Select an item" formControlName="bankGl" [filter]="true"
+                    [filterBy]="'label'" [style]="{ width: '100%' }">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                        }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div> -->
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Interest Type
+                </label>
+                <div class="col-md-4">
+                  <select type="text" name="interestType" formControlName="interestType" id="interestType"
+                    class="form-control">
+                    <option value="">-- Select Interest Type --</option>
+                    <option value="Simple">Simple</option>
+                    <option value="Compound">Compound</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="" class="control-label col-md-2">
+                    Currency
+                  </label>
+                  <div class="col-md-4">
+                    <select type="text" name="currencyId" formControlName="currencyId" id="currencyId"
+                      class="form-control">
+                      <option value="">-- Select Currency --</option>
+                      <option *ngFor="let row of currency" [value]="row.lookupId">
+                        {{ row.lookupName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Maturity Type
+                </label>
+                <div class="col-md-4">
+                  <select type="text" name="maturityType" formControlName="maturityType" id="maturityType"
+                    class="form-control">
+                    <option value="">-- Select Maturity Type --</option>
+                    <option value="Fixed">Fixed</option>
+                    <option value="Rolling">Rolling</option>
+                    <option value="Call">Call</option>
+                  </select>
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Applicable Tax
+                </label>
+
+                <div class="col-md-4">
+                  <ng-select [items]="tax" bindValue="value" bindLabel="label"
+                             formControlName="applicableTaxId" [multiple]="true" [closeOnSelect]="false">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                      <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"
+                             [ngModelOptions]="{standalone: true}" /> {{item.label}}
+                    </ng-template>
+                  </ng-select>
+<!--                  <p-multiSelect [options]="tax" formControlName="applicableTaxId" styleClass="form-control"-->
+<!--                    [panelStyle]="{ minWidth: '22em' }"></p-multiSelect>-->
+                  <!-- <select
+                                        type="text"
+                                        name="applicableTaxId"
+                                        formControlName="applicableTaxId"
+                                        id="applicableTaxId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Tax --</option
+                                        >
+                                        <option
+                                            *ngFor="let row of transactionTax"
+                                            [value]="row.transactionChargeId"
+                                        >
+                                            {{ row.name }}
+                                        </option>
+                                    </select> -->
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Applicable Charges
+                </label>
+                <div class="col-md-4">
+                  <ng-select [items]="charge" bindValue="value" bindLabel="label"
+                             formControlName="applicableChargesId" [multiple]="true" [closeOnSelect]="false">
+                    <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                      <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"
+                             [ngModelOptions]="{standalone: true}" /> {{item.label}}
+                    </ng-template>
+                  </ng-select>
+<!--                  <p-multiSelect [options]="charge" formControlName="applicableChargesId" styleClass="form-control"-->
+<!--                    [panelStyle]="{ minWidth: '22em' }"></p-multiSelect>-->
+                  <!-- <select
+                                        type="text"
+                                        name="applicableChargesId"
+                                        formControlName="applicableChargesId"
+                                        id="applicableChargesId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Charges --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                let row of transactionCharge
+                                            "
+                                            [value]="row.transactionChargeId"
+                                        >
+                                            {{ row.name }}
+                                        </option>
+                                    </select> -->
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Interest Accrual
+                </label>
+                <div class="col-md-4">
+                  <select type="text" name="interestAccrual" formControlName="interestAccrual" id="interestAccrual"
+                    class="form-control">
+                    <option value="">-- Select Interest Accrual --</option>
+                    <option value="1">Day 0</option>
+                    <option value="2">Day 1</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Cancel Prefix
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="cancelPrefix" class="form-control" name="cancelPrefix" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Refund Prefix
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="refundPrefix" class="form-control" name="refundPrefix" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Transaction Prefix
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="transactionPrefix"
+                    name="transactionPrefix" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Norminate Benefactor?
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="checkCanNominateBenefactor" binary="true"
+                    formControlName="canNominateBenefactor" name="canNominateBenefactor" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Preset Chart of Account
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="checkUsePresetChartofAccount" binary="true"
+                    formControlName="usePresetChartofAccount" name="usePresetChartofAccount" />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Operated by Another
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="checkOperatedByAnother" binary="true"
+                    formControlName="operatedByAnother" name="operatedByAnother" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Pre Termination Liquidation Charge ?
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="checkpreTerminationLiquidationCharge" binary="true"
+                    formControlName="preTerminationLiquidationCharge" name="preTerminationLiquidationCharge" />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Status(Active)
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="checkStatus" binary="true" formControlName="status"
+                    name="status" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Use WorkFlow
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="checkUseworkflow" binary="true" formControlName="useworkflow"
+                    name="useworkflow" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Can place on lien
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="checkCanPlaceOnLien" binary="true"
+                    formControlName="canPlaceOnLien" name="canPlaceOnLien" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Cheque Collecting
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="CheckcheckCollecting" binary="true"
+                    formControlName="checkCollecting" name="checkCollecting" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitAccountSetup(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

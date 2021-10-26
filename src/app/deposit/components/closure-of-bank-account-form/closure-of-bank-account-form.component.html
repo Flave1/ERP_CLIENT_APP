@@ -1,0 +1,150 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Account Name
+                </label>
+                <div class="col-md-4">
+                  <select class="form-control" name="accountName" [(ngModel)]="customer"
+                    [ngModelOptions]="{ standalone: true }" (ngModelChange)="getDetails($event)">
+                    <option value="" selected disabled>--Select Customer--</option>
+                    <option *ngFor="let customer of customers" [ngValue]="customer">{{ customer.name }}</option>
+                  </select>
+                </div>
+
+                <label for="" class="control-label col-md-2 pr_0">
+                  Account Number
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="accountNumber" name="accountNumber"
+                    readonly />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Status
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="status" name="status" readonly />
+                </div>
+
+                <label for="" class="control-label col-md-2 pr_0">
+                  Account Balance
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="accountBalance" class="form-control" formControlName="accountBalance"
+                    readonly />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Currency
+                </label>
+                <div class="col-md-4">
+                  <select class="form-control" formControlName="currency" name="currency">
+                    <option *ngFor="let currency of currencies" [value]="currency.lookupId">
+                      {{ currency.lookupName }}</option>
+                  </select>
+                </div>
+
+                <label for="" class="control-label col-md-2 pr_0">
+                  Closing Date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar name="closingDate" class="form-control" formControlName="closingDate"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }" [style]="{
+                      width: '100%',
+                      'z-index': '100'
+                    }"></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Reason for closing account
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="reason" name="reason" />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Charges
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="charges" name="charges" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Final settlement amount
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="finalSettlement" name="finalSettlement" class="form-control" />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Beneficiary
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="beneficiary" name="beneficiary" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Mode of settlement
+                </label>
+                <div class="col-md-4">
+                  <select id="modeOfSettlement" formControlName="modeOfSettlement" class="form-control"
+                    name="modeOfSettlement" (change)="logMethod($event.target.value)">
+                    <option value="0" disabled>--Select Mode of Settlement</option>
+                    <option value="1">Bank Transfer</option>
+                    <option value="2">Cheque Issue</option>
+                    <option value="3">Cash Payment</option>
+                  </select>
+                </div>
+                <div *ngIf="modeOfSettlement === '1'">
+                  <label for="" class="control-label col-md-2">
+                    Settlement Account Number
+                  </label>
+                  <div class="col-md-4">
+                    <input type="text" class="form-control" name="settlementAccountNumber"
+                      formControlName="transferAccount" />
+                  </div>
+                </div>
+              </div>
+              <!--                            <div class="form-group">-->
+              <!--                                -->
+              <!--                            </div>-->
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitAccountClosure(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

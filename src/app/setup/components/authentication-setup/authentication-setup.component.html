@@ -1,0 +1,338 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div class="card no-padding">
+                    <div style="margin-bottom:0" class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                              <strong>Authentication Settings</strong>
+                            </h2>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Dual Authentication
+                          </label>
+                          <div class="col-md-4">
+                            <input type="checkbox" formControlName="shouldAthenticate"
+                              (change)="getValue($event.target.value)" />
+                          </div>
+                          <ng-container>
+                            <label for="module" class="col-md-2 control-label">Module</label>
+                            <div class="col-md-4">
+                              <select name="" id="module" class="form-control" formControlName="module" disabled>
+                                <option value="" selected disabled>--Select Module--</option>
+                                <option value="1">Central</option>
+                                <option value="2">Credit</option>
+                                <option value="3">Purchases and Payables</option>
+                              </select>
+                            </div>
+                          </ng-container>
+                        </div>
+                        <ng-container *ngIf="dualAuthenticate">
+                          <div class="form-group">
+                            <label for="media" class="control-label col-md-2">Media</label>
+                            <div class="col-md-4">
+                              <select name="media" id="media" class="form-control" formControlName="media">
+                                <option value="" selected disabled>--Select media--</option>
+                                <option value="1">SMS</option>
+                                <option value="2">Email</option>
+                              </select>
+                            </div>
+                            <div class="col-md-6">
+                              <table style="width: 100%" class="table" *ngIf="dualAuthenticate">
+                                <thead>
+                                  <tr>
+                                    <!--                   <th></th>-->
+                                    <th class="text-center">Mobile</th>
+                                    <th class="text-center">Web</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <!--                   <td class="text-center">SMS</td>-->
+                                    <td class="text-center">
+                                      <input type="checkbox" formControlName="activeOnMobileApp" />
+                                    </td>
+                                    <td class="text-center">
+                                      <input type="checkbox" formControlName="activeOnWebApp" />
+                                    </td>
+                                  </tr>
+                                  <!--                 <tr>-->
+                                  <!--                   <td class="text-center">Email</td>-->
+                                  <!--                   <td class="text-center"> <input type="checkbox"></td>-->
+                                  <!--                   <td class="text-center"> <input type="checkbox"></td>-->
+                                  <!--                 </tr>-->
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </ng-container>
+                      </div>
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div style="display: none;" class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div class="card no-padding">
+                    <div style="margin-bottom:0" class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                              <strong>Active Directory</strong>
+                            </h2>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+                        <div class="form-horizontal">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="active-directory" class="control-label col-md-2">
+                                  Active Directory
+                                </label>
+                                <div class="col-md-4">
+                                  <input id="active-directory" type="checkbox" formControlName="useActiveDirectory"
+                                    (change)="
+                                      getDirectoryValue($event.target.value)
+                                    " />
+                                </div>
+                                <ng-container *ngIf="show">
+                                  <label for="ldap-url" class="control-label col-md-2">
+                                    LDAP URL
+                                  </label>
+                                  <div class="col-md-4">
+                                    <input type="text" id="ldap-url" class="form-control"
+                                      formControlName="activeDirectory" />
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div class="card no-padding">
+                    <div style="margin-bottom:0" class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                              <strong>Security Setting</strong>
+                            </h2>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+                        <div class="form-horizontal">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="enableLoginFailedLockout" class="control-label col-md-2">
+                                  Enable Login Failed Lockout
+                                </label>
+                                <div class="col-md-4">
+                                  <input id="enableLoginFailedLockout" type="checkbox"
+                                    formControlName="enableLoginFailedLockout" (change)="
+                                      getLockOutValue($event.target.value)
+                                    " />
+                                </div>
+                                <ng-container *ngIf="showLockOut">
+                                  <label for="inActiveSessionTimeout" class="control-label col-md-2">
+                                    Inactive Session Timeout(mins)
+                                  </label>
+                                  <div class="col-md-4">
+                                    <input type="text" id="inActiveSessionTimeout" class="form-control"
+                                      formControlName="inActiveSessionTimeout" />
+                                  </div>
+                                </ng-container>
+                              </div>
+                              <ng-container *ngIf="showLockOut">
+                                <div class="form-group">
+                                  <label for="" class="control-label col-md-2">Number of failed attempts before
+                                    lockout</label>
+                                  <div class="col-md-4">
+                                    <input type="text" class="form-control"
+                                      formControlName="numberOfFailedLoginBeforeLockout" />
+                                  </div>
+                                  <label for="" class="control-label col-md-2">
+                                    Lockout wait (mins)
+                                  </label>
+                                  <div class="col-md-4">
+                                    <input type="text" class="form-control" formControlName="retryTimeInMinutes" />
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label for="passwordUpdateCycle" class="control-label col-md-2">Password update
+                                    cycle(days)</label>
+                                  <div class="col-md-4">
+                                    <input type="text" id="passwordUpdateCycle" formControlName="passwordUpdateCycle"
+                                      class="form-control" />
+                                  </div>
+                                  <label for="shouldRetryAfterLockoutEnabled" class="control-label col-md-2">Enable
+                                    Retry after lockout</label>
+                                  <div class="col-md-4">
+                                    <input type="checkbox" id="shouldRetryAfterLockoutEnabled"
+                                      formControlName="shouldRetryAfterLockoutEnabled" />
+                                  </div>
+                                </div>
+                              </ng-container>
+                              <ng-container *ngIf="showLockOut">
+                                <div class="form-group">
+                                  <div *ngIf="moduleId == 1">
+                                    <label class="control-label col-md-2">Enable Retry</label>
+                                  </div>
+                                  <div *ngIf="moduleId > 1">
+                                    <label class="control-label col-md-2">Enable Retry on Web App</label>
+                                  </div>                                 
+                                  <div class="col-md-4">
+                                    <input type="checkbox" formControlName="enableRetryOnWebApp" />
+                                  </div>                                  
+                                  <div *ngIf="moduleId > 1">
+                                    <label for="" class="control-label col-md-2">Enable Retry on Mobile App</label>
+                                  <div class="col-md-4">
+                                    <input type="checkbox" formControlName="enableRetryOnMobileApp" />
+                                  </div>
+                                  </div>
+                                  
+                                </div>
+                                <div class="form-group">
+                                  <div *ngIf="moduleId > 1">
+                                    <label for="" class="control-label col-md-2">Security setting active on mobile
+                                      app</label>
+                                    <div class="col-md-4">
+                                      <input type="checkbox" formControlName="securitySettingActiveOnMobileApp">
+                                    </div>
+                                  </div>
+                                  <label for="" class="control-label col-md-2">Security setting active on web
+                                    app</label>
+                                  <div class="col-md-4">
+                                    <input type="checkbox" formControlName="securitySettingsActiveOnWebApp">
+                                  </div>
+                                </div>
+                              </ng-container>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div class="card no-padding">
+                    <div style="margin-bottom:0" class="panel panel-default">
+                      <!-- <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                              <strong>Load Balancing</strong>
+                            </h2>
+                          </div>
+                        </div>
+                      </div> -->
+
+                      <!-- <div class="panel-body">
+                        <div class="form-horizontal">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div class="form-group">
+                                <label for="enableLoadBalance" class="control-label col-md-2">
+                                  Enable Load Balance
+                                </label>
+                                <div class="col-md-4">
+                                  <input id="enableLoadBalance" type="checkbox" formControlName="enableLoadBalance"
+                                    (change)="
+                                      getLoadBalanceValue()
+                                    " />
+                                </div>
+                                <ng-container *ngIf="showLoadBalance">
+                                  <label for="loadBalanceInHours" class="control-label col-md-2">
+                                    Load Balance(Hours)
+                                  </label>
+                                  <div class="col-md-4">
+                                    <input type="text" id="loadBalanceInHours" class="form-control"
+                                      formControlName="loadBalanceInHours" />
+                                  </div>
+                                </ng-container>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div> -->
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" class="btn btn-primary pull-right"
+                (click)="submitInfo(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

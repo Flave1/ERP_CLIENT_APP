@@ -1,0 +1,178 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">Retirement List</h2>
+
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-danger"
+                (click)="multipleDelete()"
+                icon="ui-icon-delete"
+                iconPos="center"
+                pTooltip="Delete"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="showAddNew()"
+                icon="ui-icon-plus"
+                iconPos="center"
+                pTooltip="Add"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="exportItems()"
+                icon="ui-icon-file-download"
+                pTooltip="Download"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+            </div> 
+            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+              <input
+                style="height: 35px"
+                class="form-control"
+                type="file"
+                (change)="handleFileInput($event.target.files)"
+                id="file1"
+                accept=".xls,.xlsx"
+                #fileInput
+                name="fileInput"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="retirements"
+            dataKey="retirementId"
+            [(selection)]="selectedItem"
+            [paginator]="false"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <div>
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control filter-input"
+                  placeholder="Search..."
+                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'erNnumber'">ERN Number</th>
+                <th [pSortableColumn]="'totalAmountApproved'">Total Amount Approved</th>
+                <th pSortableColumn="requisitionDate">Requisition Date</th>
+                <th pSortableColumn="retirementDate">Retirement Date</th>
+                <th [pSortableColumn]="'description'">Description</th>
+                <th [pSortableColumn]="'amountUsed'">Amount Used</th>
+
+                <th [pSortableColumn]="'balance'">Balance</th>
+                <th [pSortableColumn]="'status'">Status</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link">{{ i + 1 }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.erNumber
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.totalAmountApproved | number: '1.2-2'
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.requisitionDate | date
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.retirementDate | date
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.description
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.amountUsed
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.balance
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{ x.status }}</a>
+                </td>
+              
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"> 
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

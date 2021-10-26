@@ -1,0 +1,99 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                Account Name
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="operatingAccountName" name="operatingAccountName" class="form-control" />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Initial Deposit
+                  </label>
+                  <div class="col-md-4">
+                    <input type="text" formControlName="initialDeposit" name="initialDeposit" class="form-control" />
+                  </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  CASA GL
+              </label>
+              <div class="col-md-4">
+                <select
+                    type="text"
+                    name="cashAndBankGL"
+                    formControlName="cashAndBankGL"
+                    id="cashAndBankGL"
+                    class="form-control"
+                >
+                <option
+                *ngFor="let row of accountList"
+                [value]="row.subGLId"
+            >
+                {{ row.subGLFullName }}
+            </option>
+                </select>
+            </div>
+              <label for="" class="control-label col-md-2">                
+                Cash & Bank GL
+               
+              </label>
+              <div class="col-md-4">
+                <select
+                    type="text"
+                    name="casaGL"
+                    formControlName="casaGL"
+                    id="casaGL"
+                    class="form-control"
+                >
+                <option
+                *ngFor="let row of accountList"
+                [value]="row.subGLId"
+            >
+                {{ row.subGLFullName }}
+            </option>
+                </select>
+            </div> 
+              
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Use this Account
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" [(ngModel)]="checkedinUse" binary="true" formControlName="inUse" name="inUse"/>
+                </div>
+              </div>
+              </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitOperatingAccount(form)">
+                Save
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

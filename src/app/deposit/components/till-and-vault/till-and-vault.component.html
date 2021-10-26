@@ -1,0 +1,139 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Currency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    formControlName="currency"
+                    name="currency"
+                  >
+                    <option
+                      *ngFor="let currency of currencies"
+                      [value]="currency.currencyId"
+                    >{{ currency.currencyName }}</option
+                    >
+                  </select>
+                </div>
+
+                <label for="" class="control-label col-md-2 pr_0">
+                  Opening Balance
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="openingBalance"
+                    formControlName="openingBalance"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Incoming Cash
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="incomingCash"
+                    formControlName="incomingCash"
+                  />
+                </div>
+
+                <label for="" class="control-label col-md-2 pr_0">
+                  Outgoing Cash
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="outgoingCash"
+                    class="form-control"
+                    formControlName="outgoingCash"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Cash Available
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="cashAvailable"
+                    name="cashAvailable"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Closing Balance
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="closingBalance"
+                    name="closingBalance"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                 Shortages
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="shortage"
+                    name="shortage"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitTransactionCorrection(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

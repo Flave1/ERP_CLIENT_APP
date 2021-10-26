@@ -1,0 +1,94 @@
+<form novalidate [formGroup]="bankDetailsForm">
+  <div class="panel-body">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="" class="control-label col-md-2"> Bank Name </label>
+        <div class="col-md-4">
+          <select
+            type="text"
+            name="bank"
+            formControlName="bank"
+            id="bank"
+            class="form-control"
+          >
+            <option value="">-- Select Bank --</option>
+            <option
+              *ngFor="let bank of banks"
+              value="{{ bank.bankCode }}-{{
+                    bank.bankName.split(' ')[0].toUpperCase()
+                  }}"
+            >
+              {{ bank.bankName }}
+            </option>
+<!--            <option value="044-ACCESS">ACCESS</option>-->
+<!--            <option value="050-ECOBANK">ECOBANK</option>-->
+<!--            <option value="232-STERLING">STERLING</option>-->
+<!--            <option value="057-ZENITH">ZENITH</option>-->
+<!--            <option value="214-FCMB">FCMB</option>-->
+<!--            <option value="076-POLARIS">POLARIS</option>-->
+<!--            <option value="011-FIRSTBANK">FIRST BANK</option>-->
+<!--            <option value="070-FIDELITY">FIDELITY</option>-->
+<!--            <option value="221-STANBIC">STANBIC-IBTC</option>-->
+<!--            <option value="035-WEMA">WEMA</option>-->
+<!--            <option value="063-DIAMOND">DIAMOND</option>-->
+<!--            <option value="058-GTB">GTB</option>-->
+<!--            <option value="032-UNION">UNION</option>-->
+<!--            <option value="082-KEYSTONE">KEYSTONE</option>-->
+<!--            <option value="033-UBA">UBA</option>-->
+          </select>
+          <!-- <input
+            type="text"
+            formControlName="bank"
+            name="bank"
+            class="form-control"
+          /> -->
+        </div>
+        <label for="" class="control-label col-md-2">
+          Account Number
+        </label>
+        <div class="col-md-4">
+          <input
+            type="text"
+            formControlName="account"
+            name="account"
+            class="form-control"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="" class="control-label col-md-2"> BVN </label>
+        <div class="col-md-4">
+          <input
+            type="text"
+            formControlName="bvn"
+            name="bvn"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-md-12">
+        <button
+          type="submit"
+          [disabled]="bankDetailsForm.invalid"
+          (click)="submitLoanCustomerBankDetails(bankDetailsForm)"
+          class="btn btn-success pull-right"
+        >
+          Save
+        </button>
+        <button
+          type="button"
+          (click)="closeBankModal(false)"
+          style="margin-right: 5px"
+          class="btn btn-danger pull-right"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

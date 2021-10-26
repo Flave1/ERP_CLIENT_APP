@@ -1,0 +1,110 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Selling Rate
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="sellingRate"
+                    name="sellingRate"
+                    class="form-control"
+                  />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Buying Rate
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="buyingRate"
+                    name="buyingRate"
+                    class="form-control"
+                  />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Currency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="currencyId"
+                    formControlName="currencyId"
+                    id="currencyId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Currency --</option>
+                    <option
+                      *ngFor="let row of currencyList"
+                      [value]="row.lookupId"
+                    >
+                      {{ row.lookupName}}</option
+                    >
+                  </select>
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar
+                    id="date"
+                    class="form-control"
+                    formControlName="date"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{ width: '100%', 'z-index': '999' }"
+                  ></p-calendar>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitCurrencyRateInfo(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

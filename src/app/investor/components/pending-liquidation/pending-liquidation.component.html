@@ -1,0 +1,81 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Pending Liquidations
+            </h2>
+
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+              #dt
+              [value]="investments"
+              [columns]="cols"
+              dataKey="loanApplicationId"
+              selectionMode="single"
+              [(selection)]="selectedInvestment"
+              [paginator]="false"
+              [scrollable]="true"
+              [scrollHeight]="viewHeight"
+              [responsive]="true"
+              (onRowSelect)="selectRow($event)"
+          >
+            <ng-template pTemplate="caption">
+              <div
+                style="display:flex; justify-content: space-between"
+              >
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search..."
+                  (keyup)="
+                                        dt.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                  style="width:auto"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr >
+                <!--                                <th class="checkbox_row">S/N</th>-->
+                <th class="special_width">Request Date</th>
+                <th class="special_width">Effective Date</th>
+                <th class="special_width">Ref No</th>
+                <th class="special_width">Customer Name</th>
+                <th class="special_width">Principal Amount</th>
+                <th class="special_width">Amount Payable</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr class="table_row" (click)="selectRow(x)" style="cursor: pointer">
+                <!--                                <td class="checkbox_row">{{ i + 1 }}</td>-->
+                <td class="special_width">{{ x.s_date | date }}</td>
+                <td class="special_width">{{ x.effectiveDate | date }}</td>
+                <td class="special_width">{{ x.refNumber }}</td>
+                <td class="special_width">{{ x.investorName }}</td>
+                <td class="special_width">{{ x.proposedAmount | number: "1.2" }}</td>
+                <td class="special_width">{{ x.amountPayable | number: "1.2" }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

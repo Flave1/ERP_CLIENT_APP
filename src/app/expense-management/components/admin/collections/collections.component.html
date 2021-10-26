@@ -1,0 +1,152 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">Collections</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="collections"
+            dataKey="collectionID"
+            [(selection)]="selectedItem"
+            [paginator]="false"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <div class="filter-flex">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control filter-input"
+                  placeholder="Search..."
+                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'ernNumber'">ERN Number</th>
+                <th [pSortableColumn]="'refundExpected'">Refund Expected</th>
+                <th pSortableColumn="requisitionDate">Requisition Date</th>
+                <th pSortableColumn="requisitionDate">Retirement Date</th>
+                <th [pSortableColumn]="'description'">  Description </th>
+                <th [pSortableColumn]="'modeOfRefundName'">  Mode of Refund </th>
+                <th [pSortableColumn]="'status'">  Status </th>  
+                <th> Action </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link">{{ i + 1 }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.ernNumber }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.refundExpected  | number: "1.2-2"}}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.requisitionDate  | date }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.retirementDate  | date }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.description }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.modeOfRefundName }}</a>
+                </td> 
+                <td>
+                  <a class="table_link">{{ x.status }}</a>
+                </td>
+                <td>
+                  <button
+                    pButton
+                    label="Confirm Refund"
+                    class="ui-button-success"
+                    (click)="confirmRefund(x.collectionID)"
+                  ></button>
+                </td>
+                <!--                                <td><a class="table_link"-->
+                <!--                                       (click)="editProduct(x)">{{ x.paymentTypeName }}</a></td>-->
+                <!--                                <td><a class="table_link"-->
+                <!--                                       (click)="editProduct(x)">{{ x.rate }}</a></td>-->
+                <!--                                <td>-->
+                <!--                                    <a (click)="editProduct(x)">Edit</a>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <a (click)="deleteProduct(x)">Delete</a>-->
+                <!--                                </td>-->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                label="Next"></button>
+            <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                label="Previous"></button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+  
+  width="800" 
+>
+  <div style="margin-bottom: 0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Select Bank</h2>
+    </div>
+    <!-- showEffect="fade" -->
+    <!-- [selected]="fade"  -->
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="bankSelected" class="control-label col-md-2">Bank</label>
+          <select   id="bankSelected" class="form-control" (change)="confirm($event.target.value)">
+            <option value="" [value]="0" [disabled]="true">
+              --Select Bank--
+            </option>
+            <option *ngFor="let item of bankGls" [value]="item.bankGlId">
+              {{ item.bankName }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+
+    </div>
+  </div>
+</p-dialog>

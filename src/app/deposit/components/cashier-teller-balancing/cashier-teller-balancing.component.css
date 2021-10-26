@@ -1,0 +1,23 @@
+.page-flex {
+  display: flex;
+  justify-content: space-between;
+}
+.employee-details {
+  flex-basis: 40%;
+  border: 1px solid #ddd;
+  margin-right: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  color: #777777;
+}
+.detail-div {
+  margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+}
+.employee-details-span {
+  /*margin-right: 40px;*/
+  font-weight: bold;
+}

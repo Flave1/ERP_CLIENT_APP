@@ -1,0 +1,410 @@
+<div class="ui-g dashboard dashboard_container">
+    <div class="dashboard_header">
+        <div
+            class="dashboard_header_content blue_grey_bg cursor_pointer"
+            (click)="startLoanApplication()"
+        >
+            <div>
+                <i class="fa fa-bank icon_font"></i>
+            </div>
+            <div class="dashboard_header_content_flex">
+                <h4 class="topbar_header">{{loanApplicationDetails?.totalLoanApplication}}</h4>
+                <span>Applications</span>
+            </div>
+        </div>
+        <div
+            class="dashboard_header_content tomato_bg cursor_pointer"
+            (click)="loanAppraisal()"
+        >
+            <div>
+                <i class="fa fa-calendar icon_font"></i>
+            </div>
+            <div class="dashboard_header_content_flex">
+                <h4 class="topbar_header">{{loanApplicationDetails?.totalAappraisalLoan}}</h4>
+                <span>Appraisals</span>
+            </div>
+        </div>
+        <div
+            class="dashboard_header_content blue_grey_bg cursor_pointer"
+            (click)="openLoanManagement()"
+        >
+            <div>
+                <i class="fa fa-truck icon_font"></i>
+            </div>
+            <div class="dashboard_header_content_flex">
+                <h4 class="topbar_header">{{loanApplicationDetails?.totalDisbursementLoan}}</h4>
+                <span>Disbursement</span>
+            </div>
+        </div>
+        <div class="dashboard_header_content teal_bg cursor_pointer" (click)="openPaymentsDue()">
+            <div>
+                <i class="fa fa-check icon_font"></i>
+            </div>
+            <div class="dashboard_header_content_flex">
+                <h4 class="topbar_header">{{loanApplicationDetails?.totalPaymentDue}}</h4>
+                <span>Payments Due</span>
+            </div>
+        </div>
+        <div class="dashboard_header_content blue_grey_bg cursor_pointer" (click)="openOverdue()">
+            <div>
+                <i class="fa fa-mobile icon_font"></i>
+            </div>
+            <div class="dashboard_header_content_flex">
+                <h4 class="topbar_header">{{loanApplicationDetails?.totalOverDue}}</h4>
+                <span>Overdue</span>
+            </div>
+        </div>
+    </div>
+    <div class="dashboard_mid_section">
+        <div class="box box_1 loan_calc_wrapper">
+            <div class="loan_calc_container calc_wrapper mb_5">
+                <h3 class="section_header">Loan Calculator</h3>
+               <div class="input_container">
+                   <div>
+                       <div class="mr_3">
+                           <label for="product" class="dash_label">Product</label>
+                           <select name="loanProducts" id="product" class="form-control mb_10"
+                                   [(ngModel)]="selectLoanProduct" (ngModelChange)="selectedProduct($event)">
+                               <option value="0" disabled>-- Select Product --</option>
+                               <option *ngFor="let prod of productInformation" [ngValue]="prod"
+                               >{{prod.productName}}</option>
+                           </select>
+                       </div>
+                       <div class="mr_3">
+                           <label for="loanAmount" class="dash_label">Amount</label>
+                           <input
+                               type="text"
+                               class="form-control mb_10"
+                               placeholder="Loan Amount"
+                               [(ngModel)]="loanAmount"
+                               id="loanAmount"
+                           />
+                       </div>
+                   </div>
+                   <div>
+                       <div>
+                           <label for="interest" class="dash_label">Interest(P/A)</label>
+                           <input
+                               type="text"
+                               class="form-control mb_10"
+                               placeholder="Interest"
+                               [(ngModel)]="interest"
+                               id="interest"
+                           />
+                       </div>
+                       <div>
+                           <label for="loantenor" class="dash_label">Tenor <span *ngIf="frequencyName">({{frequencyName}})</span></label>
+                           <input
+                               type="text"
+                               class="form-control"
+                               placeholder="Loan Tenor"
+                               id="loantenor"
+                               [(ngModel)]="tenor"
+                           />
+                       </div>
+                   </div>
+               </div>
+                <div class="calc_div">
+                    <button class="calc_btn" (click)="calculatePayment()">Calculate</button>
+                </div>
+              <h2 style="font-size: 18px">Payment: {{payment | number: '.2-2'}}</h2>
+            </div>
+<!--            <div class="loan_calc_container calc_wrapper calc_wrapper_2">-->
+<!--                <h3 class="section_header">Eligibility Calculator</h3>-->
+<!--                <div class="select_flex">-->
+<!--                    <div class="form-group select_form">-->
+<!--                        &lt;!&ndash;                           <label for="products">Select Product</label>&ndash;&gt;-->
+<!--                        <select-->
+<!--                            name="products"-->
+<!--                            id="products"-->
+<!--                            class="form-control"-->
+<!--                            [(ngModel)]="productId"-->
+<!--                        >-->
+<!--                            <option value="0"  disabled-->
+<!--                            >&#45;&#45; Select Product Type &#45;&#45;</option-->
+<!--                            >-->
+<!--                            <option-->
+<!--                                *ngFor="let product of productInformation"-->
+<!--                                [value]="product.productId"-->
+<!--                            >{{ product.productName }}</option-->
+<!--                            >-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                    <div class="form-group select_form">-->
+<!--                        <select-->
+<!--                            type="text"-->
+<!--                            name="customerTypeId"-->
+<!--                            [(ngModel)]="customerTypeId"-->
+<!--                            id="customerTypeId"-->
+<!--                            class="form-control"-->
+<!--                            (change)="getLoanApplicationId()"-->
+<!--                        >-->
+<!--                            <option value="0" disabled>&#45;&#45; Select Customer Type &#45;&#45;</option-->
+<!--                            >-->
+<!--                            <option value="1">Individual</option>-->
+<!--                            <option value="2">Cooperate</option>-->
+<!--                        </select>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--&lt;!&ndash;                <div class="calc_div">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button class="calc_btn" (click)="beginEligibilityCalculation()">Begin</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--            </div>-->
+        </div>
+        <div class="box box_1 loan_calc_wrapper">
+            <div class="quick_links_wrapper calc_wrapper mb_5" style="height: 275px;">
+                <h3 class="section_header">Quick Links</h3>
+                <div class="quick_links_container">
+                    <div
+                        title="Initiate New Loan"
+                        (click)="initiateLoan()"
+                        class="quick_link_icon_div"
+                    >
+                        <img
+                            src="../../../assets/layout/images/dashboard/start_loan.svg"
+                            class="quick_link_icon"
+                            alt="Initiate New Loan"
+                        />
+                    </div>
+                    <div
+                        title="Loan Appraisal"
+                        (click)="loanAppraisal()"
+                        class="quick_link_icon_div"
+                    >
+                        <img
+                            src="../../../assets/layout/images/dashboard/loan_appra.jpg"
+                            class="quick_link_icon"
+                            alt="Loan Appraisal"
+                        />
+                    </div>
+                    <div
+                        title="Pending Loan Applications"
+                        (click)="loanBooking()"
+                        class="quick_link_icon_div"
+                        style="position: relative"
+                    >
+                        <img
+                            src="../../../assets/layout/images/dashboard/loan_approv.png"
+                            class="quick_link_icon"
+                            alt="Loan Approval"
+                        />
+                      <span class="abs_span" *ngIf="loanApplicationDetails">{{loanApplicationDetails?.totalLoanApplicationWebsite}}</span>
+                    </div>
+                    <div
+                        title="Loan Status"
+                        (click)="loanStatus()"
+                        class="quick_link_icon_div"
+                    >
+                        <img
+                            src="../../../assets/layout/images/dashboard/loan_stat.png"
+                            class="quick_link_icon"
+                            alt="Loan Status"
+                        />
+                    </div>
+                    <div
+                        title="Loan Management"
+                        (click)="loanManagement()"
+                        class="quick_link_icon_div"
+                    >
+                        <img
+                            src="../../../assets/layout/images/dashboard/loan_mgt.png"
+                            class="quick_link_icon"
+                            alt="Loan Management"
+                        />
+                    </div>
+                    <div
+                        title="Collateral Management"
+                        (click)="collateralManagement()"
+                        class="quick_link_icon_div"
+                    >
+                        <img
+                            src="../../../assets/layout/images/dashboard/collateral.png"
+                            class="quick_link_icon"
+                            alt="Collateral Management"
+                        />
+                    </div>
+                </div>
+            </div>
+            <div class="calc_wrapper" style="background: #fff;" >
+                <h3 class="section_header">Loan Staging</h3>
+                <p-chart
+                    type="doughnut"
+                    [data]="loanStagingChartData"
+                    [height]="loanStagingHeight"
+                    [options]="options"
+                ></p-chart>
+            </div>
+        </div>
+        <div class="box box_2">
+            <h3 class="section_header" style="margin-top: 8px;">Loan Performance Metrics</h3>
+            <p-chart type="line" [data]="data" [height]="height"></p-chart>
+        </div>
+    </div>
+    <div class="chart_section">
+        <div class="box box_1">
+            <h3 class="section_header" style="margin-top: 8px;">Overdue Information</h3>
+            <p-chart
+                type="doughnut"
+                [data]="overdueChartData"
+                [height]="height"
+            ></p-chart>
+            <div class="total_provisioning">
+                Total Provisioning: <span>{{ provisioning }}</span>
+            </div>
+        </div>
+        <div class="box box_2">
+            <h3 class="section_header" style="margin-top: 8px;">PAR</h3>
+            <p-chart
+                type="bar"
+                [data]="barChartData"
+                [height]="height"
+            ></p-chart>
+        </div>
+
+        <div class="box box_1">
+            <h3 class="section_header" style="margin-top: 8px;">Loan Concentration</h3>
+            <p-chart
+                type="doughnut"
+                [data]="doughnutChartData"
+                [height]="height"
+                [options]="options"
+            ></p-chart>
+        </div>
+<!--        <div class="box box_1">-->
+<!--            <div class="loan_calc_container">-->
+<!--                <h3 class="section_header">Loan Calculator</h3>-->
+<!--                <div>-->
+<!--                    -->
+<!--                    <select name="loanProducts" id="" class="form-control mb_10"-->
+<!--                            [(ngModel)]="selectLoanProduct" (ngModelChange)="selectedProduct($event)">-->
+<!--                        <option value="0" disabled>&#45;&#45; Select Product &#45;&#45;</option>-->
+<!--                        <option *ngFor="let prod of productInformation" [ngValue]="prod"-->
+<!--                        >{{prod.productName}}</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <label>Amount</label>-->
+<!--                    <input-->
+<!--                        type="text"-->
+<!--                        class="form-control mb_10"-->
+<!--                        placeholder="Loan Amount"-->
+<!--                        [(ngModel)]="loanAmount"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <label>Interest</label>-->
+<!--                    <input-->
+<!--                        type="text"-->
+<!--                        class="form-control mb_10"-->
+<!--                        placeholder="Interest"-->
+<!--                        [(ngModel)]="interest"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <div>-->
+<!--                    <label>Tenor</label>-->
+<!--                    <input-->
+<!--                        type="text"-->
+<!--                        class="form-control"-->
+<!--                        placeholder="Loan Tenor"-->
+<!--                        [(ngModel)]="tenor"-->
+<!--                    />-->
+<!--                </div>-->
+<!--                <h2>Payment: {{payment}}</h2>-->
+<!--                <div class="calc_div">-->
+<!--                    <button class="calc_btn" (click)="calculatePayment()">Calculate</button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+    </div>
+<!--    <div class="chart_section">-->
+<!--        <div class="box box_2">-->
+<!--            <h3 class="section_header">Loan Staging</h3>-->
+<!--            <p-chart-->
+<!--                type="bar"-->
+<!--                [data]="loanStagingChartData"-->
+<!--                [height]="height"-->
+<!--            ></p-chart>-->
+<!--        </div>-->
+<!--        <div class="box box_2">-->
+<!--            <h3 class="section_header">Loan Concentration</h3>-->
+<!--            <p-chart-->
+<!--                type="doughnut"-->
+<!--                [data]="doughnutChartData"-->
+<!--                [height]="height"-->
+<!--            ></p-chart>-->
+<!--        </div>-->
+<!--&lt;!&ndash;        <div class="box box_1">&ndash;&gt;-->
+<!--&lt;!&ndash;            <div class="loan_calc_container">&ndash;&gt;-->
+<!--&lt;!&ndash;                <h3 class="section_header">Eligibility Calculator</h3>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="select_flex">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="form-group select_form">&ndash;&gt;-->
+<!--&lt;!&ndash;                        &lt;!&ndash;                           <label for="products">Select Product</label>&ndash;&gt;&ndash;&gt;-->
+<!--&lt;!&ndash;                        <select&ndash;&gt;-->
+<!--&lt;!&ndash;                            name="products"&ndash;&gt;-->
+<!--&lt;!&ndash;                            id="products"&ndash;&gt;-->
+<!--&lt;!&ndash;                            class="form-control"&ndash;&gt;-->
+<!--&lt;!&ndash;                            [(ngModel)]="productId"&ndash;&gt;-->
+<!--&lt;!&ndash;                        >&ndash;&gt;-->
+<!--&lt;!&ndash;                            <option value="0"  disabled&ndash;&gt;-->
+<!--&lt;!&ndash;                                >&#45;&#45; Select Product Type &#45;&#45;</option&ndash;&gt;-->
+<!--&lt;!&ndash;                            >&ndash;&gt;-->
+<!--&lt;!&ndash;                            <option&ndash;&gt;-->
+<!--&lt;!&ndash;                                *ngFor="let product of productInformation"&ndash;&gt;-->
+<!--&lt;!&ndash;                                [value]="product.productId"&ndash;&gt;-->
+<!--&lt;!&ndash;                                >{{ product.productName }}</option&ndash;&gt;-->
+<!--&lt;!&ndash;                            >&ndash;&gt;-->
+<!--&lt;!&ndash;                        </select>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                    <div class="form-group select_form">&ndash;&gt;-->
+<!--&lt;!&ndash;                        <select&ndash;&gt;-->
+<!--&lt;!&ndash;                            type="text"&ndash;&gt;-->
+<!--&lt;!&ndash;                            name="customerTypeId"&ndash;&gt;-->
+<!--&lt;!&ndash;                            [(ngModel)]="customerTypeId"&ndash;&gt;-->
+<!--&lt;!&ndash;                            id="customerTypeId"&ndash;&gt;-->
+<!--&lt;!&ndash;                            class="form-control"&ndash;&gt;-->
+<!--&lt;!&ndash;                        >&ndash;&gt;-->
+<!--&lt;!&ndash;                            <option value="0" disabled>&#45;&#45; Select Customer Type &#45;&#45;</option&ndash;&gt;-->
+<!--&lt;!&ndash;                            >&ndash;&gt;-->
+<!--&lt;!&ndash;                            <option value="1">Individual</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                            <option value="2">Cooperate</option>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </select>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;                <div class="calc_div">&ndash;&gt;-->
+<!--&lt;!&ndash;                    <button class="calc_btn" (click)="beginEligibilityCalculation()">Begin</button>&ndash;&gt;-->
+<!--&lt;!&ndash;                </div>&ndash;&gt;-->
+<!--&lt;!&ndash;            </div>&ndash;&gt;-->
+<!--&lt;!&ndash;        </div>&ndash;&gt;-->
+<!--    </div>-->
+</div>
+<div>
+    <p-dialog header="Login" [resizable]="false" responsive="true" [(visible)]="displayDialog">
+        <div class="ui-g form-group" style="margin-bottom: 16px;">
+           <div class="form-group">
+               <p-calendar
+                   [yearNavigator]="true"
+                   [showIcon]="true"
+                   yearRange="1900-2100"
+                   placeholder="Date of birth"
+                   [monthNavigator]="true"
+                   [(ngModel)]="dob"
+                   [inputStyle]="{ width: '100%' }"
+                   [style]="{
+                                        width: '100%',
+                                        'z-index': '999'
+                                    }"
+                   class="form-control customer_search_input"
+               ></p-calendar>
+           </div>
+            <div class="form-group">
+
+            </div>
+        </div>
+
+        <p-footer>
+            <div class="ui-dialog-buttonpane ui-helper-clearfix">
+                <button type="button" label="Login" icon="ui-icon-person" (click)="dialogVisible=false" pButton></button>
+            </div>
+        </p-footer>
+    </p-dialog>
+</div>

@@ -1,0 +1,184 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="bank" class="control-label col-md-2">
+                  Bank Name
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    id="bank"
+                    name="accountTypeName"
+                    class="form-control"
+                    formControlName="bankName"
+                  />
+                </div>
+
+                <label for="accountNumber" class="control-label col-md-2">
+                  Account Number
+                </label>
+                <div class="col-md-4">
+                  <input type="text" id="accountNumber" formControlName="accountNumber" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="bvn" class="col-md-2 control-label">BVN</label>
+                <div class="col-md-4">
+                  <input type="text" id="bvn" formControlName="bvn" class="form-control" />
+                </div>
+                <label for="country" class="control-label col-md-2"
+                  >Country</label
+                >
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="countryArr"
+                    placeholder="Select country"
+                    name="lpoNumber"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="country"
+                    formControlName="countryId"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="currency" class="col-md-2 control-label"
+                  >Currency</label
+                >
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="currencyArr"
+                    placeholder="Select currency"
+                    name="lpoNumber"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="currency"
+                    formControlName="currencyId"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+                <label for="subGl" class="col-md-2 control-label">Sub GL</label>
+                <div class="col-md-4">
+                  <p-dropdown
+                    [options]="subGlArr"
+                    placeholder="Select sub GL"
+                    name="lpoNumber"
+                    [filter]="true"
+                    [filterBy]="'label'"
+                    [style]="{ width: '100%' }"
+                    id="subGl"
+                    formControlName="subGl"
+                  >
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div
+                        class="ui-helper-clearfix"
+                        style="position: relative;height: 25px;"
+                      >
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="bankCode" class="control-label col-md-2">Bank Code</label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="bankCode" class="form-control" id="bankCode">
+                </div>
+                <label for="address" class="control-label col-md-2"
+                  >Address</label
+                >
+                <div class="col-md-4">
+                  <textarea
+                    name=""
+                    id="address"
+                    class="form-control"
+                    style="resize: none"
+                    formControlName="address"
+                  ></textarea>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="addBank(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

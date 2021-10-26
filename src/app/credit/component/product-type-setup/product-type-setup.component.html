@@ -1,0 +1,93 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <div class="form-group">
+                                <label for="name" class="control-label col-md-2"
+                                    >Product Name</label
+                                >
+                                <div class="col-md-4">
+                                    <input
+                                        type="text"
+                                        name="productTypeName"
+                                        formControlName="productTypeName"
+                                        id="name"
+                                        class="form-control"
+                                    />
+                                </div>
+<!--                                <label-->
+<!--                                    for="description"-->
+<!--                                    class="control-label col-md-2 pr_0"-->
+<!--                                >-->
+<!--                                    Require Principal GL?-->
+<!--                                </label>-->
+<!--                                <div class="col-md-4">-->
+<!--                                    <input-->
+<!--                                        type="checkbox"-->
+<!--                                        formControlName="requirePrincipalGL"-->
+<!--                                        name="requirePrincipalGL"-->
+<!--                                        id="description"-->
+<!--                                    />-->
+<!--                                </div>-->
+                            </div>
+<!--                            <div class="form-group">-->
+<!--                                <label for="" class="control-label col-md-2 pr_0">-->
+<!--                                    Require Income/Expense GL?-->
+<!--                                </label>-->
+<!--                                <div class="col-md-4">-->
+<!--                                    <input-->
+<!--                                        type="checkbox"-->
+<!--                                        name="requireInterestIncomeExpenseGL"-->
+<!--                                        id=""-->
+<!--                                        formControlName="requireInterestIncomeExpenseGL"-->
+<!--                                    />-->
+<!--                                </div>-->
+<!--                                <label for="" class="control-label col-md-2 pr_0">-->
+<!--                                    Require Interest Receivable/Payable GL?-->
+<!--                                </label>-->
+<!--                                <div class="col-md-4">-->
+<!--                                    <input-->
+<!--                                        type="checkbox"-->
+<!--                                        name="requireInterestReceivablePayableGL"-->
+<!--                                        id=""-->
+<!--                                        formControlName="requireInterestReceivablePayableGL"-->
+<!--                                    />-->
+<!--                                </div>-->
+<!--                            </div>-->
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                [disabled]="!form.valid"
+                                class="btn btn-primary pull-right"
+                                (click)="submitProductInfo(form)"
+                            >
+                                Save
+                            </button>
+                                                        <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="back()">
+                                                            Close
+                                                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

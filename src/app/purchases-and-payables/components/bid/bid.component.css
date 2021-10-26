@@ -1,0 +1,23 @@
+.terms_span {
+  font-size: 12px;
+  padding: 5px 5px 0 5px;
+}
+.pmt-btn {
+  float: right;
+  height: 40px;
+  border: 1px solid #fff;
+  color: #fff;
+  background: #3a7be0;
+  border-radius: 4px;
+}
+
+.pmt-btn:hover {
+  color: #3a7be0;
+  background: #fff;
+  border: 1px solid #3a7be0;
+}
+.flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}

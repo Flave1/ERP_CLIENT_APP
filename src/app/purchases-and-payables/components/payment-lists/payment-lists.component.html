@@ -1,0 +1,292 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Payment Approvals
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <p-tabView [activeIndex]="activeIndex" (onChange)="tabChange($event)">
+              <p-tabPanel header="Payment Awaiting Approvals">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-table [value]="paymentApprovals" [scrollable]="true" [scrollHeight]="viewHeight"
+                             [responsive]="true">
+                      <ng-template pTemplate="caption">
+                        <h4>List of Payments Awaiting Approval</h4>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="sn_width">S/N</th>
+                          <th>Invoice number</th>
+                          <th>LPO Number</th>
+                          <th>Supplier</th>
+                          <th>Location</th>
+                          <th>Description</th>
+                          <th>Amount</th>
+                          <!--                          <th>Total amount outstanding after payment</th>-->
+                          <th>Suggested Bank</th>
+                          <th></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <td>{{x.invoiceNumber}}</td>
+                          <td>{{ x.lpoNumber }}</td>
+                          <td>{{ x.supplier  }}</td>
+                          <td>{{ x.location }}</td>
+                          <td>{{ x.descriptionOfRequest }}</td>
+                          <td>{{ x.amountPayable | number: '1.2-2' }}</td>
+                          <!--                          <td>{{x.paymentOutstanding}}</td>-->
+                          <td>{{x.suggestedBank}}</td>
+                          <td>
+                            <a (click)="viewApprovalDetails(x)">Select</a>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Payment Details" [disabled]="!tabSelected">
+                <div style="margin-bottom:0" class="panel panel-default">
+                  <div class="panel-heading">
+                    <h2 class="panel-title">
+                      Payment Details
+                    </h2>
+                  </div>
+
+                  <div class="panel-body">
+                    <div class="form-horizontal">
+                      <table class="table table-customer-information">
+                        <tbody>
+                        <tr>
+                          <td>
+                            <strong>Supplier:</strong>
+                          </td>
+                          <td>{{ paymentDetails?.supplier }}</td>
+                          <td>
+                            <strong>LPO Number:</strong>
+                          </td>
+                          <td>{{ paymentDetails?.lpoNumber }}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong>Delivery Date:</strong>
+                          </td>
+                          <td>{{ paymentDetails?.expectedDeliveryDate | date }}</td>
+                          <td>
+                            <strong>Amount:</strong>
+                          </td>
+                          <td>
+                            {{
+                              paymentDetails?.amount | number: "1.2-2"
+                            }}
+                          </td>
+
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong>Outstanding Amount</strong>
+                          </td>
+                          <td>
+                            {{
+                              paymentDetails?.paymentOutstanding | number: "1.2-2"
+                            }}
+                          </td>
+                          <td>
+                            <strong>Gross Amount</strong>
+                          </td>
+                          <td>{{paymentDetails?.amountPayable | number: '1.2-2'}}</td>
+                          <!--            <td>-->
+                          <!--              <strong>Address</strong>-->
+                          <!--            </td>-->
+                          <!--            <td>{{ paymentDetails?.address }}</td>-->
+                        </tr>
+                        <br />
+                        <tr>
+                          <td>
+                            <strong>Comment</strong>
+                          </td>
+                          <td>
+                              <textarea class="form-control" [(ngModel)]="paymentDetails.comment" name="comment"
+                                        cols="15" rows="3"></textarea>
+                          </td>
+                          <td>
+                            <strong>Status</strong>
+                          </td>
+                          <td>
+                            <select name="approvalStatusId" id="approvalStatusId" class="form-control"
+                                    [(ngModel)]="paymentDetails.approvalStatusId" [ngClass]="
+                                  !paymentDetails.approvalStatusId
+                                    ? 'required-input'
+                                    : 'valid-input'
+                                ">
+                              <option value="">--- Select Approval ---</option>
+                              <option value="2"> Approve </option>
+                              <option value="3"> Disapprove </option>
+                              <option value="5"> Revert </option>
+                            </select>
+                          </td>
+                        </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="panel-footer">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button type="submit" [disabled]="
+                            !paymentDetails.comment ||
+                            !paymentDetails.approvalStatusId
+                          " (click)="submitApproval(paymentDetails)" class="btn btn-success pull-right">
+                          Save
+                        </button>
+                        <button type="button" (click)="activeIndex = 0" style="margin-right:5px"
+                                class="btn btn-danger pull-right">
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Approval Details" [disabled]="!tabSelected">
+                <app-approval-details [approvalDetails]="approvalDetails"></app-approval-details>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [responsive]="true" [(visible)]="displayApproval" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        LPO Details
+      </h2>
+    </div>
+
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <table class="table table-customer-information">
+          <tbody>
+          <tr>
+            <!--            <td>-->
+            <!--              <strong></strong>-->
+            <!--            </td>-->
+            <!--            <td>{{ paymentDetails?.supplierName }}</td>-->
+            <td>
+              <strong>LPO Number</strong>
+            </td>
+            <td>{{ paymentDetails?.lpoNumber }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Request Date</strong>
+            </td>
+            <td>{{ paymentDetails?.requestDate | date }}</td>
+            <td>
+              <strong>Proposed Amount</strong>
+            </td>
+            <td>{{ paymentDetails?.amountPayable | number: "1.2-2" }}</td>
+          </tr>
+          <tr>
+            <td>
+              <strong>Gross Amount</strong>
+            </td>
+            <td>{{ paymentDetails?.grossAmount | number: "1.2-2" }}</td>
+            <!--            <td>-->
+            <!--              <strong>Address</strong>-->
+            <!--            </td>-->
+            <!--            <td>{{ paymentDetails?.address }}</td>-->
+          </tr>
+          <br />
+          <tr>
+            <td>
+              <strong>Comment</strong>
+            </td>
+            <td>
+                <textarea class="form-control" [(ngModel)]="paymentDetails.comment" name="comment" cols="15"
+                          rows="3"></textarea>
+            </td>
+            <td>
+              <strong>Status</strong>
+            </td>
+            <td>
+              <select name="approvalStatusId" id="approvalStatusId" class="form-control"
+                      (change)="getValue($event.target.value)" [(ngModel)]="paymentDetails.approvalStatusId" [ngClass]="
+                    !paymentDetails.approvalStatusId
+                      ? 'required-input'
+                      : 'valid-input'
+                  ">
+                <option value="">--- Select Approval ---</option>
+                <option value="2"> Approve </option>
+                <option value="3"> Disapprove </option>
+                <option value="5"> Revert </option>
+              </select>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <button type="submit" [disabled]="
+              !paymentDetails.comment || !paymentDetails.approvalStatusId
+            " (click)="submitApproval(paymentDetails)" class="btn btn-success pull-right">
+            Save
+          </button>
+          <button type="button" (click)="displayApproval = false" style="margin-right:5px"
+                  class="btn btn-danger pull-right">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog [responsive]="true" [(visible)]="showDialog" id="modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Revert to staff
+      </h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select name="staff" id="staff" class="form-control" [(ngModel)]="staffId" (change)="dismissDialog()">
+            <option value="" [selected]="true" [disabled]="true">--Select Staff--</option>
+            <option *ngFor="let item of staffs" [value]="item.staffId">{{
+                item.name
+              }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

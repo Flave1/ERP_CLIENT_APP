@@ -1,0 +1,157 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div
+      style="margin-bottom: 0"
+      class="panel panel-default"
+      *ngIf="productFees.length > 0"
+    >
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">Loan Charges/Fees</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="row" style="padding: 0 15px 0 15px">
+          <h6>
+            <strong>Fees Definition for {{ productName }} </strong>
+          </h6>
+          <p-table
+            [value]="productFees"
+            [responsive]="true"
+            editMode="row"
+            dataKey="productFeeId"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>S/N</th>
+                <th>Product Fee Name</th>
+                <th>Fee Amount</th>
+                <th>Payment Type</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Fee Type</th>
+                <th *ngIf="canEditPrivilege" style="width: 12em"></th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-editing="editingMode"
+              let-x
+              let-i="rowIndex"
+            >
+              <tr [pEditableRow]="x">
+                <td>{{ i + 1 }}</td>
+                <td>{{ x.productFeeName }}</td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="x.productAmount"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ x.productAmount | number: "1.2" }}
+                    </ng-template>
+                    <!--                  <td>{{ x.productAmount | number: "1.2" }}</td>-->
+                  </p-cellEditor>
+                </td>
+                <td>{{ x.productPaymentTypeName }}</td>
+                <td>{{ x.feeTypeName }}</td>
+                <td>
+                  <span *ngIf="x.status">Paid</span>
+                  <span *ngIf="!x.status">Not Paid</span>
+                </td>
+                <td>
+                  <span *ngIf="x.isIntegral">Integral Fee</span>
+                  <span *ngIf="!x.isIntegral">Non Integral Fee</span>
+                </td>
+                <td *ngIf="canEditPrivilege && !x.status" style="text-align: center">
+                  <button
+                    *ngIf="!editingMode.includes(x.productFeeId)"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pInitEditableRow
+                    label="Adjust"
+                    class="ui-button-info"
+                    (click)="onRowEditInit(x, i)"
+                  ></button>
+                  <button
+                    *ngIf="editingMode.includes(x.productFeeId)"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pSaveEditableRow
+                    label="Save"
+                    class="ui-button-success"
+                    style="margin-right: 0.5em"
+                    (click)="onRowEditSave(x)"
+                  ></button>
+                  <button
+                    *ngIf="editingMode.includes(x.productFeeId)"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pCancelEditableRow
+                    label="Close"
+                    class="ui-button-danger"
+                    (click)="onRowEditCancel(x, i)"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-body" *ngIf="feeRecommendations.length > 0">
+        <div class="row" style="padding: 0 15px 0 15px">
+          <h6>
+            <strong>Fees Recommendation </strong>
+          </h6>
+          <p-table [value]="feeRecommendations" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="sn_width">S/N</th>
+                <th>Product Fee Name</th>
+                <th>Recommended Fee Amount</th>
+                <th>Created By</th>
+                <th>Created On</th>
+                <!--                <th>Type</th>-->
+                <!--                <th>Status</th>-->
+                <!--                <th>Fee Type</th>-->
+                <!--                <th *ngIf="canEditPrivilege" style="width: 12em"></th>-->
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-editing="editingMode"
+              let-x
+              let-i="rowIndex"
+            >
+              <tr>
+                <td class="sn_width">{{ i + 1 }}</td>
+                <td>{{ x.productFee }}</td>
+                <td>
+                  {{ x.productAmount | number: "1.2" }}
+                </td>
+                <td>{{ x.createdBy }}</td>
+                <td>{{x.createdOn | date}}</td>
+              </tr></ng-template
+            >
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

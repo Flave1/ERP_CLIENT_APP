@@ -1,0 +1,28 @@
+.notification_table {
+  width: 100%;
+}
+.notification_cell {
+  padding: 2rem;
+}
+._tr {
+  cursor: pointer;
+}
+.t_table {
+  padding: 1rem;
+  width: 100%;
+}
+.t_heading {
+  width: 20rem;
+}
+.t_data {
+  padding: 1rem;
+}
+.t_row:nth-child(odd) {
+  background: #eee;
+}
+.t_row:nth-child(even) {
+  background: #fff;
+}
+.no_notif {
+  text-align: center;
+}

@@ -1,0 +1,181 @@
+[
+  {
+    "classifications": [
+      {
+        "classificationId": 1,
+        "expenseClassification": "Class 1",
+        "description": "description 1",
+        "expenseGl": 4,
+        "payableGl": 5
+      },
+      {
+        "classificationId": 2,
+        "expenseClassification": "Class 2",
+        "description": "description 2",
+        "expenseGl": 4,
+        "payableGl": 5
+      }
+    ],
+    "costCentreList": [
+      {
+        "costCentreId": 1,
+        "name": "Cost centre 1",
+        "description": "Cost centre 1 description",
+        "structure": "ABC group",
+        "structureId": 2
+      },
+      {
+        "costCentreId": 2,
+        "name": "Cost centre 2",
+        "description": "Cost centre 2 description",
+        "structure": "ABC Department"
+      }
+    ],
+    "requisitionList": [
+      {
+        "requisitionId": 1,
+        "ernNumber": "123456",
+        "description": "Cost centre 1 description",
+        "requestBy": "Tolani",
+        "department": "ABC",
+        "structureId": 2,
+        "requisitionDate": "12/10/2020",
+        "totalAmount": 12500,
+        "expectedDeliveryDate": "31/12/2020",
+        "status": "Approved",
+        "statusId": 2,
+        "expenseDetails": [
+          {
+            "expenseDetailsId": 1,
+            "description": "Expense details description",
+            "quantity": 30,
+            "unitPrice": 300,
+            "subTotal": 9000,
+            "expenseClassificationId": 2,
+            "costCentreId": 1,
+            "isBudgeted": true,
+            "expenseClassification": "Class 1",
+            "costCentre": "Cost Centre 1"
+          },
+          {
+            "expenseDetailsId": 2,
+            "description": "Expense details description 2",
+            "quantity": 50,
+            "unitPrice": 300,
+            "subTotal": 15000,
+            "expenseClassificationId": 1,
+            "costCentreId": 2,
+            "isBudgeted": false,
+            "expenseClassification": "Class 2",
+            "costCentre": "Cost Centre 2"
+          }
+        ]
+      },
+      {
+        "requisitionId": 2,
+        "ernNumber": "123456",
+        "description": "Cost centre 2 description",
+        "requestBy": "Joshua",
+        "department": "ABC",
+        "structureId": 18,
+        "requisitionDate": "12/10/2020",
+        "totalAmount": 12500,
+        "expectedDeliveryDate": "31/12/2020",
+        "status": "Pending",
+        "statusId": 1,
+        "expenseDetails": [
+          {
+            "expenseDetailsId": 3,
+            "description": "Expense details description",
+            "quantity": 30,
+            "unitPrice": 300,
+            "subTotal": 9000,
+            "expenseClassificationId": 2,
+            "costCentreId": 1,
+            "isBudgeted": false,
+            "expenseClassification": "Class 1",
+            "costCentre": "Cost Centre 1"
+          },
+          {
+            "expenseDetailsId": 4,
+            "description": "Expense details description 2",
+            "quantity": 10,
+            "unitPrice": 400,
+            "subTotal": 4000,
+            "expenseClassificationId": 1,
+            "costCentreId": 2,
+            "isBudgeted": true,
+            "expenseClassification": "Class 2",
+            "costCentre": "Cost Centre 2"
+          }
+        ]
+      }
+    ],
+    "paymentProposal": [
+      {
+        "paymentProposalId": 1,
+        "ernNumber": "CC12345678",
+        "description": "Cost centre 2 description",
+        "requestBy": "Joshua",
+        "department": "ABC",
+        "structureId": 18,
+        "requisitionDate": "12/10/2020",
+        "totalAmount": 12500,
+        "expectedDeliveryDate": "31/12/2020",
+        "status": "Payment Requested",
+        "statusId": 1
+      },
+      {
+        "paymentProposalId": 2,
+        "ernNumber": "CC12345678",
+        "description": "Cost centre 2 description",
+        "requestBy": "Joshua",
+        "department": "ABC",
+        "structureId": 2,
+        "requisitionDate": "12/10/2020",
+        "totalAmount": 12500,
+        "expectedDeliveryDate": "31/12/2020",
+        "status": "Payment Requested",
+        "statusId": 1
+      }
+    ],
+    "retirements": [
+      {
+        "retirementId": 1,
+        "requisitionId": 1,
+        "ernNumber": "CC12345698",
+        "totalAmountApproved": 13000,
+        "requisitionDate": "12/02/2020",
+        "retirementDate":  "12/05/2020",
+        "description": "Retirement description 1",
+        "amountUsed": 9000,
+        "balance": 4000,
+        "account": "0123456789"
+      },
+      {
+        "retirementId": 1,
+        "requisitionId": 2,
+        "ernNumber": "CC12345698",
+        "totalAmountApproved": 15000,
+        "requisitionDate": "12/02/2020",
+        "retirementDate":  "12/05/2020",
+        "description": "Retirement description 2",
+        "amountUsed": 19000,
+        "balance": -4000,
+        "account": "0123456789"
+      },
+      {
+        "retirementId": 2,
+        "requisitionId": 3,
+        "ernNumber": "CC12345698",
+        "totalAmountApproved": 13000,
+        "requisitionDate": "12/02/2020",
+        "retirementDate":  "12/05/2020",
+        "description": "Retirement description 3",
+        "amountUsed": 9000,
+        "balance": 4000,
+        "account": "0123456789"
+      }
+    ]
+  }
+]

@@ -1,0 +1,412 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              {{ formTitle }}
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <form novalidate [formGroup]="retirementForm">
+            <div class="form-group">
+              <label for="" class="control-label col-md-2"> ERN Number </label>
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  formControlName="ernnumber"
+                  name="ernNumber"
+                  class="form-control"
+                  readonly
+                />
+              </div>
+
+              <label for="totalAmountApproved" class="control-label col-md-2"> Total Amount Approved </label>
+              <div class="col-md-4">
+                <input
+                  id="totalAmountApproved"
+                  formControlName="totalAmountApproved"
+                  class="form-control"
+                  readonly
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="requisitionDate" class="control-label col-md-2">
+                Requisition Date
+              </label>
+              <div class="col-md-4">
+                <p-calendar
+                  id="requisitionDate"
+                  formControlName="requisitionDate"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="1900:2030"
+                  [showIcon]="true"
+                  [inputStyle]="{ width: '100%' }"
+                  [style]="{ width: '100%', 'z-index': '999' }"
+                  readonlyInput
+                ></p-calendar>
+              </div>
+              <label for="retirementDate" class="control-label col-md-2">
+               Retirement Date
+              </label>
+              <div class="col-md-4">
+                <p-calendar
+                  id="retirementDate"
+                  formControlName="retirementDate"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="1900:2030"
+                  [showIcon]="true"
+                  [inputStyle]="{ width: '100%' }"
+                  [style]="{ width: '100%', 'z-index': '999' }"
+                  [disabled]="true"
+                ></p-calendar>
+                <!--                <input type="date" class="form-control" formControlName="expectedDeliveryDate">-->
+              </div>
+
+
+            </div>
+            <div class="form-group">
+              <label for="description" class="col-md-2 control-label">Description</label>
+              <div class="col-md-4">
+                <input type="text" id="description" class="form-control" formControlName="description" readonly>
+              </div>
+              <label for="" class="control-label col-md-2">
+                Amount Used
+              </label>
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  formControlName="amountUsed"
+                  name="totalAmount"
+                  class="form-control"
+                  (change)="calculateBalance($event.target.value)"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="balance" class="control-label col-md-2">Balance</label>
+              <div class="col-md-4">
+                <input type="text" id="balance" class="form-control" formControlName="balance" readonly>
+              </div>
+              <label for="" class="control-label col-md-2">Evidence of amount used</label>
+              <div class="col-md-4">
+                <input type="file" accept="application/pdf" #fileInput (change)="handleFileInput($event.target.files)">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="control-label col-md-2">Status</label>
+              <div class="col-md-4">
+                <button pButton label="Claim" class="ui-button-success" *ngIf="amountUsed > amountApproved" (click)="claim()"></button>
+                <button pButton label="Refund" class="ui-button-success" *ngIf="amountUsed < amountApproved" (click)="refund()"></button>
+                <span *ngIf="amountUsed === amountApproved">Retired</span>
+              </div>
+            </div>
+          </form>
+          <hr />
+        </div>
+      </div>
+      <div class="ui-g" *ngIf="claims.length > 0">
+        <div class="ui-g-12 no-padding">
+          <div style="margin-bottom: 0" class="panel panel-default">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-12">
+                  <h2 class="panel-title pull-left">Claim Details</h2>
+                  <div
+                    style="padding-right: 5px; padding-left: 5px; width: 45px"
+                    class="col-md-1 pull-right"
+                  >
+                    <button
+                      pButton
+                      style="padding: 0.5em 0"
+                      type="button"
+                      class="ui-button-raised"
+                      (click)="showAddNew()"
+                      icon="ui-icon-plus"
+                      iconPos="center"
+                      pTooltip="Add"
+                      tooltipPosition="top"
+                      label=""
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-body">
+              <div class="form-horizontal">
+                <p-table
+                  #dt
+                  [value]="claims"
+                  dataKey="classificationId"
+                  [responsive]="true"
+                  [scrollable]="true"
+                  [scrollHeight]="viewHeight"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <!--                      <th class="checkbox_row">-->
+                      <!--                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
+                      <!--                      </th>-->
+                      <th class="sn_width">S/N</th>
+                      <th>Claim No</th>
+                      <th>Employee Requesting</th>
+                      <th>Amount Requested</th>
+                      <th>Date Requested</th>
+                      <th>Expense Classification</th>
+                      <th>Bank Name</th>
+                      <th>Account Number</th>
+                      <th>Account Name</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr [pSelectableRow]="x">
+                      <!--                      <td class="checkbox_row">-->
+                      <!--                        <p-tableCheckbox [value]="x"></p-tableCheckbox>-->
+                      <!--                      </td>-->
+                      <td class="sn_width">
+                        <a class="table_link">{{ i + 1 }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.claimsNo
+                          }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.requestedBy
+                          }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.amountRequested
+                          }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.dateRequested | date
+                          }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.classificationsetupId
+                          }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.accountToFundBankName
+                          }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">
+                        {{x.accountToFundNumber}}
+                        </a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{x.accountName}}</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                      label="Next"></button>
+                  <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                      label="Previous"></button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              style="margin-right: 5px"
+              type="button"
+              [disabled]="!retirementForm.valid"
+              (click)="submitDetails(retirementForm)"
+              class="btn btn-primary pull-right"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              style="margin-right: 5px"
+              class="btn btn-danger pull-right"
+              (click)="goBack()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showClaims"
+  modal="modal"
+  id="searchModal"
+  showEffect="fade"
+  width="650"
+>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div style="margin-left: 0" class="row">
+        <h2 class="panel-title pull-left">Claim Details</h2>
+      </div>
+    </div>
+    <div style="padding: 10px" class="panel-body">
+      <div class="form-horizontal">
+        <form [formGroup]="claimsForm">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2"> Claim No </label>
+            <div class="col-md-4">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="claimsNo"
+                readonly
+              />
+            </div>
+            <label for="requestedBy" class="control-label col-md-2">Employee Requesting</label>
+            <div class="col-md-4">
+              <select
+                class="form-control"
+                formControlName="requestedBy"
+                id="requestedBy"
+              >
+                <option value="" disabled>--Select Staff--</option>
+                <option *ngFor="let item of staffs" [value]="item.staffId">{{item.firstName | titlecase}} {{item.lastName | titlecase}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="amount" class="col-md-2 control-label">Amount</label>
+            <div class="col-md-4">
+              <input
+                type="number"
+                class="form-control"
+                formControlName="amountRequested"
+                id="amount"
+                readonly
+              />
+            </div>
+            <label for="dateRequested" class="control-label col-md-2">Request Date</label>
+            <div class="col-md-4">
+              <input
+                type="date"
+                class="form-control"
+                formControlName="dateRequested"
+                id="dateRequested"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2"
+            >Expense Classification</label
+            >
+            <div class="col-md-4">
+              <select
+                class="form-control"
+                formControlName="classificationsetupId"
+              >
+                <option value="">--Select Cost Classifications--</option>
+                <option
+                  *ngFor="let item of classifications"
+                  [value]="item.classificationsetupId"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <label for="bankName" class="control-label col-md-2">Bank Name</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="accountToFundBankName" id="bankName"/>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="accountNumber" class="control-label col-md-2">Account Number</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" id="accountNumber" formControlName="accountToFundNumber" />
+            </div>
+            <label for="accountName" class="control-label col-md-2">Account Name</label>
+            <div class="col-md-4">
+              <input type="text" formControlName="accountToFundName" class="form-control" id="accountName">
+            </div>
+
+          </div>
+          <div class="details-btn-container">
+            <button class="details-btn-danger btn" (click)="closeModal()">Close</button>
+            <button class="details-btn btn" (click)="saveClaims(claimsForm)">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showRefunds"
+  modal="modal"
+  id="searchModal"
+  showEffect="fade"
+  width="650"
+>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div style="margin-left: 0" class="row">
+        <h2 class="panel-title pull-left">Refund Details</h2>
+      </div>
+    </div>
+    <div style="padding: 10px" class="panel-body">
+      <div class="form-horizontal">
+        <form [formGroup]="refundForm">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2"> Amount to refund </label>
+            <div class="col-md-4">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="amountToFund"
+                readonly
+              />
+            </div>
+            <label for="modeOfRefund" class="control-label col-md-2">Mode of refund</label>
+            <div class="col-md-4">
+              <select
+                class="form-control"
+                formControlName="modeOfRefund"
+                id="modeOfRefund"
+              >
+                <option value="">--Select Mode--</option>
+                <option *ngFor="let item of refundMode" [value]="item.id">{{item.name}}</option>
+              </select>
+            </div>
+          </div>
+          <div class="details-btn-container">
+            <button class="details-btn-danger btn" (click)="closeRefundModal()">Close</button>
+            <button class="details-btn btn" (click)="saveRefund(refundForm)">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</p-dialog>

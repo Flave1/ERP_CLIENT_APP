@@ -1,0 +1,199 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <div class="form-group">
+                                <!-- <label for="" class="control-label col-md-2">
+                      Company
+                  </label>
+                  <div class="col-md-4">
+                      <select type="text" name="companyId" formControlName="companyId" id="companyId" class="form-control" (change)="getGLByCompany($event.target.value)">
+                          <option value="">-- Select Company --</option>
+                          <option *ngFor="let row of companyInformation" [value]="row.companyStructureId">
+                                                                                                                                                        {{ row.name }}
+                                                                                                      </option>
+                      </select>
+                  </div> -->
+
+                                <label for="" class="control-label col-md-2">
+                                    SubGL Code
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <input
+                                        type="text"
+                                        formControlName="subGLCode"
+                                        name="subGLCode"
+                                        class="form-control"
+                                    />
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    SubGL Name
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <input
+                                        type="text"
+                                        formControlName="subGLName"
+                                        name="subGLName"
+                                        class="form-control"
+                                    />
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    GL
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select
+                                        type="text"
+                                        name="glId"
+                                        formControlName="glId"
+                                        id="glId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select GL --</option
+                                        >
+                                        <option
+                                            *ngFor="let row of glInformation"
+                                            [value]="row.glId"
+                                        >
+                                            {{ row.glName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+<!--                                <label for="" class="control-label col-md-2">-->
+<!--                                    Noteline-->
+<!--                                </label>-->
+<!--                                <div class="col-md-4 mb_5">-->
+<!--                                    <select-->
+<!--                                        type="text"-->
+<!--                                        formControlName="noteLine"-->
+<!--                                        name="noteLine"-->
+<!--                                        class="form-control"-->
+<!--                                    >-->
+<!--                                        <option value=""-->
+<!--                                            >&#45;&#45;Select Subcaption&#45;&#45;</option-->
+<!--                                        >-->
+<!--                                        <option-->
+<!--                                            *ngFor="-->
+<!--                                                let data of registryInformation-->
+<!--                                            "-->
+<!--                                            [value]="data.noteLine"-->
+<!--                                            >{{ data.noteLine }}</option-->
+<!--                                        >-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+<!--                                <label for="fsLineCaption" class="control-label col-md-2">-->
+<!--                                    FS Line Caption-->
+<!--                                </label>-->
+<!--                                <div class="col-md-4 mb_5">-->
+<!--                                    <select-->
+<!--                                        id="fsLineCaption"-->
+<!--                                        formControlName="fsLineCaption"-->
+<!--                                        name="fsLineCaption"-->
+<!--                                        class="form-control"-->
+<!--                                    >-->
+<!--                                        <option value=""-->
+<!--                                            >&#45;&#45;Select Subcaption&#45;&#45;</option-->
+<!--                                        >-->
+<!--                                        <option-->
+<!--                                            *ngFor="-->
+<!--                                                let data of registryInformation-->
+<!--                                            "-->
+<!--                                            [value]="data.caption"-->
+<!--                                            >{{ data.caption }}</option-->
+<!--                                        >-->
+<!--                                    </select>-->
+<!--                                </div>-->
+
+                                <label for="" class="control-label col-md-2">
+                                    GL Class
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select
+                                        type="text"
+                                        name="glClassId"
+                                        formControlName="glClassId"
+                                        id="glClassId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select GL Class --</option
+                                        >
+                                        <option value="1">CASA</option>
+                                        <option value="2">Others</option>
+                                    </select>
+                                </div>
+                                <label
+                                    for="companyId"
+                                    class="control-label col-md-2"
+                                >
+                                    Company
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select
+                                        name="companyId"
+                                        formControlName="companyStructureId"
+                                        id="companyId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Company --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                let company of companyInformation
+                                            "
+                                            [value]="company.companyStructureId"
+                                            >{{
+                                                company.name
+                                            }}</option
+                                        >
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                [disabled]="!form.valid"
+                                class="btn btn-primary pull-right"
+                                (click)="submitSubGLInfo(form)"
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                                (click)="goBack()"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

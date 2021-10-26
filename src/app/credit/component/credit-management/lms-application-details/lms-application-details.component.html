@@ -1,0 +1,425 @@
+<!-- <p-toast [style]="{marginTop: '80px'}" position="top-right" key="tl"></p-toast> -->
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Loan Review Application Details
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="row" style="padding:0 15px 0 15px;">
+          <h6>
+            <strong>General Information</strong>
+          </h6>
+          <table class="table table-casa-information">
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Customer Name:</strong>
+                </td>
+                <td>{{ loanReviewApplicationDetail?.customerName }}</td>
+                <td>
+                  <strong>Product Name:</strong>
+                </td>
+                <td>{{ loanReviewApplicationDetail?.productName }}</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <strong>Review Details:</strong>
+                </td>
+                <td
+                  colspan="5"
+                  [innerHTML]="loanReviewApplicationDetail?.reviewDetails"
+                ></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row" style="padding:0 15px 0 15px;">
+          <h6>
+            <strong>Approved/Recommendations </strong>
+          </h6>
+          <p-table [value]="proposedDetails" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Approved Principal</th>
+                <th>Approved Tenor</th>
+                <th>Approved Rate</th>
+                <th>Interest Frequency</th>
+                <th>Approved Principal Frequency</th>
+                <th>Approved Interest PaymentDate</th>
+                <th>Approved Principal PaymentDate</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr>
+                <td>{{ x.amount | number: "1.2" }}</td>
+                <td>{{ x.tenor }}</td>
+                <td>{{ x.rate | number: "1.2" }}</td>
+                <td>{{ x.interestFrequencyName }}</td>
+                <td>{{ x.principalFrequencyName }}</td>
+                <td>{{ x.firstInterestPaymentDate | date }}</td>
+                <td>{{ x.firstPrincipalPaymentDate | date }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <div *ngIf="pOperation" class="row" style="padding:0 15px 0 15px;">
+          <h6>
+            <strong>Outstanding Information </strong>
+          </h6>
+          <p-table [value]="approvedDetails" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Outstanding Amount</th>
+                <th>Outstanding Tenor</th>
+                <th>Contract Rate</th>
+                <th>Interest Frequency</th>
+                <th>Principal Frequency</th>
+                <th>Interest Payment Date</th>
+                <th>Principal Payment Date</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr>
+                <td>{{ x.amount | number: "1.2" }}</td>
+                <td>{{ x.tenor }}</td>
+                <td>{{ x.rate | number: "1.2" }}</td>
+                <td>{{ x.interestFrequencyName }}</td>
+                <td>{{ x.principalFrequencyName }}</td>
+                <td>{{ x.firstInterestPaymentDate | date }}</td>
+                <td>{{ x.firstPrincipalPaymentDate | date }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <div *ngIf="!pOperation" class="row" style="padding:0 15px 0 15px;">
+          <h6>
+            <strong> Outstanding Information</strong>
+          </h6>
+          <p-table
+            [value]="approvedDetails"
+            dataKey="loanApplicationId"
+            editMode="row"
+            [responsive]="true"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Outstanding Amount</th>
+                <th>Outstanding Tenor</th>
+                <th>Contract Rate</th>
+                <th>Interest Frequency</th>
+                <th>Principal Frequency</th>
+                <th>Interest Payment Date</th>
+                <th>Principal Payment Date</th>
+                <th *ngIf="caneditPrivilege" style="width:12em"></th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-rowData
+              let-editing="editingMode"
+              let-ri="rowIndex"
+            >
+              <tr [pEditableRow]="rowData">
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="rowData.amount"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.amount | number: "1.2" }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="rowData.tenor"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.tenor }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="rowData.rate"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.rate | number: "1.2" }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <!-- <ng-template pTemplate="input">
+                          <select type="text" [(ngModel)]="rowData.productId" class="form-control">
+                            <option value="">-- Select Product --</option>
+                            <option *ngFor="let x of products" [value]="x.productId">
+                              {{ x.productName }}</option>
+                          </select>
+                        </ng-template>
+                        <ng-template pTemplate="output">
+                          {{rowData.product}}
+                        </ng-template> -->
+
+                <td>
+                  <p-cellEditor>
+                    <!-- <ng-template pTemplate="input">
+                              <input pInputText type="text" class="form-control" [(ngModel)]="rowData.interestFrequency">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                              {{rowData.interestFrequency}}
+                            </ng-template> -->
+                    <ng-template pTemplate="input">
+                      <select
+                        type="text"
+                        [(ngModel)]="rowData.interestFrequency"
+                        class="form-control"
+                      >
+                        <option value="">-- Select frequency --</option>
+                        <option
+                          *ngFor="let x of frequencies"
+                          [value]="x.lookupId"
+                        >
+                          {{ x.lookupName }}</option
+                        >
+                      </select>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.interestFrequencyName }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <!-- <ng-template pTemplate="input">
+                              <input pInputText type="text" class="form-control" [(ngModel)]="rowData.principalFrequency">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                              {{rowData.principalFrequency}}
+                            </ng-template> -->
+                    <ng-template pTemplate="input">
+                      <select
+                        type="text"
+                        [(ngModel)]="rowData.principalFrequency"
+                        class="form-control"
+                      >
+                        <option value="">-- Select frequency --</option>
+                        <option
+                          *ngFor="let x of frequencies1"
+                          [value]="x.lookupId"
+                        >
+                          {{ x.lookupName }}</option
+                        >
+                      </select>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.principalFrequencyName }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        type="date"
+                        class="form-control"
+                        [(ngModel)]="rowData.firstInterestPaymentDate"
+                      />
+                      <!-- <input pInputText type="text" class="form-control" [(ngModel)]="rowData.firstInterestPaymentDate"> -->
+                      <!--                                <p-calendar id="rowData.firstInterestPaymentDate" [(ngModel)]="rowData.firstInterestPaymentDate" [monthNavigator]="true"-->
+                      <!--                                  [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"-->
+                      <!--                                  [style]="{'width': '100%', 'z-index': '999'}"></p-calendar>-->
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <!-- {{rowData.firstInterestPaymentDate | date}} -->
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        type="date"
+                        class="form-control"
+
+                        [(ngModel)]="rowData.firstPrincipalPaymentDate"
+                      />
+                      <!-- <input pInputText type="text" class="form-control" [(ngModel)]="rowData.firstPrincipalPaymentDate"> -->
+<!--                      <p-calendar-->
+<!--                        id="rowData.firstPrincipalPaymentDate"-->
+<!--                        [(ngModel)]="rowData.firstPrincipalPaymentDate"-->
+<!--                        [monthNavigator]="true"-->
+<!--                        [yearNavigator]="true"-->
+<!--                        yearRange="1900:2030"-->
+<!--                        [showIcon]="true"-->
+<!--                        [inputStyle]="{ width: '100%' }"-->
+<!--                        [style]="{ width: '100%', 'z-index': '999' }"-->
+<!--                      ></p-calendar>-->
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      <!-- {{rowData.firstPrincipalPaymentDate | date}} -->
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td *ngIf="caneditPrivilege" style="text-align:center">
+                  <button
+                    *ngIf="!editingMode"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pInitEditableRow
+                    label="Adjust"
+                    class="ui-button-info"
+                    (click)="onRowEditInit(rowData)"
+                  ></button>
+                  <button
+                    *ngIf="editingMode"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pSaveEditableRow
+                    label="Save"
+                    class="ui-button-success"
+                    style="margin-right: .5em"
+                    (click)="onRowEditSave(rowData)"
+                  ></button>
+                  <button
+                    *ngIf="editingMode"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pCancelEditableRow
+                    label="Close"
+                    class="ui-button-danger"
+                    (click)="onRowEditCancel(rowData, ri)"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+
+        <div *ngIf="pOperation" class="row" style="padding:0 15px 0 15px;">
+          <h6>
+            <strong>Prepayment Information </strong>
+          </h6>
+          <p-table [value]="approvedDetails" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>New Outstanding Amount</th>
+                <th>Outstanding Tenor</th>
+                <th>Contract Rate</th>
+                <th>Prepayment Amount</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr>
+                <td>{{ x.new_amount | number: "1.2" }}</td>
+                <td>{{ x.tenor }}</td>
+                <td>{{ x.rate | number: "1.2" }}</td>
+                <td>{{ x.prepayment | number: "1.2" }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <!-- <div style="margin-top:20px; text-align:center;" *ngIf="pOperation">
+                <button class="btn btn-success">Push to Schedule</button>
+              </div> -->
+        <div
+          *ngIf="recommendations.length > 0"
+          class="row"
+          style="padding:0 15px 0 15px;"
+        >
+          <h6>
+            <strong>Recommendation History</strong>
+          </h6>
+          <p-table [value]="recommendations" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Recommended By</th>
+                <th>Outstanding Amount</th>
+                <th>Outstanding Tenor</th>
+                <th>Contract Rate</th>
+                <th>Interest Frequency</th>
+                <th>Principal Frequency</th>
+                <th>Interest Payment Date</th>
+                <th>Principal Payment Date</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr>
+                <td>{{ x.createdBy }}</td>
+                <td>{{ x.amount | number: "1.2" }}</td>
+                <td>{{ x.tenor | number: "1.2" }}</td>
+                <td>{{ x.rate | number: "1.2" }}</td>
+                <td>{{ x.interestFrequencyName }}</td>
+                <td>{{ x.principalFrequencyName }}</td>
+                <td>{{ x.firstInterestPaymentDate | date }}</td>
+                <td>{{ x.firstPrincipalPaymentDate | date }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              pButton
+              type="button"
+              class="btn btn-primary pull-right"
+              *ngIf="activeIndex > 0 && activeIndex < 5"
+              (click)="openNext()"
+              icon="pi pi-less-than"
+              iconPos="right"
+              label="Next"
+            ></button>
+            <button
+              pButton
+              type="button"
+              class="btn btn-primary pull-right"
+              style="margin-right:10px"
+              *ngIf="activeIndex > 0"
+              (click)="openPrev()"
+              icon="pi pi-greater-than"
+              iconPos="left"
+              label="Previous"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

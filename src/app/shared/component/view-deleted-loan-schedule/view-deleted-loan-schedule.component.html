@@ -1,0 +1,86 @@
+<div class="ui-g" *ngIf="schedules?.length > 0">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Deleted Loan  Schedule
+              </h2>
+            </div>
+          </div>
+        </div>   
+          <div class="panel-body">
+              <div class="form-horizontal">
+                  <fieldset>
+                      <table style="margin-bottom: 20px">
+                          <tr>
+                              <td style="font-size: 12px;font-weight: bold;padding: 4px">Granted Amount</td>
+                              <td style="text-align: right;padding-left: 10px;padding: 4px">{{scheduleHeader?.endPrincipalAmount | number: "1.2"}}</td>
+                              <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">Interest Rate</td>
+                              <td style="text-align: right;padding: 4px">{{scheduleHeader?.effectiveInterestRate | number : "1.2"}} %</td>
+                              <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">Effective
+                                  Interest Rate</td>
+                              <td style="text-align: right;padding: 4px">{{scheduleHeader?.effectiveInterestRate |
+                                  number: '1.2-2'}} %</td>
+                          </tr>
+                          <tr>
+                              <td style="font-size: 12px;font-weight: bold;padding: 4px">Effective Date</td>
+                              <td style="text-align: right;padding-left: 10px;padding: 4px">{{scheduleHeader?.paymentDate
+                                  | date}}</td>
+                              <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">Maturity Date</td>
+                              <td style="text-align: right;padding: 4px">{{maturityDate | date}}</td>
+                          </tr>
+                      </table>
+                      <p-table #dt scrollable="true" scrollHeight="300px" [value]="schedules"
+                          [responsive]=true >
+  
+                          <ng-template pTemplate="header">
+                              <tr>
+                              
+                                  <th>S/N</th>
+                                  <th>Payment Date</th>
+                                  <th>Start Principal</th>
+                                  <th>Periodic Amount</th>
+                                  <th>Principal Amount</th>
+                                  <th>Interest Amount</th>
+                                  <th>Balance</th>
+                                  <!-- <th>AM Start Amount</th>
+                                  <th>AM Periodic Amount</th>
+                                  <th>AM Principal Amount</th>
+                                  <th>AM Interest Amount</th>
+                                  <th>AM Balance</th>
+                                  <th>IRR</th> -->
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-x let-i="rowIndex">
+                              <tr style="font-size:1rem !important;" [pSelectableRow]="x" >
+                              
+                                  <td>{{ x.paymentNumber }}</td>
+                                  <td>{{ x.paymentDate | date }} </td>
+                                  <td>{{ x.startPrincipalAmount | number: '1.2-2' }}</td>
+                                  <td>{{ x.periodPaymentAmount | number: '1.2-2' }}</td>
+                                  <td>{{ x.periodPrincipalAmount | number: '1.2-2'}}</td>
+                                  <td>{{ x.periodInterestAmount | number: '1.2-2'}}</td>
+                                  <td>{{ x.endPrincipalAmount | number: '1.2-2'}}</td>
+                                  <!-- <td>{{ x.amortisedStartPrincipalAmount| number: '1.2-2' }}</td>
+                                  <td>{{ x.amortisedPeriodPaymentAmount | number: '1.2-2' }}</td>
+                                  <td>{{ x.amortisedPeriodPrincipalAmount | number: '1.2-2'}}</td>
+                                  <td>{{ x.amortisedPeriodInterestAmount | number: '1.2-2'}}</td>
+                                  <td>{{ x.amortisedEndPrincipalAmount | number: '1.2-2'}}</td>
+                                  <td>{{ x.effectiveInterestRate | number: '1.2-2'}}</td> -->
+                              </tr>
+                          </ng-template>
+                      </p-table>
+                  </fieldset>
+              </div>
+          </div>
+          <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">                         
+            </div>
+          </div>
+      </div>
+  </div>
+</div>                           
+</div>

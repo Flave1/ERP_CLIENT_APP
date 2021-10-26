@@ -1,0 +1,81 @@
+<div class="notifications_container">
+  <div class="no_notif" *ngIf="notifications.length <= 0">
+    <p>You have no new notification</p>
+  </div>
+  <p-table
+    #dt
+    [value]="notifications"
+    [columns]="cols"
+    dataKey="id"
+    selectionMode="single"
+    [(selection)]="selectedNotification"
+    [paginator]="false"
+    [scrollable]="true"
+    [scrollHeight]="viewHeight"
+    [responsive]="true"
+    *ngIf="notifications.length > 0"
+  >
+    <ng-template pTemplate="caption">
+      <div style="text-align: right">
+        <input
+          type="text"
+          pInputText
+          size="50"
+          class="form-control"
+          placeholder="Search..."
+          (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+          style="width:auto"
+        />
+      </div>
+    </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th class="t_data sn_width">
+          <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+        </th>
+        <th class="sn_width"></th>
+<!--        <th class="t_data">Reference</th>-->
+<!--        <th class="t_data">Mail Type</th>-->
+        <th class="t_data">Subject</th>
+        <th class="t_data">From</th>
+        <th class="t_data">Target Date</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-notification let-i="rowIndex">
+      <tr [pSelectableRow]="notification">
+        <td class="t_data sn_width">
+          <p-tableCheckbox [value]="notification"></p-tableCheckbox>
+        </td>
+        <td class="sn_width">
+          <img src="../../../../assets/layout/images/mail.png" alt="" *ngIf="notification.emailStatus === 0">
+          <img src="../../../../assets/layout/images/read-mail.png" alt="" *ngIf="notification.emailStatus === 3">
+        </td>
+<!--        <td class="t_data">-->
+<!--          <a class="table_link" (click)="getNotification(notification.emailMessageId)">{{-->
+<!--            notification.refid-->
+<!--          }}</a>-->
+<!--        </td>-->
+<!--        <td class="t_data">-->
+<!--          <a class="table_link" (click)="getNotification(notification.emailMessageId)">{{-->
+<!--            notification.category-->
+<!--          }}</a>-->
+<!--        </td>-->
+        <td class="t_data">
+          <a class="table_link" (click)="getNotification(notification.emailMessageId)">{{
+            notification.subject
+          }}</a>
+        </td>
+        <td class="t_data">
+          <a class="table_link" (click)="getNotification(notification.emailMessageId)"
+            >{{notification.sentBy}}</a
+          >
+        </td>
+        <td class="t_data">
+          <a class="table_link" (click)="getNotification(notification.emailMessageId)">{{
+            notification.dateSent | date
+          }}</a>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

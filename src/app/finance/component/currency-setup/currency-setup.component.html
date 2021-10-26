@@ -1,0 +1,140 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Company
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="companyId"
+                                        formControlName="companyId"
+                                        id="companyId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            disabled>-- Select Company --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                let row of companyInformation
+                                            "
+                                            [value]="row.companyStructureId"
+                                        >
+                                            {{ row.name }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    Functional currency
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select
+                                        name="functionalCurrency"
+                                        id=""
+                                        formControlName="functionalCurrency"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                             disabled>--Select Functional
+                                            Currency--</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                let currency of currencyRates
+                                            "
+                                            [value]="currency.currencyId"
+                                            >{{ currency.currencyName }}</option
+                                        >
+                                    </select>
+                                </div>
+
+                                <label
+                                    for="reportingCurrency"
+                                    class="control-label col-md-2"
+                                >
+                                    Reporting currency
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select
+                                        name="reportingCurrency"
+                                        id="reportingCurrency"
+                                        formControlName="reportingCurrency"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                         disabled>--Select Reporting
+                                            Currency--</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                let currency of currencyRates
+                                            "
+                                            [value]="currency.currencyId"
+                                        >{{ currency.currencyName }}</option
+                                        >
+                                    </select>
+                                </div>
+
+                                <label
+                                    for="exchangeRate"
+                                    class="control-label col-md-2"
+                                >
+                                    Exchange rate
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <input
+                                        type="text"
+                                        id="exchangeRate"
+                                        formControlName="exchangeRate"
+                                        class="form-control"
+                                        name="exchangeRate"
+                                    />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                [disabled]="!form.valid"
+                                class="btn btn-primary pull-right"
+                                (click)="submitFinancialYear(form)"
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                                (click)="goBack()"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

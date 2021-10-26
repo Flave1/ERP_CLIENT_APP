@@ -1,0 +1,179 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Collateral Type
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="collateralTypeId"
+                                        formControlName="collateralTypeId"
+                                        id="collateralTypeId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Collateral Type --</option
+                                        >
+                                        <option
+                                            *ngFor="let x of collateralTypes"
+                                            [value]="x.collateralTypeId"
+                                        >
+                                            {{ x.name }}</option
+                                        >
+                                    </select>
+                                </div>
+                                <label for="" class="control-label col-md-2">
+                                    Customer
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="customerId"
+                                        formControlName="customerId"
+                                        id="customerId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Customer --</option
+                                        >
+                                        <option
+                                            *ngFor="let x of customers"
+                                            [value]="x.customerId"
+                                        >
+                                            {{ x.firstName }} {{ x.lastName }}</option
+                                        >
+                                    </select>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Currency
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="currencyId"
+                                        formControlName="currencyId"
+                                        id="currencyId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Currency --</option
+                                        >
+                                        <option
+                                            *ngFor="let x of currencies"
+                                            [value]="x.currencyId"
+                                        >
+                                            {{ x.currencyName }}</option
+                                        >
+                                    </select>
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    Valuation Cycle (Days)
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="text"
+                                        formControlName="valuationCycle"
+                                        name="valuationCycle"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Collateral Value
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="number"
+                                        formControlName="collateralValue"
+                                        name="collateralValue"
+                                        class="form-control"
+                                    />
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    Hair Cut
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="text"
+                                        formControlName="haircut"
+                                        name="haircut"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Location
+                                </label>
+                                <div class="col-md-4">
+                                    <textarea
+                                        type="text"
+                                        formControlName="location"
+                                        name="location"
+                                        rows="3"
+                                        class="form-control"
+                                    ></textarea>
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    Allow Sharing
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="checkbox"
+                                        formControlName="allowSharing"
+                                        name="allowSharing"
+                                    />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                [disabled]="!form.valid"
+                                class="btn btn-primary pull-right"
+                                (click)="submitCollateralCustomer(form)"
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                                (click)="goBack()"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

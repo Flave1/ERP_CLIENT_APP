@@ -1,0 +1,6 @@
+.invoice-upper {
+  display: flex;
+}
+.client-detail {
+  flex-basis: 50%;
+}

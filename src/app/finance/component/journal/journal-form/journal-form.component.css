@@ -1,0 +1,7 @@
+.journal-btn {
+  padding: 6.5px;
+  width: 80px;
+  background: var(--primary-color);
+  color: #fff;
+  border: 1px solid #fff;
+}

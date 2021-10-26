@@ -1,0 +1,99 @@
+<div style="margin-bottom: 0; width: 700px" class="panel panel-default">
+  <div class="panel-heading">
+    <h2 class="panel-title">Document Upload</h2>
+  </div>
+  <div class="panel-body">
+    <div class="form-horizontal">
+      <div class="form-group">
+        <label for="documentTypeId" class="control-label col-md-2"
+        >Document Type</label
+        >
+        <div class="col-md-8">
+          <select
+            type="text"
+            name="documentTypeId"
+            [(ngModel)]="documentTypeId"
+            id="documentTypeId"
+            class="form-control"
+            [ngClass]="'valid-input'"
+          >
+            <option value="">-- Select Upload Type --</option>
+            <option
+              *ngFor="let type of documentTypeList"
+              [value]="type.lookupId"
+            >
+              {{ type.lookupName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="documentTitle" class="control-label col-md-2"
+        >Document Title</label
+        >
+        <div class="col-md-8">
+          <input
+            type="text"
+            [(ngModel)]="documentName"
+            class="form-control"
+            name="documentName"
+            placeholder="Document name..."
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="documentTitle" class="control-label col-md-2"
+        >Physical Location</label
+        >
+        <div class="col-md-8">
+          <input
+            type="text"
+            [(ngModel)]="physicalLocation"
+            class="form-control"
+            name="physicalLocation"
+            placeholder="Document Physical Location..."
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="document" class="control-label col-md-2"
+        >Select Document</label
+        >
+        <div class="col-md-8">
+          <input
+            type="file"
+            (change)="onFileChange($event)"
+            placeholder="Upload file"
+            accept=".jpg,.jpeg,.png"
+            #fileInput
+            name="fileInput"
+            style="padding-top: 2px"
+            class="form-control"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="panel-footer">
+    <div class="row">
+      <div class="col-md-12">
+        <button
+          type="button"
+          (click)="uploadFile()"
+          [disabled]="documentName == null || file == undefined"
+          class="btn btn-success pull-right"
+        >
+          <span class="pi pi-upload"></span> Upload
+        </button>
+        <button
+          type="button"
+          (click)="closeDocumentUpload(false)"
+          style="margin-right: 5px"
+          class="btn btn-danger pull-right"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

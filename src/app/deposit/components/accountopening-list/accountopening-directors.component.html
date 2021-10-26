@@ -1,0 +1,546 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+      <div class="card no-padding">
+          <div style="margin-bottom:0" class="panel panel-default">
+              <div class="panel-heading">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <h2 class="panel-title pull-left">
+                            {{ formTitle }}
+                          </h2>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="panel-body">
+                  <div class="form-horizontal">
+                  <p-tabView (onChange)="onTabChange($event)"  [activeIndex]="activeIndex">
+                      <p-tabPanel header="Director Information">
+                          <form novalidate [formGroup]="form">
+
+                          <div class="form-group">
+
+                              <div>
+                                  <label for="" class="control-label col-md-2">
+                                      Title
+                                  </label>
+                                  <div class="col-md-4">
+                                      <select type="text" name="titleId" formControlName="titleId" id="titleId" class="form-control">
+                                              <option value="">-- Select Title  --</option>
+                                              <option *ngFor="let row of titleList" [value]="row.lookupId">
+                                                   {{ row.lookupName }}
+                                              </option>  
+                                      </select>
+                                  </div>
+                              </div>
+                              <div>
+                                  <label for="" class="control-label col-md-2">
+                                         Surname
+                                     </label>
+                                     <div class="col-md-4">
+                                         <input
+                                             type="text"
+                                             formControlName="surname"
+                                             name="surname"
+                                             class="form-control"
+                                         />
+                                     </div>
+                             </div>
+                          </div>
+                          <div  class="form-group">
+                              <label for="" class="control-label col-md-2">
+                                  First Name
+                              </label>
+                              <div class="col-md-4">
+                                  <input
+                                      type="text"
+                                      formControlName="firstname"
+                                      name="firstname"
+                                      class="form-control"
+                                  />
+                              </div>
+                              <label for="" class="control-label col-md-2">
+                                Other Name
+                            </label>
+                            <div class="col-md-4">
+                                <input
+                                    type="text"
+                                    formControlName="othername"
+                                    name="othername"
+                                    class="form-control"
+                                />
+                            </div>
+                                   
+                          </div>
+                          <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                              Date of Birth
+                          </label>
+                          <div class="col-md-4">
+                              <p-calendar name="doB" class="form-control" formControlName="doB" [monthNavigator]="true"
+                                        [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                                        [style]="{'width': '100%', 'z-index': '100'}"></p-calendar>
+    
+                            </div>
+                                  <label for="" class="control-label col-md-2">
+                                          Place of Birth
+                                      </label>
+      
+                                      <div class="col-md-4">
+                                              <select type="text" name="placeOfBirth" formControlName="placeOfBirth" id="placeOfBirth" class="form-control">
+                                                  <option value="">-- Select Country  --</option>
+                                                  <option *ngFor="let row of countryInformation" [value]="row.lookupId">
+                                                       {{ row.lookupName }}
+                                                  </option>  
+                                              </select>
+                                          </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="" class="control-label col-md-2">
+                                Marital Status
+                            </label>
+                            <div class="col-md-4">
+                                 <select type="text" name="maritalStatusId" formControlName="maritalStatusId" id="maritalStatusId" class="form-control">
+                                    <option value="">-- Select Marital Status  --</option>
+                                    <option *ngFor="let row of martialStatusList" [value]="row.lookupId">
+                                         {{ row.lookupName }}
+                                    </option>  
+                                </select>
+                            </div>
+
+                                   <label for="" class="control-label col-md-2">
+                                      Gender
+                                  </label>
+                                  <div class="col-md-4">
+                                    <select type="text" name="genderId" formControlName="genderId" id="genderId" class="form-control">
+                                          <option value="">-- Select Gender  --</option>
+                                          <option *ngFor="let row of genderList" [value]="row.lookupId">
+                                               {{ row.lookupName }}
+                                          </option>  
+                                      </select>
+                                  </div>
+                          </div>
+                          
+                          <div class="form-group">
+                                  <label for="" class="control-label col-md-2">
+                                          Mother's Maiden Name
+                                      </label>
+                                      <div class="col-md-4">
+                                          <input
+                                              type="text"
+                                              formControlName="maidenName"
+                                              name="maidenName"
+                                              class="form-control"
+                                          />
+                                      </div>
+                                      <label for="" class="control-label col-md-2">
+                                        Next of Kin
+                                    </label>
+                                    <div class="col-md-4">
+                                        <input
+                                            type="text"
+                                            formControlName="nextofKin"
+                                            name="nextofKin"
+                                            class="form-control"
+                                        />
+                                    </div>
+                              
+                          </div>
+
+                          <div class="form-group">
+                              <label for="" class="control-label col-md-2">
+                                  Phone Number
+                              </label>
+                              <div class="col-md-4">
+                                  <input
+                                      type="text"
+                                      formControlName="mobile"
+                                      name="mobile"
+                                      class="form-control"
+                                  />
+                              </div>
+
+                              <label for="" class="control-label col-md-2">
+                                  Email
+                              </label>
+                              <div class="col-md-4">
+                                  <input
+                                      type="text"
+                                      formControlName="email"
+                                      name="email"
+                                      class="form-control"
+                                  />
+                              </div>
+                          </div>
+                          <div class="form-group">
+                              <label for="" class="control-label col-md-2">
+                                  Country(Nationality)
+                              </label>
+
+                              <div class="col-md-4">
+                                      <select type="text" name="nationality" formControlName="nationality" id="nationality" class="form-control">
+                                          <option value="">-- Select Country  --</option>
+                                          <option *ngFor="let row of countryInformation" [value]="row.lookupId">
+                                               {{ row.lookupName }}
+                                          </option>  
+                                      </select>
+                                  </div>
+                              
+                              <label for="" class="control-label col-md-2">
+                                      State of Origin
+                                  </label>
+                                  <div class="col-md-4">
+                                         <select type="text" name="stateOfOrigin" formControlName="stateOfOrigin" id="stateOfOrigin" class="form-control">
+                                          <option value="">-- Select City  --</option>
+                                          <option *ngFor="let row of stateList" [value]="row.lookupId">
+                                               {{ row.lookupName }}
+                                          </option>  
+                                          </select>
+                                      </div>
+                                  </div>
+                                  <div class="form-group">
+                                      <label for="" class="control-label col-md-2">
+                                              LGA
+                                          </label>
+                                          <div class="col-md-4">
+                                                 <select type="text" name="lga" formControlName="lga" id="lga" class="form-control">
+                                                  <option value="">-- Select City  --</option>
+                                                  <option *ngFor="let row of stateList" [value]="row.lookupId">
+                                                       {{ row.lookupName }}
+                                                  </option>  
+                                                  </select>
+                                              </div>
+                                              <div>
+                                              <label for="" class="control-label col-md-2">
+                                                      Resident of Country?
+                                                  </label>
+                                                  <div class="col-md-2">
+                                                        <input
+                                                                          type="checkbox"
+                                                                          [(ngModel)]="selectedResidentOfCountry"
+                                                                          binary="true"
+                                                                          formControlName="residentOfCountry"
+                                                                          name="residentOfCountry"
+                                                                      />
+                                                      </div>
+                                              </div>
+                                      </div>
+                        
+                          <div class="form-group">                                 
+                                  <label for="" class="control-label col-md-2">
+                                    Tax Identification Number
+                                </label>
+                                <div class="col-md-4">
+                                        <input
+                                        type="text"
+                                        formControlName="taxIDNumber"
+                                        name="taxIDNumber"
+                                        class="form-control"
+                                    />
+                                </div>
+                          </div>                         
+                      </form>
+                      </p-tabPanel>
+                      <p-tabPanel [disabled]="othersTabDisabled" header="Other Information">
+                          <form novalidate [formGroup]="form">
+                                  <div class="form-group">
+                                          <div>
+                                          <label for="" class="control-label col-md-2">
+                                              Means of Identification
+                                          </label>
+                                          <div class="col-md-4">
+                                              <select type="text" name="meansOfID" formControlName="meansOfID" id="meansOfID" class="form-control">
+                                                <option value="">-- Select Means of ID  --</option>
+                                                <option *ngFor="let row of identificationInformation" [value]="row.identificationId">                                                                {{ row.identificationName }}
+                                            </option>  
+                                            </select>
+                                          </div>
+                                          </div>
+                                          <label for="" class="control-label col-md-2">
+                                            Identification Number
+                                        </label>
+                                        <div class="col-md-4">
+                                                <input
+                                                type="text"
+                                                formControlName="identificationNumber"
+                                                name="identificationNumber"
+                                                class="form-control"
+                                            />
+                                        </div>
+                                          </div>
+                                          <div class="form-group">
+                                              <label for="" class="control-label col-md-2">
+                                                     ID Issue Date
+                                                 </label>
+                                                 <div class="col-md-4">
+                                                  <p-calendar name="idIssueDate" class="form-control" formControlName="idIssueDate" [monthNavigator]="true"
+                                                     [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                                                     [style]="{'width': '100%', 'z-index': '100'}"></p-calendar>
+                                                 </div>
+                                                 <label for="" class="control-label col-md-2">
+                                                        ID Expire Date
+                                                    </label>
+                                                    <div class="col-md-4">
+                                                     <p-calendar name="idExpiryDate" class="form-control" formControlName="idExpiryDate" [monthNavigator]="true"
+                                                     [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                                                     [style]="{'width': '100%', 'z-index': '100'}"></p-calendar>
+                                                    </div>
+                                          </div>
+                                          <div class="form-group">                                         
+                                          <div>
+                                                  <label for="" class="control-label col-md-2">
+                                                         Permit Issue Date
+                                                     </label>
+                                                     <div class="col-md-4">
+                                                      <p-calendar name="permitIssueDate" class="form-control" formControlName="permitIssueDate" [monthNavigator]="true"
+                                                      [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                                                      [style]="{'width': '100%', 'z-index': '100'}"></p-calendar>
+                                                     </div>
+                                             </div> 
+                                             <div>
+                                                <label for="" class="control-label col-md-2">
+                                                       Permit Expire Date
+                                                   </label>
+                                                   <div class="col-md-4">
+                                                    <p-calendar name="permitExpiryDate" class="form-control" formControlName="permitExpiryDate" [monthNavigator]="true"
+                                                    [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                                                    [style]="{'width': '100%', 'z-index': '100'}"></p-calendar>
+                                                   </div>
+                                           </div>
+                                             </div>
+                                             <div class="form-group">                                            
+                                             <div>
+                                                <label for="" class="control-label col-md-2">
+                                                       Resident Permit Number
+                                                   </label>
+                                                   <div class="col-md-4">
+                                                       <input
+                                                           type="text"
+                                                           formControlName="residentPermit"
+                                                           name="residentPermit"
+                                                           class="form-control"
+                                                       />
+                                                   </div>
+                                           </div> 
+                                             <div>
+                                                  <label for="" class="control-label col-md-2">
+                                                         Social Security Number
+                                                     </label>
+                                                     <div class="col-md-4">
+                                                         <input
+                                                             type="text"
+                                                             formControlName="socialSecurityNumber"
+                                                             name="socialSecurityNumber"
+                                                             class="form-control"
+                                                         />
+                                                     </div>
+                                             </div>                                                  
+                                      </div>
+
+                                      <div>                                    
+                                      <div style="margin-left:10px;" class="row">
+                                              <h2><b>Employment Detail Section</b></h2>
+                                        </div> 
+      <div  class="form-group">
+              <label for="" class="control-label col-md-2">
+                      Occupation
+                  </label>
+                  <div class="col-md-4">
+                      <input
+                          type="text"
+                          formControlName="occupation"
+                          name="occupation"
+                          class="form-control"
+                      />
+                  </div>
+                  
+                  <label for="" class="control-label col-md-2">
+                          Job Title
+                      </label>
+                      <div class="col-md-4">
+                          <input
+                              type="text"
+                              formControlName="jobTitle"
+                              name="jobTitle"
+                              class="form-control"
+                          />
+                      </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                              Position
+                          </label>
+                          <div class="col-md-4">
+                              <input
+                                  type="text"
+                                  formControlName="position"
+                                  name="position"
+                                  class="form-control"
+                              />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                                  Address
+                              </label>
+                              <div class="col-md-4">
+                                  <input
+                                      type="text"
+                                      formControlName="position"
+                                      name="position"
+                                      class="form-control"
+                                  />
+                              </div>
+                              </div>
+
+   <div style="margin-left:10px;" class="row">
+         <h2><b>Residential Address</b></h2>
+   </div>                    <div class="form-group">
+                                      <label for="" class="control-label col-md-2">
+                                              Address
+                                          </label>
+                                          <div class="col-md-4">
+                                              <input
+                                                  type="text"
+                                                  formControlName="address1"
+                                                  name="address1"
+                                                  class="form-control"
+                                              />
+                                          </div>
+                                          
+                                          <label for="" class="control-label col-md-2">
+                                                  City
+                                              </label>
+                                              <div class="col-md-4">
+                                                  <input
+                                                      type="text"
+                                                      formControlName="city1"
+                                                      name="city1"
+                                                      class="form-control"
+                                                  />
+                                              </div>
+                                          </div>
+                                          <div class="form-group">
+                                              <label for="" class="control-label col-md-2">
+                                                      State
+                                                  </label>
+                                                  <div class="col-md-4">
+                                                      <input
+                                                          type="text"
+                                                          formControlName="state1"
+                                                          name="state1"
+                                                          class="form-control"
+                                                      />
+                                                  </div>
+                                                  <label for="" class="control-label col-md-2">
+                                                          Country
+                                                      </label>
+                                                      <div class="col-md-4">
+                                                          <input
+                                                              type="text"
+                                                              formControlName="country1"
+                                                              name="country1"
+                                                              class="form-control"
+                                                          />
+                                                      </div>
+                                             </div>
+                                             <div style="margin-left:10px;" class="row">
+                                              <h2><b>Mailing Address</b></h2>
+                                        </div>                                             
+                                                  <div class="form-group">
+                                                    <label for="" class="control-label col-md-2">
+                                                            Address
+                                                        </label>
+                                                        <div class="col-md-4">
+                                                            <input
+                                                                type="text"
+                                                                formControlName="address2"
+                                                                name="address2"
+                                                                class="form-control"
+                                                            />
+                                                        </div>
+                                                        
+                                                        <label for="" class="control-label col-md-2">
+                                                                City
+                                                            </label>
+                                                            <div class="col-md-4">
+                                                                <input
+                                                                    type="text"
+                                                                    formControlName="city2"
+                                                                    name="city2"
+                                                                    class="form-control"
+                                                                />
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="" class="control-label col-md-2">
+                                                                    State
+                                                                </label>
+                                                                <div class="col-md-4">
+                                                                    <input
+                                                                        type="text"
+                                                                        formControlName="state2"
+                                                                        name="state2"
+                                                                        class="form-control"
+                                                                    />
+                                                                </div>
+                                                                <label for="" class="control-label col-md-2">
+                                                                        Country
+                                                                    </label>
+                                                                    <div class="col-md-4">
+                                                                        <input
+                                                                            type="text"
+                                                                            formControlName="country2"
+                                                                            name="country2"
+                                                                            class="form-control"
+                                                                        />
+                                                                    </div>
+                                                            </div>
+                 </div>
+   <div style="margin-left:10px;" class="row">
+         <h2><b>Signature Upload Section</b></h2>
+   </div>                                              
+             <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                      Signature Upload
+                      </label>
+                      <div class="col-md-4">
+                            <input type="file" (change)="onDirectorImgFileChange($event)" placeholder="Upload Signature" accept=".jpg,.jpeg,.png" #SignaturefileInput name="SignaturefileInput"
+                            style="padding-top:2px;" class="form-control">         
+                      </div>  
+                      <div class="col-md-4">
+                              <button (click)="DirectorSignatureUpload()" class="btn btn-success">Upload</button>
+                      </div>                                
+                 </div>
+                  <div class="form-group">
+                              <div class="row">
+                                      <button style="margin-right:70px;margin-top:50px;" type="button"  class="btn btn-primary pull-right"
+                                      (click)="submitDirectorDetails(form)" >Save Details</button>
+                              </div>                                 
+                  </div>
+                          </form>
+                          </p-tabPanel>
+      
+                  </p-tabView>
+                   
+                  </div>
+              </div>
+              <div class="panel-footer">
+                  <div class="row">
+                      <div class="col-md-12">
+                            <button pButton type="button" [disabled]="!form.valid" class="btn btn-primary pull-right" *ngIf="activeIndex == 0"
+                            (click)="submitDirector(form)" icon="pi pi-less-than" iconPos="right" label="Save and Continue"></button>
+                          <button
+                              type="button"
+                              style="margin-right:5px"
+                              class="btn btn-danger pull-right"
+                              (click)="goBack()"
+                          >
+                              Close
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+

@@ -1,0 +1,389 @@
+/* You can add global styles to this file, and also import other style files */
+
+  body {
+    background: #eee !important;
+  }
+/*Loading Styles */
+* {
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px !important;
+}
+a:hover {
+  cursor: pointer;
+}
+#page-preloader {
+  position: fixed;
+  z-index: 100500;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: #555;
+  opacity: 0.8;
+}
+#page-preloader .spinner {
+  position: absolute;
+  z-index: 1001;
+  top: 50%;
+  left: 50%;
+  display: block;
+  width: 100px;
+  height: 100px;
+  margin-top: -50px;
+  margin-left: -50px;
+  -webkit-animation: spin 2.5s infinite linear;
+  animation: spin 2.5s infinite linear;
+  border: 3px solid transparent;
+  border-top-color: #8000ff;
+  border-radius: 50%;
+}
+#page-preloader .spinner:before,
+#page-preloader .spinner:after {
+  position: absolute;
+  content: "";
+  border-radius: 50%;
+}
+
+#page-preloader .spinner:before {
+  top: 5px;
+  right: 5px;
+  bottom: 5px;
+  left: 5px;
+  -webkit-animation: spin 2s infinite linear;
+  animation: spin 2s infinite linear;
+  border: 3px solid transparent;
+  border-top-color: #bf00ff;
+}
+
+#page-preloader .spinner:after {
+  top: 15px;
+  right: 15px;
+  bottom: 15px;
+  left: 15px;
+  -webkit-animation: spin 1s infinite linear;
+  animation: spin 1s infinite linear;
+  border: 3px solid transparent;
+  border-top-color: #ff00ff;
+}
+
+@-webkit-keyframes spin {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spin {
+  0% {
+    -webkit-transform: rotate(0);
+    transform: rotate(0);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
+  }
+} /* End Loading Styles */
+
+.form-horizontal .control-label {
+  text-align: left !important;
+}
+
+.ui-datepicker {
+  top: -100px !important;
+  left: 20px !important;
+  z-index: 10;
+  overflow: visible;
+  .ui-datepicker-title select {
+    color: #000;
+  }
+}
+
+.ui-datepicker .ui-datepicker-title {
+  margin: 0 1em !important;
+}
+
+body .ui-datepicker .ui-datepicker-header select.ui-datepicker-year {
+  width: 54px !important;
+}
+.ui-calendar.ui-calendar-w-btn input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  display: block;
+  width: 100%;
+  font-size: 12px !important;
+  line-height: 1.42857143;
+  color: #555;
+  background-color: #fff;
+  background-image: none;
+}
+h2.topheaderinfo {
+  color: #fff;
+  display: inline;
+  font-size: 15px;
+  margin-left: 10px;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 8px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: grey;
+  border-radius: 8px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: grey;
+}
+.table_link {
+  color: #3b3b3b !important;
+  text-decoration: none !important;
+  word-break: break-word !important;
+  cursor: pointer;
+}
+.flex_div {
+  display: flex;
+  flex-direction: row-reverse;
+}
+.checkbox_head,
+.checkbox_row {
+  width: 5%;
+}
+.customer_header_flex {
+  display: flex;
+  align-items: center;
+}
+.customer_search_input {
+  width: 30%;
+  margin-right: 10px;
+}
+.search_btn {
+  padding: 5px;
+  width: 100px;
+  border-radius: 4px;
+  border: none;
+  background: steelblue;
+  color: #fff;
+}
+.mb_10 {
+  margin-bottom: 10px;
+}
+.mb_5 {
+  margin-bottom: 5px;
+}
+.email_width {
+  width: 250px;
+}
+.sn_width {
+  width: 60px;
+}
+.link_deco {
+  text-decoration: none;
+  cursor: pointer;
+}
+.link_deco:hover {
+  text-decoration: none;
+  cursor: pointer;
+}
+.input_container {
+  display: flex;
+  flex-direction: column;
+}
+.mr_3 {
+  margin-right: 3px;
+}
+.mt_10 {
+  margin-top: 10px;
+}
+.mr_5 {
+  margin-right: 5px;
+}
+.pr_0 {
+  padding-right: 0px;
+}
+.form__flex {
+  display: flex;
+  align-items: center;
+}
+.flex_wrap {
+  flex-wrap: wrap;
+}
+.form__width {
+  width: 20rem;
+}
+.process_btn_div {
+  align-self: center;
+  margin-top: 20px;
+  display: flex;
+}
+.sort--icon {
+  margin-left: 3rem;
+}
+.sort--icon__special {
+  margin-left: 1rem;
+}
+body .ui-table .ui-sortable-column.ui-state-highlight {
+  background-color: #777 !important;
+  color: #ffffff !important;
+  border-top-color: #eee !important;
+}
+.test-data .pi-sort:before {
+  content: "\02C4";
+}
+.test-data .pi-sort-down:before {
+  content: "\02C5";
+}
+.test-data .pi-sort-up:before {
+  content: "\e914";
+}
+.width__special {
+  width: 8rem;
+}
+.item_visibility {
+  visibility: hidden;
+  padding: 1rem;
+}
+.approval_actions {
+  display: flex;
+  //flex-direction: column;
+  width: 100%;
+  justify-content: center;
+  justify-items: center;
+  align-content: center;
+}
+.multiapprove_wrapper {
+  display: flex;
+  justify-content: space-between;
+}
+.ml_5 {
+  margin-left: 5px;
+}
+.mr_10 {
+  margin-right: 10px;
+}
+//.btn-primary {
+//  background: #303960 !important;
+//  border-color: #303960 !important;
+//  transition: 1s;
+//}
+//.btn-primary:hover {
+//  background: #fff !important;
+//  color: #303960;
+//}
+.text__overflow {
+  overflow-wrap: break-word;
+}
+.span-label {
+  padding: 0.2rem;
+  color: #fff;
+  font-size: 12px !important;
+}
+.ui-button-danger {
+  background: tomato !important;
+}
+.ui-button-secondary {
+  background: #fff !important;
+  color: #777777 !important;
+  border: 1px solid #ccc !important;
+}
+@media only screen and (max-width: 600px) {
+  .layout-container .topbar {
+    height: 130px;
+  }
+  .dashboard_header, .investor-dashboard-wrapper {
+    margin-top: 49px;
+  }
+}
+.cursor_pointer {
+  cursor: pointer;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.word-break {
+  word-break: break-word;
+}
+
+.select-flex {
+  display: flex;
+}
+.search_input {
+  width: 300px !important;
+}
+.download-btn-link {
+  background: var(--primary-color);
+  padding: 10px;
+  text-decoration: none;
+  color: #fff;
+  border-radius: 6px
+}
+.download-btn-link:hover, .download-btn-link:active {
+  text-decoration: none;
+  color: #fff;
+}
+
+.filter-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.filter-label {
+  width: 163px;
+  margin: 0 10px;
+}
+.filter-input {
+  width: 250px;
+}
+
+.filter-select {
+  width: 300px;
+}
+
+.cheque-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f5f5f5;
+}
+.details-btn-container {
+  float: right;
+  display: flex;
+  justify-content: space-between;
+}
+.details-btn {
+  background: #3F51B5 !important;
+  color: #fff;
+}
+.details-btn:hover, .details-btn:active {
+  color: #fff;
+}
+.details-btn-danger {
+  margin-right: 10px;
+  background: tomato !important;
+  color: #fff;
+}
+.details-btn-danger:hover, .details-btn-danger:active {
+  color: #fff;
+}
+.notifification_count {
+  height: 30px;
+  width: auto;
+  text-align: center;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}

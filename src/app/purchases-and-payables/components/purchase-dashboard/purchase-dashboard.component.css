@@ -1,0 +1,148 @@
+.dashboard-container {
+  background: #eee;
+  /*height: 100vh;*/
+  border-radius: 10px;
+  /*display: flex;*/
+  padding: 20px;
+}
+.supplier-div {
+  flex-basis: 50%;
+}
+.section-heading {
+  text-align: center;
+}
+.item-list {
+  display: flex;
+
+}
+.item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  /*background: #fff;*/
+  padding: 10px;
+  flex-basis: 33%;
+  margin: 5px;
+  border-radius: 5px;
+  justify-content: center;
+  color: #fff;
+  cursor: pointer;
+  transition: .5s;
+}
+.tomato {
+  background: tomato;
+}
+.tomato:hover {
+  background: #fff;
+  color: #ff6347;
+  /*border: 1px solid #ff6347;*/
+}
+.purple {
+  background: #7B79FF;
+}
+.purple:hover {
+  background: #fff;
+  color: #7B79FF;
+  /*border: 1px solid #7B79FF;*/
+}
+.dk-blue {
+  background: #23457c;
+}
+.dk-blue:hover {
+  color: #23457c;
+  background: #fff;
+}
+.second-layer {
+  margin-top: 10px;
+  display: flex;
+  /*height: 300px;*/
+}
+.quick-links {
+  flex-basis: 25%;
+  background: #fff;
+  padding: 10px;
+  border-radius: 6px;
+
+}
+.link-lists {
+  list-style: none;
+  padding: 0;
+}
+.layer-header {
+  margin: 0;
+  text-align: center;
+  border-bottom: 2px solid #3d71c8;
+  color: #3a7be0;
+}
+.payable-days {
+  flex-basis: 35%;
+  background: #fff;
+  border-radius: 6px;
+}
+.trend-analysis {
+  flex-basis: 40%;
+  background: #fff;
+  border-radius: 6px;
+}
+.mr_10 {
+  margin-right: 10px;
+}
+.ml_10 {
+  margin-left: 10px;
+}
+.pd_10 {
+  padding: 10px;
+}
+.mt_10 {
+  margin-top: 10px;
+}
+.third_layer {
+  display: flex;
+  justify-content: space-between;
+}
+.age-analysis, .project-status, .purchaseable-days {
+  background: #fff;
+  flex-basis: 33%;
+  border-radius: 6px;
+}
+.list-item {
+  padding: 18px;
+  border-bottom: 1px solid #ddd;
+}
+.item-link {
+  text-decoration: none;
+  cursor: pointer;
+}
+.payable-item-wrapper {
+  display: flex;
+  justify-content: space-evenly;
+}
+.payable-item {
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  color: #3a7be0;
+}
+
+@media only screen and (max-width: 600px) {
+  .item-list {
+    flex-wrap: wrap;
+    margin-top: 49px;
+  }
+  .item {
+    flex-basis: 30%;
+  }
+  .second-layer {
+    flex-direction: column;
+    margin-bottom: 5px;
+    /*height: 0;*/
+  }
+  .quick-links, .payable-days, .age-analysis, .purchaseable-days {
+    margin-bottom: 5px;
+    margin-right: 0px;
+  }
+  .third_layer {
+    flex-direction: column;
+    margin-bottom: 5px
+  }
+}

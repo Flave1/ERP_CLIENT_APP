@@ -1,0 +1,106 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Variables Information
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="variables"
+            dataKey="registryId"
+            [paginator]="false"
+            [rows]="variables?.length"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search..."
+                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'variable'">
+                  Vaariable Name
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'companyName'">
+                  Company
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'noteLine'">
+                  Noteline
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'fsLine'">
+                  FsLine
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link">{{ i + 1 }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.variable }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.companyName }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.noteLine }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{ x.fsLine }}</a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              pButton
+              type="button"
+              class="btn btn-primary pull-right"
+              (click)="back()"
+              icon="pi pi-less-than"
+              iconPos="right"
+              label="Back"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,67 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <form novalidate [formGroup]="form">
+              <div class="row">
+                <input type="hidden" formControlName="creditClassificationId" name="creditClassificationId">
+                <div class="form-group">
+                    <div class="col-md-6">
+                      <label for="">
+                          Lower Limit of days in Overdue
+                      </label>
+                      <input type="number" formControlName="lowerLimit" name="lowerLimit" class="form-control" />
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">
+                            Upper Limit of days in Overdue
+                        </label>
+                        <input type="number" formControlName="upperLimit" name="upperLimit" class="form-control" />
+                      </div>
+                </div>
+              </div>
+              <div class="row" style="margin-top: 20px;">
+                <div class="form-group">
+                  <div class="col-md-6">
+                      <label for="">
+                          Description                
+                        </label>
+                        <input type="text" formControlName="description" name="description" class="form-control" />
+                  </div>
+                  <div class="col-md-6">
+                      <label for="">
+                          Provisioning Requirement(%)              
+                        </label>
+                        <input type="number" formControlName="provisioningRequirement" name="provisioningRequirement" class="form-control" />
+                  </div>
+                </div>
+              </div>            
+          </form>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="saveCreditClassification(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

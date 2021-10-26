@@ -1,0 +1,155 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Customer Deposit Transaction
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <p-table
+                        #dt
+                        [columns]="cols"
+                        [value]="glTransactionList"
+                        dataKey="transactionId"
+                        selectionMode="single"
+                        (onRowSelect)="onRowSelect($event)"
+                        [(selection)]="selectedGLTransaction"
+                        [paginator]="false"
+                        [scrollable]="true"
+                        [scrollHeight]="viewHeight"
+                        [rows]="glTransactionList?.length"
+                        [responsive]="true"
+                    >
+                        <ng-template pTemplate="caption">
+                            <div class="customer_header_flex">
+                                <input
+                                    type="text"
+                                    class="form-control customer_search_input"
+                                    placeholder="Search columns"
+                                    [(ngModel)]="searchString"
+                                />
+                                <p-calendar
+                                    [yearNavigator]="true"
+                                    placeholder="From"
+                                    [monthNavigator]="true"
+                                    [showIcon]="true"
+                                    yearRange="1900:2100"
+                                    dateFormat="mm/yy"
+                                    [(ngModel)]="dateFrom"
+                                    [inputStyle]="{ width: '100%' }"
+                                    [style]="{
+                                        width: '100%',
+                                        'z-index': '999'
+                                    }"
+                                    class="form-control customer_search_input"
+                                ></p-calendar>
+                                <p-calendar
+                                    [yearNavigator]="true"
+                                    [showIcon]="true"
+                                    yearRange="1900:2100"
+                                    dateFormat="mm/yy"
+                                    placeholder="To"
+                                    [monthNavigator]="true"
+                                    [(ngModel)]="dateTo"
+                                    [inputStyle]="{ width: '100%' }"
+                                    [style]="{
+                                        width: '100%',
+                                        'z-index': '999'
+                                    }"
+                                    class="form-control customer_search_input"
+                                ></p-calendar>
+                                <div class="search_btn_wrapper">
+                                    <button class="search_btn" (click)="getDepositTransaction()">Search</button>
+                                </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th class="checkbox_row">
+                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                </th>
+                                <!--                              <th class="checkbox_row">S/N</th>-->
+                                <th>Account Name</th>
+                                <th>Account Number</th>
+                                <th>Transaction No</th>
+                                <th>Description</th>
+                                <th>Transaction Date</th>
+                                <th>Value Date</th>
+                                <th>Amount</th>
+                                <th>Transaction Type</th>
+                                <th>Available Balance</th>
+                                <th >Beneficiary</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                            <tr [pSelectableRow]="x" *ngIf="glTransactionList.length > 0">
+                                <td class="checkbox_row">
+                                    <p-tableCheckbox
+                                        [value]="x"
+                                    ></p-tableCheckbox>
+                                </td>
+                                <!-- <td>{{ x.sourceReferenceNumber }}</td> -->
+                                <td>{{x.firstName}} {{x.secondName}}</td>
+                                <td>{{x.accountNumber}}</td>
+                                <td>{{ x.transCode }}</td>
+                                <td>{{ x.description }}</td>
+                                <td>{{ x.transactionDate | date }}</td>
+                                <td>{{ x.valueDate | date }}</td>
+                                <td>{{ x.amount | number: "1.2" }}</td>
+                                <td>{{ x.transType }}</td>
+                                <td>{{ x.availableBalance | number: "1.2" }}</td>
+                                <td>{{ x.beneficiary }}</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- <p-dialog header="GL Transaction" [responsive]=true resizable="true" [(visible)]="displayInfo" id="add-modal"
+  modal="modal" showEffect="fade" width="1000" height="500">
+  <div style="margin-bottom:0" class="panel panel-default">   
+      <div class="panel-body">
+          <div class="form-horizontal">
+              <fieldset>
+                  <table style="margin-bottom: 20px">
+                      <tr>
+                          <div>
+                          <td style="font-size: 12px;font-weight: bold">Description</td>
+                          <td style="text-align: right;padding-left: 100px">{{glTransactionSelected?.description}}</td>
+                          <td style="font-size: 12px;font-weight: bold">Operations</td>
+                          <td style="text-align: right;padding-left: 100px">{{glTransactionSelected?.operationName}}</td>
+                      </div>
+                      </tr>
+                      <tr>
+                          <td style="font-size: 12px;font-weight: bold;padding: 4px">Transaction Date</td>
+                          <td style="text-align: right;padding-left: 10px;padding: 4px">{{glTransactionSelected?.postedDateTime
+                              | date}}</td>
+                          <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">FS LineCaption</td>
+                          <td style="text-align: right;padding: 4px">{{glTransactionSelected?.subGLFSLineCaption}}</td>
+                          <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">debit Amount</td>
+                          <td style="text-align: right;padding: 4px">{{glTransactionSelected?.debitAmount |
+                              number: '1.2-2'}}</td>
+                          <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">Currency</td>
+                          <td style="text-align: right;padding: 4px">{{glTransactionSelected?.currencyName}}</td>
+                      </tr>
+                  </table>
+              </fieldset>
+          </div>
+      </div>
+  </div>
+</p-dialog> -->

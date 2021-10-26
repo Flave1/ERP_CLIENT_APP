@@ -1,0 +1,515 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <form novalidate [formGroup]="form">
+          <div class="panel-body">
+            <div class="form-horizontal">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Customer
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="customerId"
+                    [(ngModel)]="customerName"
+                    id="customerId"
+                    class="form-control"
+                    [ngModelOptions]="{standalone: true}"
+                    disabled
+                  />
+                  <!--                                        <option value=""-->
+                  <!--                                            >&#45;&#45; Select customer &#45;&#45;</option-->
+                  <!--                                        >-->
+                  <!--                                        <option-->
+                  <!--                                            *ngFor="-->
+                  <!--                                                let row of loanCustomerInformation-->
+                  <!--                                            "-->
+                  <!--                                            [value]="row.customerId"-->
+                  <!--                                        >-->
+                  <!--                                            {{ row.firstName }} {{ row.lastName }}-->
+                  <!--                                        </option>-->
+                  <!--                                    </input>-->
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  Product
+                </label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="proposedProductId"
+                    formControlName="proposedProductId"
+                    id="proposedProductId"
+                    class="form-control"
+                    (change)="onProductChange($event.target.value)"
+                  >
+                    <option value="">-- Select Product --</option>
+                    <option
+                      *ngFor="let row of productInformation"
+                      [value]="row.productId"
+                    >
+                      {{ row.productName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Proposed Tenor
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    formControlName="proposedTenor"
+                    name="proposedTenor"
+                    class="form-control"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Proposed Rate
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    formControlName="proposedRate"
+                    name="proposedRate"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Frequency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="frequencyTypeId"
+                    [attr.disabled]="true"
+                    formControlName="frequencyTypeId"
+                    id="frequencyTypeId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Frequency--</option>
+                    <option
+                      *ngFor="let row of frequencyTypeList"
+                      [value]="row.lookupId"
+                    >
+                      {{ row.lookupName }}
+                    </option>
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Period
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    [attr.disabled]="true"
+                    formControlName="period"
+                    name="period"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Proposed Amount
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    formControlName="proposedAmount"
+                    name="proposedAmount"
+                    class="form-control"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Currency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="currencyId"
+                    (change)="onCurrencyChanged($event.target.value)"
+                    formControlName="currencyId"
+                    id="currencyId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Currency --</option>
+                    <option
+                      *ngFor="let row of currencyInformation"
+                      [value]="row.lookupId"
+                    >
+                      {{ row.lookupName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Effective Date
+                </label>
+                <div class="col-md-4">
+                  <!--                                    <p-calendar-->
+                  <!--                                        name="effectiveDate"-->
+                  <!--                                        class="form-control"-->
+                  <!--                                        formControlName="effectiveDate"-->
+
+                  <!--                                        [monthNavigator]="true"-->
+                  <!--                                        [yearNavigator]="true"-->
+                  <!--                                        yearRange="1900:2030"-->
+                  <!--                                        [showIcon]="true"-->
+                  <!--                                        [inputStyle]="{ width: '100%' }"-->
+                  <!--                                        [style]="{-->
+                  <!--                                            width: '100%',-->
+                  <!--                                            'z-index': '999'-->
+                  <!--                                        }"-->
+                  <!--                                    ></p-calendar>-->
+                  <input
+                    type="date"
+                    class="form-control"
+                    formControlName="effectiveDate"
+                    name="effectiveDate"
+                    [value]="date1 | date: 'yyyy-MM-dd'"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Exchange Rate
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    formControlName="exchangeRate"
+                    name="exchangeRate"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Principal First Payment Date
+                </label>
+                <div class="col-md-4">
+                  <!--                                   <p-calendar-->
+                  <!--                                       name="firstPrincipalDate"-->
+                  <!--                                       class="form-control"-->
+                  <!--                                       formControlName="firstPrincipalDate"-->
+
+                  <!--                                       [monthNavigator]="true"-->
+                  <!--                                       [yearNavigator]="true"-->
+                  <!--                                       yearRange="1900:2030"-->
+                  <!--                                       [showIcon]="true"-->
+                  <!--                                       [inputStyle]="{ width: '100%' }"-->
+                  <!--                                       [style]="{-->
+                  <!--                                           width: '100%',-->
+                  <!--                                           'z-index': '999'-->
+                  <!--                                       }"-->
+                  <!--                                   ></p-calendar>-->
+                  <input
+                    type="date"
+                    class="form-control"
+                    name="firstPrincipalDate"
+                    formControlName="firstPrincipalDate"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Interest First Payment Date
+                </label>
+                <div class="col-md-4">
+                  <!--                                <p-calendar-->
+                  <!--                                name="firstInterestDate"-->
+                  <!--                                class="form-control"-->
+                  <!--                                formControlName="firstInterestDate"-->
+
+                  <!--                                [monthNavigator]="true"-->
+                  <!--                                [yearNavigator]="true"-->
+                  <!--                                yearRange="1900:2030"-->
+                  <!--                                [showIcon]="true"-->
+                  <!--                                [inputStyle]="{ width: '100%' }"-->
+                  <!--                                [style]="{-->
+                  <!--                                    width: '100%',-->
+                  <!--                                    'z-index': '999'-->
+                  <!--                                }"-->
+                  <!--                            ></p-calendar>-->
+                  <input
+                    type="date"
+                    class="form-control"
+                    formControlName="firstInterestDate"
+                    name="firstInterestDate"
+                  />
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                                 <label for="" class="control-label col-md-2">
+                                    Application Date
+                                </label>
+                                <div class="col-md-4">
+                                    <p-calendar
+                                        name="applicationDate"
+                                        class="form-control"
+                                        formControlName="applicationDate"
+                                        [monthNavigator]="true"
+                                        [yearNavigator]="true"
+                                        yearRange="1900:2030"
+                                        [showIcon]="true"
+                                        [inputStyle]="{ width: '100%' }"
+                                        [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                    ></p-calendar>
+                                </div>
+                                <label for="" class="control-label col-md-2">
+                                    Maturity Date
+                                </label>
+                                <div class="col-md-4">
+                                    <p-calendar
+                                        name="maturityDate"
+                                        class="form-control"
+                                        formControlName="maturityDate"
+                                        [monthNavigator]="true"
+                                        [yearNavigator]="true"
+                                        yearRange="1900:2030"
+                                        [showIcon]="true"
+                                        [inputStyle]="{ width: '100%' }"
+                                        [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                    ></p-calendar>
+                                </div>
+                            </div> -->
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Disbursement Account
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    name="paymentMode"
+                    formControlName="paymentMode"
+                    (change)="getPaymentMode($event.target.value)"
+                  >
+                    <option value="">--Select Payment--</option>
+                    <option value="1">Operating Account</option>
+                    <option value="2">Other Banks</option>
+                  </select>
+                </div>
+                <ng-container *ngIf="val == 1">
+                  <label for="" class="control-label col-md-2">
+                    Account Number
+                  </label>
+                  <div class="col-md-4">
+                    <select
+                      class="form-control"
+                      name="paymentAccount"
+                      formControlName="paymentAccount"
+                    >
+                      <option value="">--Select Account Number</option>
+                      <option [value]="customerAccount">{{
+                        customerAccount
+                      }}</option>
+                    </select>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="val == 2">
+                  <label for="" class="control-label col-md-2">
+                    Accounts
+                  </label>
+                  <div class="col-md-4">
+                    <select
+                      class="form-control"
+                      name="paymentAccount"
+                      formControlName="paymentAccount"
+                    >
+                      <option value="">--Select Account--</option>
+                      <option
+                        *ngFor="let bank of bankDetails"
+                        [value]="bank.bank + ' - ' + bank.account"
+                        >{{ bank.bank }} - {{ bank.account }}</option
+                      >
+                    </select>
+                  </div>
+                </ng-container>
+              </div>
+              <!-- <div class="form-group">
+                                <label for="" class="control-label col-md-2 pr_0">
+                                    Mode of Repayment
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        class="form-control"
+                                        name="repaymentMode"
+                                        formControlName="repaymentMode"
+                                        [ngModelOptions]="{ standalone: true }"
+                                    >
+                                        <option value=""
+                                            >--Select Repayment--</option
+                                        >
+                                        <option value="1"
+                                            >Direct Debit</option
+                                        >
+                                        <option value="2">Card Payment</option>
+                                    </select>
+                                </div>
+                                <ng-container *ngIf="payload.repaymentMode == 2">
+                                    <label
+                                        for=""
+                                        class="control-label col-md-2"
+                                    >
+                                        Account Number
+                                    </label>
+                                    <div class="col-md-4">
+                                        <select
+                                            class="form-control"
+                                            name="repaymentAccount"
+                                            formControlName="repaymentAccount"
+                                            formControlName="repaymentAccount"
+                                        >
+                                            <option value=""
+                                                >--Select Account Number</option
+                                            >
+                                            <option [value]="customerAccount"
+                                                >{{ customerName }} -
+                                                {{ customerAccount }}</option
+                                            >
+                                        </select>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="payload.repaymentMode == 1">
+                                    <label
+                                        for=""
+                                        class="control-label col-md-2"
+                                    >
+                                        Accounts
+                                    </label>
+                                    <div class="col-md-4">
+                                        <select
+                                            class="form-control"
+                                            name="repaymentAccount"
+                                            formControlName="repaymentAccount"
+                                        >
+                                            <option value=""
+                                                >--Select Account--</option
+                                            >
+                                            <option
+                                                *ngFor="let bank of bankDetails"
+                                                [value]="bank.bank + ' - ' + bank.account"
+                                                >{{ bank.bank }} - {{ bank.account }}</option
+                                            >
+                                        </select>
+                                    </div>
+                                </ng-container>
+                            </div> -->
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Loan Purpose
+                </label>
+                <div class="col-md-10">
+                  <textarea
+                    type="text"
+                    rows="3"
+                    formControlName="purpose"
+                    name="purpose"
+                    class="form-control"
+                    style="resize: none"
+                  ></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="panel-footer">
+            <div class="row">
+              <div class="col-md-12">
+                <button
+                  type="button"
+                  (click)="submitLoanApplicationInfo(form)"
+                  class="btn btn-success pull-right"
+                >
+                  Save
+                </button>
+                <button
+                  type="button"
+                  (click)="goBack()"
+                  style="margin-right:5px"
+                  class="btn btn-danger pull-right"
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-12">
+                  <h2 class="panel-title pull-left">
+                    Running Facilities
+                  </h2>
+                </div>
+              </div>
+            </div>
+            <p-table #dt [value]="loanApplicationInformation" [columns]="cols">
+              <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                  <input
+                    type="text"
+                    pInputText
+                    size="50"
+                    class="form-control"
+                    placeholder="Search..."
+                    (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                    style="width:auto"
+                  />
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>CustomerName</th>
+                  <th>ProductName</th>
+                  <th>ApprovedTenor</th>
+                  <th>ApprovedRate</th>
+                  <th>EffectiveDate</th>
+                  <th>MaturityDate</th>
+                  <th>ApprovedAmount</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-x let-i="rowIndex">
+                <tr [pSelectableRow]="x" (click)="rowClicked(x)">
+                  <td>{{ x.customerName }}</td>
+                  <td>{{ x.approvedProductName }}</td>
+                  <td>{{ x.approvedTenor }}</td>
+                  <td>{{ x.approvedRate }}</td>
+                  <td>{{ x.effectiveDate | date }}</td>
+                  <td>
+                    {{ x.maturityDate | date }}
+                  </td>
+                  <td>
+                    {{ x.approvedAmount | number: "1.2"}}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

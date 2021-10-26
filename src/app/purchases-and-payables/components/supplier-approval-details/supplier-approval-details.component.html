@@ -1,0 +1,755 @@
+<div class="ui-g">
+  <div class="ui-g no-padding" style="width: 100%">
+    <div class="panel panel-default" style="width: 100%">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Supplier Information
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Supplier Details
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <ng-template pTemplate="caption">
+                      <h6>
+                        <strong> Supplier Details </strong>
+                      </h6>
+                    </ng-template>
+                    <table class="table table-customer-information">
+                      <tbody>
+                        <tr>
+                          <td>
+                            <strong> Supplier Name:</strong>
+                          </td>
+                          <td>{{ supplierDetails?.name }}</td>
+                          <td>
+                            <strong>Email:</strong>
+                          </td>
+                          <td>{{ supplierDetails?.email }}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong> Address:</strong>
+                          </td>
+                          <td>{{ supplierDetails?.address }}</td>
+                          <td>
+                            <strong>Postal Address:</strong>
+                          </td>
+                          <td>{{ supplierDetails?.postalAddress || "N/A" }}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong> Phone Number:</strong>
+                          </td>
+                          <td>{{ supplierDetails?.phoneNo }}</td>
+                          <td>
+                            <strong>Tax or VAT ID:</strong>
+                          </td>
+                          <td>{{ supplierDetails?.taxIDorVATID }}</td>
+                        </tr>
+                        <tr>
+                          <td>
+                            <strong> Registration Number:</strong>
+                          </td>
+                          <td>
+                            {{ supplierDetails?.registrationNo || "N/A" }}
+                          </td>
+                          <!--                                    <td>-->
+                          <!--                                        <strong>Company Website:</strong>-->
+                          <!--                                    </td>-->
+                          <!--                                    <td>{{ loanCustomerInformation?.companyWebsite}}</td>-->
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Identification
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <ng-container *ngIf="particular == '2'">
+                      <p-table
+                        [value]="supplierIdentifications"
+                        [responsive]="true"
+                      >
+                        <ng-template pTemplate="caption">
+                          <h6>
+                            <strong> Identification </strong>
+                          </h6>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th>S/N</th>
+                            <th>Reg Number</th>
+                            <th>Business Type</th>
+                            <th>Incorporation Date</th>
+                            <!--                      <th>Address</th>-->
+                            <!--                      <th></th>-->
+                            <!--                      <th></th>-->
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                          <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ x.registrationnumber }}</td>
+                            <td>{{ x.businessTypeName }}</td>
+                            <td>{{ x.incorporationDate | date }}</td>
+                            <!--                      <td>{{ x.address }}</td>-->
+                            <!--                      <td>-->
+                            <!--                        <a (click)="editIdentification(x)">Edit</a>-->
+                            <!--                      </td>-->
+                            <!--                      <td>-->
+                            <!--                        <a (click)="deleteIdentification(x)">Delete</a>-->
+                            <!--                      </td>-->
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </ng-container>
+                    <ng-container *ngIf="particular == '1'">
+                      <p-table
+                        [value]="supplierIdentifications"
+                        [responsive]="true"
+                      >
+                        <ng-template pTemplate="caption">
+                          <h6>
+                            <strong> Identification </strong>
+                          </h6>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th>S/N</th>
+                            <th>Identification</th>
+                            <th>Identification Number</th>
+                            <th>Expiry Date</th>
+                            <th>Nationality</th>
+                            <th>Work Permit</th>
+                            <!--                      <th></th>-->
+                            <!--                      <th></th>-->
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                          <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ x.identificationName }}</td>
+                            <td>{{ x.identificationNumber }}</td>
+                            <td>{{ x.expiryDate | date }}</td>
+                            <td>{{ x.nationalityName }}</td>
+                            <td>
+                              <span *ngIf="x.haveWorkPermit">Yes</span>
+                              <span *ngIf="!x.haveWorkPermit">No</span>
+                            </td>
+                            <!--                      <td>-->
+                            <!--                        <a (click)="editIdentification(x)">Edit</a>-->
+                            <!--                      </td>-->
+                            <!--                      <td>-->
+                            <!--                        <a (click)="deleteIdentification(x)">Delete</a>-->
+                            <!--                      </td>-->
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </ng-container>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Authorising Officers
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <p-table
+                      [value]="supplierAuthorizations"
+                      [responsive]="true"
+                    >
+                      <ng-template pTemplate="caption">
+                        <h6>
+                          <strong> Authorising Officers </strong>
+                        </h6>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>S/N</th>
+                          <th>Full Name</th>
+                          <th>Email</th>
+                          <th>Phone Number</th>
+                          <th>Address</th>
+                          <th></th>
+                          <!--                    <th></th>-->
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ x.name }}</td>
+                          <td>{{ x.email }}</td>
+                          <td>{{ x.phoneNo }}</td>
+                          <td>{{ x.address }}</td>
+                          <td>
+                            <a (click)="viewAuthorizerSinature(x.signature)"
+                              >View Signatue</a
+                            >
+                          </td>
+                          <!--                    <td>-->
+                          <!--                      <a (click)="deleteAuthorization(x)">Delete</a>-->
+                          <!--                    </td>-->
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Business Owners
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <p-table
+                      [value]="supplierBusinessOwners"
+                      [responsive]="true"
+                    >
+                      <ng-template pTemplate="caption">
+                        <h6>
+                          <strong> Business Owners </strong>
+                        </h6>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>S/N</th>
+                          <th>Full Name</th>
+                          <th>Email</th>
+                          <th>Phone Number</th>
+                          <th>Address</th>
+                          <th></th>
+                          <!--                    <th></th>-->
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ x.name }}</td>
+                          <td>{{ x.email }}</td>
+                          <td>{{ x.phoneNo }}</td>
+                          <td>{{ x.address }}</td>
+                          <td>
+                            <a (click)="viewBusinessOwnerSignature(x.signature)"
+                              >View Signature</a
+                            >
+                          </td>
+                          <!--                    <td>-->
+                          <!--                      <a (click)="deleteBusinessOwners(x)">Delete</a>-->
+                          <!--                    </td>-->
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Top Clients
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <p-table [value]="supplierTopClients" [responsive]="true">
+                      <ng-template pTemplate="caption">
+                        <h6>
+                          <strong> Top Clients </strong>
+                        </h6>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th>S/N</th>
+                          <th>Client Name</th>
+                          <th>Contact Person</th>
+                          <th>No Of Staff</th>
+                          <th>Phone Number</th>
+                          <th>Email</th>
+                          <!--                    <th></th>-->
+                          <!--                    <th></th>-->
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td>{{ i + 1 }}</td>
+                          <td>{{ x.name }}</td>
+                          <td>{{ x.contactPerson }}</td>
+                          <td>{{ x.noOfStaff }}</td>
+                          <td>{{ x.phoneNo }}</td>
+                          <td>{{ x.email }}</td>
+                          <!--                    <td>-->
+                          <!--                      <a (click)="editTopClients(x)">Edit</a>-->
+                          <!--                    </td>-->
+                          <!--                    <td>-->
+                          <!--                      <a (click)="deleteTopClients(x)">Delete</a>-->
+                          <!--                    </td>-->
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Top Suppliers
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <p-table [value]="supplierTopSuppliers" [responsive]="true">
+                      <ng-template pTemplate="caption">
+                        <h6>
+                          <strong> Top Suppliers </strong>
+                        </h6>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="sn_width">S/N</th>
+                          <th>Client Name</th>
+                          <th>Contact Person</th>
+                          <th>No Of Staff</th>
+                          <th>Phone Number</th>
+                          <th>Email</th>
+                          <!--                    <th></th>-->
+                          <!--                    <th></th>-->
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <td>{{ x.name }}</td>
+                          <td>{{ x.contactPerson }}</td>
+                          <td>{{ x.noOfStaff }}</td>
+                          <td>{{ x.phoneNo }}</td>
+                          <td>{{ x.email }}</td>
+                          <!--                    <td>-->
+                          <!--                      <a (click)="editTopSuppliers(x)">Edit</a>-->
+                          <!--                    </td>-->
+                          <!--                    <td>-->
+                          <!--                      <a (click)="deleteTopSuppliers(x)">Delete</a>-->
+                          <!--                    </td>-->
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Bank Details
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <p-table [value]="bankDetails" [responsive]="true">
+                      <ng-template pTemplate="caption">
+                        <h6>
+                          <strong> Bank Details </strong>
+                        </h6>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="sn_width">S/N</th>
+                          <th>Bank</th>
+                          <th>Account Name</th>
+                          <th>Account Number</th>
+                          <th>BVN</th>
+                          <!--                    <th></th>-->
+                          <!--                    <th></th>-->
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <td>{{ x.bank }}</td>
+                          <td>{{ x.accountName }}</td>
+                          <td>{{ x.accountNumber }}</td>
+                          <td>{{ x.bvn }}</td>
+                          <!--                    <td>-->
+                          <!--                      <a (click)="editBankDetails(x)">Edit</a>-->
+                          <!--                    </td>-->
+                          <!--                    <td>-->
+                          <!--                      <a (click)="deleteBankDetails(x)">Delete</a>-->
+                          <!--                    </td>-->
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Financial Details
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <h6>
+                      <strong> Financial Details </strong>
+                    </h6>
+                    <p-table [value]="financialDetails" [responsive]="true">
+                      <ng-template pTemplate="caption">
+                        <h4>
+                          Business Size:
+                          <span *ngIf="businessSize == '1'">Below 1m</span>
+                          <span *ngIf="businessSize == '2'">1m-20m</span>
+                          <span *ngIf="businessSize == '3'">21m-100m</span>
+                          <span *ngIf="businessSize == '4'">101m-1billion</span>
+                          <span *ngIf="businessSize == '5'">101m-1billion</span>
+                          <span *ngIf="businessSize == '6'"
+                            >Above 1billion</span
+                          >
+                        </h4>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="sn_width">S/N</th>
+                          <th>Year</th>
+                          <th>Volume</th>
+                          <!--                      <th>Year 2</th>-->
+                          <!--                      <th>Volume</th>-->
+                          <!--                      <th>Year 3</th>-->
+                          <!--                      <th>Volume</th>-->
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <td>{{ x.year }}</td>
+                          <td>{{ x.value }}</td>
+                          <td>
+                            <a (click)="editFinancialDetails(x)">Edit</a>
+                          </td>
+                          <td>
+                            <a (click)="deleteFinancialDetails(x)">Delete</a>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="ui-g">
+            <div class="ui-g-12 no-padding">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                        Documents
+                      </h2>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-body">
+                  <div class="row" style="padding:0 15px 0 15px;">
+                    <h6>
+                      <strong> Documents </strong>
+                    </h6>
+                    <p-table [value]="supplierDocuments" [responsive]="true">
+                      <ng-template pTemplate="caption">
+                        <h4>Documents</h4>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="sn_width">S/N</th>
+                          <th>Name</th>
+                          <th>Reference Number</th>
+                          <th>Description</th>
+                          <th></th>
+                          <th></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <td class="table_link">
+                            {{ x.name }}
+                          </td>
+                          <td class="table_link">
+                            {{ x.referenceNumber }}
+                          </td>
+                          <td class="table_link">
+                            {{ x.description }}
+                          </td>
+                          <td>
+                            <a (click)="downloadDocument(x)"
+                              >Download</a
+                            >
+                          </td>
+                          <td>
+                            <a (click)="deleteDocument(x)">Delete</a>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayAuthorizerSignature"
+  modal="modal"
+  showEffect="fade"
+  width="1200"
+>
+  <div
+    *ngIf="displayAuthorizerSignature"
+    style="margin-bottom:0"
+    class="panel panel-default"
+  >
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Document Title:
+        <strong>Signature</strong>
+      </h2>
+      <!--      <div class="pull-right">-->
+      <!--        <a class="close" (click)="displayAuthorizerSignature = false"-->
+      <!--          >&times;</a-->
+      <!--        >-->
+      <!--      </div>-->
+    </div>
+
+    <div class="panel-body" style="overflow:auto;height:500px">
+      <div style="margin: auto; width: 50%">
+        <img
+          *ngIf="binaryFile"
+          style="max-width: 100%; display: block"
+          [src]="'data:image/jpg;base64,' + binaryFile"
+          alt=""
+          class="img-thumbnail"
+        />
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayBusinessOwnerSignature"
+  modal="modal"
+  showEffect="fade"
+  width="1200"
+>
+  <div
+    *ngIf="displayBusinessOwnerSignature"
+    style="margin-bottom:0"
+    class="panel panel-default"
+  >
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Document Title:
+        <strong>Signature</strong>
+      </h2>
+      <!--      <div class="pull-right">-->
+      <!--        <a class="close" (click)="displayBusinessOwnerSignature = false"-->
+      <!--          >&times;</a-->
+      <!--        >-->
+      <!--      </div>-->
+    </div>
+
+    <div class="panel-body" style="overflow:auto;height:500px">
+      <div style="margin: auto; width: 50%">
+        <img
+          *ngIf="businessOwnerSignature"
+          style="max-width: 100%; display: block"
+          [src]="'data:image/jpg;base64,' + businessOwnerSignature"
+          alt=""
+          class="img-thumbnail"
+        />
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displaySupplierDocument"
+  modal="modal"
+  showEffect="fade"
+  width="1200"
+>
+  <div
+    *ngIf="displaySupplierDocument"
+    style="margin-bottom:0"
+    class="panel panel-default"
+  >
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Document Title:
+        <strong>Signature</strong>
+      </h2>
+      <!--      <div class="pull-right">-->
+      <!--        <a class="close" (click)="displaySupplierDocument = false"-->
+      <!--        >&times;</a-->
+      <!--        >-->
+      <!--      </div>-->
+    </div>
+
+    <div class="panel-body" style="overflow:auto;height:500px">
+      <div style="margin: auto; width: 50%">
+        <img
+          *ngIf="supplierDoc"
+          style="max-width: 100%; display: block"
+          [src]="'data:image/jpg;base64,' + supplierDoc"
+          alt=""
+          class="img-thumbnail"
+        />
+      </div>
+    </div>
+  </div>
+</p-dialog>

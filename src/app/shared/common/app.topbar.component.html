@@ -1,0 +1,194 @@
+<div class="topbar clearfix">
+  <div class="topbar-left">
+    <div class="logo"></div>
+  </div>
+
+  <div class="topbar-right">
+    <a id="menu-button" href="#" (click)="app.onMenuButtonClick($event)">
+      <i style="font-size: 30px !important;"></i>
+    </a>
+
+    <a
+      id="topbar-menu-button"
+      href="#"
+      (click)="app.onTopbarMenuButtonClick($event)"
+    >
+      <i class="material-icons">menu</i>
+    </a>
+
+    <div style="float:left; padding-top:11px;">
+      <h2 class="topheaderinfo">
+        Welcome {{ staffName }} :: {{ loggedInUserCompany }} ::
+        <span style="font-size:smaller"
+          ><i
+            >{{ applicationDate | date: "fullDate" }} ==> Last Login
+            {{ lastLoginDate | date: "medium" }}</i
+          ></span
+        >
+      </h2>
+    </div>
+
+    <ul
+      class="topbar-items animated fadeInDown"
+      [ngClass]="{ 'topbar-items-visible': true }"
+    >
+      <li
+        #profile
+        class="profile-item"
+        [ngClass]="{ 'active-top-menu': app.activeTopbarItem === profile }"
+      >
+        <a (click)="app.onTopbarItemClick($event, profile)">
+          <img class="profile-image" src="assets/layout/images/avatar.png" />
+          <span class="topbar-item-name">Jane Williams</span>
+        </a>
+
+        <ul class="ultima-menu animated fadeInDown" #profile>
+          <li role="menuitem">
+            <a href="#" (click)="app.onTopbarSubItemClick($event)">
+              <i class="material-icons">person</i>
+              <span>Profile</span>
+            </a>
+          </li>
+          <li role="menuitem">
+            <a href="#" (click)="app.onTopbarSubItemClick($event)">
+              <i class="material-icons">security</i>
+              <span>Privacy</span>
+            </a>
+          </li>
+          <li role="menuitem">
+            <a href="#" (click)="app.onTopbarSubItemClick($event)">
+              <i class="material-icons">settings_applications</i>
+              <span>Settings</span>
+            </a>
+          </li>
+          <li role="menuitem">
+            <a href="#" (click)="logOut()">
+              <i class="material-icons">power_settings_new</i>
+              <span>Logout</span>
+            </a>
+          </li>
+        </ul>
+      </li>
+
+      <li
+        #messages
+        [ngClass]="{ 'active-top-menu': app.activeTopbarItem === messages }"
+      >
+        <a href="#" (click)="app.onTopbarItemClick($event, messages)">
+          <i
+            class="topbar-icon material-icons animated swing"
+            style="font-size: 50px !important;"
+            >message</i
+          >
+          <span class="notifification_count topbar-badge animated rubberBand" *ngIf="showCounts">{{
+            counts
+          }}</span>
+          <span class="topbar-item-name">Messages</span>
+        </a>
+        <ul
+          class="ultima-menu animated fadeInDown"
+          style="width: 35rem !important; height: 20rem; overflow-y: scroll"
+        >
+          <li role="menuitem" *ngFor="let alert of message_alerts">
+            <a
+              class="topbar-message"
+              (click)="getNotification(alert.emailMessageId)"
+            >
+              <span
+                class="circle"
+              >
+                <img
+                  src="../../../../assets/layout/images/mail.png"
+                  alt=""
+                  class="notif_img"
+                  *ngIf="alert.emailStatus === 0"
+                />
+                <img
+                  src="../../../../assets/layout/images/read-mail.png"
+                  alt=""
+                  class="notif_img"
+                  *ngIf="alert.emailStatus === 3"
+                />
+              </span>
+              <span
+                [className]="
+                  alert.emailStatus == 3 ? 'light_text' : 'bold_text'
+                "
+                >{{ alert?.subject }}</span
+              >
+            </a>
+          </li>
+          <div
+            (click)="viewAll()"
+            style="display: flex;justify-content: center;text-decoration: none; padding-bottom: 10px; cursor: pointer"
+          >
+            See all notifications
+          </div>
+        </ul>
+      </li>
+      <!--      <li class="menuitem dropdown">-->
+      <!--        <a (click)="showItem('messages')">-->
+      <!--          <i class="topbar-icon material-icons animated swing">message</i>-->
+      <!--          <span class="count_badge">{{ counts }}</span>-->
+      <!--        </a>-->
+      <!--        <div class="dropdown-content" #messages>-->
+      <!--         <div class="dropdown_scroll">-->
+      <!--           <ul *ngFor="let message of message_alerts">-->
+      <!--             <li style="list-style: none">-->
+      <!--               <a class="topbar-message" (click)="getNotification(message?.id)">-->
+      <!--                 <span style="font-size: 1.2rem" [className]="message.markread? 'light_text': 'bold_text'"> {{ message?.subject }}</span>-->
+      <!--               </a>-->
+      <!--             </li>-->
+      <!--           </ul>-->
+      <!--         </div>-->
+      <!--          <div class="dropdown_footer">-->
+      <!--            <span (click)="viewAll()"><a>See all</a></span>-->
+      <!--          </div>-->
+      <!--        </div>-->
+      <!--      </li>-->
+      <!--      <li-->
+      <!--        #notifications-->
+      <!--        [ngClass]="{-->
+      <!--          'active-top-menu': app.activeTopbarItem === notifications-->
+      <!--        }"-->
+      <!--      >-->
+      <!--        <a href="#" (click)="app.onTopbarItemClick($event, notifications)">-->
+      <!--          <i class="topbar-icon material-icons">timer</i>-->
+      <!--          <span class="topbar-badge animated rubberBand">{{-->
+      <!--            message_alerts.length-->
+      <!--          }}</span>-->
+      <!--          <span class="topbar-item-name">Notifications</span>-->
+      <!--        </a>-->
+      <!--        <ul-->
+      <!--          class="ultima-menu animated fadeInDown"-->
+      <!--          *ngFor="let alert of message_alerts"-->
+      <!--        >-->
+      <!--          <li role="menuitem">-->
+      <!--            <a href="#" (click)="app.onTopbarSubItemClick($event)">-->
+      <!--              <i class="material-icons">bug_report</i>-->
+      <!--              <span>{{ alert.subject }}</span>-->
+      <!--            </a>-->
+      <!--          </li>-->
+      <!--          <li role="menuitem">-->
+      <!--            <a href="#" (click)="app.onTopbarSubItemClick($event)">-->
+      <!--              <i class="material-icons">event</i>-->
+      <!--              <span>Meeting today at 3pm</span>-->
+      <!--            </a>-->
+      <!--          </li>-->
+      <!--          <li role="menuitem">-->
+      <!--            <a href="#" (click)="app.onTopbarSubItemClick($event)">-->
+      <!--              <i class="material-icons">file_download</i>-->
+      <!--              <span>Download documents</span>-->
+      <!--            </a>-->
+      <!--          </li>-->
+      <!--          <li role="menuitem">-->
+      <!--            <a href="#" (click)="app.onTopbarSubItemClick($event)">-->
+      <!--              <i class="material-icons">flight</i>-->
+      <!--              <span>Book flight</span>-->
+      <!--            </a>-->
+      <!--          </li>-->
+      <!--        </ul>-->
+      <!--      </li>-->
+    </ul>
+  </div>
+</div>

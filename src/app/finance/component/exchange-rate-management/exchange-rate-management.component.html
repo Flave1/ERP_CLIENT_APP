@@ -1,0 +1,131 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Currency
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="companyId"
+                                        formControlName="currency"
+                                        id="companyId"
+                                        class="form-control"
+                                    >
+                                        <option value="" disabled
+                                            >-- Select Currency --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                let currency of currencyRates
+                                            "
+                                            [value]="currency.currencyId"
+                                            >{{ currency.currencyName }}</option
+                                        >
+                                    </select>
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    From
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <p-calendar
+                                        class="form-control"
+                                        [monthNavigator]="true"
+                                        [yearNavigator]="true"
+                                        [showIcon]="true"
+                                        yearRange="1900:2100"
+                                        [inputStyle]="{ width: '100%' }"
+                                        [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                        formControlName="startDate"
+                                    ></p-calendar>
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    To
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <p-calendar
+                                        class="form-control"
+                                        [monthNavigator]="true"
+                                        [yearNavigator]="true"
+                                        [showIcon]="true"
+                                        yearRange="1900:2100"
+                                        [inputStyle]="{ width: '100%' }"
+                                        [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                        formControlName="endDate"
+                                    ></p-calendar>
+                                </div>
+
+                                <label
+                                    for="status"
+                                    class="control-label col-md-2"
+                                >
+                                    Status
+                                </label>
+                                <div class="col-md-4 mb_5">
+                                    <select
+                                        name="status"
+                                        id="status"
+                                        class="form-control"
+                                        formControlName="status"
+                                    >
+                                        <option value=""
+                                            >--Select Status</option
+                                        >
+                                        <option value="open">Open</option>
+                                        <option value="closed">Closed</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                [disabled]="!form.valid"
+                                class="btn btn-primary pull-right"
+                                (click)="submitFinancialYear(form)"
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                                (click)="goBack()"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

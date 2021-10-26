@@ -1,0 +1,142 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+          <div class="panel-heading">
+              <div class="row">
+                  <div class="col-md-12">
+                      <h2 class="panel-title pull-left">
+                         Financial Statement Report
+                      </h2>
+                  </div>
+              </div>
+          </div>
+
+          <div class="panel-body">
+              <div class="form-horizontal">
+                  <div class="form__flex flex_wrap">
+                      <div class="mr_5">
+                          <label>Company</label>
+                          <select
+                              name="companyId"
+                              id="company"
+                              class="form-control"
+                              [(ngModel)]="companyId"
+                          >
+                              <option value="0" disabled
+                              >-- Select Company --</option
+                              >
+                              <option
+                                  *ngFor="
+                                              let row of companyInformation
+                                          "
+                                  [value]="row.companyStructureId"
+                              >
+                                  {{ row.name }}
+                              </option>
+                          </select>
+                      </div>
+                      <div class="mr_5">
+                          <label>Report Mode</label>
+                          <select
+                              name="reportMode"
+                              id="reportMode"
+                              class="form-control"
+                              [(ngModel)]="reportMode"
+                          >
+                              <option value="0" disabled
+                              >-- Select Report Mode --</option
+                              >
+                              <option
+                                  value="1"
+                              >
+                                  With Adjustment
+                              </option>
+                              <option
+                                  value="2"
+                              >
+                              Without Adjustment
+                              </option>
+                          </select>
+                      </div>
+                      <div class="mr_5">
+                          <label>Report Date</label>
+                          <p-calendar
+                              [monthNavigator]="true"
+                              [yearNavigator]="true"
+                              [showIcon]="true"
+                              yearRange="1900:2100"
+                              [inputStyle]="{ width: '100%' }"
+                              [style]="{
+                                          width: '100%',
+                                          'z-index': '999'
+                                      }"
+                              [(ngModel)]="rDate"
+                          ></p-calendar>
+                      </div>
+                      <div class="mr_5">
+                          <label>Comparative Date</label>
+                          <p-calendar
+                              [monthNavigator]="true"
+                              [yearNavigator]="true"
+                              [showIcon]="true"
+                              yearRange="1900:2100"
+                              [inputStyle]="{ width: '100%' }"
+                              [style]="{
+                                          width: '100%',
+                                          'z-index': '999'
+                                      }"
+                              [(ngModel)]="cDate"
+                          ></p-calendar>
+                      </div>
+                      <div class="mr_5">
+                        <label>Transition Date</label>
+                        <p-calendar
+                            [monthNavigator]="true"
+                            [yearNavigator]="true"
+                            [showIcon]="true"
+                            yearRange="1900:2100"
+                            [inputStyle]="{ width: '100%' }"
+                            [style]="{
+                                        width: '100%',
+                                        'z-index': '999'
+                                    }"
+                            [(ngModel)]="tDate"
+                        ></p-calendar>
+                    </div>
+                      <div class="mr_5">
+                          <label>Report Format</label>
+                          <select
+                              name="reportFormat"
+                              id=""
+                              class="form-control"
+                              [(ngModel)]="reportFormat"
+                          >
+                          <option value="0" disabled
+                          >-- Select Report Mode --</option
+                          >
+                          <option
+                              value="1"
+                          >
+                              Ms-Excel
+                          </option>
+                          <option
+                              value="2"
+                          >
+                              On Screen
+                          </option>
+                          </select>
+                      </div>
+                      <div class="process_btn_div" style="margin-top: 11px;">
+                          <button
+                              class="btn btn-success"
+                              (click)="processData()"
+                          >
+                              Process
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>

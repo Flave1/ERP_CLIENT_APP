@@ -1,0 +1,1323 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <p-tabView (onChange)="onTabChange($event)" [activeIndex]="activeIndex">
+              <p-tabPanel header="Supplier Information">
+                <form novalidate [formGroup]="form">
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-2">
+                      Business Registration Number
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" formControlName="registrationNo" name="registrationNo" class="form-control" />
+                    </div>
+                    <label for="particulars" class="control-label col-md-2">Particulars of Participants</label>
+                    <div class="col-md-4">
+                      <select name="" id="particulars" class="form-control" formControlName="particulars" (change)="onParticularsChange($event.target.value)">
+                        <option value="">--Select Particulars--</option>
+                        <option value="1">Individual</option>
+                        <option value="2">Corporate</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-2">
+                      Supplier Type
+                    </label>
+                    <div class="col-md-4">
+                      <select type="text" name="supplierTypeId" formControlName="supplierTypeId" id="supplierTypeId"
+                        class="form-control" (change)="parseValueToInt($event.target.value, 1)">
+                        <option value="">-- Select Supplier Type --</option>
+                        <option *ngFor="let item of supplierTypes" [value]="item.supplierTypeId">
+                          {{ item.supplierTypeName }}</option>
+                      </select>
+                    </div>
+                    <label for="" class="control-label col-md-2">
+                      Supplier Name
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" formControlName="name" name="name" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-2">
+                      Country
+                    </label>
+                    <div class="col-md-4">
+                      <select type="text" name="countryId" formControlName="countryId" id="countryId" class="form-control"
+                        (change)="parseValueToInt($event.target.value, 2)">
+                        <option value="">-- Select Country --</option>
+                        <option *ngFor="let item of countries" [value]="item.lookupId">{{ item.lookupName }}</option>
+                        <!--                                        <option value="2">Togo</option>-->
+                        <!--                                        <option value="3">Ghana</option>-->
+                      </select>
+                    </div>
+                    <label for="" class="control-label col-md-2">
+                      Phone Number
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" formControlName="phoneNo" name="phoneNo" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-2">
+                      Email
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" formControlName="email" name="email" class="form-control" />
+                    </div>
+                    <label for="taxIDorVATID" class="control-label col-md-2">
+                      Tax ID or VAT ID
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" formControlName="taxIDorVATID" name="taxIDorVATID" class="form-control" id="taxIDorVATID" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="postalAddress" class="control-label col-md-2">
+                      Postal Address
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" formControlName="postalAddress" name="postalAddress" class="form-control" id="postalAddress" />
+                    </div>
+                    <label for="website" class="control-label col-md-2">
+                      Website
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" formControlName="website" name="website" class="form-control" id="website" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-2">
+                      Address
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" formControlName="address" name="address" class="form-control" />
+                    </div>
+                  </div>
+                </form>
+              </p-tabPanel>
+              <p-tabPanel header="Identification" [disabled]="otherTabDisabled">
+                <ng-container *ngIf="particular == '2'">
+                  <div class="form-group">
+                    <div class="col-md-12">
+                      <div class="pull-right">
+                        <button (click)="showAddIdentity()" pButton type="button" label="Add Identity" icon="ui-icon-plus"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <p-table [value]="supplierIdentifications" [responsive]="true">
+                    <ng-template pTemplate="caption">
+                      <h4>Supplier Identification</h4>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>S/N</th>
+                        <th>Reg Number</th>
+                        <th>Business Type</th>
+                        <th>Incorporation Date</th>
+                        <!--                        <th>Address</th>-->
+                        <!--                        <th></th>-->
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-x let-i="rowIndex">
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td class="table_link" (click)="editIdentification(x)">
+                          {{ x.registrationnumber }}
+                        </td>
+                        <td class="table_link" (click)="editIdentification(x)">
+                          {{ x.businessTypeName }}
+                        </td>
+                        <td class="table_link" (click)="editIdentification(x)">
+                          {{ x.incorporationDate | date }}
+                        </td>
+                        <!--                        <td>{{ x.address }}</td>-->
+                        <!--                        <td>-->
+                        <!--                          <a (click)="editIdentification(x)">Edit</a>-->
+                        <!--                        </td>-->
+                        <td>
+                          <a (click)="deleteIdentification(x)">Delete</a>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </ng-container>
+                <ng-container *ngIf="particular == '1'">
+                  <div class="form-group">
+                    <div class="col-md-12">
+                      <div class="pull-right">
+                        <button (click)="showAddIdentity()" pButton type="button" label="Add Identity" icon="ui-icon-plus"></button>
+                      </div>
+                    </div>
+                  </div>
+                  <p-table [value]="supplierIdentifications" [responsive]="true">
+                    <ng-template pTemplate="caption">
+                      <h4>Supplier Identification</h4>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>S/N</th>
+                        <th>Identification</th>
+                        <th>Identification Number</th>
+                        <th>Expiry Date</th>
+                        <th>Country of birth</th>
+                        <th>Work Permit</th>
+                        <!--                        <th></th>-->
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-x let-i="rowIndex">
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td class="table_link" (click)="editIdentification(x)">
+                          {{ x.identificationName }}
+                        </td>
+                        <td class="table_link" (click)="editIdentification(x)">
+                          {{ x.identificationNumber }}
+                        </td>
+                        <td class="table_link" (click)="editIdentification(x)">
+                          {{ x.expiryDate | date }}
+                        </td>
+                        <td class="table_link" (click)="editIdentification(x)">
+                          {{ x.nationalityName }}
+                        </td>
+                        <td class="table_link" (click)="editIdentification(x)">
+                          <span *ngIf="x.haveWorkPermit">Yes</span>
+                          <span *ngIf="!x.haveWorkPermit">No</span>
+                        </td>
+                        <!--                        <td>-->
+                        <!--                          <a (click)="editIdentification(x)">Edit</a>-->
+                        <!--                        </td>-->
+                        <td>
+                          <a (click)="deleteIdentification(x)">Delete</a>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </ng-container>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="otherTabDisabled" header="Authorization">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="showAddNewAuthorization()" pButton type="button" label="Add Authorizer" icon="ui-icon-plus"></button>
+                    </div>
+                  </div>
+                </div>
+                <p-table [value]="supplierAuthorizations" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <h4>Authorization</h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>S/N</th>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th>Address</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td>{{ i + 1 }}</td>
+                      <td class="table_link" (click)="editAuthorization(x)">
+                        {{ x.name }}
+                      </td>
+                      <td class="table_link" (click)="editAuthorization(x)">
+                        {{ x.email }}
+                      </td>
+                      <td class="table_link" (click)="editAuthorization(x)">
+                        {{ x.phoneNo }}
+                      </td>
+                      <td class="table_link" (click)="editAuthorization(x)">
+                        {{ x.address }}
+                      </td>
+                      <td>
+                        <a (click)="viewAuthorizerSinature(x.signature)">View Signature</a>
+                      </td>
+                      <td>
+                        <a (click)="deleteAuthorization(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="otherTabDisabled" header="Business Owners">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="showAddNewBusinessOwners()" pButton type="button" label="Add Business Owner"
+                        icon="ui-icon-plus"></button>
+                    </div>
+                  </div>
+                </div>
+                <p-table [value]="supplierBusinessOwners" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <h4>Business Owners</h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>S/N</th>
+                      <th>Full Name</th>
+                      <th>Email</th>
+                      <th>Phone Number</th>
+                      <th>Address</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td>{{ i + 1 }}</td>
+                      <td class="table_link" (click)="editBusinessOwners(x)">
+                        {{ x.name }}
+                      </td>
+                      <td class="table_link" (click)="editBusinessOwners(x)">
+                        {{ x.email }}
+                      </td>
+                      <td class="table_link" (click)="editBusinessOwners(x)">
+                        {{ x.phoneNo }}
+                      </td>
+                      <td class="table_link" (click)="editBusinessOwners(x)">
+                        {{ x.address }}
+                      </td>
+                      <td>
+                        <a (click)="viewBusinessOwnerSignature(x.signature)">View Signature</a>
+                      </td>
+                      <td>
+                        <a (click)="deleteBusinessOwners(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="otherTabDisabled" header="Top Clients">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="showAddNewTopClients()" pButton type="button" label="Add Top Client" icon="ui-icon-plus"></button>
+                    </div>
+                  </div>
+                </div>
+                <p-table [value]="supplierTopClients" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <h4>Top Clients</h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>S/N</th>
+                      <th>Client Name</th>
+                      <th>Contact Person</th>
+                      <th>No Of Staff</th>
+                      <th>Phone Number</th>
+                      <th>Email</th>
+                      <!--                      <th></th>-->
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td>{{ i + 1 }}</td>
+                      <td class="table_link" (click)="editTopClients(x)">
+                        {{ x.name }}
+                      </td>
+                      <td class="table_link" (click)="editTopClients(x)">
+                        {{ x.contactPerson }}
+                      </td>
+                      <td class="table_link" (click)="editTopClients(x)">
+                        {{ x.noOfStaff }}
+                      </td>
+                      <td class="table_link" (click)="editTopClients(x)">
+                        {{ x.phoneNo }}
+                      </td>
+                      <td class="table_link" (click)="editTopClients(x)">
+                        {{ x.email }}
+                      </td>
+                      <!--                      <td>-->
+                      <!--                        <a (click)="editTopClients(x)">Edit</a>-->
+                      <!--                      </td>-->
+                      <td>
+                        <a (click)="deleteTopClients(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="otherTabDisabled" header="Top Suppliers">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="showAddNewTopSuppliers()" pButton type="button" label="Add Top Supplier" icon="ui-icon-plus"></button>
+                    </div>
+                  </div>
+                </div>
+                <p-table [value]="supplierTopSuppliers" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <h4>Top Suppliers</h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="sn_width">S/N</th>
+                      <th>Client Name</th>
+                      <th>Contact Person</th>
+                      <th>No Of Staff</th>
+                      <th>Phone Number</th>
+                      <th>Email</th>
+                      <!--                      <th></th>-->
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td class="sn_width">{{ i + 1 }}</td>
+                      <td class="table_link" (click)="editTopSuppliers(x)">
+                        {{ x.name }}
+                      </td>
+                      <td class="table_link" (click)="editTopSuppliers(x)">
+                        {{ x.contactPerson }}
+                      </td>
+                      <td class="table_link" (click)="editTopSuppliers(x)">
+                        {{ x.noOfStaff }}
+                      </td>
+                      <td class="table_link" (click)="editTopSuppliers(x)">
+                        {{ x.phoneNo }}
+                      </td>
+                      <td class="table_link" (click)="editTopSuppliers(x)">
+                        {{ x.email }}
+                      </td>
+                      <!--                      <td>-->
+                      <!--                        <a (click)="editTopSuppliers(x)">Edit</a>-->
+                      <!--                      </td>-->
+                      <td>
+                        <a (click)="deleteTopSuppliers(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="otherTabDisabled" header="Bank Details">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="addSupplierBankDetails()" pButton type="button" label="Add Bank Details" icon="ui-icon-plus"></button>
+                    </div>
+                  </div>
+                </div>
+                <p-table [value]="bankDetails" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <h4>Bank Details</h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="sn_width">S/N</th>
+                      <th>Bank</th>
+                      <th>Account Name</th>
+                      <th>Account Number</th>
+                      <th>BVN</th>
+                      <!--                      <th></th>-->
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td class="sn_width">{{ i + 1 }}</td>
+                      <td class="table_link" (click)="editBankDetails(x)">
+                        {{ x.bankName }}
+                      </td>
+                      <td class="table_link" (click)="editBankDetails(x)">
+                        {{ x.accountName }}
+                      </td>
+                      <td class="table_link" (click)="editBankDetails(x)">
+                        {{ x.accountNumber }}
+                      </td>
+                      <td class="table_link" (click)="editBankDetails(x)">
+                        {{ x.bvn }}
+                      </td>
+                      <!--                      <td>-->
+                      <!--                        <a (click)="editBankDetails(x)">Edit</a>-->
+                      <!--                      </td>-->
+                      <td>
+                        <a (click)="deleteBankDetails(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="otherTabDisabled" header="Financial Details">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="addSupplierFinancialDetails()" pButton type="button" label="Add Financial Details"
+                        icon="ui-icon-plus"></button>
+                    </div>
+                  </div>
+                </div>
+                <p-table [value]="financialDetails" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <h4> Business Size:
+                      <span *ngIf="businessSize== '1'">Below 1m</span>
+                      <span *ngIf="businessSize== '2'">1m-20m</span>
+                      <span *ngIf="businessSize== '3'">21m-100m</span>
+                      <span *ngIf="businessSize== '4'">101m-1billion</span>
+                      <span *ngIf="businessSize== '5'">101m-1billion</span>
+                      <span *ngIf="businessSize== '6'">Above 1billion</span>
+                    </h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="sn_width">S/N</th>
+                      <th>Year </th>
+                      <th>Volume</th>
+                      <!--                      <th>Year 2</th>-->
+                      <!--                      <th>Volume</th>-->
+                      <!--                      <th>Year 3</th>-->
+                      <!--                      <th>Volume</th>-->
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td class="sn_width">{{ i + 1 }}</td>
+                      <td>{{ x.year }}</td>
+                      <td>{{ x.value }}</td>
+                      <td>
+                        <a (click)="editFinancialDetails(x)">Edit</a>
+                      </td>
+                      <td>
+                        <a (click)="deleteFinancialDetails(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="otherTabDisabled" header="Documents">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="addDocuments()" pButton type="button" label="Add Documents" icon="ui-icon-plus"></button>
+                    </div>
+                  </div>
+                </div>
+                <p-table [value]="supplierDocuments" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <h4>Documents</h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="sn_width">S/N</th>
+                      <th>Name</th>
+                      <th>Reference Number</th>
+                      <th>Description</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td class="sn_width">{{ i + 1 }}</td>
+                      <td class="table_link" (click)="editDocument(x)">{{ x.name }}</td>
+                      <td class="table_link" (click)="editDocument(x)">{{ x.referenceNumber }}</td>
+                      <td class="table_link" (click)="editDocument(x)">{{ x.description }}</td>
+                      <td>
+                        <a (click)="viewSupplierDocument(x)">Download</a>
+                      </td>
+                      <td>
+                        <a (click)="deleteDocument(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button pButton type="button" [disabled]="!form.valid" class="btn btn-primary pull-right" *ngIf="activeIndex == 0"
+                (click)="submitSupplierInfo(form)" icon="pi pi-less-than" iconPos="right" label="Save and Continue"></button>
+              <button pButton type="button" [disabled]="!form.valid" class="btn btn-primary pull-right" *ngIf="activeIndex > 0 && activeIndex < 8"
+                (click)="openNext()" icon="pi pi-less-than" iconPos="right" label="Next"></button>
+              <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0"
+                (click)="openPrev()" icon="pi pi-greater-than" iconPos="left" label="Previous"></button>
+              <button *ngIf="activeIndex == 8" style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="onSavedButtonPressed()">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog [responsive]="true" [(visible)]="showIdentity" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Identifications
+      </h2>
+    </div>
+
+    <form [formGroup]="identificationForm">
+      <ng-container *ngIf="particular == 2">
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="form-group">
+              <label for="regNo" class="control-label col-md-2">Registration Number</label>
+              <div class="col-md-4">
+                <input type="text" id="regNo" formControlName="registrationNumber" class="form-control" />
+              </div>
+              <label for="businessType" class="control-label col-md-2">Business Type</label>
+              <div class="col-md-4">
+                <select name="" id="businessType" class="form-control" (change)="OnTypeSelect($event.target.value)"
+                  formControlName="businessType">
+                  <option value="">--Select Business Type--</option>
+                  <option value="1">Sole proprietorship</option>
+                  <option value="2">Partnership</option>
+                  <option value="3">Limited Liability Company</option>
+                  <option value="5">NGO</option>
+                  <option value="5">Private company</option>
+                  <option value="6">Public company</option>
+                  <option value="7">Others</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="incoDate" class="control-label col-md-2">Date of Incorporation</label>
+              <div class="col-md-4">
+                <input type="date" id="incoDate" class="form-control" formControlName="incorporationDate"/>
+<!--                <p-calendar formControlName="incorporationDate" name="dateOfBirth"-->
+<!--                  [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{ width: '100%' }"-->
+<!--                  [style]="{ width: '100%', 'z-index': '999' }" id="incoDate">-->
+<!--                </p-calendar>-->
+              </div>
+
+              <ng-container *ngIf="type == '7'">
+                <label for="others" class="control-label col-md-2">Others</label>
+                <div class="col-md-4">
+                  <input type="text" id="others" class="form-control" formControlName="otherBusinessType" />
+                </div>
+              </ng-container>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container *ngIf="particular == 1">
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="form-group">
+              <label for="identification" class="control-label col-md-2">Identification</label>
+              <div class="col-md-4">
+                <select name="identification" id="identification" class="form-control" formControlName="identification">
+                  <option value="">--Select Identification--</option>
+                  <option value="1">International Passport</option>
+                  <option value="2">National ID</option>
+                  <option value="3">Driver’s License</option>
+                  <option value="4">Business ID</option>
+                  <option value="5">Others</option>
+                </select>
+              </div>
+              <label for="identificationNumber" class="control-label col-md-2">Identification Number</label>
+              <div class="col-md-4">
+                <input type="text" id="identificationNumber" class="form-control" formControlName="identification_Number" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="expDate" class="control-label col-md-2">Expiry Date</label>
+              <div class="col-md-4">
+                <p-calendar name="expiry_Date" formControlName="expiry_Date" [monthNavigator]="true"
+                  [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{ width: '100%' }"
+                  [style]="{ width: '100%', 'z-index': '999' }" id="expDate">
+                </p-calendar>
+              </div>
+              <label for="nationality" class="control-label col-md-2">Country of birth</label>
+              <div class="col-md-4">
+                <select name="" id="nationality" class="form-control" formControlName="nationality">
+                  <option value="">--Select Country of birth--</option>
+                  <option *ngFor="let item of countries" [value]="item.lookupId">{{ item.lookupName }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="workPermit" class="control-label col-md-2">Do you have work permit?</label>
+              <div class="col-md-4">
+                <input type="checkbox" id="workPermit" formControlName="haveWorkPermit" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <!--      <button *ngIf="particular" class="btn btn-primary pull-right" >Save</button>-->
+      <div class="panel-footer" *ngIf="particular">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="identificationForm.invalid" (click)="saveIdentification(identificationForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="closeIdentity()" style="margin-right:5px" class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+<p-dialog [responsive]="true" [(visible)]="showFinancialDetails" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Financial Details
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="financialDetailsForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="businessSize" class="control-label col-md-2">
+              Business Size
+            </label>
+            <div class="col-md-10">
+              <select name="" id="businessSize" formControlName="businessSize" class="form-control">
+                <option value="" selected disabled>--Select Business Size--</option>
+
+                <option value="1">Below 1m</option>
+                <option value="2">1m-20m</option>
+                <option value="3">21m-100m</option>
+                <option value="4">101m-1billion</option>
+                <option value="5">Above 1billion</option>
+              </select>
+              <!--              <input-->
+              <!--                type="text"-->
+              <!--                formControlName="businessSize"-->
+              <!--                name="businessSize"-->
+              <!--                class="form-control"-->
+              <!--                id="businessSize"-->
+              <!--              />-->
+            </div>
+          </div>
+          <div class="form-group">
+            <h4 style="text-align: center">Sales volume in the last 3years</h4>
+          </div>
+          <div class="form-group">
+            <label for="year" class="control-label col-md-2">
+              Year
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="year" name="year" class="form-control" id="year" />
+            </div>
+            <label for="value1" class="control-label col-md-2">
+              Value
+            </label>
+            <div class="col-md-4">
+              <input type="text" name="value1" class="form-control" id="value1" formControlName="value" />
+            </div>
+          </div>
+          <!--          <div class="form-group">-->
+          <!--            <label for="year2" class="control-label col-md-2"> Year</label>-->
+          <!--            <div class="col-md-4">-->
+          <!--              <input-->
+          <!--                type="text"-->
+          <!--                formControlName="year2"-->
+          <!--                name="year2"-->
+          <!--                class="form-control"-->
+          <!--                id="year2"-->
+          <!--              />-->
+          <!--            </div>-->
+          <!--            <label for="value2" class="control-label col-md-2">Value</label>-->
+          <!--            <div class="col-md-4">-->
+          <!--              <input-->
+          <!--                type="text"-->
+          <!--                name="value2"-->
+          <!--                class="form-control"-->
+          <!--                id="value2"-->
+          <!--                formControlName="value2"-->
+          <!--              />-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <!--          <div class="form-group">-->
+          <!--            <label for="year3" class="control-label col-md-2">Year</label>-->
+          <!--            <div class="col-md-4">-->
+          <!--              <input-->
+          <!--                type="text"-->
+          <!--                name="year3"-->
+          <!--                class="form-control"-->
+          <!--                id="year3"-->
+          <!--                formControlName="year3"-->
+          <!--              />-->
+          <!--            </div>-->
+          <!--            <label for="value3" class="control-label col-md-2">Value</label>-->
+          <!--            <div class="col-md-4">-->
+          <!--              <input-->
+          <!--                type="text"-->
+          <!--                name="value3"-->
+          <!--                class="form-control"-->
+          <!--                id="value3"-->
+          <!--                formControlName="value3"-->
+          <!--              />-->
+          <!--            </div>-->
+          <!--          </div>-->
+        </div>
+      </div>
+      <!--buttons-->
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="financialDetailsForm.invalid" (click)="submitFinancialDetails(financialDetailsForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="closeFinancialDetails()" style="margin-right:5px" class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+<p-dialog [responsive]="true" [(visible)]="displayBankDetails" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Bank Details
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="bankDetailsForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="accountName" class="control-label col-md-2">
+              Account Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="accountName" name="accountName" class="form-control" id="accountName" />
+            </div>
+            <label for="accountNumber" class="control-label col-md-2">
+              Account Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="accountNumber" name="accountNumber" class="form-control" id="accountNumber" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bank" class="control-label col-md-2">Bank</label>
+            <div class="col-md-4">
+              <select name="" id="bank" class="form-control" formControlName="bank">
+                <option *ngFor="let item of banks" [value]="item.bankCode">{{item.bankName}}</option>
+              </select>
+              <!--              <input-->
+              <!--                type="text"-->
+              <!--                class="form-control"-->
+              <!--                id="bank"-->
+              <!--                formControlName="bank"-->
+              <!--              />-->
+            </div>
+            <label for="bvn" class="control-label col-md-2">
+              BVN
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="bvn" name="bvn" class="form-control" id="bvn" />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--buttons-->
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="bankDetailsForm.invalid" (click)="submitBankDetails(bankDetailsForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="closeBankDetails()" style="margin-right:5px" class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+<p-dialog [responsive]="true" [(visible)]="displayAuthorization" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Authorization
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="authorizationForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="name" class="control-label col-md-2">
+              Full Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="name" name="name" class="form-control" id="name" />
+            </div>
+            <label for="email" class="control-label col-md-2">
+              Email
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="email" name="email" class="form-control" id="email" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="phoneNo" class="control-label col-md-2">
+              Phone Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="phoneNo" name="phoneNo" class="form-control" id="phoneNo" />
+            </div>
+            <label for="signature" class="control-label col-md-2">
+              Signature (Jpeg, PNG)
+            </label>
+            <div class="col-md-4">
+              <input type="file" formControlName="signature" (change)="onAuthFileChange($event)" placeholder="Select file"
+                accept=".jpg,.jpeg,.png" #fileInput name="fileInput" class="form-control" id="signature" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="address" class="control-label col-md-2">
+              Address
+            </label>
+            <div class="col-md-4">
+              <textarea rows="3" formControlName="address" name="address" class="form-control" id="address"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--buttons-->
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="authorizationForm.invalid" (click)="submitSupplierAuthorization(authorizationForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="closeAuthorizer()" style="margin-right:5px" class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog [responsive]="true" [(visible)]="displayBusinessOwners" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Business Owners
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="businessOwnerForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="name1" class="control-label col-md-2">
+              Full Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="name" name="name" class="form-control" id="name1" />
+            </div>
+            <label for="bemail" class="control-label col-md-2">
+              Email
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="email" name="email" class="form-control" id="bemail" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bphoneNo" class="control-label col-md-2">
+              Phone Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="phoneNo" name="phoneNo" class="form-control" id="bphoneNo" />
+            </div>
+            <label for="bsignature" class="control-label col-md-2">
+              Signature (Jpeg, PNG)
+            </label>
+            <div class="col-md-4">
+              <input type="file" formControlName="signature" (change)="onAuthFileChange($event)" placeholder="Select file"
+                accept=".jpg,.jpeg,.png" #bsFile name="fileInput" class="form-control" id="bsignature" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="bdateOfBirth" class="control-label col-md-2">
+              DOB
+            </label>
+            <div class="col-md-4">
+              <input type="date" id="bdateOfBirth" class="form-control" formControlName="dateOfBirth" />
+<!--              <p-calendar name="dateOfBirth" class="form-control" formControlName="dateOfBirth" [monthNavigator]="true"-->
+<!--                [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '999' }"-->
+<!--                id="bdateOfBirth"></p-calendar>-->
+            </div>
+
+            <label for="baddress" class="control-label col-md-2">
+              Address
+            </label>
+            <div class="col-md-4">
+              <textarea rows="3" formControlName="address" name="address" class="form-control" id="baddress" style="resize: none"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--buttons-->
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="businessOwnerForm.invalid" (click)="submitSupplierBusinessOwners(businessOwnerForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="closeBusinessOwner()" style="margin-right:5px" class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog [responsive]="true" [(visible)]="displayTopClients" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Top Clients
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="topClientForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="cname" class="control-label col-md-2">
+              Company Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="name" name="name" class="form-control" id="cname" />
+            </div>
+            <label for="contactPerson" class="control-label col-md-2">
+              Contact Person
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="contactPerson" name="contactPerson" class="form-control" id="contactPerson" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cphoneNo" class="control-label col-md-2">
+              Phone Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="phoneNo" name="phoneNo" class="form-control" id="cphoneNo" />
+            </div>
+            <label for="cemail" class="control-label col-md-2">
+              Email
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="email" name="email" class="form-control" id="cemail" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="businessRegNo" class="control-label col-md-2">
+              Business Reg No
+            </label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" id="businessRegNo" />
+            </div>
+            <label for="country" class="control-label col-md-2">Country</label>
+            <div class="col-md-4">
+              <select name="country" id="country" class="form-control" formControlName="countryId">
+                <option value="" selected disabled>--Select Country--</option>
+                <option *ngFor="let item of countries" [value]="item.lookupId">{{ item.lookupName }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="cnoOfStaff" class="control-label col-md-2">
+              No Of Staff
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="noOfStaff" name="noOfStaff" class="form-control" id="cnoOfStaff" />
+            </div>
+
+            <label for="caddress" class="control-label col-md-2">
+              Address
+            </label>
+            <div class="col-md-4">
+              <textarea rows="3" formControlName="address" name="address" class="form-control" id="caddress" style="resize: none"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--buttons-->
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="topClientForm.invalid" (click)="submitSupplierTopClients(topClientForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="closeTopClient()" style="margin-right:5px" class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog [responsive]="true" [(visible)]="displayTopSuppliers" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Top Suppliers
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="topSupplierForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="sname" class="control-label col-md-2">
+              Company Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="name" name="sname" class="form-control" id="sname" />
+            </div>
+            <label for="scontactPerson" class="control-label col-md-2">
+              Contact Person
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="contactPerson" name="contactPerson" class="form-control" id="scontactPerson" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="sphoneNo" class="control-label col-md-2">
+              Phone Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="phoneNo" name="phoneNo" class="form-control" id="sphoneNo" />
+            </div>
+            <label for="semail" class="control-label col-md-2">
+              Email
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="email" name="email" class="form-control" id="semail" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="businessRegNo" class="control-label col-md-2">
+              Business Reg No
+            </label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" id="businessRegNo" />
+            </div>
+            <label for="country" class="control-label col-md-2">Country</label>
+            <div class="col-md-4">
+              <select name="country" id="country" class="form-control" formControlName="countryId">
+                <option value="" selected disabled>--Select Country--</option>
+                <option *ngFor="let item of countries" [value]="item.lookupId">{{ item.lookupName }}</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="snoOfStaff" class="control-label col-md-2">
+              No Of Staff
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="noOfStaff" name="noOfStaff" class="form-control" id="snoOfStaff" />
+            </div>
+            <label for="saddress" class="control-label col-md-2">
+              Address
+            </label>
+            <div class="col-md-4">
+              <textarea rows="3" formControlName="address" name="address" class="form-control" id="saddress" style="resize: none"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--buttons-->
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="topSupplierForm.invalid" (click)="submitSupplierTopSuppliers(topSupplierForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="closeTopSupplier()" style="margin-right:5px" class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog [responsive]="true" [(visible)]="displayDocuments" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Document
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="documentsForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="documentName" class="control-label col-md-2">
+              Document Type
+            </label>
+            <div class="col-md-4">
+              <select name="sname" class="form-control" id="documentName" formControlName="documentId">
+                <option value="" disabled selected>--Select Document--</option>
+                <option *ngFor="let item of documentTypes" [value]="item.lookupId">{{ item.lookupName }}</option>
+              </select>
+            </div>
+            <label for="refNumber" class="control-label col-md-2">
+              Reference Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" id="refNumber" formControlName="referenceNumber" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="documentDesc" class="control-label col-md-2">
+              Document Description
+            </label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" id="documentDesc" formControlName="description" />
+            </div>
+            <label for="file" class="control-label col-md-2">
+              Upload Document
+            </label>
+            <div class="col-md-4">
+              <input type="file" (change)="onAuthFileChange($event)" class="form-control" id="file" #supplierDocument />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--buttons-->
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="documentsForm.invalid" (click)="uploadSupplierDocument(documentsForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="closeDocumentForm()" style="margin-right:5px" class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+<p-dialog [responsive]="true" [(visible)]="displayAuthorizerSignature" modal="modal" showEffect="fade" width="1200">
+  <div *ngIf="displayAuthorizerSignature" style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Document Title:
+        <strong>Signature</strong>
+      </h2>
+      <!--      <div class="pull-right">-->
+      <!--        <a class="close" (click)="displayAuthorizerSignature = false"-->
+      <!--          >&times;</a-->
+      <!--        >-->
+      <!--      </div>-->
+    </div>
+
+    <div class="panel-body" style="overflow:auto;height:500px">
+      <div style="margin: auto; width: 50%">
+        <img *ngIf="binaryFile" style="max-width: 100%; display: block" [src]="'data:image/jpg;base64,' + binaryFile"
+          alt="" class="img-thumbnail" />
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog [responsive]="true" [(visible)]="displayBusinessOwnerSignature" modal="modal" showEffect="fade" width="1200">
+  <div *ngIf="displayBusinessOwnerSignature" style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Document Title:
+        <strong>Signature</strong>
+      </h2>
+      <!--      <div class="pull-right">-->
+      <!--        <a class="close" (click)="displayBusinessOwnerSignature = false"-->
+      <!--          >&times;</a-->
+      <!--        >-->
+      <!--      </div>-->
+    </div>
+
+    <div class="panel-body" style="overflow:auto;height:500px">
+      <div style="margin: auto; width: 50%">
+        <img *ngIf="businessOwnerSignature" style="max-width: 100%; display: block" [src]="'data:image/jpg;base64,' + businessOwnerSignature"
+          alt="" class="img-thumbnail" />
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog [responsive]="true" [(visible)]="displaySupplierDocument" modal="modal" showEffect="fade" width="1200">
+  <div *ngIf="displaySupplierDocument" style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Document Title:
+        <strong>Signature</strong>
+      </h2>
+      <!--      <div class="pull-right">-->
+      <!--        <a class="close" (click)="displaySupplierDocument = false"-->
+      <!--        >&times;</a-->
+      <!--        >-->
+      <!--      </div>-->
+    </div>
+
+    <div class="panel-body" style="overflow:auto;height:500px">
+      <div style="margin: auto; width: 50%">
+        <img *ngIf="supplierDoc" style="max-width: 100%; display: block" [src]="'data:image/jpg;base64,' + supplierDoc"
+          alt="" class="img-thumbnail" />
+      </div>
+    </div>
+  </div>
+</p-dialog>

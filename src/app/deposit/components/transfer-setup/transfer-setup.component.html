@@ -1,0 +1,178 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="col-md-2 control-label">Structure</label>
+                <div class="col-md-4">
+                  <select
+                    name=""
+                    id=""
+                    formControlName="structure"
+                    class="form-control"
+                  >
+                    <option value="" selected disabled
+                      >--Select Structure--</option
+                    >
+                    <option
+                      *ngFor="let item of companyStructure"
+                      [value]="item.companyStructureId"
+                      >{{ item.name }}</option
+                    >
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Product
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    name="accountName"
+                    formControlName="product"
+                    (change)="getDetails($event.target.value)"
+                  >
+                    <option disabled selected>--Select Product</option>
+                    <option
+                      *ngFor="let product of accountSetUpProduct"
+                      [value]="product.depositAccountId"
+                      >{{ product.accountName }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Account Type
+                </label>
+                <div class="col-md-4">
+                  <select
+                    name="status"
+                    id="status"
+                    class="form-control"
+                    formControlName="accountType"
+                    disabled
+                  >
+                    <option value="0" selected disabled
+                      >--Select Account Type--</option
+                    >
+                    <option
+                      *ngFor="let item of accountType"
+                      [value]="item.accountTypeId"
+                      >{{ item.name }}</option
+                    >
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Daily Transfer Limit
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="dailyWithdrawalLimit"
+                    class="form-control"
+                    formControlName="dailyWithdrawalLimit"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Use Preset Chart of Account
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="checkbox"
+                    formControlName="presetChart"
+                    name="presetChart"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Withdrawal Charges applicable
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="checkbox"
+                    formControlName="chargesApplicable"
+                    name="chargesApplicable"
+                    (change)="getValue()"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <ng-container *ngIf="chargesApplicable">
+                  <label for="" class="control-label col-md-2"
+                    >Charges Type</label
+                  >
+                  <div class="col-md-4">
+                    <select
+                      name="chargeType"
+                      id=""
+                      class="form-control"
+                      formControlName="chargeType"
+                      (change)="getChargesType($event.target.value)"
+                    >
+                      <option value="" selected disabled
+                        >--Select Charges Type--</option
+                      >
+                      <option value="Fixed">Fixed</option>
+                      <option value="Percentage">Percentage</option>
+                    </select>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="chargesApplicable && chargesType">
+                  <label for="" class="control-label col-md-2">{{
+                    chargesType
+                  }}</label>
+                  <div class="col-md-4">
+                    <input
+                      type="text"
+                      name="charges"
+                      id=""
+                      class="form-control"
+                      formControlName="charges"
+                    />
+                  </div>
+                </ng-container>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitDetails(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

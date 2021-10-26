@@ -1,0 +1,55 @@
+  <div *ngIf="loanCollaterals" class="ui-g">
+                                <div class="ui-g-12 no-padding">
+                                    <div style="margin-bottom:0" class="panel panel-default">
+                                    <div class="panel-heading">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <h2 class="panel-title pull-left">
+                                                Loan Collateral
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                
+                                    <div class="panel-body">
+                                        <div class="row" style="padding:0 15px 0 15px;">
+                                            <h6>
+                                                <strong> Loan Collateral </strong>
+                                            </h6>
+                                            <h6> <b>Collateral Value</b> : {{ collateralValue | number: "1.2" }}</h6>
+                        <p-table
+                            [value]="loanCollaterals"
+                            dataKey="loanApplicationCollateralId"
+                            [responsive]="true"
+                        >
+                            <ng-template pTemplate="header">
+                                <tr>
+                                    <th style="width:1em">S/N</th>
+                                    <th style="width:5em">Collateral Code</th>
+                                    <th style="width:10em">Collateral Type</th>
+                                    <th style="width:5em">
+                                        Actual Collateral Value
+                                    </th>
+                                </tr>
+                            </ng-template>
+                            <ng-template pTemplate="body" let-x let-i="rowIndex">
+                                <tr>
+                                    <td>{{ i + 1 }}</td>
+                                    <td>{{ x.collateralCode }}</td>
+                                    <td>{{ x.collateralTypeName }}</td>
+                                    <td>{{ x.actualCollateralValue | number: "1.2" }}</td>
+                                </tr>
+                            </ng-template>
+                        </p-table>
+                                        </div>
+                                    </div>
+                                    <div class="panel-footer">
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                </div>
+                            </div>

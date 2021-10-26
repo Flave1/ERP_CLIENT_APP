@@ -1,0 +1,631 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            End of Day Operations
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <p-tabView
+                        (onChange)="onTabChange($event)"
+                        [activeIndex]="activeIndex"
+                    >
+                        <p-tabPanel header="Public  Holiday">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2 class="panel-title pull-left">
+                                            Public Holidays
+                                        </h2>
+                                        <div
+                                            style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                                            class="col-md-1 pull-right"
+                                        >
+                                            <button
+                                                pButton
+                                                style="padding:0.5em 0"
+                                                type="button"
+                                                class="ui-button-raised ui-button-danger"
+                                                (click)="multipleDelete()"
+                                                icon="ui-icon-delete"
+                                                iconPos="center"
+                                                pTooltip="Delete"
+                                                tooltipPosition="top"
+                                                label=""
+                                            ></button>
+                                        </div>
+                                        <div
+                                            style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                                            class="col-md-1 pull-right"
+                                        >
+                                            <button
+                                                pButton
+                                                style="padding:0.5em 0"
+                                                type="button"
+                                                class="ui-button-raised"
+                                                (click)="showAddModal()"
+                                                icon="ui-icon-plus"
+                                                iconPos="center"
+                                                pTooltip="Add"
+                                                tooltipPosition="top"
+                                                label=""
+                                            ></button>
+                                        </div>
+                                        <div
+                                            style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                                            class="col-md-1 pull-right"
+                                        >
+                                            <button
+                                                pButton
+                                                style="padding:0.5em 0"
+                                                type="button"
+                                                class="ui-button-raised ui-button-secondary"
+                                                (click)="exportWorkflowLevel()"
+                                                icon="ui-icon-file-download"
+                                                pTooltip="Download"
+                                                tooltipPosition="top"
+                                                iconPos="center"
+                                                label=""
+                                            ></button>
+                                        </div>
+                                        <div
+                                            style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                                            class="col-md-1 pull-right"
+                                        >
+                                            <button
+                                                pButton
+                                                type="button"
+                                                style="padding:0.5em 0"
+                                                class="ui-button-raised ui-button-secondary"
+                                                (click)="uploadWorkflowLevel()"
+                                                icon="ui-icon-file-upload"
+                                                iconPos="center"
+                                                pTooltip="cvs file: Date, Description, Position, Country, RequiredLimit(TRUE or FALSE), LimitAmount"
+                                                tooltipPosition="top"
+                                                label=""
+                                            ></button>
+                                        </div>
+                                        <div
+                                            class="col-md-3 col-sm-6 col-xs-12 pull-right"
+                                        >
+                                            <input
+                                                style="height:35px;"
+                                                class="form-control"
+                                                type="file"
+                                                (change)="
+                                                    handleFileInput(
+                                                        $event.target.files
+                                                    )
+                                                "
+                                                id="file1"
+                                                accept=".xls,.xlsx"
+                                                #fileInput
+                                                name="fileInput"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p-table
+                                        #dt
+                                        [value]="publicHolidays"
+                                        dataKey="publicHolidayId"
+                                        [(selection)]="selected"
+                                        selectionMode="multiple"
+                                        [paginator]="false"
+                                        [rows]="publicHolidays?.length"
+                                        [responsive]="true"
+                                        [scrollable]="true"
+                                        [scrollHeight]="viewHeight"
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div style="text-align: right">
+                                                <input
+                                                    type="text"
+                                                    pInputText
+                                                    size="50"
+                                                    class="form-control"
+                                                    placeholder="Search..."
+                                                    (keyup)="
+                                                        dt.filterGlobal(
+                                                            $event.target.value,
+                                                            'contains'
+                                                        )
+                                                    "
+                                                    style="width:auto"
+                                                />
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th class="checkbox_row">
+                                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                </th>
+                                                <th>
+                                                    S/N
+                                                </th>
+                                                <th>
+                                                    Date
+                                                </th>
+                                                <th>Description</th>
+                                                <th>Country</th>
+                                                <!--                                                <th ></th>-->
+                                                <!--                                                <th ></th>-->
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template
+                                            pTemplate="body"
+                                            let-x
+                                            let-i="rowIndex"
+                                        >
+                                            <tr [pSelectableRow]="x">
+                                                <td class="checkbox_row">
+                                                    <p-tableCheckbox
+                                                        [value]="x"
+                                                    ></p-tableCheckbox>
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                        (click)="editHoliday(x)"
+                                                        >{{ i + 1 }}</a
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                        (click)="editHoliday(x)"
+                                                    >
+                                                        {{
+                                                            x.holidayDate | date
+                                                        }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                        (click)="editHoliday(x)"
+                                                    >
+                                                        {{ x.description }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                        (click)="editHoliday(x)"
+                                                    >
+                                                        {{ x.countryName }}
+                                                    </a>
+                                                </td>
+                                                <!--                                                <td>-->
+                                                <!--                                                    <a (click)="editHoliday(x)">Edit</a>-->
+                                                <!--                                                </td>-->
+                                                <!--                                                <td>-->
+                                                <!--                                                    <a (click)="deletePublicHoliday(x)">Delete</a>-->
+                                                <!--                                                </td>-->
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </p-tabPanel>
+                        <p-tabPanel header="EOD">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2 class="panel-title pull-left">
+                                                End Of Day Process
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form novalidate [formGroup]="eodForm">
+                                    <div class="panel-body">
+                                        <div class="form-horizontal">
+                                          <div>
+                                            <h2>Application Date: {{applicationDate | date}}</h2>
+                                          </div>
+                                            <div class="form-group text-center">
+                                                <div class="col-md-12 ">
+                                                    <button
+                                                        type="button"
+                                                        (click)="runEod()"
+                                                        class="btn btn-success pull-center"
+                                                    >
+                                                        Run EOD
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div
+                                            class="col-md-12 text-center "
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-tabPanel>
+                        <p-tabPanel header="EOP">
+                            <div class="panel-heading">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <h2 class="panel-title pull-left">
+                                            End of Period
+                                        </h2>
+
+                                        <!-- <div
+                                        style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                                        class="col-md-1 pull-right"
+                                    >
+                                        <button
+                                            pButton
+                                            style="padding:0.5em 0"
+                                            type="button"
+                                            class="ui-button-raised ui-button-secondary"
+                                            (click)="exportEoP()"
+                                            icon="ui-icon-file-download"
+                                            pTooltip="Download"
+                                            tooltipPosition="top"
+                                            iconPos="center"
+                                            label=""
+                                        ></button>
+                                    </div>
+                                    <div
+                                    class="col-md-1 pull-right"
+                                >
+                                <button
+                                type="button"
+                                (click)="runEoP()"
+                                class="btn btn-success"
+                            >
+                                Run EOP
+                            </button>
+                                </div> -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <p-table
+                                        #dt
+                                        [value]="endofPeriod"
+                                        dataKey="financialYearId"
+                                        [(selection)]="selected"
+                                        selectionMode="multiple"
+                                        [paginator]="false"
+                                        [responsive]="true"
+                                        [scrollable]="true"
+                                        [scrollHeight]="viewHeight"
+                                    >
+                                        <ng-template pTemplate="caption">
+                                            <div style="text-align: right">
+                                                <input
+                                                    type="text"
+                                                    pInputText
+                                                    size="50"
+                                                    class="form-control"
+                                                    placeholder="Search..."
+                                                    (keyup)="
+                                                        dt.filterGlobal(
+                                                            $event.target.value,
+                                                            'contains'
+                                                        )
+                                                    "
+                                                    style="width:auto"
+                                                />
+                                            </div>
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th class="checkbox_row">
+                                                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                                                </th>
+                                                <th>
+                                                    S/N
+                                                </th>
+                                                <th>
+                                                    Period Name
+                                                </th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Run Date</th>
+                                                <th ></th>
+                                                <th ></th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template
+                                            pTemplate="body"
+                                            let-x
+                                            let-i="rowIndex"
+                                        >
+                                            <tr [pSelectableRow]="x">
+                                                <td class="checkbox_row">
+                                                    <p-tableCheckbox
+                                                        [value]="x"
+                                                    ></p-tableCheckbox>
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                        >{{ i + 1 }}</a
+                                                    >
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                    >
+                                                        {{ x.name }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                    >
+                                                        {{
+                                                            x.startDate | date
+                                                        }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                    >
+                                                        {{ x.endDate | date }}
+                                                    </a>
+                                                </td>
+                                                <td>
+                                                    <a
+                                                        style="color: #3b3b3b; text-decoration:
+                                    none;"
+                                                    >
+                                                        {{ x.runDate | date }}
+                                                    </a>
+                                                </td>
+
+                                                <td>
+                                                <a (click)="runEoP(x.name)">Run EOP</a>
+                                                </td>
+                                                <td>
+                                                <a (click)="exportEoP(x.name)">Download</a>
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </div>
+                            </div>
+                        </p-tabPanel>
+
+                        <p-tabPanel header="Weekends">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h2 class="panel-title pull-left">
+                                                Year Weekends
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                                <form novalidate [formGroup]="eodForm">
+                                    <div class="panel-body">
+                                        <div class="form-horizontal">
+                                            <div class="form-group text-center">
+                                                <blockquote>
+                                                    <p>Current Year:</p>
+                                                    <cite>{{
+                                                        currentDate
+                                                            | date: "yyyy"
+                                                    }}</cite>
+                                                </blockquote>
+                                                <div class="col-md-12 ">
+                                                    <button
+                                                        type="button"
+                                                        (click)="loadWeekends()"
+                                                        [disabled]="
+                                                            isProcessInStarted
+                                                        "
+                                                        class="btn btn-success pull-center"
+                                                    >
+                                                        Generate Weekends
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="panel-footer">
+                                    <div class="row">
+                                        <div
+                                            class="col-md-12 text-center "
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </p-tabPanel>
+                    </p-tabView>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <!-- <div class="row">
+                    <div class="col-md-12">
+                        <button
+                            type="button"
+                            class="btn btn-primary pull-right"
+                            *ngIf="activeIndex == 0 || activeIndex < 2"
+                            (click)="openNext()"
+                        >
+                            Next
+                        </button>
+                        <button
+                            *ngIf="activeIndex>1"
+                            style="margin-right:5px"
+                            type="button"
+                            [disabled]="!data.comment || !data.approvalStatusId"
+                            (click)="submitApproval(data)"
+                            class="btn btn-success pull-right"
+                        >
+                            Submit
+                        </button>
+                        <button
+                            type="button"
+                            class="btn btn-primary pull-right"
+                            style="margin-right:5px"
+                            *ngIf="activeIndex > 0"
+                            (click)="openPrev()"
+                        >
+                            Previous
+                        </button>
+
+                    </div>
+                </div> -->
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog
+    [responsive]="true"
+    [(visible)]="displayAddModal"
+    modal="modal"
+    showEffect="fade"
+    width="800"
+>
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Public Holidays
+            </h2>
+        </div>
+        <form [formGroup]="holidayForm">
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group col-md-12">
+                        <label
+                            for="date"
+                            class="control-label col-md-4"
+                        ></label>
+                        <div class="col-md-8"></div>
+                    </div>
+                    <div class="form-group col-md-12">
+                        <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                                Country
+                            </label>
+                            <div class="col-md-4">
+                                <select
+                                    type="text"
+                                    name="countryId"
+                                    formControlName="countryId"
+                                    id="countryId"
+                                    class="form-control"
+                                >
+                                    <option value=""
+                                        >-- Select Country --</option
+                                    >
+                                    <option
+                                        *ngFor="let row of countries"
+                                        [value]="row.countryId"
+                                    >
+                                        {{ row.countryName }}
+                                    </option>
+                                </select>
+                            </div>
+
+                            <label
+                                for="holidayDate"
+                                class="control-label col-md-2"
+                                >Holiday Date</label
+                            >
+                            <div class="col-md-4">
+                                <p-calendar
+                                    id="holidayDate"
+                                    class="form-control"
+                                    formControlName="holidayDate"
+                                    [monthNavigator]="true"
+                                    [yearNavigator]="true"
+                                    yearRange="1900:2030"
+                                    [showIcon]="true"
+                                    [inputStyle]="{ width: '100%' }"
+                                    [style]="{
+                                        width: '100%',
+                                        'z-index': '999'
+                                    }"
+                                ></p-calendar>
+                            </div>
+                        </div>
+
+                        <div class="form-group col-md-12">
+                            <label
+                                for="description"
+                                class="control-label col-md-2"
+                                >Description</label
+                            >
+                            <div class="col-md-8">
+                                <textarea
+                                    rows="8"
+                                    name="description"
+                                    id="description"
+                                    class="form-control"
+                                    formControlName="description"
+                                    [ngClass]="
+                                        holidayForm.controls['description']
+                                            .valid
+                                            ? 'valid-input'
+                                            : 'required-input'
+                                    "
+                                ></textarea>
+
+                                <!-- <input type="text" formControlName="description" name="description" class="form-control" /> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button
+                            type="button"
+                            (click)="submitForm(holidayForm)"
+                            [disabled]="holidayForm.invalid"
+                            class="btn btn-success pull-right"
+                        >
+                            Save
+                        </button>
+                        <button
+                            type="button"
+                            (click)="displayAddModal = false"
+                            style="margin-right:5px"
+                            class="btn btn-danger pull-right"
+                        >
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</p-dialog>
+

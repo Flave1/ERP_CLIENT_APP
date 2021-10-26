@@ -1,0 +1,183 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Financial Statement Ratio Detail
+            </h2>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-danger"
+                (click)="multipleDelete()"
+                icon="ui-icon-delete"
+                iconPos="center"
+                pTooltip="Delete"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="showAddNew()"
+                icon="ui-icon-plus"
+                iconPos="center"
+                pTooltip="Add"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <!-- <form #searchForm novalidate>
+                        <div class="form-group">
+                            <label for="" class="control-label col-md-2"
+                                >FS Caption Group</label
+                            >
+                            <div class="col-md-4">
+                                <select
+                                    name="fsCaptionGroup"
+                                    id="fsCaptionGroup"
+                                    class="form-control"
+                                    ([ngModel])="(selectedFSCaptionGroup)"
+                                    (change)="onChangeCaptionGroupId($event.target.value)"
+                                    [ngClass]="
+                                        selectedFSCaptionGroup
+                                            ? 'required-input'
+                                            : 'valid-input'
+                                    "
+                                >
+                                    <option value=""
+                                        >--- Select FS Caption Group ---</option
+                                    >
+                                    <option
+                                        *ngFor="let item of fsCaptionGroupList"
+                                        [value]="item.fSCaptionGroupId"
+                                        >{{ item.fSCaptionGroupName }}</option
+                                    >
+                                </select>
+                            </div>
+                            <label for="" class="control-label col-md-2"
+                                >FS Caption</label
+                            >
+                            <div class="col-md-4">
+                                <select
+                                    name="fsRatioCaption"
+                                    id="fsRatioCaption"
+                                    class="form-control"
+                                    ([ngModel])="(selectedFSRatioCaption)"
+                                    [ngClass]="
+                                        selectedFSRatioCaption
+                                            ? 'required-input'
+                                            : 'valid-input'
+                                    "
+                                    (change)="onChangeCaptionId($event.target.value)"
+                                    [disabled]="disableRCaptionBtn"
+                                >
+                                    <option value=""
+                                        >--- Select FS Caption --</option
+                                    >
+                                    <option
+                                        *ngFor="let item of fSCaptionList"
+                                        [value]="item.fSCaptionId"
+                                        >{{ item.fSCaptionName }}</option
+                                    >
+                                </select>
+                            </div>
+                        </div>
+                    </form> -->
+          <p-table
+            #dt
+            [columns]="cols"
+            (onRowSelect)="onRowSelect($event)"
+            [value]="captionRatioDetailList"
+            dataKey="ratioDetailId"
+            [(selection)]="selectedcaptionRatioDetail"
+            [paginator]="false"
+            [rows]="captionRatioDetailList?.length"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+            [responsive]="true"
+          >
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search..."
+                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox> </p-tableHeaderCheckbox>
+                </th>
+                <th>S/N</th>
+                <th>FS Ratio Name</th>
+                <th style="width: 30%;">Description</th>
+                <!--                                <th></th>-->
+                <!--                                <th></th>-->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <a class="table_link" (click)="editFSCaptionRatioDetail(x)">{{
+                    x.ratioName
+                  }}</a>
+                </td>
+                <td style="width: 30%;">
+                  <a class="table_link" (click)="editFSCaptionRatioDetail(x)">{{
+                    x.description
+                  }}</a>
+                </td>
+                <!--                                <td>-->
+                <!--                                    <a class="table_link" (click)="editFSCaptionRatioDetail(x)"-->
+                <!--                                        >Edit</a-->
+                <!--                                    >-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <a class="table_link" (click)="deleteFSCaptionRatioDetail(x)"-->
+                <!--                                        >Delete</a-->
+                <!--                                    >-->
+                <!--                                </td>-->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

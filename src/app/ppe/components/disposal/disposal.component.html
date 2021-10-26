@@ -1,0 +1,284 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="disposalForm">
+              <div class="form-group">
+                <label for="proposedDisposalDate" class="control-label col-md-2">
+                  Proposed Disposal Date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar
+                    class="form-control"
+                    id="proposedDisposalDate"
+                    formControlName="proposedDisposalDate"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{ width: '100%', 'z-index': '100' }"
+                  ></p-calendar>
+                </div>
+                <label for="requestDate" class="control-label col-md-2">
+                  Request Date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar
+                    class="form-control"
+                    id="requestDate"
+                    formControlName="requestDate"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{ width: '100%', 'z-index': '100' }"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="assetNumber" class="control-label col-md-2"
+                >Asset Number
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="assetNumber"
+                    formControlName="assetNumber"
+                    class="form-control"
+                    id="assetNumber"
+
+                  />
+                </div>
+                <label
+                  for="assetClassificationId"
+                  class="control-label col-md-2"
+                >
+                  Classification
+                </label>
+                <div class="col-md-4">
+                  <select
+                    name="assetClassificationId"
+                    id="assetClassificationId"
+                    class="form-control"
+                    formControlName="assetClassificationId"
+
+                  >
+                    <option value="" selected >--Select Item--</option>
+                    <option
+                      *ngFor="let item of assetClassifications"
+                      [value]="item.asetClassificationId"
+                    >{{ item.classificationName }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cost" class="control-label col-md-2">
+                  Cost
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="cost"
+                    class="form-control"
+                    id="cost"
+                    name="cost"
+
+                  />
+                </div>
+                <label for="dateOfPurchaase" class="control-label col-md-2">
+                  Date of Purchase
+                </label>
+                <div class="col-md-4">
+                  <p-calendar
+                    class="form-control"
+                    id="dateOfPurchaase"
+                    formControlName="dateOfPurchaase"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{ width: '100%', 'z-index': '100' }"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="quantity" class="control-label col-md-2">
+                  Quantity
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="quantity"
+                    name="quantity"
+                    id="quantity"
+
+                  />
+                </div>
+
+                <label
+                  for="depreciationStartDate"
+                  class="control-label col-md-2"
+                >
+                  Depreciation Start Date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar
+                    class="form-control"
+                    id="depreciationStartDate"
+                    formControlName="depreciationStartDate"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{ width: '100%', 'z-index': '100' }"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="usefulLife" class="control-label col-md-2"
+                >Useful Life</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="usefulLife"
+                    formControlName="usefulLife"
+
+                  />
+                </div>
+                <label for="residualValue" class="control-label col-md-2"
+                >Residual Value</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="residualValue"
+                    formControlName="residualValue"
+
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="location" class="control-label col-md-2"
+                >Location</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="location"
+                    name="location"
+                    id="location"
+                    class="form-control"
+
+                  />
+                </div>
+                <label
+                  for="depreciationForThePeriod"
+                  class="control-label col-md-2"
+                >
+                  Depreciation for the period
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="depreciationForThePeriod"
+                    id="depreciationForThePeriod"
+
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label
+                  for="accumulatedDepreciation"
+                  class="control-label col-md-2"
+                >Accumulated Depreciation</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="accumulatedDepreciation"
+                    name="accumulatedDepreciation"
+                    id="accumulatedDepreciation"
+                    class="form-control"
+
+                  />
+                </div>
+                <label for="netBookValue" class="control-label col-md-2">
+                  Netbook value
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="netBookValue"
+                    id="netBookValue"
+
+                  />
+                </div>
+              </div>
+             <div class="form-group">
+               <label for="description" class="control-label col-md-2"
+               >Description</label
+               >
+               <div class="col-md-4">
+                 <input
+                   type="text"
+                   id="description"
+                   formControlName="description"
+                   name="description"
+                   class="form-control"
+
+                 />
+               </div>
+             </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!disposalForm.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitInfo(disposalForm)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

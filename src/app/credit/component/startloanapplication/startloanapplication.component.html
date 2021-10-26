@@ -1,0 +1,1204 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <p-tabView
+              (onChange)="onTabChange($event)"
+              [activeIndex]="activeIndex"
+            >
+              <p-tabPanel header="Customer Information">
+<!--                <form novalidate [formGroup]="form">-->
+<!--                  <div class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Customer Type-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <select-->
+<!--                        type="text"-->
+<!--                        name="customerTypeId"-->
+<!--                        formControlName="customerTypeId"-->
+<!--                        id="customerTypeId"-->
+<!--                        class="form-control"-->
+<!--                        (change)="onCustomerTypeChange($event.target.value)"-->
+<!--                      >-->
+<!--                        <option value="">&#45;&#45; Select Customer Type &#45;&#45;</option>-->
+<!--                        <option value="1">Individual</option>-->
+<!--                        <option value="2">Corperate</option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+<!--                    <div *ngIf="displayIndividualCustomer">-->
+<!--                      <label for="" class="control-label col-md-2">-->
+<!--                        Title-->
+<!--                      </label>-->
+<!--                      <div class="col-md-4">-->
+<!--                        <select-->
+<!--                          type="text"-->
+<!--                          name="titleId"-->
+<!--                          formControlName="titleId"-->
+<!--                          id="titleId"-->
+<!--                          class="form-control"-->
+<!--                        >-->
+<!--                          <option value="">&#45;&#45; Select Title &#45;&#45;</option>-->
+<!--                          <option-->
+<!--                            *ngFor="let row of titleList"-->
+<!--                            [value]="row.lookupId"-->
+<!--                          >-->
+<!--                            {{ row.lookupName }}-->
+<!--                          </option>-->
+<!--                        </select>-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                    <div *ngIf="displayCorperatCustomer">-->
+<!--                      <label for="" class="control-label col-md-2">-->
+<!--                        Registration Number-->
+<!--                      </label>-->
+<!--                      <div class="col-md-4">-->
+<!--                        <input-->
+<!--                          type="text"-->
+<!--                          formControlName="registrationNo"-->
+<!--                          name="registrationNo"-->
+<!--                          class="form-control"-->
+<!--                        />-->
+<!--                      </div>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  <div class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      {{ name }}-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="firstName"-->
+<!--                        name="firstName"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      {{ nameDate }}-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <p-calendar-->
+<!--                        name="dob"-->
+<!--                        formControlName="dob"-->
+<!--                        [monthNavigator]="true"-->
+<!--                        [yearNavigator]="true"-->
+<!--                        yearRange="1900:2030"-->
+<!--                        [showIcon]="true"-->
+<!--                        [inputStyle]="{ width: '100%' }"-->
+<!--                        [style]="{ width: '100%', 'z-index': '999' }"-->
+<!--                      ></p-calendar>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  <div *ngIf="displayIndividualCustomer" class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Last Name-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="lastName"-->
+<!--                        name="lastName"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Gender-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <select-->
+<!--                        type="text"-->
+<!--                        name="genderId"-->
+<!--                        formControlName="genderId"-->
+<!--                        id="genderId"-->
+<!--                        class="form-control"-->
+<!--                      >-->
+<!--                        <option value="">&#45;&#45; Select Gender &#45;&#45;</option>-->
+<!--                        <option-->
+<!--                          *ngFor="let row of genderList"-->
+<!--                          [value]="row.lookupId"-->
+<!--                        >-->
+<!--                          {{ row.lookupName }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  <div *ngIf="displayIndividualCustomer" class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Middle Name-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="middleName"-->
+<!--                        name="middleName"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Marital Status-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <select-->
+<!--                        type="text"-->
+<!--                        name="maritalStatusId"-->
+<!--                        formControlName="maritalStatusId"-->
+<!--                        id="maritalStatusId"-->
+<!--                        class="form-control"-->
+<!--                      >-->
+<!--                        <option value="">&#45;&#45; Select Marital Status &#45;&#45;</option>-->
+<!--                        <option-->
+<!--                          *ngFor="let row of martialStatusList"-->
+<!--                          [value]="row.lookupId"-->
+<!--                        >-->
+<!--                          {{ row.lookupName }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  <div class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Phone Number-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="phoneNo"-->
+<!--                        name="phoneNo"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Email-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="email"-->
+<!--                        name="email"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div *ngIf="displayIndividualCustomer" class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Country-->
+<!--                    </label>-->
+
+<!--                    <div class="col-md-4">-->
+<!--                      <select-->
+<!--                        type="text"-->
+<!--                        name="countryId"-->
+<!--                        formControlName="countryId"-->
+<!--                        id="countryId"-->
+<!--                        class="form-control"-->
+<!--                      >-->
+<!--                        <option value="">&#45;&#45; Select Country &#45;&#45;</option>-->
+<!--                        <option-->
+<!--                          *ngFor="let row of countryInformation"-->
+<!--                          [value]="row.lookupId"-->
+<!--                        >-->
+<!--                          {{ row.lookupName }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      City-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        name="cityId"-->
+<!--                        formControlName="city"-->
+<!--                        id="cityId"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div *ngIf="displayIndividualCustomer" class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Employment Type-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <select-->
+<!--                        type="text"-->
+<!--                        name="employmentType"-->
+<!--                        formControlName="employmentType"-->
+<!--                        id="employmentType"-->
+<!--                        class="form-control"-->
+<!--                      >-->
+<!--                        <option value="">&#45;&#45; Select Employment Type &#45;&#45;</option>-->
+<!--                        <option-->
+<!--                          *ngFor="let row of employerTypeList"-->
+<!--                          [value]="row.lookupId"-->
+<!--                        >-->
+<!--                          {{ row.lookupName }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Employer-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="companyName"-->
+<!--                        name="companyName"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Address-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="address"-->
+<!--                        name="address"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Postal Address-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="postalAddress"-->
+<!--                        name="postalAddress"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div *ngIf="displayIndividualCustomer" class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Are you politically exposed?-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="checkbox"-->
+<!--                        formControlName="politicallyExposed"-->
+<!--                        name="politicallyExposed"-->
+<!--                        id="politicallyExposed"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                  </div>-->
+
+<!--                  <div *ngIf="displayCorperatCustomer" class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Industry-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="industry"-->
+<!--                        name="industry"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Incorporation Country-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <select-->
+<!--                        type="text"-->
+<!--                        name="incorporationCountry"-->
+<!--                        formControlName="incorporationCountry"-->
+<!--                        id="incorporationCountry"-->
+<!--                        class="form-control"-->
+<!--                      >-->
+<!--                        <option value="">&#45;&#45; Select Country &#45;&#45;</option>-->
+<!--                        <option-->
+<!--                          *ngFor="let row of countryInformation"-->
+<!--                          [value]="row.lookupName"-->
+<!--                        >-->
+<!--                          {{ row.lookupName }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div *ngIf="displayCorperatCustomer" class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Annual Turnover-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="number"-->
+<!--                        formControlName="annualTurnover"-->
+<!--                        name="annualTurnover"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Shareholder Fund-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="number"-->
+<!--                        formControlName="shareholderFund"-->
+<!--                        name="shareholderFund"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div *ngIf="displayCorperatCustomer" class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Company Website-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <input-->
+<!--                        type="text"-->
+<!--                        formControlName="companyWebsite"-->
+<!--                        name="companyWebsite"-->
+<!--                        class="form-control"-->
+<!--                      />-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                  <div class="form-group">-->
+<!--                    <label for="" class="control-label col-md-2">-->
+<!--                      Relationship Officer-->
+<!--                    </label>-->
+<!--                    <div class="col-md-4">-->
+<!--                      <select-->
+<!--                        type="text"-->
+<!--                        name="relationshipOfficerId"-->
+<!--                        formControlName="relationshipOfficerId"-->
+<!--                        id="relationshipOfficerId"-->
+<!--                        class="form-control"-->
+<!--                      >-->
+<!--                        <option value="">&#45;&#45; Select Staff &#45;&#45;</option>-->
+<!--                        <option-->
+<!--                          *ngFor="let row of staffList"-->
+<!--                          [value]="row.staffId"-->
+<!--                        >-->
+<!--                          {{ row.firstName }} {{ row.lastName }}-->
+<!--                        </option>-->
+<!--                      </select>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </form>-->
+                <app-customer-info
+                  (customerTypeChange)="onCustomerTypeChange($event)"
+                  [displayCorperatCustomer]="displayCorperatCustomer"
+                  [displayIndividualCustomer]="displayIndividualCustomer"
+                  [form]="form"
+                  [nameDate]="nameDate"
+                  [name]="name"
+                ></app-customer-info>
+              </p-tabPanel>
+              <p-tabPanel
+                *ngIf="displayCorperatCustomer"
+                [disabled]="directorTabDisabled"
+                header="Director Information"
+              >
+                <app-director-info-list
+                  (toggleModal)="showAddNewDirectors($event)"
+                  [customerId]="customerId"
+                  (editDirector)="editDirectors($event)"
+                ></app-director-info-list>
+                <br />
+              </p-tabPanel>
+              <p-tabPanel
+                *ngIf="displayIndividualCustomer"
+                [disabled]="identityTabDisabled"
+                header="Identity Details"
+              >
+              <app-identity-info-list
+                (toggleModal)="showAddNewIdentityDetails($event)"
+                [customerId]="customerId"
+                (editIdentity)="editIdentityDetails($event)"
+              >
+
+              </app-identity-info-list>
+              </p-tabPanel>
+              <p-tabPanel
+                *ngIf="displayIndividualCustomer"
+                [disabled]="nextOfKinTabDisabled"
+                header="Next Of Kin"
+              >
+                <app-nextofkin-info-list [customerId]="customerId" (toggleModal)="showAddNewNextOfKins($event)" (editNextOfKin)="editNextOfKins($event)"></app-nextofkin-info-list>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="bankTabDisabled" header="Bank Details">
+                <app-bank-info-list [customerId]="customerId" (toggleModal)="showAddNewBankDetails($event)" (editBankInfo)="editBankDetails($event)"></app-bank-info-list>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="bankTabDisabled" header="Card Payment">
+                <app-card-info
+                  [cardDetailsForm]="cardDetailsForm"
+                  [customerId]="customerId"
+                ></app-card-info>
+              </p-tabPanel>
+              <p-tabPanel
+                *ngIf="displayCorperatCustomer"
+                [disabled]="bankTabDisabled"
+                header="Financial Statement"
+              >
+                <app-loan-customer-fs-caption-detail
+                  [displayFinancialStatement]="true"
+                  [customerId]="customerId"
+                >
+                </app-loan-customer-fs-caption-detail>
+              </p-tabPanel>
+              <p-tabPanel [disabled]="uploadTabDisabled" header="Documents">
+<!--                <div class="form-group">-->
+<!--                  <div class="col-md-12">-->
+<!--                    <div class="pull-right">-->
+<!--                      <button-->
+<!--                        (click)="showAddNewDocument($event)"-->
+<!--                        pButton-->
+<!--                        type="button"-->
+<!--                        label="Add New Document"-->
+<!--                      ></button>-->
+<!--                    </div>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <p-table [value]="loanCustomerDocuments" [responsive]="true">-->
+<!--                  <ng-template pTemplate="caption">-->
+<!--                    <h4>Customer Document(s)</h4>-->
+<!--                  </ng-template>-->
+<!--                  <ng-template pTemplate="header">-->
+<!--                    <tr>-->
+<!--                      <th style="width:5em">S/N</th>-->
+<!--                      <th style="width:15em">Document Name</th>-->
+<!--                      <th style="width:15em">Extention</th>-->
+<!--                      <th style="width:15em">Physical Location</th>-->
+<!--                      <th style="width:7em"></th>-->
+<!--                      <th style="width:7em"></th>-->
+<!--                    </tr>-->
+<!--                  </ng-template>-->
+<!--                  <ng-template pTemplate="body" let-x let-i="rowIndex">-->
+<!--                    <tr>-->
+<!--                      <td>{{ i + 1 }}</td>-->
+<!--                      <td>{{ x.documentName }}</td>-->
+<!--                      <td>{{ x.documentExtension }}</td>-->
+<!--                      <td>{{ x.physicalLocation }}</td>-->
+<!--                      <td>-->
+<!--                        <a-->
+<!--                          *ngIf="-->
+<!--                            ['.jpg', '.jpeg', '.png'].indexOf(-->
+<!--                              x.documentExtension.toLowerCase()-->
+<!--                            ) > -1-->
+<!--                          "-->
+<!--                          (click)="viewDocument(x.customerDocumentId)"-->
+<!--                          href="javascript:void(0)"-->
+<!--                          >View</a-->
+<!--                        >-->
+<!--                        <a-->
+<!--                          *ngIf="-->
+<!--                            ['.doc', '.docx', '.pdf', '.xls', '.xlsx'].indexOf(-->
+<!--                              x.documentExtension.toLowerCase()-->
+<!--                            ) > -1-->
+<!--                          "-->
+<!--                          (click)="DownloadDocument(x.customerDocumentId)"-->
+<!--                          href="javascript:void(0)"-->
+<!--                          >Download</a-->
+<!--                        >-->
+<!--                      </td>-->
+<!--                      <td>-->
+<!--                        <a (click)="deleteLoanCustoemrDocument(x)">Delete</a>-->
+<!--                      </td>-->
+<!--                    </tr>-->
+<!--                  </ng-template>-->
+<!--                </p-table>-->
+                <app-document-info-list (toggleModal)="showAddNewDocument($event)" [customerId]="customerId"></app-document-info-list>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                *ngIf="
+                  (displayIndividualCustomer && activeIndex == 5) ||
+                  (displayCorperatCustomer && activeIndex == 5)
+                "
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="onSavedButtonPressed(customerId)"
+              >
+                Proceed To Application
+              </button>
+              <button
+                pButton
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                *ngIf="activeIndex == 0"
+                (click)="submitLoanCustomerInfo(form)"
+                icon="pi pi-less-than"
+                iconPos="right"
+                label="Next"
+              ></button>
+              <button
+                pButton
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                *ngIf="
+                  (displayIndividualCustomer &&
+                    activeIndex > 0 &&
+                    activeIndex < 5) ||
+                  (displayCorperatCustomer &&
+                    activeIndex > 0 &&
+                    activeIndex < 5)
+                "
+                (click)="openNext()"
+                icon="pi pi-less-than"
+                iconPos="right"
+                label="Next"
+              ></button>
+              <button
+                pButton
+                type="button"
+                class="btn btn-primary pull-right"
+                style="margin-right:10px"
+                *ngIf="activeIndex > 0"
+                (click)="openPrev()"
+                icon="pi pi-greater-than"
+                iconPos="left"
+                label="Previous"
+              ></button>
+
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayDirectors"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Director/Shareholder
+      </h2>
+    </div>
+
+<!--    <form novalidate [formGroup]="directorForm">-->
+<!--      <div class="panel-body">-->
+<!--        <div class="form-horizontal">-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Director Type-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <select-->
+<!--                type="text"-->
+<!--                name="directorTypeId"-->
+<!--                formControlName="directorTypeId"-->
+<!--                id="directorTypeId"-->
+<!--                class="form-control"-->
+<!--                (change)="onDirectorTypeChange($event.target.value)"-->
+<!--              >-->
+<!--                <option value="">&#45;&#45; Select Director Type &#45;&#45;</option>-->
+<!--                <option-->
+<!--                  *ngFor="let row of directorTypeList"-->
+<!--                  [value]="row.lookupId"-->
+<!--                >-->
+<!--                  {{ row.lookupName }}-->
+<!--                </option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <hr />-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Full Name-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="name"-->
+<!--                name="name"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Email-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="email"-->
+<!--                name="email"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Position-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="position"-->
+<!--                name="position"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              DOB-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <p-calendar-->
+<!--                name="dob"-->
+<!--                formControlName="dob"-->
+<!--                [monthNavigator]="true"-->
+<!--                [yearNavigator]="true"-->
+<!--                yearRange="1900:2030"-->
+<!--                [showIcon]="true"-->
+<!--                [inputStyle]="{ width: '100%' }"-->
+<!--                [style]="{ width: '100%', 'z-index': '999' }"-->
+<!--              ></p-calendar>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Phone Number-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="phoneNo"-->
+<!--                name="phoneNo"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Signature-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="file"-->
+<!--                id="document"-->
+<!--                (change)="onFileChange($event)"-->
+<!--                placeholder="Upload file"-->
+<!--                accept=".jpg,.jpeg,.png"-->
+<!--                #fileInput-->
+<!--                name="fileInput"-->
+<!--                style="padding-top:2px;"-->
+<!--                class="form-control"-->
+<!--                formControlName="signature"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-4">-->
+<!--              Have you occupied any political position ?-->
+<!--            </label>-->
+<!--            <div class="col-md-2">-->
+<!--              <div class="ui-g-12">-->
+<!--                <p-radioButton-->
+<!--                  formControlName="politicallyPosition"-->
+<!--                  name="politicallyPosition"-->
+<!--                  value="true"-->
+<!--                  label="Yes"-->
+<!--                  [(ngModel)]="selectPoliticallyPosition"-->
+<!--                ></p-radioButton>-->
+<!--              </div>-->
+<!--              <div class="ui-g-12">-->
+<!--                <p-radioButton-->
+<!--                  formControlName="politicallyPosition"-->
+<!--                  name="politicallyPosition"-->
+<!--                  value="false"-->
+<!--                  label="No"-->
+<!--                  [(ngModel)]="selectPoliticallyPosition"-->
+<!--                ></p-radioButton>-->
+<!--              </div>-->
+<!--            </div>-->
+
+<!--            <label for="" class="control-label col-md-4">-->
+<!--              Has any of your relative occupied any political position ?-->
+<!--            </label>-->
+<!--            <div class="col-md-2">-->
+<!--              <div class="ui-g-12">-->
+<!--                <p-radioButton-->
+<!--                  formControlName="relativePoliticallyPosition"-->
+<!--                  name="relativePoliticallyPosition"-->
+<!--                  value="true"-->
+<!--                  label="Yes"-->
+<!--                  [(ngModel)]="selectRelativePoliticallyPosition"-->
+<!--                ></p-radioButton>-->
+<!--              </div>-->
+<!--              <div class="ui-g-12">-->
+<!--                <p-radioButton-->
+<!--                  formControlName="relativePoliticallyPosition"-->
+<!--                  name="relativePoliticallyPosition"-->
+<!--                  value="false"-->
+<!--                  label="No"-->
+<!--                  [(ngModel)]="selectRelativePoliticallyPosition"-->
+<!--                ></p-radioButton>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Address-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <textarea-->
+<!--                rows="3"-->
+<!--                formControlName="address"-->
+<!--                name="address"-->
+<!--                class="form-control"-->
+<!--              ></textarea>-->
+<!--            </div>-->
+<!--            <div *ngIf="!isDirectorOnly">-->
+<!--              <label for="" class="control-label col-md-2">-->
+<!--                Percentage Share(%)-->
+<!--              </label>-->
+<!--              <div class="col-md-4">-->
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  formControlName="percentageShare"-->
+<!--                  name="percentageShare"-->
+<!--                  class="form-control"-->
+<!--                />-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="panel-footer">-->
+<!--        <div class="row">-->
+<!--          <div class="col-md-12">-->
+<!--            <button-->
+<!--              type="submit"-->
+<!--              [disabled]="directorForm.invalid"-->
+<!--              (click)="submitLoanCustomerDirectors(directorForm)"-->
+<!--              class="btn btn-success pull-right"-->
+<!--            >-->
+<!--              Save-->
+<!--            </button>-->
+<!--            <button-->
+<!--              type="button"-->
+<!--              (click)="displayDirectors = false"-->
+<!--              style="margin-right:5px"-->
+<!--              class="btn btn-danger pull-right"-->
+<!--            >-->
+<!--              Close-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+    <app-director-info
+      [directorForm]="directorForm"
+      [displayDirectors]="displayDirectors"
+      (directorChange)="onDirectorTypeChange($event)"
+      [isDirectorOnly]="isDirectorOnly"
+      (closeDirector)="closeDirectorModal($event)"
+      [customerId]="customerId"
+      [customerDirectorId]="customerDirectorId"
+      [percentageShare]="percentageShare"
+
+    ></app-director-info>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayDirectorShareHolders"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Shareholder Director
+      </h2>
+    </div>
+
+<!--    <form novalidate [formGroup]="directorShareHolderForm">-->
+<!--      <div class="panel-body">-->
+<!--        <div class="form-horizontal">-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Company Name-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="companyName"-->
+<!--                name="companyName"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Percentage Holder-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="number"-->
+<!--                formControlName="percentageHolder"-->
+<!--                name="percentageHolder"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="panel-footer">-->
+<!--        <div class="row">-->
+<!--          <div class="col-md-12">-->
+<!--            <button-->
+<!--              type="submit"-->
+<!--              [disabled]="directorShareHolderForm.invalid"-->
+<!--              (click)="-->
+<!--                submitLoanCustomerDirectorShareHolders(directorShareHolderForm)-->
+<!--              "-->
+<!--              class="btn btn-success pull-right"-->
+<!--            >-->
+<!--              Save-->
+<!--            </button>-->
+<!--            <button-->
+<!--              type="button"-->
+<!--              (click)="displayDirectorShareHolders = false"-->
+<!--              style="margin-right:5px"-->
+<!--              class="btn btn-danger pull-right"-->
+<!--            >-->
+<!--              Close-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+    <app-shareholder-info
+      [directorShareHolderForm]="directorShareHolderForm"
+      (closeModal)="closeDirectorModal($event)"
+      (submitShareholderInfo)="submitLoanCustomerDirectorShareHolders($event)"
+    >
+    </app-shareholder-info>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayIdentityDetails"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Identity Details
+      </h2>
+    </div>
+
+<!--    <form novalidate [formGroup]="identityDetailsForm">-->
+<!--      <div class="panel-body">-->
+<!--        <div class="form-horizontal">-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Number-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="number"-->
+<!--                name="number"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Issuer-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="issuer"-->
+<!--                name="issuer"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Identification-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <select-->
+<!--                type="text"-->
+<!--                name="identificationId"-->
+<!--                formControlName="identificationId"-->
+<!--                id="identificationId"-->
+<!--                class="form-control"-->
+<!--              >-->
+<!--                <option value="">&#45;&#45; Select Identification &#45;&#45;</option>-->
+<!--                <option-->
+<!--                  *ngFor="let row of identificationInformation"-->
+<!--                  [value]="row.identificationId"-->
+<!--                >-->
+<!--                  {{ row.identificationName }}-->
+<!--                </option>-->
+<!--              </select>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="panel-footer">-->
+<!--        <div class="row">-->
+<!--          <div class="col-md-12">-->
+<!--            <button-->
+<!--              type="submit"-->
+<!--              [disabled]="identityDetailsForm.invalid"-->
+<!--              (click)="submitLoanCustomerIdentityDetails(identityDetailsForm)"-->
+<!--              class="btn btn-success pull-right"-->
+<!--            >-->
+<!--              Save-->
+<!--            </button>-->
+<!--            <button-->
+<!--              type="button"-->
+<!--              (click)="displayIdentityDetails = false"-->
+<!--              style="margin-right:5px"-->
+<!--              class="btn btn-danger pull-right"-->
+<!--            >-->
+<!--              Close-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+    <app-identity-info
+      [identityDetailsForm]="identityDetailsForm"
+      [displayIdentityDetails]="displayIdentityDetails"
+      [identificationInformation]="identificationInformation"
+      (closeModal)="closeIdentityModal($event)"
+      [customerId]="customerId"
+    ></app-identity-info>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayNextOfKins"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        NextOfKin
+      </h2>
+    </div>
+
+<!--    <form novalidate [formGroup]="nextOfKinForm">-->
+<!--      <div class="panel-body">-->
+<!--        <div class="form-horizontal">-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Name-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="name"-->
+<!--                name="name"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Relationship-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="relationship"-->
+<!--                name="relationship"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Phone Number-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="phoneNo"-->
+<!--                name="phoneNo"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Email-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <input-->
+<!--                type="text"-->
+<!--                formControlName="email"-->
+<!--                name="email"-->
+<!--                class="form-control"-->
+<!--              />-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2">-->
+<!--              Address-->
+<!--            </label>-->
+<!--            <div class="col-md-4">-->
+<!--              <textarea-->
+<!--                rows="3"-->
+<!--                formControlName="address"-->
+<!--                name="address"-->
+<!--                class="form-control"-->
+<!--              ></textarea>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+<!--      <div class="panel-footer">-->
+<!--        <div class="row">-->
+<!--          <div class="col-md-12">-->
+<!--            <button-->
+<!--              type="submit"-->
+<!--              [disabled]="nextOfKinForm.invalid"-->
+<!--              (click)="submitLoanCustomerNextOfKins(nextOfKinForm)"-->
+<!--              class="btn btn-success pull-right"-->
+<!--            >-->
+<!--              Save-->
+<!--            </button>-->
+<!--            <button-->
+<!--              type="button"-->
+<!--              (click)="displayNextOfKins = false"-->
+<!--              style="margin-right:5px"-->
+<!--              class="btn btn-danger pull-right"-->
+<!--            >-->
+<!--              Close-->
+<!--            </button>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </form>-->
+    <app-nextofkin-info
+      [nextOfKinForm]="nextOfKinForm"
+      [customerId]="customerId"
+      (toggleModal)="closeNextOfKinModal($event)"
+    ></app-nextofkin-info>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayBankDetails"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Bank Details
+      </h2>
+    </div>
+    <app-bank-info
+      [bankDetailsForm]="bankDetailsForm"
+      [displayBankDetails]="displayBankDetails"
+      (submitBankDetails)="submitLoanCustomerBankDetails($event)"
+      (toggleModal)="closeBankModal($event)"
+      [customerId]="customerId"
+    ></app-bank-info>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayDocumentUpload"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="700"
+>
+ <app-document-info [customerId]="customerId" (closeModal)="closeDocumentModal($event)"></app-document-info>
+</p-dialog>
+
+<!--<p-dialog-->
+<!--  [responsive]="true"-->
+<!--  [(visible)]="displayDocument"-->
+<!--  modal="modal"-->
+<!--  showEffect="fade"-->
+<!--  width="1200"-->
+<!--&gt;-->
+<!--&lt;!&ndash;  <div&ndash;&gt;-->
+<!--&lt;!&ndash;    *ngIf="displayDocument"&ndash;&gt;-->
+<!--&lt;!&ndash;    style="margin-bottom:0"&ndash;&gt;-->
+<!--&lt;!&ndash;    class="panel panel-default"&ndash;&gt;-->
+<!--&lt;!&ndash;  >&ndash;&gt;-->
+<!--&lt;!&ndash;    <div class="panel-heading">&ndash;&gt;-->
+<!--&lt;!&ndash;      <h2 class="panel-title">&ndash;&gt;-->
+<!--&lt;!&ndash;        Document Title:&ndash;&gt;-->
+<!--&lt;!&ndash;        <strong>{{ selectedDocument }}</strong>&ndash;&gt;-->
+<!--&lt;!&ndash;      </h2>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+
+<!--&lt;!&ndash;    <div class="panel-body" style="overflow:auto;height:500px">&ndash;&gt;-->
+<!--&lt;!&ndash;      <div style="margin: auto; width: 50%">&ndash;&gt;-->
+<!--&lt;!&ndash;        <img&ndash;&gt;-->
+<!--&lt;!&ndash;          *ngIf="binaryFile"&ndash;&gt;-->
+<!--&lt;!&ndash;          style="max-width: 100%; display: block 2px black;"&ndash;&gt;-->
+<!--&lt;!&ndash;          [src]="'data:image/jpg;base64,' + binaryFile"&ndash;&gt;-->
+<!--&lt;!&ndash;          alt=""&ndash;&gt;-->
+<!--&lt;!&ndash;          class="img-thumbnail"&ndash;&gt;-->
+<!--&lt;!&ndash;        />&ndash;&gt;-->
+<!--&lt;!&ndash;      </div>&ndash;&gt;-->
+<!--&lt;!&ndash;    </div>&ndash;&gt;-->
+<!--&lt;!&ndash;  </div>&ndash;&gt;-->
+<!--</p-dialog>-->

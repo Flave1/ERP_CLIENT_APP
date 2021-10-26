@@ -1,0 +1,280 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Disposal List
+            </h2>
+            <div
+              style="padding-right: 5px;padding-left: 5px;"
+              class="pull-right"
+            >
+              <button
+                class="btn btn-primary"
+                (click)="multiDispose()"
+
+              >Multi Dispose</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="disposalList"
+            dataKey="registerId"
+            [(selection)]="selectedItem"
+            [paginator]="false"
+            [rows]="disposalList?.length"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search..."
+                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                  style="width:auto"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th>
+                  Asset Number
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'dateOfPurchase'">
+                  Classification
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'quantity'">
+                  Description
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'cost'">
+                  Cost
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'subGlAddition'">
+                  Depreciation period
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th [pSortableColumn]="'location'">
+                  Accumulated Depreciation
+                  <i class="ui-icon-arrow-drop-down sort--icon__special"></i>
+                </th>
+                <th>
+                  Net Book Value
+                </th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link">{{ i + 1 }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.assetNumber
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.classificationName
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.description
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{ x.cost | number: '1.2-2' }}</a>
+                </td>
+
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.depreciationForThePeriod | number: '1.2-2'
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.accumulatedDepreciation | number: '1.2-2'
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.netBookValue | number: '1.2-2'
+                  }}</a>
+                </td>
+                <td>
+                  <a
+                    class="table_link"
+                    (click)="dispose(x)"
+                  >
+                   Dispose
+                  </a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                label="Next"></button>
+            <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                label="Previous"></button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayDisposals"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="1200"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading"></div>
+
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <form [formGroup]="disposeForm">
+          <div class="form-group">
+            <label for="Request Date" class="control-label col-md-2">Request Date</label>
+            <div class="col-md-4">
+              <p-calendar
+                id="Request Date"
+                formControlName="requestDate"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="1900:2100"
+                [showIcon]="true"
+                [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%', 'z-index': '100' }"
+               [disabled]="true"
+              ></p-calendar>
+            </div>
+            <label for="Propose disposal date" class="col-md-2 control-label">Propose disposal date</label>
+            <div class="col-md-4">
+              <!-- <p-calendar
+                class="form-control"
+                id="Propose disposal date"
+                formControlName="proposedDisposalDate"
+                [monthNavigator]="true"
+                [yearNavigator]="true"
+                yearRange="1900:2100"
+                [showIcon]="true"
+                [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%', 'z-index': '100' }"
+              ></p-calendar> -->
+              <input
+                    type="date"
+                    formControlName="proposedDisposalDate"
+                    class="form-control"
+                  />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="Reason for disposal" class="control-label col-md-2">Reason for disposal</label>
+            <div class="col-md-4">
+              <textarea name="" id="Reason for disposal" formControlName="reasonForDisposal" style="resize: none" class="form-control"></textarea>
+            </div>
+            <label for="nbv" class="control-label col-md-2">NBV</label>
+            <div class="col-md-4">
+              <input type="text" id="nbv" formControlName="nbv" class="form-control">
+            </div>
+          </div>
+        </form>
+      </div>
+      <p-table
+        [value]="disposals"
+        [responsive]="true"
+        [scrollable]="true"
+        [scrollHeight]="viewHeight"
+      >
+        <ng-template pTemplate="caption">
+          <h2 class="panel-title">
+            Assets for Disposal
+          </h2>
+        </ng-template>
+        <ng-template pTemplate="header">
+          <tr>
+            <th>Asset number</th>
+            <th>Classification</th>
+            <th>Description</th>
+            <th>Location</th>
+            <th>Cost</th>
+            <th>Accumulated Depreciation </th>
+            <th>Net Book Value</th>
+            <th>Proceed from Disposal</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
+          <tr>
+            <td>{{ row.assetNumber }}</td>
+            <td>{{ row.classificationName }}</td>
+            <td>{{ row.description }}</td>
+            <td>{{row.location}}</td>
+            <td>{{row.cost | number: '1.2-2'}}</td>
+            <td>{{row.depreciationForThePeriod}}</td>
+            <td>{{row.netBookValue | number: '1.2-2'}}</td>
+            <td>
+              <input
+                class="form-control"
+                [(ngModel)]="row.proceed"
+              />
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <button
+            type="submit"
+            class="btn btn-success pull-right"
+            (click)="saveDisposal(selectedItem)"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            (click)="close()"
+            style="margin-right:5px"
+            class="btn btn-danger pull-right"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

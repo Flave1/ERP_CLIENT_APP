@@ -1,0 +1,316 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">ERN Payment Proposal</h2>
+            <button pButton class="ui-button-success pull-right" label="Multi Pay" (click)="multiPay()"></button>
+            <!-- <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="exportItems()"
+                icon="ui-icon-file-download"
+                pTooltip="Download"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                type="button"
+                style="padding: 0.5em 0"
+                class="ui-button-raised ui-button-secondary"
+                (click)="uploadItems()"
+                icon="ui-icon-file-upload"
+                iconPos="center"
+                pTooltip="Excel file: "
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div> -->
+            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+              <input
+                style="height: 35px"
+                class="form-control"
+                type="file"
+                (change)="handleFileInput($event.target.files)"
+                id="file1"
+                accept=".xls,.xlsx"
+                #fileInput
+                name="fileInput"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="filteredResults"
+            dataKey="requisitionPaymentId"
+            [(selection)]="selectedItem"
+            [paginator]="false"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <div class="filter-flex">
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control filter-input"
+                  placeholder="Search..."
+                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                />
+               <div style="display: flex; align-items: center">
+                 <label for="" class="filter-label">Filter by structure</label>
+                 <select name="" class="form-control filter-select" id="" (change)="filterByStructure($event.target.value)">
+                   <option value="">--Filter by structure--</option>
+                   <option value="0">All</option>
+                   <option *ngFor="let item of departments" [value]="item.companyStructureId">{{item.name}}</option>
+                 </select>
+               </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'erNnumber'">ERN/Claim Number</th>
+                <th [pSortableColumn]="'description'">Description</th>
+                <th [pSortableColumn]="'requestBy'">Requested By</th>
+                <th [pSortableColumn]="'deparmentment'">Department</th>
+                <th pSortableColumn="requestDate">Requisition Date</th>
+                <th [pSortableColumn]="'totalAmount'">Total Amount</th>
+
+                <th [pSortableColumn]="'expectedDeleiveryDate'">Expected Delivery Date</th>
+<!--                <th [pSortableColumn]="'status'">Status</th>-->
+<!--                <th></th>-->
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link">{{ i + 1 }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{
+                    x.erNnumber
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{
+                    x.description
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{
+                    x.requestBy
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{
+                    x.deparmentment
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{
+                    x.requestDate | date
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{
+                    x.totalAmount | number: '1.2-2'
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link">{{
+                    x.expectedDeleiveryDate | date
+                    }}</a>
+                </td>
+<!--                <td>-->
+<!--                  <a class="table_link">{{ x.status }}</a>-->
+<!--                </td>-->
+<!--                <td>-->
+<!--                   routerLink="/expense-management/approved-ern" -->
+<!--                  <button class="table_link" (click)="shoPaymentDetails(x)" >View</button>-->
+<!--                </td>-->
+                <td>
+                  <button pButton class="ui-button-raised" label="Make Payment" (click)="makePayment(x)"></button>
+                </td>
+                <!--                                <td><a class="table_link"-->
+                <!--                                       (click)="editProduct(x)">{{ x.paymentTypeName }}</a></td>-->
+                <!--                                <td><a class="table_link"-->
+                <!--                                       (click)="editProduct(x)">{{ x.rate }}</a></td>-->
+                <!--                                <td>-->
+                <!--                                    <a (click)="editProduct(x)">Edit</a>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <a (click)="deleteProduct(x)">Delete</a>-->
+                <!--                                </td>-->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                label="Next"></button>
+            <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                label="Previous"></button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+>
+  <div style="margin-bottom:0;" class="panel panel-default">
+    <div class="panel-heading" style="display: flex;  flex-direction: column; margin-bottom: 10px;" >
+     <div class="item-flex">
+       <h2 class="panel-title">
+         Payment Account Details
+       </h2>
+       <button pButton class="ui-button-danger" icon="ui-icon-close" iconPos="top" pTooltip="Close" (click)="closeModal()"></button>
+     </div>
+      <div class="item-flex">
+        <h1 class="bal-title">Available Balance: <span>{{availableBalance | number: '1.2-2'}}</span></h1>
+        <h1 class="bal-title">Total Amount to pay: <span>{{totalAmount | number: '1.2-2'}}</span></h1>
+      </div>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <p-table [value]="paymentDetails" [responsive]="true"
+               [scrollable]="true"
+               [scrollHeight]="viewHeight">
+        <ng-template pTemplate="header">
+          <tr>
+            <th>ERN Number</th>
+            <th>Description</th>
+            <th>Requested By</th>
+            <th>Department</th>
+            <th>Requisition Date</th>
+            <th>Total Amount</th>
+            <th>GL Account</th>
+<!--            <th></th>-->
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-row let-i="rowIndex">
+         <tr>
+           <td>{{row.erNnumber}}</td>
+           <td>{{row.description}}</td>
+           <td>{{row.requestBy}}</td>
+           <td>{{row.deparmentment}}</td>
+           <td>{{row.requestDate | date}}</td>
+           <td>{{row.totalAmount | number: '1.2-2'}}</td>
+           <td>
+             <select name="" class="form-control" id="" [(ngModel)]="row.bankGl" (change)="selectGl($event.target.value, row.erNnumber)">
+               <option value="">--Select GL--</option>
+               <option *ngFor="let item of banGls" [value]="item.bankGlId">{{item.bankName}}</option>
+             </select>
+           </td>
+<!--           <td>-->
+<!--             <button pButton class="ui-button-success" label="Save" (click)="savePayment(row)"></button>-->
+<!--           </td>-->
+         </tr>
+        </ng-template>
+      </p-table>
+    </div>
+    <div class="panel-footer">
+      <div class="details-btn-container">
+        <button pButton class="ui-button-danger" label="Close" style="margin-right: 10px"></button>
+        <button pButton class="ui-button-success" (click)="savePaymentDetails()" label="Save"></button>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDetailDialog"
+  id="modal"
+  modal="modal"
+  class="modal-lg"
+>
+  <div style="margin-bottom:0;" class="panel panel-default">
+    <div class="panel-heading" style="display: flex; justify-content: space-between; align-items: center" >
+      <h2 class="panel-title">
+       Details
+      </h2>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="col-md-12">
+        <br>
+        <div class="row">
+          <div class="col-md-6 col-xs-6">
+          	<strong>ERN: </strong><span> {{PDetail?.erNnumber}}</span>
+          </div>
+          <div class="col-md-6 col-xs-6">
+          	<strong>Description: </strong><span>{{PDetail?.description}}</span>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-6 col-xs-6">
+          	<strong>Request Date: </strong><span>{{PDetail?.requestDate | date}}</span>
+          </div>
+          <div class="col-md-6 col-xs-6">
+          	<strong>Deleivery Date: </strong><span>{{PDetail?.expectedDeleiveryDate | date}}</span>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-6 col-xs-6">
+            <strong>Amount  </strong><span>{{PDetail?.totalAmount}}</span>
+          </div>
+          <div class="col-md-6 col-xs-6">
+          	<strong>Status: </strong><span>{{PDetail?.status}}</span>
+          </div>
+        </div>
+        <br>
+        <div class="row">
+          <div class="col-md-6 col-xs-6">
+          	<strong>Requesteb By: </strong><span>{{PDetail?.requestBy}}</span>
+          </div>
+          <div class="col-md-6 col-xs-6">
+            <strong>Department: </strong><span>{{PDetail?.deparmentment}}</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</p-dialog>

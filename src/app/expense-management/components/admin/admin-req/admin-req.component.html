@@ -1,0 +1,512 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              {{ formTitle }}
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <form novalidate [formGroup]="requisitionForm">
+            <div class="form-group">
+              <label for="" class="control-label col-md-2"> ERN Number </label>
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  formControlName="erNnumber"
+                  name="ernNumber"
+                  class="form-control"
+                  readonly
+                />
+              </div>
+
+              <label for="" class="control-label col-md-2"> Department </label>
+              <div class="col-md-4">
+                <select
+                  name="departmentId"
+                  formControlName="deparmentment"
+                  id="departmentId"
+                  class="form-control"
+                  [attr.disabled]="fromApproval"
+                  (change)="getStaffs($event.target.value)"
+                >
+                  <option value="">-- Select Department --</option>
+                  <option
+                    *ngFor="let item of departments"
+                    [value]="item.companyStructureId"
+                  >
+                    {{ item.name }}
+                  </option>
+                  <!--                  <option value="1">Sales</option>-->
+                  <!--                  <option value="2">Marketing</option>-->
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="control-label col-md-2"> Request By </label>
+              <div class="col-md-4">
+                <select
+                  name="requestBy"
+                  formControlName="requestBy"
+                  class="form-control"
+                  [attr.disabled]="fromApproval"
+                >
+                  <option value="" disabled selected>--Select Staff--</option>
+                  <option *ngFor="let staff of staffs" [value]="staff.staffId">{{staff.firstName}} {{staff.lastName}}</option>
+                </select>
+              </div>
+
+              <label for="requisitionDate" class="control-label col-md-2">
+                Requisition Date
+              </label>
+              <div class="col-md-4">
+                <p-calendar
+                  id="requisitionDate"
+                  formControlName="requestDate"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="1900:2030"
+                  [showIcon]="true"
+                  [inputStyle]="{ width: '100%' }"
+                  [style]="{ width: '100%', 'z-index': '999' }"
+                  [disabled]="true"
+                ></p-calendar>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="control-label col-md-2">
+                Expected Delivery Date
+              </label>
+              <div class="col-md-4">
+                <p-calendar
+                  id="expectedDeliveryDate"
+                  formControlName="expectedDeleiveryDate"
+                  [monthNavigator]="true"
+                  [yearNavigator]="true"
+                  yearRange="1900:2030"
+                  [showIcon]="true"
+                  [inputStyle]="{ width: '100%' }"
+                  [style]="{ width: '100%', 'z-index': '999' }"
+                  [disabled]="fromApproval"
+                ></p-calendar>
+                <!--                <input type="date" class="form-control" formControlName="expectedDeliveryDate">-->
+              </div>
+
+              <label for="" class="control-label col-md-2">
+                Total Amount
+              </label>
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  [attr.disabled]="true"
+                  formControlName="totalAmount"
+                  name="totalAmount"
+                  class="form-control"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="control-label col-md-2">
+                Delivery Location
+              </label>
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  formControlName="location"
+                  name="deliveryLocation"
+                  class="form-control"
+                />
+              </div>
+              <label for="" class="control-label col-md-2">Description</label>
+              <div class="col-md-4">
+                <input type="text" class="form-control" formControlName="description"/>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="control-label col-md-2">
+                Mode of Settlement
+              </label>
+              <div class="col-md-4">
+                <select
+                  formControlName="modeOfPayment"
+                  name="modeOfSettlement"
+                  class="form-control"
+                  (change)="getValue($event.target.value)"
+                >
+                  <option value="">--Select Mode of Settlement--</option>
+                  <option *ngFor="let item of settleMents" [value]="item.id">{{item.name}}</option>
+                </select>
+              </div>
+              <label for="comments" class="control-label col-md-2"
+                >Comments</label
+              >
+              <div class="col-md-4">
+                <textarea
+                  name="comments"
+                  id="comments"
+                  class="form-control"
+                  formControlName="comment"
+                  style="resize: none"
+                  [attr.disabled]="fromApproval"
+                ></textarea>
+              </div>
+            </div>
+          </form>
+          <hr />
+        </div>
+      </div>
+      <div class="ui-g" [hidden]="fromApproval">
+        <div class="ui-g-12 no-padding">
+          <div style="margin-bottom: 0" class="panel panel-default">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-12">
+                  <h2 class="panel-title pull-left">Expense Details</h2>
+                  <div
+                    style="padding-right: 5px; padding-left: 5px; width: 45px"
+                    class="col-md-1 pull-right"
+                  >
+                    <button
+                      pButton
+                      style="padding: 0.5em 0"
+                      type="button"
+                      class="ui-button-raised"
+                      (click)="showAddNew()"
+                      icon="ui-icon-plus"
+                      iconPos="center"
+                      pTooltip="Add"
+                      tooltipPosition="top"
+                      label=""
+                    ></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-body">
+              <div class="form-horizontal">
+                <p-table
+                  #dt
+                  [value]="expenseDetails"
+                  dataKey="classificationId"
+                  [responsive]="true"
+                  [scrollable]="true"
+                  [scrollHeight]="viewHeight"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+<!--                      <th class="checkbox_row">-->
+<!--                        <p-tableHeaderCheckbox></p-tableHeaderCheckbox>-->
+<!--                      </th>-->
+                      <th class="sn_width">S/N</th>
+                      <th>Description</th>
+                      <th>Quantity</th>
+                      <th>Unit Price</th>
+                      <th>Subtotal</th>
+                      <th>Expense Classification</th>
+                      <th>Cost Centre</th>
+                      <th>Budgeted</th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr [pSelectableRow]="x">
+<!--                      <td class="checkbox_row">-->
+<!--                        <p-tableCheckbox [value]="x"></p-tableCheckbox>-->
+<!--                      </td>-->
+                      <td class="sn_width">
+                        <a class="table_link">{{ i + 1 }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.description
+                        }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.quantity
+                        }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.unitPrice | number: '1.2-2'
+                        }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.subTotal | number: '1.2-2'
+                        }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.classificationsetupQuery.name
+                        }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">{{
+                          x.costCenter.name
+                        }}</a>
+                      </td>
+                      <td>
+                        <a class="table_link" (click)="editItem(x, i)">
+                          <span *ngIf="x.isBudgeted">Yes</span>
+                          <span *ngIf="!x.isBudgeted">No</span>
+                        </a>
+                      </td>
+                      <td><a style="color: tomato; text-decoration: none" (click)="deleteItem(x, i)"><i class="fa fa-trash" aria-hidden="true"></i></a></td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+            <div class="panel-footer">
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                      label="Next"></button>
+                  <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                      label="Previous"></button> -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer" [hidden]="fromApproval">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              style="margin-right: 5px"
+              type="button"
+              [disabled]="!requisitionForm.valid"
+              (click)="submitDetails(requisitionForm)"
+              class="btn btn-primary pull-right"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              style="margin-right: 5px"
+              class="btn btn-danger pull-right"
+              (click)="goBack()"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showExpenseDetails"
+  modal="modal"
+  id="searchModal"
+  showEffect="fade"
+  width="650"
+>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div style="margin-left: 0" class="row">
+        <h2 class="panel-title pull-left">Expense Details</h2>
+      </div>
+    </div>
+    <div style="padding: 10px" class="panel-body">
+      <div class="form-horizontal">
+        <form [formGroup]="expenseDetailsForm">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2"> Description </label>
+            <div class="col-md-4">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="description"
+              />
+            </div>
+            <label for="" class="control-label col-md-2">Quantity</label>
+            <div class="col-md-4">
+              <input
+                type="number"
+                class="form-control"
+                formControlName="quantity"
+                (change)="calculateAmount($event.target.value)"
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="col-md-2 control-label">Unit Price</label>
+            <div class="col-md-4">
+              <input
+                type="number"
+                class="form-control"
+                formControlName="unitPrice"
+                (change)="calculateSubTotal($event.target.value)"
+              />
+            </div>
+            <label for="" class="control-label col-md-2">Sub Total</label>
+            <div class="col-md-4">
+              <input
+                type="text"
+                class="form-control"
+                formControlName="subTotal"
+                readonly
+              />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="col-md-2 control-label">Cost Centre</label>
+            <div class="col-md-4">
+              <select class="form-control" formControlName="costCenter">
+                <option value="">--Select Cost Centre</option>
+                <option
+                  *ngFor="let item of costCentreList"
+                  [value]="item.costCenterId"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+            <label for="" class="control-label col-md-2"
+              >Expense Classification</label
+            >
+            <div class="col-md-4">
+              <select
+                class="form-control"
+                formControlName="classificationsetupId"
+              >
+                <option value="">--Select Cost Classifications--</option>
+                <option
+                  *ngFor="let item of classifications"
+                  [value]="item.classificationsetupId"
+                >
+                  {{ item.name }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Is Budgeted</label>
+            <input type="checkbox" formControlName="isBudgeted" />
+          </div>
+          <div class="details-btn-container">
+            <button class="details-btn-danger btn" (click)="closeModal()">Close</button>
+            <button class="details-btn btn" (click)="saveExpenseDetails(expenseDetailsForm)">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showSettlementDetails"
+  modal="modal"
+  id="searchModal"
+  showEffect="fade"
+  width="650"
+>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <div style="margin-left: 0" class="row">
+        <h2 class="panel-title pull-left">Settlement Details</h2>
+      </div>
+    </div>
+    <div style="padding: 10px" class="panel-body">
+      <div class="form-horizontal">
+        <form [formGroup]="settlementForm">
+          <ng-template [ngIf]="showTransferDialog">
+            <div class="form-group">
+              <label for="" class="control-label col-md-2"> Bank Name </label>
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  class="form-control"
+                  formControlName="bankName"
+                />
+              </div>
+              <label for="" class="control-label col-md-2">Account Number</label>
+              <div class="col-md-4">
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="bankAccountNumber"
+                />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="" class="col-md-2 control-label">Account Name</label>
+              <div class="col-md-4">
+                <input
+                  type="number"
+                  class="form-control"
+                  formControlName="bankAccountName"
+                />
+              </div>
+            </div>
+          </ng-template>
+         <ng-template [ngIf]="showOthers">
+           <div class="form-group" style="width: 700px">
+             <label for="" class="control-label col-md-2"> Detail </label>
+             <div class="col-md-10">
+              <textarea
+                class="form-control"
+                style="resize: none"
+                formControlName="otherModeOfPayComment"
+              ></textarea>
+             </div>
+           </div>
+         </ng-template>
+
+          <div class="details-btn-container">
+            <button class="details-btn-danger btn" >Close</button>
+            <button class="details-btn btn" (click)="savePaymentMode(settlementForm)">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<!--<p-dialog-->
+<!--  [responsive]="true"-->
+<!--  [(visible)]="showOthers"-->
+<!--  modal="modal"-->
+<!--  id="searchModal"-->
+<!--  showEffect="fade"-->
+<!--  width="650"-->
+<!--&gt;-->
+<!--  <div class="panel panel-default">-->
+<!--    <div class="panel-heading">-->
+<!--      <div style="margin-left: 0" class="row">-->
+<!--        <h2 class="panel-title pull-left">Other Settlement Details</h2>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--    <div style="padding: 10px" class="panel-body">-->
+<!--      <div class="form-horizontal">-->
+<!--        <form>-->
+<!--          <div class="form-group">-->
+<!--            <label for="" class="control-label col-md-2"> Detail </label>-->
+<!--            <div class="col-md-10">-->
+<!--              <textarea-->
+<!--                class="form-control"-->
+<!--              ></textarea>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--          <div class="details-btn-container">-->
+<!--            <button class="details-btn-danger btn">Close</button>-->
+<!--            <button class="details-btn btn">Save</button>-->
+<!--          </div>-->
+<!--        </form>-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</p-dialog>-->

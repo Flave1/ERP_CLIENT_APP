@@ -1,0 +1,242 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              {{ formTitle }}
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <div class="col-md-5">
+              <fieldset>
+                <legend>
+                  ADD BID DETAILS
+                </legend>
+                <form novalidate [formGroup]="bidForm">
+                  <div class="form-group">
+                    <label for="lpoNumber" class="col-md-3 control-label">Item</label>
+                    <div class="col-md-9">
+                      <p-dropdown [options]="prnArr" placeholder="Select an item" name="lpOnumber"
+                        formControlName="lpOnumber" [filter]="true" [filterBy]="'label'"
+                        [style]="{ width: '100%' }" id="lpoNumber" (onChange)="getPRNValue($event.value)">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{
+                          item.label
+                        }}</span>
+                        </ng-template>
+                        <ng-template let-x pTemplate="item">
+                          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                            <div style="font-size:14px;margin-top:4px">
+                              {{ x.label }}
+                            </div>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="col-md-3 control-label">Item Description</label>
+                    <div class="col-md-9">
+                      <input type="text" formControlName="descriptionOfRequest" class="form-control">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-3">
+                      Delivery Location
+                    </label>
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" formControlName="location" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="supplierId" class="control-label col-md-3">
+                      Supplier
+                    </label>
+                    <div class="col-md-9">
+                      <p-dropdown [options]="supplierArr" placeholder="Select an item" name="lpoNumber"
+                        formControlName="supplierId" [filter]="true" [filterBy]="'label'"
+                        [style]="{ width: '100%' }" id="supplierId" (onChange)="getValue($event.value)">
+                        <ng-template let-item pTemplate="selectedItem">
+                          <span style="vertical-align:middle; margin-left: .5em">{{
+                          item.label
+                        }}</span>
+                        </ng-template>
+                        <ng-template let-x pTemplate="item">
+                          <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                            <div style="font-size:14px;margin-top:4px">
+                              {{ x.label }}
+                            </div>
+                          </div>
+                        </ng-template>
+                      </p-dropdown>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-3">
+                      Supplier Number
+                    </label>
+                    <div class="col-md-9">
+                      <input type="text" name="description" class="form-control" formControlName="suppliernumber" />
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-3">
+                      Proposed Amount
+                    </label>
+                    <div class="col-md-9">
+                      <input type="text" class="form-control" formControlName="proposedAmount"
+                        (input)="getAmount($event.target.value)" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-3">
+                      Tender Proposal
+                    </label>
+                    <div class="col-md-6" style="display: flex">
+                      <input type="file" class="form-control" #fileInput (change)="handleFileInput($event.target.files)"
+                        style="width: 250px;" #fileInput
+                        accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,.pdf" />
+                      <div class="col-md-3">
+                        <button class="proposal-btn" (click)="uploadTenderProposal()">
+                          <span *ngIf="!proposalBtn">Upload</span>
+                          <i class="fa fa-refresh fa-spin" *ngIf="proposalBtn"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="col-md-3 control-label">Payment Terms</label>
+                    <div class="col-md-9">
+                      <button pButton style="padding:0.5em 0" type="button" class="ui-button-raised"
+                        (click)="addPaymentTerms()" icon="ui-icon-plus" iconPos="center" pTooltip="Add Payment Terms"
+                        tooltipPosition="top" label=""></button>
+                    </div>
+                  </div>
+                </form>
+              </fieldset>
+            </div>
+            <div class="col-md-7">
+              <fieldset>
+                <legend>
+                  PAYMENT TERMS
+                </legend>
+                <p-table #dt [value]="paymentTerms" [responsive]="true">
+                  <ng-template pTemplate="caption"> </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="sn_width">S/N</th>
+                      <!--                      <th>Suppliers</th>-->
+                      <th>Phase</th>
+                      <th>Payment(%)</th>
+                      <th>Amount</th>
+                      <th>Percentage Completion</th>
+                      <th>Description</th>
+                      <!--                      <th></th>-->
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td class="sn_width">{{ i + 1 }}</td>
+                      <!--                      <td class="table_link" (click)="editDetail(x, i)"></td>-->
+                      <td class="table_link" (click)="editDetail(x, i)">
+                        <span *ngIf="x.phase != 11">{{ x.phase }}</span>
+                        <span *ngIf="x.phase == 11">Above 10</span>
+                      </td>
+                      <td class="table_link" (click)="editDetail(x, i)">
+                        {{ x.payment }}
+                      </td>
+                      <td class="table_link" (click)="editDetail(x, i)">
+                        {{ x.amount | number: '1.2-2' }}
+                      </td>
+                      <td class="table_link" (click)="editDetail(x, i)">
+                        {{ x.completion  }}
+                      </td>
+                      <td class="table_link" (click)="editDetail(x, i)">
+                        {{ x.projectStatusDescription }}
+                      </td>
+                      <!--                      <td>-->
+                      <!--                        <a (click)="editDetail(x, i)">Edit</a>-->
+                      <!--                      </td>-->
+                      <td>
+                        <a style="color: red" (click)="deleteDetail(x, i)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </fieldset>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button style="margin-right:5px" type="button" (click)="submitBid(bidForm)"
+              class="btn btn-primary pull-right">
+              Submit Bid
+            </button>
+            <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog [responsive]="true" [(visible)]="showDialog" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      <h4 class="flex">
+        <span>Add Payment Terms</span>
+        <span><strong>Proposed Amt: {{proposedAmount | number: '1.2-2'}}</strong></span>
+      </h4>
+    </div>
+    <div class="panel-body">
+      <form [formGroup]="paymentTermsForm">
+        <div class="form-group">
+          <label for="">Phase</label>
+          <select name="phase" id="phase" class="form-control" formControlName="phase">
+            <option value="" disabled>--Select Project Phase--</option>
+            <option *ngFor="let item of phases" [value]="item.id">{{
+                item.name
+              }}</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="">Payment(%)</label>
+          <input type="number" placeholder="Payment" formControlName="payment" class="form-control"
+            (input)="calculateAmount($event.target.value)" />
+        </div>
+        <div class="form-group">
+          <label for="">Amount</label>
+          <input type="number" placeholder="Amount" formControlName="amount" class="form-control" disabled />
+        </div>
+        <div class="form-group">
+          <label for="">Percentage Completion</label>
+          <input type="number" placeholder="Percentage completion" formControlName="completion" class="form-control" />
+        </div>
+        <div class="form-group">
+          <label for="">Project Status Description</label>
+          <textarea type="text" placeholder="Project Status Description" formControlName="projectStatusDescription"
+            class="form-control" style="resize: none"></textarea>
+        </div>
+        <div class="btn_container">
+          <button class="pmt-btn tomato" (click)="closeDialog()">Close</button>
+          <button class="pmt-btn add" (click)="AddPaymentTerms(paymentTermsForm)">
+            Add
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</p-dialog>

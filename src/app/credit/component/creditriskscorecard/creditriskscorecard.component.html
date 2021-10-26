@@ -1,0 +1,205 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Risk Attribute
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        (change)="
+                                            onSelectedAttributeChanged(
+                                                $event.target.value
+                                            )
+                                        "
+                                        name="creditRiskAttributeId"
+                                        formControlName="creditRiskAttributeId"
+                                        id="creditRiskAttributeId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Risk Attribute --</option
+                                        >
+                                        <option
+                                            *ngFor="let x of attributes"
+                                            [value]="x.creditRiskAttributeId"
+                                            >{{ x.creditRiskAttribute }}</option
+                                        >
+                                    </select>
+                                </div>
+                                <label for="" class="control-label col-md-2">
+                                    Customer Type
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="customerTypeId"
+                                        formControlName="customerTypeId"
+                                        id="customerTypeId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Customer Type --</option
+                                        >
+                                        <option value="1">Individual</option>
+                                        <option value="2">Corporate</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                        <br />
+                        <hr />
+
+                        <div class="form-group">
+                            <div class="col-md-5">
+                                <fieldset>
+                                    <legend>
+                                        ADD ATTRIBUTE VALUE
+                                    </legend>
+                                    <form
+                                        novalidate
+                                        [formGroup]="scoreCardForm"
+                                    >
+                                        <div class="form-group">
+                                            <label
+                                                for=""
+                                                class="control-label col-md-3"
+                                            >
+                                                Value
+                                            </label>
+                                            <div class="col-md-9">
+                                                <textarea
+                                                    type="text"
+                                                    formControlName="value"
+                                                    name="value"
+                                                    rows="3"
+                                                    cols="15"
+                                                    class="form-control"
+                                                ></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label
+                                                for=""
+                                                class="control-label col-md-3"
+                                            >
+                                                Score
+                                            </label>
+                                            <div class="col-md-9">
+                                                <input
+                                                    type="number"
+                                                    formControlName="score"
+                                                    name="score"
+                                                    class="form-control"
+                                                />
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <button
+                                                    type="button"
+                                                    [disabled]="
+                                                        !scoreCardForm.valid
+                                                    "
+                                                    (click)="
+                                                        addToList(scoreCardForm)
+                                                    "
+                                                    class="btn btn-primary pull-right"
+                                                >
+                                                    ADD TO LIST
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </fieldset>
+                            </div>
+                            <div class="col-md-7">
+                                <fieldset>
+                                    <legend>
+                                        LIST OF ATTRIBUTE VALUE
+                                    </legend>
+                                    <p-table
+                                        #dt
+                                        [value]="scoreCardDetails"
+                                        [responsive]="true"
+                                    >
+                                        <ng-template pTemplate="caption">
+                                        </ng-template>
+                                        <ng-template pTemplate="header">
+                                            <tr>
+                                                <th style="width:4em">S/N</th>
+                                                <th style="width:13em">
+                                                    Value
+                                                </th>
+                                                <th style="width:5em">Score</th>
+                                                <th style="width:5em"></th>
+                                            </tr>
+                                        </ng-template>
+                                        <ng-template
+                                            pTemplate="body"
+                                            let-x
+                                            let-i="rowIndex"
+                                        >
+                                            <tr>
+                                                <td>{{ i + 1 }}</td>
+                                                <td>{{ x.value }}</td>
+                                                <td>{{ x.score }}</td>
+                                                <td>
+                                                    <a
+                                                        style="color: red"
+                                                        (click)="
+                                                            deleteDetail(x)
+                                                        "
+                                                        >Remove</a
+                                                    >
+                                                </td>
+                                            </tr>
+                                        </ng-template>
+                                    </p-table>
+                                </fieldset>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                [disabled]="!form.valid"
+                                class="btn btn-primary pull-right"
+                                (click)="submitCreditRiskScoreCardInfo(form)"
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                                (click)="goBack()"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

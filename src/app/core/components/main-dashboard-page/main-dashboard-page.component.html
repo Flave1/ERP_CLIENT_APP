@@ -1,0 +1,83 @@
+<div class="page-container">
+  <div class="dashboard-div">
+
+    <div class="dashboard-item" *ngIf="moduleName.includes('CREDIT')">
+      <h2 class="dashboard-item--header">Credit</h2>
+      <div class="dashboard-item-container">
+        <div class="item-counts blue_grey_bg" routerLink="/credit/application-list">
+<!--          <h4>30</h4>-->
+          <span>Applications</span>
+        </div>
+        <div class="item-counts teal_bg" routerLink="/credit/credit-appraisal">
+<!--          <h4>30</h4>-->
+          <span>Appraisals</span>
+        </div>
+        <div class="item-counts blue_grey_bg" routerLink="/credit/loan-booking-approval">
+<!--          <h4>30</h4>-->
+          <span>Disbursement</span>
+        </div>
+        <div class="item-counts teal_bg" routerLink="/loan-management/payments-due">
+<!--          <h4>30</h4>-->
+          <span>Payments Due</span>
+        </div>
+        <div class="item-counts blue_grey_bg" routerLink="/loan-management/overdue">
+<!--          <h4>30</h4>-->
+          <span>Overdue</span>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-item" *ngIf="moduleName.includes('INVESTOR')">
+      <h2 class="dashboard-item--header">Investor fund</h2>
+      <div class="dashboard-item-container">
+        <div class="item-counts blue_grey_bg" routerLink="/investor/pending-investments">
+<!--          <h4>30</h4>-->
+          <span>Pending Investments</span>
+        </div>
+        <div class="item-counts teal_bg" routerLink="/investor/pending-collections">
+<!--          <h4>30</h4>-->
+          <span>Pending Collections</span>
+        </div>
+        <div class="item-counts blue_grey_bg" routerLink="/investor/pending-liquidations">
+<!--          <h4>30</h4>-->
+          <span>Pending Liquidations</span>
+        </div>
+        <div class="item-counts teal_bg" routerLink="/investor/pending-topup">
+<!--          <h4>30</h4>-->
+          <span>Pending Top up</span>
+        </div>
+        <div class="item-counts blue_grey_bg" routerLink="/investor/pending-rollover">
+<!--          <h4>30</h4>-->
+          <span>Pending Rollover</span>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-item" *ngIf="moduleName.includes('PURCHASE')">
+      <h2 class="dashboard-item--header">Purchase and Payables</h2>
+      <div class="dashboard-item-container">
+        <div class="item-counts blue_grey_bg" routerLink="/purchases-and-supplier/supplier-approval">
+          <!--          <h4>30</h4>-->
+          <span>Suppliers</span>
+        </div>
+        <div class="item-counts teal_bg" routerLink="/purchases-and-supplier/prn-approvals">
+          <!--          <h4>30</h4>-->
+          <span>PRN</span>
+        </div>
+        <div class="item-counts blue_grey_bg" routerLink="/purchases-and-supplier/bids-approvals">
+          <!--          <h4>30</h4>-->
+          <span>Bids</span>
+        </div>
+        <div class="item-counts teal_bg" routerLink="/purchases-and-supplier/lpo-approvals">
+          <!--          <h4>30</h4>-->
+          <span>LPO</span>
+        </div>
+        <div class="item-counts blue_grey_bg" routerLink="/purchases-and-supplier/payment-lists">
+          <!--          <h4>30</h4>-->
+          <span>Payments</span>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-item"*ngIf="moduleName.includes('EXPMGR')">
+      Expense Management
+    </div>
+  </div>
+</div>

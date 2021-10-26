@@ -1,0 +1,385 @@
+<div *ngIf="displaySearch" class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Loan Prepayment
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-horizontal">
+                  <form novalidate [formGroup]="loanSearchForm" (keydown.enter)="loanSearchForm.valid ? submitLoanSearchForm(loanSearchForm) : $event.preventDefault()" autocomplete="off">
+                        <div class="form-group">
+                              <label for="customerTypeId" class="control-label col-md-3">Customer Type</label>
+                              <label for="productTypeId" class="control-label col-md-3">Product Type</label>
+                              <label for="searchString" class="control-label col-md-6">Search</label>
+                              <div class="col-md-3">
+                                  <select  name="customerTypeId" formControlName="customerTypeId" id="customerTypeId" class="form-control">
+                                      <option value="" disabled>-- Select Cusotmer Type --</option>
+                                      <option  value="1">Individual</option>
+                                      <option  value="2">Corporate</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-3">
+                                  <select name="productTypeId" formControlName="productTypeId" id="productTypeId" class="form-control" >
+                                      <option value="" disabled>-- Select Product Type --</option>
+                                      <option *ngFor="let x of productTypes" [value]="x.lookupId">{{ x.lookupName }}</option>
+                                  </select>
+                              </div>
+                              <div class="col-md-6 input-group" style="padding:0 15px;">
+                                  <input type="text" name="searchString" formControlName="searchString" id="searchString" class="form-control" placeholder="Search by loan / application reference number"
+                                      [ngClass]="!loanSearchForm.controls['searchString'].valid ? 'required-input' : 'valid-input'">
+
+                                  <span (click)="submitLoanSearchForm(loanSearchForm)" class="input-group-addon btn btn-info">
+                                      <span class="glyphicon glyphicon-search"></span> Search
+                                  </span>
+                              </div>
+                          </div>
+                    </form>
+
+                    <p-table
+                          #dt
+                          (onRowSelect)="onRowSelect($event)"
+                          [value]="disbursedLoanList"
+                          [columns]="cols"
+                          dataKey="loanId"
+                          selectionMode="single"
+                          [(selection)]="selectedLoan"
+                          [paginator]="false"
+                          [scrollable]="true"
+                          [scrollHeight]="viewHeight"
+                          [rows]="disbursedLoanList?.length"
+                          [responsive]="true"
+                      >
+                          <ng-template pTemplate="caption">
+                          </ng-template>
+                          <ng-template pTemplate="header">
+                              <tr>
+                                  <th class="checkbox_row">
+                                      <p-tableHeaderCheckbox>
+                                      </p-tableHeaderCheckbox>
+                                  </th>
+                                  <th class="sn_width">S/N</th>
+                                  <th [pSortableColumn]="'loanRefNumber'">Loan Reference Number
+                                      <i
+                                          class="ui-icon-arrow-drop-down sort--icon__special"
+                                      ></i>
+                                  </th>
+                                  <th [pSortableColumn]="'productName'">Product Name
+                                      <i
+                                          class="ui-icon-arrow-drop-down sort--icon__special"
+                                      ></i>
+                                  </th>
+                                  <th [pSortableColumn]="'customerName'">Customer Name
+                                      <i
+                                          class="ui-icon-arrow-drop-down sort--icon__special"
+                                      ></i>
+                                  </th>
+                                  <th [pSortableColumn]="'principalAmount'">Outstanding Balance
+                                      <i
+                                          class="ui-icon-arrow-drop-down sort--icon__special"
+                                      ></i>
+                                  </th>
+                              </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-x let-i="rowIndex">
+                              <tr [pSelectableRow]="x" (click)="rowClicked(x)">
+                                  <td>
+                                      <p-tableCheckbox
+                                          [value]="x"
+                                      ></p-tableCheckbox>
+                                  </td>
+                                  <td>{{ i + 1 }}</td>
+                                  <td>{{ x.loanRefNumber }}</td>
+                                  <td>{{ x.productName }}</td>
+                                  <td>{{ x.customerName }}</td>
+                                  <td>{{ x.principalAmount | number: "1.2"}}</td>
+
+                              </tr>
+                          </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div *ngIf="displayData" class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Loan Prepayment
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <p-tabView>
+                <p-tabPanel header="Loan Prepayment">
+                   <div class="panel panel-default">
+                    <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                Loan Prepayment
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="loanPrepaymentForm">
+                            <div class="form-group">
+                                <label for="loanReferenceNumber" class="control-label col-md-2">Loan Reference Number</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="loanReferenceNumber" formControlName="loanReferenceNumber" id="loanReferenceNumber"
+                                        class="form-control" [ngClass]="!loanPrepaymentForm.controls['loanReferenceNumber'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+                                <label for="" class="control-label col-md-2">Principal Amount</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="approvedAmount" formControlName="approvedAmount" id="approvedAmount" class="form-control"
+                                        [ngClass]="!loanPrepaymentForm.controls['approvedAmount'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label for="outstandingPrincipal" class="control-label col-md-2">Outstanding Principal</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="outstandingPrincipal" formControlName="outstandingPrincipal" id="outstandingPrincipal"
+                                        class="form-control" [ngClass]="!loanPrepaymentForm.controls['outstandingPrincipal'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+                                <label for="interestRate" class="control-label col-md-2">Interest Rate</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="interestRate" formControlName="interestRate" id="interestRate" class="form-control"
+                                        [ngClass]="!loanPrepaymentForm.controls['interestRate'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="teno" class="control-label col-md-2">Tenor</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="teno" formControlName="teno" id="teno" class="form-control" [ngClass]="!loanPrepaymentForm.controls['teno'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+
+                                <label for="accrualedAmount" class="control-label col-md-2">Accrued Interest</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="accrualedAmount" formControlName="accrualedAmount" id="accrualedAmount" class="form-control"
+                                        [ngClass]="!loanPrepaymentForm.controls['accrualedAmount'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="currency" class="control-label col-md-2">Currency</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="currency" formControlName="currency" id="currency" class="form-control" [ngClass]="!loanPrepaymentForm.controls['currency'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+
+                                <label for="pastDueTotal" class="control-label col-md-2">Past Due</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="pastDueTotal" formControlName="pastDueTotal" id="pastDueTotal" class="form-control"
+                                        [ngClass]="!loanPrepaymentForm.controls['pastDueTotal'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="totalAmount" class="control-label col-md-2">Total Outstanding</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" [attr.disabled]=true name="totalAmount" formControlName="totalAmount" id="totalAmount" class="form-control"
+                                        [ngClass]="!loanPrepaymentForm.controls['totalAmount'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+
+                                <label *ngIf="displayEffectiveDate" for="previousEffectiveDate" class="control-label col-md-2">Effective Date </label>
+                                <div *ngIf="displayEffectiveDate" class="col-md-4">
+                                    <p-calendar id="previousEffectiveDate" formControlName="previousEffectiveDate" dateFormat="dd/mm/yy" [ngClass]="'valid-input'"
+                                        [inputStyle]="{'width': '270px' }" [monthNavigator]="true" [yearNavigator]="true" readOnlyInputText="true"
+                                        yearRange="2000:2990" [showIcon]="true" class="form-control"></p-calendar>
+                                </div>
+
+
+                            </div>
+
+                            <div class="form-group">
+                                <label for="equityContribution" class="control-label col-md-2">Prepayment Amount</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" name="equityContribution" formControlName="equityContribution" id="equityContribution" class="form-control"
+                                        (input)="calculateBalance($event.target.value)" [ngClass]="!loanPrepaymentForm.controls['equityContribution'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+
+                                <label *ngIf="displayEffectiveDate" for="effectiveDate" class="control-label col-md-2">New Effective Date </label>
+                                <div *ngIf="displayEffectiveDate" class="col-md-4">
+                                    <p-calendar id="effectiveDate" formControlName="effectiveDate" dateFormat="dd/mm/yy" [ngClass]="!loanPrepaymentForm.controls['effectiveDate'].valid ? 'required-input' : 'valid-input'"
+                                        (onSelect)="calculateTenor()" [inputStyle]="{'width': '270px' }" [monthNavigator]="true"
+                                        [yearNavigator]="true" yearRange="2000:2990" [showIcon]="true" class="form-control"></p-calendar >
+                                </div>
+
+                            </div>
+
+                            <div *ngIf="!displayIrregularSchedule" class="form-group">
+                                <label for="maintainTenor" class="control-label col-md-2">Maintain Tenor</label>
+                                <div class="col-md-4">
+                                    <input type="checkbox" checked="checked" (change)="keepTenor($event.target.checked)" formControlName="maintainTenor" name="maintainTenor"
+                                        id="maintainTenor">
+                                </div>
+
+                                <label *ngIf="displayMaturityDate" for="maturityDate" class="control-label col-md-2">Maturity Date </label>
+
+                                <div *ngIf="displayMaturityDate" class="col-md-4">
+                                    <p-calendar id="maturityDate" formControlName="maturityDate" dateFormat="dd/mm/yy" [ngClass]="!loanPrepaymentForm.controls['maturityDate'].valid ? 'required-input' : 'valid-input'"
+                                        (onSelect)="calculateTenor()" [inputStyle]="{'width': '270px' }" [monthNavigator]="true"
+                                        [yearNavigator]="true" yearRange="2000:2050" [showIcon]="true" class="form-control"></p-calendar>
+                                </div>
+
+
+
+                            </div>
+
+                            <div *ngIf="displayMaturityDate" class="form-group">
+
+                                <label for="newtenor" class="control-label col-md-2">New Tenor</label>
+                                <div class="col-md-4 ">
+                                    <input type="text" name="newtenor" (change)="calculateMaturityDate()" formControlName="newtenor" id="newtenor" class="form-control"
+                                        [ngClass]="!loanPrepaymentForm.controls['newtenor'].valid ? 'required-input' : 'valid-input'">
+                                </div>
+
+
+
+                            </div>
+
+
+                        </form>
+                        <div *ngIf="displayIrregularSchedule">
+                            <fieldset>
+                                <legend>New Payment Plan</legend>
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                    <label for="" class="control-label col-md-2">
+                                        Date
+                                    </label>
+                                    <div class="col-md-4">
+                                        <p-calendar id="scateredDate" dateFormat="dd/mm/yy" [(ngModel)]="data.scateredDate" [monthNavigator]="true" [inputStyle]="{'width': '100%' }"
+                                          [style]="{'width': '100%', 'z-index': '100'}"  [yearNavigator]="true" yearRange="2010:2050" [showIcon]="true" class="form-control"></p-calendar>
+                                    </div>
+                                    <label for="" class="control-label col-md-2">
+                                        Amount
+                                    </label>
+                                    <div class="col-md-4">
+                                        <input type="number" [(ngModel)]="data.amount" class="form-control">
+                                    </div>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button [disabled]="!data.amount && !data.scateredDate" (click)="addToList()" pButton type="button" label="Add To List" icon="pi-plus"></button>
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <div class="col-md-10">
+                                        <table class="table table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>S/No</th>
+                                                    <th>Date</th>
+                                                    <th style="text-align: right">Amount</th>
+                                                    <th></th>
+                                                </tr>
+
+                                            </thead>
+                                            <tbody>
+                                                <tr *ngFor="let p of scatterdPayments;let indx=index">
+                                                    <td>
+                                                        {{indx + 1}}
+                                                    </td>
+                                                    <td>
+                                                        {{p.paymentDate | date}}
+                                                    </td>
+                                                    <td style="text-align: right;width:120px">{{p.paymentAmount | number:'1.2'}}</td>
+                                                    <td style="padding: 0;width:50px">
+                                                        <a (click)="removeItem($event,indx)" style="color:#ff0000" href="#">
+                                                            <i class="fa fa-times" aria-hidden="true"></i>X</a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div style="text-align: left" class="col-md-2">
+                                         Balance:
+                                        <span style="margin:0;text-align: right">
+                                            {{principalValanceString | number:'1.2'}}
+                                        </span>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="form-group">
+                            <div *ngIf="!displayIrregularSchedule">
+                                <div class="col-md-2">
+                                    <label class="control-label">Balance: </label>
+                                    <span style="margin:0;text-align: right">
+                                        {{principalValanceString | number:'1.2'}}
+                                    </span>
+                                </div>
+                                <!-- <div class="col-md-2 col-md-offset-8">
+                                    <button type="button" [disabled]="! newPrincipalBalance" (click)="generateIrregularSchedule()" class="btn btn-success btn-block">Generate</button>
+                                </div> -->
+                            </div>
+
+                            <!-- <div *ngIf="displayIrregularSchedule" class="col-md-2 col-md-offset-10">
+                                <button type="button" [disabled]="! newPrincipalBalance" (click)="generateIrregularSchedule()" class="btn btn-success btn-block">Generate</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="button" (click)="submitForm(loanPrepaymentForm)" [disabled]="loanPrepaymentForm.invalid" class="btn btn-success pull-right">Save</button>
+                            <button type="button" (click)="goBack()" style="margin-right:5px" class="btn btn-danger pull-right">Cancel</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                    </p-tabPanel>
+                    <p-tabPanel  header="Selected Loan Details">
+                          <app-view-loan-details [loanId]="loanId"></app-view-loan-details>
+                        <app-view-loan-schedule [loanId]="loanId"></app-view-loan-schedule>
+                      </p-tabPanel>
+                    <p-tabPanel header="Loan Application Details">
+                          <app-loan-customer-details [customerId]="customerId"></app-loan-customer-details>
+                            <app-loan-application-details [loanApplicationId]="loanApplicationId" [caneditPrivilege]="false"></app-loan-application-details>
+
+                    </p-tabPanel>
+                </p-tabView>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button
+                          type="button"
+                          (click)="goBack()"
+                          style="margin-right:5px"
+                          class="btn btn-danger pull-right">
+                            Back To Search
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

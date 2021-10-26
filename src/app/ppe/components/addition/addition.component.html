@@ -1,0 +1,179 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="lpoNumber" class="control-label col-md-2">LPO Number
+                </label>
+                <div class="col-md-4">
+                  <!--                  <select-->
+                  <!--                    name="lpoNumber"-->
+                  <!--                    id="lpoNumber"-->
+                  <!--                    class="form-control"-->
+                  <!--                    formControlName="lpoNumber"-->
+                  <!--                    (change)="getValue($event.target.value)"-->
+                  <!--                  >-->
+                  <!--                    <option value="" selected disabled>&#45;&#45;Select Item&#45;&#45;</option>-->
+                  <!--                    <option *ngFor="let item of lpos" [value]="item.name">{{-->
+                  <!--                      item.name-->
+                  <!--                    }}</option>-->
+                  <!--                  </select>-->
+                  <p-dropdown [options]="lpoArr" placeholder="Select an item" name="lpoNumber"
+                    formControlName="lpoNumber" [filter]="true" [filterBy]="'label'"
+                    [style]="{ width: '100%' }" id="lpoNumber" (onChange)="getValue($event.value)">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+                <label for="dateOfPurchase" class="control-label col-md-2">
+                  Date of Purchase
+                </label>
+                <div class="col-md-4">
+                  <p-calendar  id="dateOfPurchase" formControlName="dateOfPurchase"
+                    [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2100" [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '100' }"></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="description" class="control-label col-md-2">Description</label>
+                <div class="col-md-4">
+                  <textarea class="form-control" id="description" formControlName="description" name="description"
+                    style="resize: none"></textarea>
+                </div>
+                <label for="quantity" class="control-label col-md-2">
+                  Quantity
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="quantity" name="quantity" id="quantity" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="cost" class="control-label col-md-2">
+                  Cost
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="cost" class="form-control" id="cost" name="cost" />
+                </div>
+                <label for="location" class="control-label col-md-2">Location</label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="location" name="location" id="location" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="assetClassificationId" class="control-label col-md-2">Asset Classification</label>
+                <div class="col-md-4">
+                  <!--                  <select-->
+                  <!--                    name="assetClassificationId"-->
+                  <!--                    id="assetClassificationId"-->
+                  <!--                    class="form-control"-->
+                  <!--                    formControlName="assetClassificationId"-->
+                  <!--                    (change)="getItemValue($event.target.value)"-->
+                  <!--                  >-->
+                  <!--                    <option value="" selected disabled>&#45;&#45;Select Item&#45;&#45;</option>-->
+                  <!--                    <option-->
+                  <!--                      *ngFor="let item of assetClassifications"-->
+                  <!--                      [value]="item.asetClassificationId"-->
+                  <!--                      >{{ item.classificationName }}</option-->
+                  <!--                    >-->
+                  <!--                  </select>-->
+                  <p-dropdown [options]="assetClassificationsArr" placeholder="Select an item"
+                    name="assetClassificationId" formControlName="assetClassificationId" [filter]="true"
+                    [filterBy]="'label'"  [style]="{ width: '100%' }" id="assetClassificationId"
+                    (onChange)="getItemValue($event.value)">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+                <label for="usefulLife" class="control-label col-md-2">
+                  Useful life
+                </label>
+                <div class="col-md-4">
+                  <input type="text" name="usefulLife" class="form-control" id="usefulLife"
+                    formControlName="usefulLife" />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="residualValue" class="control-label col-md-2">Residual value</label>
+                <div class="col-md-4">
+                  <input type="text" id="residualValue" formControlName="residualValue" name="residualValue"
+                    class="form-control" />
+                </div>
+
+                <label for="subGlAddition" class="control-label col-md-2">
+                  Sub GL for Addition
+                </label>
+                <div class="col-md-4">
+                  <p-dropdown [options]="glArr" placeholder="Select an item" formControlName="subGlAddition"
+                    [filter]="true" [filterBy]="'label'"  [style]="{ width: '100%' }"
+                    id="subGlAddition">
+                    <ng-template let-item pTemplate="selectedItem">
+                      <span style="vertical-align:middle; margin-left: .5em">{{
+                        item.label
+                      }}</span>
+                    </ng-template>
+                    <ng-template let-x pTemplate="item">
+                      <div class="ui-helper-clearfix" style="position: relative;height: 25px;">
+                        <div style="font-size:14px;margin-top:4px">
+                          {{ x.label }}
+                        </div>
+                      </div>
+                    </ng-template>
+                  </p-dropdown>
+                </div>
+              </div>
+              <!--              <div class="form-group">-->
+              <!--              -->
+
+              <!--              </div>-->
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitInfo(form)">
+                Pass To Register
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

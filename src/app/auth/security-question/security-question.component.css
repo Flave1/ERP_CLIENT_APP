@@ -1,0 +1,14 @@
+.securityContainer{
+    margin: auto;
+    width: 60%;
+    border: grey;
+    display: flex;
+    margin: 5%;
+}
+
+.login_form .input_container{
+    text-align: center;
+    width: 100%;
+    margin: 10px;
+    padding: 0%;
+}

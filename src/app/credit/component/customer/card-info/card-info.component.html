@@ -1,0 +1,135 @@
+<form novalidate [formGroup]="cardDetailsForm">
+  <div class="form-group">
+    <label for="" class="control-label col-md-2"> Card Number </label>
+    <div class="col-md-4">
+      <input
+        type="text"
+        formControlName="cardNumber"
+        name="cardNumber"
+        class="form-control"
+      />
+    </div>
+    <div>
+      <label for="" class="control-label col-md-2"> Cvv </label>
+      <div class="col-md-4">
+        <input
+          type="cvv"
+          formControlName="cvv"
+          name="cvv"
+          class="form-control"
+        />
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="" class="control-label col-md-2"> Expiry Month </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="expiryMonth"
+        formControlName="expiryMonth"
+        id="expiryMonth"
+        class="form-control"
+      >
+        <option value="">-- Select Month --</option>
+        <option value="01">January</option>
+        <option value="02">Febuary</option>
+        <option value="03">March</option>
+        <option value="04">April</option>
+        <option value="05">May</option>
+        <option value="06">June</option>
+        <option value="07">July</option>
+        <option value="08">August</option>
+        <option value="09">September</option>
+        <option value="10">October</option>
+        <option value="11">November</option>
+        <option value="12">December</option>
+      </select>
+    </div>
+    <label for="" class="control-label col-md-2"> Expiry Year </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="expiryYear"
+        formControlName="expiryYear"
+        id="expiryYear"
+        class="form-control"
+      >
+        <option value="">-- Select Year --</option>
+        <option *ngFor="let item of years" [value]="item.value">
+          {{ item.year }}
+        </option>
+        <!--        <option value="20">2020</option>-->
+        <!--        <option value="21">2021</option>-->
+        <!--        <option value="22">2022</option>-->
+        <!--        <option value="23">2023</option>-->
+        <!--        <option value="24">2024</option>-->
+        <!--        <option value="25">2025</option>-->
+        <!--        <option value="26">2026</option>-->
+        <!--        <option value="27">2027</option>-->
+        <!--        <option value="28">2028</option>-->
+        <!--        <option value="29">2029</option>-->
+        <!--        <option value="30">2030</option>-->
+        <!--        <option value="31">2031</option>-->
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="" class="control-label col-md-2"> Currency </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="currencyCode"
+        formControlName="currencyCode"
+        id="currencyCode"
+        class="form-control"
+      >
+        <option value="">-- Select Currency --</option>
+        <option *ngFor="let row of currencyInformation" [value]="row.code">
+          {{ row.lookupName }}
+        </option>
+      </select>
+    </div>
+    <label for="" class="control-label col-md-2"> Issuing Bank </label>
+    <div class="col-md-4">
+      <select
+        type="text"
+        name="issuingBank"
+        formControlName="issuingBank"
+        id="issuingBank"
+        class="form-control"
+      >
+        <option value="">-- Select Bank --</option>
+        <option value="044-ACCESS">ACCESS</option>
+        <option value="050-ECO-BANK">ECOBANK</option>
+        <option value="232-STERLING">STERLING</option>
+        <option value="057-ZENITH">ZENITH</option>
+        <option value="214-FIRST-CITY">FCMB</option>
+        <option value="076-POLARIS">POLARIS</option>
+        <option value="011-FIRST-BANK">FIRST BANK</option>
+        <option value="070-FIDELITY">FIDELITY</option>
+        <option value="221-STANBIC">STANBIC-IBTC</option>
+        <option value="035-WEMA">WEMA</option>
+        <option value="063-DIAMOND">DIAMOND</option>
+        <option value="058-GUARANTY-TRUST-BANK">GTB</option>
+        <option value="032-UNION">UNION</option>
+        <option value="082-KEYSTONE">KEYSTONE</option>
+        <option value="033-UNITED-BANK-FOR-AFRICA">UBA</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="col-md-12">
+      <div class="pull-right">
+        <button
+          type="submit"
+          [disabled]="cardDetailsForm.invalid"
+          (click)="submitLoanCustomerCardDetails(cardDetailsForm)"
+          class="btn btn-success pull-right"
+        >
+          Verify Card Details
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

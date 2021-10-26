@@ -1,0 +1,65 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="inactive" class="control-label col-md-2">
+                  Inactive session time out (mins)
+                </label>
+                <div class="col-md-4">
+                  <input
+                    id="inactive"
+                    name="inactive"
+                    class="form-control"
+                  />
+                </div>
+
+                  <label for="password-update" class="control-label col-md-2">
+                    Password update cycle (days)
+                  </label>
+                  <div class="col-md-4">
+                    <input type="text" id="password-update" class="form-control" />
+                  </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="submitInfo(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

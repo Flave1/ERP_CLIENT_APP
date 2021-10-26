@@ -1,0 +1,234 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                Approval Workflow
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="approvalForm">
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Operation Type
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="operationTypeId"
+                                        formControlName="operationTypeId"
+                                        id="operationTypeId"
+                                        class="form-control"
+                                        (change)="onOperationTypeChanged($event.target.value)"
+                                    >
+                                        <option value=""
+                                            >-- Select Operation Type --</option
+                                        >
+                                        <option
+                                            *ngFor="let type of operationTypes"
+                                            [value]="type.lookupId"
+                                        >
+                                            {{ type.lookupName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                    Operation
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="operationId"
+                                        formControlName="operationId"
+                                        id="operationId"
+                                        class="form-control"
+                                        (change)="onOperationChanged($event.target.value)"
+                                    >
+                                        <option value=""
+                                            >-- Select Operation --</option
+                                        >
+                                        <option
+                                            *ngFor="let type of filteredOperations"
+                                            [value]="type.lookupId"
+                                        >
+                                            {{ type.lookupName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                        <br />
+                        <div *ngIf="displayWorkflow">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button
+                                            (click)="showAddNewWorkflow()"
+                                            pButton
+                                            type="button"
+                                            label="Add Workflow"
+                                            icon="fa-plus"
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p-table
+                                [value]="approvalWorkflowList"
+                                [responsive]="true"
+                            >
+                                <ng-template pTemplate="caption">
+                                    <h4>List of Workflow</h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:5em">S/N</th>
+                                        <th style="width:15em">Group Name</th>
+                                        <th>Operation</th>
+                                        <th>Position</th>
+                                        <th style="width:5em"></th>
+                                        <th style="width:5em"></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template
+                                    pTemplate="body"
+                                    let-x
+                                    let-i="rowIndex"
+                                >
+                                    <tr>
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ x.groupName }}</td>
+                                        <td>{{ x.operationName }}</td>
+                                        <td>
+                                            {{ x.position }}
+                                        </td>
+                                        <td>
+                                            <a (click)="editApprovalWorkflow(x)"
+                                                >Edit</a
+                                            >
+                                        </td>
+                                        <td>
+                                            <a
+                                                (click)="
+                                                    deleteApprovalWorkflow(x)
+                                                "
+                                                >Delete</a
+                                            >
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog
+    [responsive]="true"
+    [(visible)]="displayAddNewWorkflow"
+    id="add-modal"
+    modal="modal"
+    showEffect="fade"
+    width="500"
+>
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Add New Workflow
+            </h2>
+        </div>
+
+        <form novalidate [formGroup]="approvalWorkflowForm">
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-4">
+                            Approval Group
+                        </label>
+                        <div class="col-md-8">
+                            <select
+                                type="text"
+                                name="groupId"
+                                formControlName="groupId"
+                                id="groupId"
+                                class="form-control"
+                            >
+                                <option value=""
+                                    >-- Select Approval Group --</option
+                                >
+                                <option
+                                    *ngFor="let type of approvalGroups"
+                                    [value]="type.approvalGroupId"
+                                >
+                                    {{ type.approvalGroupName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-4">
+                            Position
+                        </label>
+                        <div class="col-md-8">
+                            <select
+                                type="text"
+                                name="position"
+                                formControlName="position"
+                                id="position"
+                                class="form-control"
+                            >
+                                <option value="">-- Select Position --</option>
+                                <option
+                                    *ngFor="let type of positions"
+                                    [value]="type.id"
+                                >
+                                    {{ type.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button
+                            type="submit"
+                            [disabled]="!approvalWorkflowForm.valid"
+                            (click)="
+                                submitApprovalWorkflow(approvalWorkflowForm)
+                            "
+                            class="btn btn-success pull-right"
+                        >
+                            Save
+                        </button>
+                        <button
+                            type="button"
+                            (click)="displayAddNewWorkflow = false"
+                            style="margin-right:5px"
+                            class="btn btn-danger pull-right"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</p-dialog>

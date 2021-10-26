@@ -1,0 +1,543 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">Payment Approval List</h2>
+            <div>
+              <button
+                pButton
+                class="ui-button-success pull-right"
+                label="MultiApprove"
+                (click)="multiApprove()"
+              ></button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <p-tabView [activeIndex]="activeIndex" (onChange)="tabChange($event)">
+          <p-tabPanel header="Payment Approvals">
+            <div class="panel-body">
+              <div class="form-horizontal">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-table
+                      #dt
+                      [columns]="cols"
+                      [value]="filteredResults"
+                      dataKey="requisitionPaymentId"
+                      [(selection)]="selectedItem"
+                      [paginator]="false"
+                      [responsive]="true"
+                      [scrollable]="true"
+                      [scrollHeight]="viewHeight"
+                    >
+                      <ng-template pTemplate="caption">
+                        <div class="filter-flex">
+                          <input
+                            type="text"
+                            pInputText
+                            size="50"
+                            class="form-control filter-input"
+                            placeholder="Search..."
+                            (keyup)="
+                              dt.filterGlobal($event.target.value, 'contains')
+                            "
+                          />
+
+                        </div>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="checkbox_row">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                          </th>
+                          <th [pSortableColumn]="'erNnumber'">ERN Number</th>
+                          <th [pSortableColumn]="'description'">Description</th>
+                          <th [pSortableColumn]="'requestBy'">Requested By</th>
+                          <th [pSortableColumn]="'deparmentment'">Department</th>
+                          <th pSortableColumn="requestDate">
+                            Requisition Date
+                          </th>
+                          <th [pSortableColumn]="'totalAmount'">
+                            Total Amount
+                          </th>
+
+                          <th [pSortableColumn]="'expectedDeliveryDate'">
+                            Delivery Date
+                          </th>
+                          <th [pSortableColumn]="'status'">Status</th>
+                          <th></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr [pSelectableRow]="x">
+                          <td class="checkbox_row">
+                            <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                          </td>
+
+                          <td>
+                            <a (click)="viewDetails(x)" class="table_link">{{ x.erNnumber }}</a>
+                          </td>
+                          <td>
+                            <a (click)="viewDetails(x)" class="table_link">{{ x.description }}</a>
+                          </td>
+                          <td>
+                            <a (click)="viewDetails(x)" class="table_link">{{ x.requestBy }}</a>
+                          </td>
+                          <td>
+                            <a (click)="viewDetails(x)" class="table_link">{{ x.deparmentment }}</a>
+                          </td>
+                          <td>
+                            <a (click)="viewDetails(x)" class="table_link">{{ x.requestDate | date }}</a>
+                          </td>
+                          <td>
+                            <a (click)="viewDetails(x)" class="table_link">{{ x.totalAmount }}</a>
+                          </td>
+                          <td>
+                            <a (click)="viewDetails(x)" class="table_link">{{
+                              x.expectedDeleiveryDate | date
+                            }}</a>
+                          </td>
+                          <td>
+                            <a (click)="viewDetails(x)" class="table_link">{{ x.status }}</a>
+                          </td>
+                          <td>
+                            <button pButton label="Approve" class="ui-button" (click)="approve(x)"></button>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabPanel>
+
+
+          <!-- <p-tabPanel header="Payment Details" [disabled]="!tabSelected">
+            <div class="ui">
+              <div class="ui-g-12 no-padding">
+                <div class="card no-padding">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h2 class="panel-title">ERN DETAILS</h2>
+                    </div>
+                    <div class="panel-body">
+                      <div class="upper-flex">
+                        <div class="item-content">
+                          <span class="item-title">ern number</span
+                          ><span>{{ paymentDetails?.erNnumber }}</span>
+                        </div>
+                        <div class="item-content">
+                          <span class="item-title">description</span
+                          ><span>{{ paymentDetails?.description }}</span>
+                        </div>
+                        <div class="item-content">
+                          <span class="item-title">request by</span
+                          ><span>{{ paymentDetails?.requestBy }}</span>
+                        </div>
+                      </div>
+                      <div class="lower-flex">
+                        <div class="item-content">
+                          <span class="item-title">request date</span
+                          ><span>{{ paymentDetails?.requestDate | date }}</span>
+                        </div>
+                        <div class="item-content">
+                          <span class="item-title">expected delivery date</span
+                          ><span>{{
+                            paymentDetails?.expectedDeleiveryDate | date
+                          }}</span>
+                        </div>
+                        <div class="item-content">
+                          <span class="item-title">department</span
+                          ><span>{{ paymentDetails?.deparmentment }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div class="card no-padding">
+                    <div style="margin-bottom: 0" class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h2 class="panel-title pull-left">Approval</h2>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+                        <div class="form-horizontal">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div style="display: flex">
+                                <label class="col-md-2 control-label">
+                                  <strong>Comment</strong>
+                                </label>
+
+                                <div class="col-md-4">
+                                  <textarea
+                                    class="form-control"
+                                    [(ngModel)]="paymentDetails.approvalComment"
+                                    name="comment"
+                                    cols="15"
+                                    rows="3"
+                                  ></textarea>
+                                </div>
+
+                                <label class="col-md-2 control-label">
+                                  <strong>Status</strong>
+                                </label>
+                                <div class="col-md-4">
+                                  <select
+                                    name="approvalStatusId"
+                                    id="approvalStatusId"
+                                    class="form-control"
+                                    (change)="getValue($event.target.value)"
+                                    [(ngModel)]="paymentDetails.approvalStatus"
+                                    [ngClass]="
+                                      !paymentDetails.approvalStatus
+                                        ? 'required-input'
+                                        : 'valid-input'
+                                    "
+                                  >
+                                    <option value="">
+                                      --- Select Approval ---
+                                    </option>
+                                    <option value="2">Approve</option>
+                                    <option value="3">Disapprove</option>
+                                    <option value="5">Revert</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <button
+                              type="submit"
+                              [disabled]="
+                                !paymentDetails.approvalComment ||
+                                !paymentDetails.approvalStatus
+                              "
+                              (click)="submitApproval(paymentDetails)"
+                              class="btn btn-success pull-right"
+                            >
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              (click)="activeIndex = 0"
+                              style="margin-right: 5px"
+                              class="btn btn-danger pull-right"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabPanel> -->
+
+
+          <p-tabPanel header="ERN Details" [disabled]="!tabSelected">
+            <div style="margin-bottom:0" class="panel panel-default">
+              <app-admin-req [requisitionId]="requisitionId" [fromAproval]="fromApproval"></app-admin-req>
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div class="card no-padding">
+                    <div style="margin-bottom:0" class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                              <strong>EXPENSE DETAILS</strong>
+                            </h2>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+                        <div class="form-horizontal">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p-table
+                                #dt
+                                [value]="expenseDetails"
+                                dataKey="requisitionDetailId"
+                                [responsive]="true"
+                                [scrollable]="true"
+                                [scrollHeight]="viewHeight"
+                                editMode="row"
+                              >
+                                <ng-template pTemplate="header">
+                                  <tr>
+                                    <th>Description</th>
+                                    <th>Quantity</th>
+                                    <th>Unit Price</th>
+                                    <th>Subtotal</th>
+                                    <th>Expense Classification</th>
+                                    <th>Cost Centre</th>
+                                    <th>Budgeted</th>
+                                  </tr>
+                                </ng-template>
+                                <ng-template pTemplate="body"   let-x let-i="rowIndex">
+                                  <tr [pEditableRow]="x">
+                                    <td>
+                                      {{ x.description }}
+                                    </td>
+                                    <td >
+                                      {{ x.quantity }}
+                                    </td>
+                                    <td>
+                                      {{ x.unitPrice | number : '1.2-2' }}
+                                    </td>
+                                    <td>
+                                      {{ x.subTotal | number : '1.2-2'  }}
+                                    </td>
+                                    <td>
+                                      {{ x.classificationsetupName }}
+                                    </td>
+                                    <td>
+                                      {{ x.costCenterName }}
+                                    </td>
+                                    <td>
+                                      <p-cellEditor>
+                                        <ng-template pTemplate="input">
+                                          <input
+                                            type="checkbox"
+                                            [checked]="x.isBudgeted"
+                                            [(ngModel)]="x.isBudgeted"
+                                          />
+                                        </ng-template>
+                                        <ng-template pTemplate="output">
+                                          <span *ngIf="x.isBudgeted">Yes</span>
+                                          <span *ngIf="!x.isBudgeted">No</span>
+                                        </ng-template>
+
+                                      </p-cellEditor>
+                                    </td>
+
+                                  </tr>
+                                </ng-template>
+                              </p-table>
+
+                            </div>
+                          </div>
+
+                          <div class="row">
+                            <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <h2 class="panel-title">PAYMENT PROPOSAL DETAILS</h2>
+                              </div>
+                              <div class="panel-body">
+                                <div class="upper-flex">
+                                  <div class="item-content">
+                                    <span class="item-title">ern number</span
+                                    ><span>{{ paymentDetails?.erNnumber }}</span>
+                                  </div>
+                                  <div class="item-content">
+                                    <span class="item-title">Payment for</span
+                                    ><span>{{ paymentDetails?.description }}</span>
+                                  </div>
+                                  <div class="item-content">
+                                    <span class="item-title">Payment request by</span
+                                    ><span>{{ paymentDetails?.requestBy }}</span>
+                                  </div>
+                                </div>
+                                <div class="lower-flex">
+                                  <div class="item-content">
+                                    <span class="item-title">Payment request date</span
+                                    ><span>{{ paymentDetails?.requestDate | date }}</span>
+                                  </div>
+                                  <div class="item-content">
+                                    <span class="item-title">Item delivery date</span
+                                    ><span>{{
+                                      paymentDetails?.expectedDeleiveryDate | date
+                                    }}</span>
+                                  </div>
+                                  <div class="item-content">
+                                    <span class="item-title">Amount Requested</span
+                                    ><span style="text-transform: capitalize;  font-weight: bold; font-size: 100px;">{{ paymentDetails?.totalAmount }}</span>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div class="card no-padding">
+                    <div style="margin-bottom:0" class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                              Approval
+                            </h2>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+                        <div class="form-horizontal">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <div style="display: flex">
+                                <label class="col-md-2 control-label">
+                                  <strong>Comment</strong>
+                                </label>
+
+                                <div class="col-md-4">
+                                  <textarea
+                                    class="form-control"
+                                    [(ngModel)]="paymentDetails.approvalComment"
+                                    name="comment"
+                                    cols="15"
+                                    rows="3"
+                                  ></textarea>
+                                </div>
+
+                                <label class="col-md-2 control-label">
+                                  <strong>Status</strong>
+                                </label>
+                                <div class="col-md-4">
+                                  <select
+                                    name="approvalStatusId"
+                                    id="approvalStatusId"
+                                    class="form-control"
+                                    (change)="getValue($event.target.value)"
+                                    [(ngModel)]="paymentDetails.approvalStatus"
+                                    [ngClass]="
+                                    !paymentDetails.approvalStatus
+                                      ? 'required-input'
+                                      : 'valid-input'
+                                  "
+                                  >
+                                    <option value=""
+                                    >--- Select Approval ---</option
+                                    >
+                                    <option value="2"> Approve </option>
+                                    <option value="3"> Disapprove </option>
+                                    <option value="5"> Revert </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <button
+                              type="submit"
+                              [disabled]="
+                                !paymentDetails.approvalComment ||
+                                !paymentDetails.approvalStatus
+                              "
+                              (click)="submitApproval(paymentDetails)"
+                              class="btn btn-success pull-right"
+                            >
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              (click)="activeIndex = 0"
+                              style="margin-right:5px"
+                              class="btn btn-danger pull-right"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </p-tabPanel>
+
+
+          <p-tabPanel header="Approval Details" [disabled]="!tabSelected">
+            <app-approval-details
+              [approvalDetails]="approvalDetails"
+            ></app-approval-details>
+          </p-tabPanel>
+        </p-tabView>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                label="Next"></button>
+            <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                label="Previous"></button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom: 0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Revert to staff</h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select
+            name="staff"
+            id="staff"
+            class="form-control"
+            [(ngModel)]="staffId"
+            (change)="dismissDialog()"
+          >
+            <option value="" [selected]="true" [disabled]="true">
+              --Select Staff--
+            </option>
+            <option *ngFor="let item of staffs" [value]="item.staffId">
+              {{ item.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

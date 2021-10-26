@@ -1,0 +1,328 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Registry
+            </h2>
+            <!-- <button
+                            pButton
+                            type="button"
+                            class="btn btn-primary pull-right"
+                            (click)="showAddNew()"
+                            icon="pi pi-plus"
+                            iconPos="left"
+                            label="Add"
+                        ></button>
+                        <div class="col-md-2 pull-right">
+                                <a class="btn btn-primary" (click)="exportRegistry()"
+                                    >Export</a
+                                >
+                            </div>
+                        <div class="col-md-2 pull-right">
+                                <button
+                                    pButton
+                                    type="button"
+                                    class="btn btn-primary"
+                                    (click)="uploadRegistry()"
+                                    icon="pi pi-plus"
+                                    iconPos="left"
+                                    label="Upload"
+                                ></button>
+                            </div>
+
+                            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+                                <input
+                                    style="height:35px;"
+                                    class="form-control"
+                                    type="file"
+                                    (change)="handleFileInput($event.target.files)"
+                                    id="file1"
+                                    accept=".xls,.xlsx"
+                                />
+                            </div> -->
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-danger"
+                (click)="multipleDelete()"
+                icon="ui-icon-delete"
+                iconPos="center"
+                pTooltip="Delete"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="showAddNew()"
+                icon="ui-icon-plus"
+                iconPos="center"
+                pTooltip="Add"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="exportRegistry()"
+                icon="ui-icon-file-download"
+                pTooltip="Download"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                type="button"
+                style="padding:0.5em 0"
+                class="ui-button-raised ui-button-secondary"
+                (click)="uploadRegistry()"
+                icon="ui-icon-file-upload"
+                iconPos="center"
+                pTooltip="Excel file:FSLine, FSLineCaption, NoteLine,ParentCaption, AccountTypeName, Position, StatementTypeAlias"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+              <input
+                #myInput
+                style="height:35px;"
+                class="form-control"
+                type="file"
+                (change)="handleFileInput($event.target.files)"
+                id="file1"
+                accept=".xls,.xlsx"
+              />
+            </div>
+            <div  class="col-md-1 pull-right">
+              <button  pButton
+                       type="button"
+                       class="btn btn-primary pull-right"
+                       icon="pi pi-less-than"
+                       iconPos="right"
+                       label="Variables" (click)="goToVariables()"></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="panel-body">
+                    <div class="form-horizontal">
+                    <label for="" class="control-label col-md-2">
+                        Statement Type
+                    </label>
+                    <div class="col-md-3">
+                        <select type="text" name="statementTypeId" formControlName="statementTypeId" id="statementTypeId" class="form-control" (change)="onStatementChange($event.target.value)">
+                            <option value="">-- Select Statement Type --</option>
+                            <option *ngFor="let row of statementTypeInformation" [value]="row.statementTypeId">
+                                                                                                                                                          {{ row.statementTypeAlias }}
+                                                                                                        </option>
+                        </select>
+                    </div>
+                    </div>
+                </div> -->
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [value]="registryInformation"
+            dataKey="registryId"
+            [(selection)]="selectedregistryInformation"
+            [paginator]="false"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+            [rows]="registryInformation?.length"
+            [responsive]="true"
+            (onFilter)="handleFilter($event)"
+            [columns]="cols"
+          >
+            <ng-template pTemplate="caption">
+              <div class="header_flex">
+                <div>
+                  <button
+                    [routerLink]="['/finance/registrytemplate-list']"
+                    class="btn btn-primary"
+                  >
+                    Industry Template
+                  </button>
+                </div>
+                <div>
+                  <select
+                    name="company"
+                    id=""
+                    class="form-control"
+                    (change)="filterByStatement($event.target.value)"
+                  >
+                    <option value="" disabled selected
+                      >Filter By Statement</option
+                    >
+                    <option value="0">All</option>
+                    <option
+                      *ngFor="let statement of statementTypeInformation"
+                      [value]="statement.statementTypeId"
+                      >{{ statement.statementTypeName }}</option
+                    >
+                  </select>
+                </div>
+                <div>
+                  <select
+                    name="company"
+                    id=""
+                    class="form-control"
+                    (change)="filterByCompany($event.target.value)"
+                  >
+                    <option value="" disabled selected
+                    >Select Company</option
+                    >
+                    <option value="0">Group</option>
+                    <option *ngFor="let row of companies" [value]="row.companyStructureId">
+                      {{ row.name }}
+                    </option>
+                  </select>
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    pInputText
+                    size="50"
+                    class="form-control"
+                    placeholder="Search..."
+                    (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                    style="width:auto"
+                  />
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_head">
+                  <p-tableHeaderCheckbox> </p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <!--                                 <th *ngIf="showIndustry">Industry</th>-->
+                <th [pSortableColumn]="'statementTypeAlias'">
+                  Statement
+                  <i class="ui-icon-arrow-drop-down sort--icon"></i>
+                </th>
+                <th [pSortableColumn]="'caption'">
+                  FSLine
+                  <i class="ui-icon-arrow-drop-down sort--icon"></i>
+                </th>
+                <th [pSortableColumn]="'reportCaption'">
+                  FSLineCaption
+                  <i class="ui-icon-arrow-drop-down sort--icon"></i>
+                </th>
+                <th [pSortableColumn]="'parentCaption'">
+                  ParentCaption
+                  <i class="ui-icon-arrow-drop-down sort--icon"></i>
+                </th>
+                <th [pSortableColumn]="'accountTypeName'">
+                  AccountType
+                  <i class="ui-icon-arrow-drop-down sort--icon"></i>
+                </th>
+                <th [pSortableColumn]="'accountTypemultiples'">
+                  NoteLine
+                  <i class="ui-icon-arrow-drop-down sort--icon"></i>
+                </th>
+                <!-- <th [pSortableColumn]="'accountTypemultiples'">Multiples
+                                    <i
+                                        class="ui-icon-arrow-drop-down sort--icon"
+                                    ></i>
+                                </th> -->
+                <!--                                <th ></th>-->
+                <!--                                <th style="width:4em"></th>-->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x" (click)="rowClicked(x)">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">{{ i + 1 }}</td>
+                <!--                                 <td *ngIf="showIndustry">{{ x.industry }} </td>-->
+                <td>
+                  <a class="table_link" (click)="editRegistry(x)">{{
+                    x.statementTypeAlias
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editRegistry(x)">{{
+                    x.fsLine
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editRegistry(x)">{{
+                    x.fsLineCaption
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editRegistry(x)">{{
+                    x.parentCaption
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editRegistry(x)">{{
+                    x.accountTypeName
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editRegistry(x)">{{
+                    x.noteLine
+                  }}</a>
+                </td>
+                <!--                                <td>-->
+                <!--                                    <a (click)="editRegistry(x)">Edit</a>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <a (click)="deleteRegistry(x)">Delete</a>-->
+                <!--                                </td>-->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitUserAccount(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right">
+                Close
+              </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

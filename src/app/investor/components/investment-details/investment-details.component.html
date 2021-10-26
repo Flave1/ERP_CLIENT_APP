@@ -1,0 +1,328 @@
+<!--<p-toast [style]="{marginTop: '80px'}" position="top-right" key="tl"></p-toast>-->
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Investment Information
+            </h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="row" style="padding:0 15px 0 15px;">
+          <h6>
+            <strong>General Information</strong>
+          </h6>
+          <table class="table table-casa-information">
+            <tbody>
+              <tr>
+                <td>
+                  <strong>Application Reference Number:</strong>
+                </td>
+                <td>{{ loanApplicationDetail?.refNumber }}</td>
+                <td>
+                  <strong></strong>
+                </td>
+                <td></td>
+                <td>
+                  <strong></strong>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>
+                  <strong>Effective Date:</strong>
+                </td>
+                <td>
+                  {{
+                    loanApplicationDetail?.effectiveDate | date: "dd-MM-yyyy"
+                  }}
+                </td>
+                <td>
+                  <strong>Maturity Date:</strong>
+                </td>
+                <td>
+                  {{ loanApplicationDetail?.maturityDate | date: "dd-MM-yyyy" }}
+                </td>
+                <td>
+                  <strong>Relationship Manager:</strong>
+                </td>
+                <td>{{ loanApplicationDetail?.relationshipManager }}</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <strong>Exchange Rate:</strong>
+                </td>
+                <td>{{ currencyRate | number: "1.2" }}</td>
+                <td>
+                  <strong>Currency Name:</strong>
+                </td>
+                <td>{{ loanApplicationDetail?.currencyName }}</td>
+                <td>
+                  <strong>Expected Payout:</strong>
+                </td>
+                <!-- <td>{{ loanApplicationDetail?.payout }}</td> -->
+                <td>{{ loanApplicationDetail?.payout2 | number: "1.2" }}</td>
+              </tr>
+
+              <tr>
+                <td>
+                  <strong>Details:</strong>
+                </td>
+                <td>{{ loanApplicationDetail?.investmentPurpose }}</td>
+                <td>
+                  <strong>Product Frequency</strong>
+                </td>
+                <td>{{ freq }}</td>
+                <td>
+                  <strong>Product Period</strong>
+                </td>
+                <td>{{ period }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="row" style="padding:0 15px 0 15px;">
+          <h6>
+            <strong>Proposed</strong>
+          </h6>
+          <p-table [value]="proposedDetails" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Proposed Product</th>
+                <th>Proposed Amount</th>
+                <th>Proposed tenor (days)</th>
+                <th>Proposed rate</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr>
+                <td>{{ x.product }}</td>
+                <td>{{ x.amount | number: "1.2" }}</td>
+                <td>{{ x.tenor }}</td>
+                <td>{{ x.rate | number: "1.2" }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <!-- <div class="row" style="padding:0 15px 0 15px;">
+                  <h6>
+                    <strong>Approved/Recommendations</strong>
+                  </h6>
+                  <p-table [value]="approvedDetails" [responsive]="true">
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th>Approved Product</th>
+                        <th >Approved Amount</th>
+                        <th>Approved Tenor</th>
+                        <th>Approved Rate</th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-x let-i="rowIndex">
+                      <tr>
+                        <td>{{ x.product }}</td>
+                        <td>{{ x.amount | number:'1.2'}}</td>
+                        <td>{{ x.tenor | number:'1.2'}}</td>
+                        <td>{{ x.rate | number:'1.2'}}</td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div> -->
+        <div class="row" style="padding:0 15px 0 15px;">
+          <h6>
+            <strong>Approved/Recommendations</strong>
+          </h6>
+          <p-table
+            [value]="approvedDetails"
+            dataKey="loanApplicationId"
+            editMode="row"
+            [responsive]="true"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Approved Product</th>
+                <th>Approved Amount</th>
+                <th>Approved tenor (days)</th>
+                <th>Approved rate</th>
+                <th *ngIf="caneditPrivilege" style="width:12em"></th>
+              </tr>
+            </ng-template>
+            <ng-template
+              pTemplate="body"
+              let-rowData
+              let-editing="editingMode"
+              let-ri="rowIndex"
+            >
+              <tr [pEditableRow]="rowData">
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <select
+                        type="text"
+                        [(ngModel)]="rowData.productId"
+                        name="productId"
+                        class="form-control"
+                      >
+                        <option value="">-- Select Product --</option>
+                        <option
+                          *ngFor="let x of products"
+                          [value]="x.productId"
+                        >
+                          {{ x.productName }}</option
+                        >
+                      </select>
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.product }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="rowData.amount"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.amount | number: "1.2" }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="rowData.tenor"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.tenor }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+                <td pEditableColumn>
+                  <p-cellEditor>
+                    <ng-template pTemplate="input">
+                      <input
+                        pInputText
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="rowData.rate"
+                      />
+                    </ng-template>
+                    <ng-template pTemplate="output">
+                      {{ rowData.rate | number: "1.2" }}
+                    </ng-template>
+                  </p-cellEditor>
+                </td>
+
+                <td *ngIf="caneditPrivilege" style="text-align:center">
+                  <button
+                    *ngIf="!editingMode"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pInitEditableRow
+                    label="Adjust"
+                    class="ui-button-info"
+                    (click)="onRowEditInit(rowData)"
+                  ></button>
+                  <button
+                    *ngIf="editingMode"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pSaveEditableRow
+                    label="Save"
+                    class="ui-button-success"
+                    style="margin-right: .5em"
+                    (click)="onRowEditSave(rowData)"
+                  ></button>
+                  <button
+                    *ngIf="editingMode"
+                    pButton
+                    type="button"
+                    style="border-radius: 0"
+                    pCancelEditableRow
+                    label="Close"
+                    class="ui-button-danger"
+                    (click)="onRowEditCancel(rowData, ri)"
+                  ></button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+        <div
+          *ngIf="recommendations.length > 0"
+          class="row"
+          style="padding:0 15px 0 15px;"
+        >
+          <h6>
+            <strong>Recommendation History</strong>
+          </h6>
+          <p-table [value]="recommendations" [responsive]="true">
+            <ng-template pTemplate="header">
+              <tr>
+                <th>Recommended By</th>
+                <th>Approved Product</th>
+                <th>Approved Amount</th>
+                <th>Approved Tenor</th>
+                <th>Approved Rate</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr>
+                <td>{{ x.createdBy }}</td>
+                <td>{{ x.productName }}</td>
+                <td>{{ x.amount | number: "1.2" }}</td>
+                <td>{{ x.tenor | number: "1.2" }}</td>
+                <td>{{ x.rate | number: "1.2" }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              pButton
+              type="button"
+              class="btn btn-primary pull-right"
+              *ngIf="activeIndex > 0 && activeIndex < 5"
+              (click)="openNext()"
+              icon="pi pi-less-than"
+              iconPos="right"
+              label="Next"
+            ></button>
+            <button
+              pButton
+              type="button"
+              class="btn btn-primary pull-right"
+              style="margin-right:10px"
+              *ngIf="activeIndex > 0"
+              (click)="openPrev()"
+              icon="pi pi-greater-than"
+              iconPos="left"
+              label="Previous"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

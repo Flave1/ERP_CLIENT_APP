@@ -1,0 +1,159 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Workflow Level Name
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="workflowLevelName"
+                    name="workflowLevelName"
+                    class="form-control"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Workflow Group
+                </label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="workflowGroupId"
+                    (change)="onWorkflowLevelChange($event.target.value)"
+                    formControlName="workflowGroupId"
+                    id="workflowGroupId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Workflow Group --</option>
+                    <option
+                      *ngFor="let row of workflowGroupList"
+                      [value]="row.workflowGroupId"
+                    >
+                      {{ row.workflowGroupName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Position
+                </label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="position"
+                    formControlName="position"
+                    id="position"
+                    class="form-control"
+                    (change)="parseValueToInt($event.target.value, 2)"
+                  >
+                    <option value="">-- Select Position --</option>
+                    <option *ngFor="let type of positions" [value]="type.id">
+                      {{ type.name }}
+                    </option>
+                  </select>
+                </div>
+                <label for="roleId" class="control-label col-md-2">
+                  Job Title
+                </label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="roleId"
+                    formControlName="roleId"
+                    id="roleId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Job Title --</option>
+                    <option
+                      *ngFor="let type of jobTitles"
+                      [value]="type.lookupId"
+                    >
+                      {{ type.lookupName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Require Limit
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="checkbox"
+                    binary="true"
+                    formControlName="requiredLimit"
+                    name="requiredLimit"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Limit Amount
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="limitAmount"
+                    name="limitAmount"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Can Modify
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="checkbox"
+                    binary="true"
+                    formControlName="canModify"
+                    name="canModify"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitApprovalLevelInfo(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

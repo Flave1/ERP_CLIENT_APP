@@ -1,0 +1,157 @@
+.investor-dashboard-wrapper {
+  background: #e8e8e8;
+}
+.dashboard_header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  /*height: 100px;*/
+  /*width: 100%;*/
+  /*background: #fff;*/
+}
+
+.header_item {
+  width: 220px;
+  height: 70px;
+  margin-right: 5px;
+  display: flex;
+  padding: 10px;
+  justify-content: space-around;
+  align-items: center;
+  color: #fff;
+  border-radius: 6px;
+}
+.icon_font {
+  font-size: 25px;
+}
+.header_flex {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.cursor_pointer {
+  cursor: pointer;
+}
+.blue_grey_bg {
+  background: #3d4d62;
+}
+.tomato_bg {
+  background: #f44666;
+}
+.teal_bg {
+  background: #00a689;
+}
+.dashboard_mid_section {
+  display: flex;
+  padding: 10px;
+  width: 100%;
+  margin: 0 3px;
+  justify-content: space-around;
+}
+.mid_content {
+  background: #fff;
+  border-radius: 6px;
+}
+.mid_content:first-child {
+  padding: 5px;
+  margin-left: -10px;
+  margin-right: 8px;
+}
+.mid_content:last-child {
+  /*width: 383px;*/
+  margin-right: -5px;
+  margin-left: 6px;
+}
+.mid_content:nth-child(2) {
+  width: 500px;
+}
+.quick_links {
+  padding-top: 20px;
+}
+.link_container {
+  padding: 10px;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+.link {
+  text-decoration: none;
+  cursor: pointer;
+}
+.link:active {
+  text-decoration: none;
+}
+.calc_content {
+  display: flex;
+}
+.calc_first {
+  margin-right: 5px;
+}
+.calc_first_div {
+  margin-bottom: 5px;
+}
+.calc_btn {
+  padding: 5px 10px;
+  background: #24c8e5;
+  border: none;
+  outline: none;
+  color: #fff;
+  border-radius: 4px;
+  //height: 35px;
+  width: 150px;
+}
+.calc_btn:hover {
+  background: #fff;
+  border: 1px solid #24c8e5;
+  color: #24c8e5;
+}
+.item__heading {
+  font-size: 13px;
+}
+
+@media only screen and (max-width: 600px){
+  .dashboard_header {
+    flex-direction: column;
+  }
+  .header_item {
+    width: 311px;
+    margin-bottom: 5px;
+    margin-right: 0;
+  }
+  .dashboard_mid_section {
+    flex-direction: column;
+  }
+  .mid_content:first-child,  .mid_content:last-child {
+    margin-bottom: 5px;
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .mid_content:nth-child(2) {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .mid_content:last-child {
+    /*margin-top: 5px;*/
+  }
+}
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+  .dashboard_header {
+    margin: 0 12px;
+  }
+  .header_item:last-child {
+    margin-right: 0;
+  }
+  .dashboard_mid_section {
+    flex-direction: column;
+  }
+  .mid_content {
+    margin-bottom: 5px;
+  }
+  .mid_content:first-child, .mid_content:last-child {
+    margin-right: 0;
+    margin-left: 0;
+  }
+  .mid_content:nth-child(2) {
+    width: 100%;
+  }
+}

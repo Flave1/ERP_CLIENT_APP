@@ -1,0 +1,353 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Loan Customer Information
+            </h2>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px; margin-top: 90px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-danger"
+                (click)="multipleDelete()"
+                icon="ui-icon-delete"
+                iconPos="center"
+                pTooltip="Delete"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px; margin-top: 90px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="showAddNew()"
+                icon="ui-icon-plus"
+                iconPos="center"
+                pTooltip="Add"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px; margin-top: 90px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="downloadFile()"
+                icon="ui-icon-file-download"
+                [pTooltip]="downloadTip"
+                [hidden]="hideButton"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+              <!--                          <button-->
+              <!--                            *ngIf="type === '2'"-->
+              <!--                            pButton-->
+              <!--                            style="padding:0.5em 0"-->
+              <!--                            type="button"-->
+              <!--                            class="ui-button-raised ui-button-secondary"-->
+              <!--                            (click)="downloadCorporate()"-->
+              <!--                            icon="ui-icon-file-download"-->
+              <!--                            pTooltip="Download Corporate Customers"-->
+              <!--                            tooltipPosition="top"-->
+              <!--                            iconPos="center"-->
+              <!--                            label=""-->
+              <!--                          ></button>-->
+            </div>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px; margin-top: 90px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                type="button"
+                style="padding:0.5em 0"
+                class="ui-button-raised ui-button-secondary"
+                (click)="uploadFile()"
+                icon="ui-icon-file-upload"
+                iconPos="center"
+                [pTooltip]="uploadTip"
+                tooltipPosition="top"
+                label=""
+              ></button>
+              <!--                          <button-->
+              <!--                            *ngIf="type === '2'"-->
+              <!--                            pButton-->
+              <!--                            type="button"-->
+              <!--                            style="padding:0.5em 0"-->
+              <!--                            class="ui-button-raised ui-button-secondary"-->
+              <!--                            (click)="uploadCorporateCustomers()"-->
+              <!--                            icon="ui-icon-file-upload"-->
+              <!--                            iconPos="center"-->
+              <!--                            pTooltip=" "-->
+              <!--                            tooltipPosition="top"-->
+              <!--                            label=""-->
+              <!--                          ></button>-->
+            </div>
+            <div
+              class="col-md-3 col-sm-6 col-xs-12 pull-right"
+              style="margin-top: 90px;"
+            >
+              <input
+                style="height:35px;"
+                class="form-control"
+                type="file"
+                (change)="handleFileInput($event.target.files)"
+                id="file1"
+                accept=".xls,.xlsx"
+                #fileInput
+                name="fileInput"
+              />
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+              <div>
+                <label for="" class="control-label">Select Customer Type</label>
+                <select
+                  name=""
+                  id=""
+                  class="form-control"
+                  [(ngModel)]="customerType"
+                  style="margin-bottom: 10px;"
+                  (change)="getDropdownType($event.target.value)"
+                >
+                  <option value="" selected>--Customer Type--</option>
+                  <option value="1" selected>Individual</option>
+                  <option value="2">Corporate</option>
+                </select>
+              </div>
+              <div>
+                <label for="" class="control-label">Select Upload Type</label>
+                <select
+                  name=""
+                  class="form-control"
+                  id=""
+                  [(ngModel)]="type"
+                  (change)="getCustomerType($event.target.value)"
+                >
+                  <option value="" selected>--Select Upload Type--</option>
+                  <!--                          <option value="1" selected>Individual</option>-->
+                  <!--                          <option value="2">Corporate</option>-->
+                  <option
+                    *ngFor="let item of filteredArray"
+                    [value]="item.value"
+                    >{{ item.label }}</option
+                  >
+                  <!--                          <option value="4">Identity Details</option>-->
+                  <!--                          <option value="5">Next of Kin</option>-->
+                  <!--                          <option value="6">Director Details</option>-->
+                </select>
+              </div>
+            </div>
+            <div
+              *ngIf="!operatingAccount"
+              class="col-md-3 col-sm-6 col-xs-12 pull-right"
+            >
+              <button
+                pButton
+                type="button"
+                class="btn btn-success pull-right"
+                (click)="openSearchBox()"
+                icon="pi pi-plus"
+                iconPos="left"
+                label="Add From Deposit"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="loanCustomerInformation"
+            dataKey="customerId"
+            [(selection)]="selectedLoanCustomerInformation"
+            [paginator]="false"
+            [rows]="loanCustomerInformation?.length"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <form [formGroup]="searchUser" style="display: flex; justify-content: space-between">
+<!--                <input-->
+<!--                  type="text"-->
+<!--                  pInputText-->
+<!--                  size="50"-->
+<!--                  class="form-control"-->
+<!--                  placeholder="Search..."-->
+<!--                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"-->
+<!--                  style="width:auto"-->
+<!--                />-->
+                <div>
+                  <input type="text" class="form-control search_input" formControlName="fullName" placeholder="Full Name"/>
+                </div>
+                <div>
+                  <input type="text" class="form-control search_input" formControlName="email" placeholder="Email"/>
+                </div>
+                <div>
+                  <input type="text" class="form-control search_input" formControlName="accountNumber" placeholder="Account Number"/>
+                </div>
+                <button class="search_btn" (click)="searchCustomers(searchUser)">Search</button>
+              </form>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox> </p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'customerTypeName'">Customer Type</th>
+                <th [pSortableColumn]="'firstName'">Customer Name</th>
+                <!-- <th>Reg. Number</th> -->
+                <th [pSortableColumn]="'email'">Email</th>
+                <th [pSortableColumn]="'phoneNo'">Phone Number</th>
+                <th [pSortableColumn]="'accountNumber'">Account Number</th>
+                <!--                                <th style="width:5em"></th>-->
+                <!--                                <th style="width:5em"></th>-->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link" (click)="editLoanCustomer(x)">{{
+                    i + 1
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editLoanCustomer(x)">{{
+                    x.customerTypeName
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editLoanCustomer(x)"
+                    >{{ x.firstName }} {{ x.lastName }}</a
+                  >
+                </td>
+                <!-- <td>{{ x.registrationNo }}</td> -->
+                <td>
+                  <a class="table_link" (click)="editLoanCustomer(x)">{{
+                    x.email
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editLoanCustomer(x)">{{
+                    x.phoneNo
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editLoanCustomer(x)">{{
+                    x.accountNumber
+                    }}</a>
+                </td>
+                <!--                                <td>-->
+                <!--                                    <a (click)="editLoanCustomer(x)">Edit</a>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <a (click)="deleteLoanCustomer(x)"-->
+                <!--                                        >Delete</a-->
+                <!--                                    >-->
+                <!--                                </td>-->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+    [responsive]="true"
+    [(visible)]="displaySearchModal"
+    modal="modal"
+    id="searchModal"
+    showEffect="fade"
+    width="650"
+>
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <div style="margin-left:0" class="row">
+                <h2 class="panel-title pull-left">
+                    Search Customer
+                </h2>
+            </div>
+        </div>
+        <div style="padding:3px" class="panel-body">
+            <div class="form-group">
+                <div class="col-md-12">
+                    <input
+                        type="text"
+                        id="search"
+                        (keyup)="searchDB($event.target.value)"
+                        class="form-control"
+                        placeholder="Type in your search parameter"
+                    />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-12">
+                    <p>
+                        <!--{{mfacilityType}}-->
+                    </p>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th>Customer Type</th>
+                                <th>Customer Name</th>
+                                <th>CustomerId</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr
+                                (click)="pickSearchedData(res)"
+                                style="cursor: pointer"
+                                *ngFor="
+                                    let res of filteredSearchResults;
+                                    let i = index
+                                "
+                            >
+                                <td>{{ res.customerTypeName }}</td>
+                                <td>{{ res.name }}</td>
+                                <td>{{ res.accountNumber }}</td>
+                                <td>
+                                    <a (click)="editCustomerFromDeposit(res)"
+                                        >Apply</a
+                                    >
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</p-dialog>

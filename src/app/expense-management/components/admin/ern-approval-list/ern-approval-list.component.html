@@ -1,0 +1,445 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12" style="display: flex; justify-content: space-between">
+              <h2 class="panel-title pull-left">
+                ERN Approvals</h2>
+              <button class="btn btn-success" (click)="multiApprove()">Multi Approve</button>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <p-tabView [activeIndex]="activeIndex" (onChange)="tabChange($event)">
+            <p-tabPanel header="ERN Awaiting Approvals">
+              <div class="panel-body">
+                <div class="form-horizontal">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <p-table
+                        #dt
+                        [columns]="cols"
+                        [value]="ernApprovals"
+                        [scrollable]="true"
+                        [scrollHeight]="viewHeight"
+                        [responsive]="true"
+                        [(selection)]="selectedItem"
+                        dataKey="requisitionId"
+                      >
+                        <ng-template pTemplate="caption">
+                          <div style="text-align: right">
+                            <input
+                              type="text"
+                              pInputText
+                              size="50"
+                              class="form-control"
+                              placeholder="Search..."
+                              (keyup)="
+                                dt.filterGlobal($event.target.value, 'contains')
+                              "
+                              style="width:auto"
+                            />
+                          </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th class="checkbox_row">
+                              <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                            </th>
+                            <th class="sn_width">S/N</th>
+                            <th [pSortableColumn]="'ernNumber'" class="word-break">ERN Number</th>
+                            <th [pSortableColumn]="'requestBy'">Requester Name</th>
+                            <th [pSortableColumn]="'departmentName'" class="word-break">Department</th>
+                            <th [pSortableColumn]="'description'">Description</th>
+                            <th [pSortableColumn]="'total'">Total Amount</th>
+                            <th [pSortableColumn]="'requestDate'">Requisition Date</th>
+                            <th [pSortableColumn]="'expectedDeliveryDate'">Expected Delivery Date</th>
+<!--                            <th [pSortableColumn]="'expectedDeliveryDate'">Status</th>-->
+                            <th></th>
+                            <th></th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                          <tr>
+                            <td class="checkbox_row">
+                              <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                            </td>
+                            <td class="sn_width">{{ i + 1 }}</td>
+                            <td class="word-break">{{x.erNnumber}}</td>
+                            <td>{{ x.requestByName | titlecase }}</td>
+                            <td>{{ x.deparmentmentName }}</td>
+                            <td>{{ x.description | titlecase }}</td>
+                            <td>{{ x.totalAmount | number: "1.2-2" }}</td>
+                            <td>{{ x.requestDate | date}}</td>
+                            <td>{{ x.expectedDeleiveryDate | date  }}</td>
+<!--                            <td>{{x.requisitionStatusName}}</td>-->
+                            <td>
+                              <a class="link_deco" (click)="viewApprovalDetails(x)">View</a>
+                            </td>
+                            <td>
+                              <a class="link_deco" (click)="approveItem(x.requisitionId)">Approve</a>
+                            </td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-tabPanel>
+
+            <p-tabPanel header="ERN Details" [disabled]="!tabSelected">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">
+                    EXPENSE REQUISITION NOTE
+                  </h2>
+                </div>
+                <app-admin-req [requisitionId]="requisitionId" [fromAproval]="fromApproval"></app-admin-req>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                <strong>EXPENSE DETAILS</strong>
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <p-table
+                                  #dt
+                                  [value]="expenseDetails"
+                                  dataKey="requisitionDetailId"
+                                  [responsive]="true"
+                                  [scrollable]="true"
+                                  [scrollHeight]="viewHeight"
+                                  editMode="row"
+                                >
+                                  <ng-template pTemplate="header">
+                                    <tr>
+                                      <th>Description</th>
+                                      <th>Quantity</th>
+                                      <th>Unit Price</th>
+                                      <th>Subtotal</th>
+                                      <th>Expense Classification</th>
+                                      <th>Cost Centre</th>
+                                      <th>Budgeted</th>
+                                      <th *ngIf="canEditPrivilege" style="width: 12em"></th>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template pTemplate="body"  let-editing="editingMode" let-x let-i="rowIndex">
+                                    <tr [pEditableRow]="x">
+                                      <td>
+                                        <a class="table_link">{{
+                                          x.description
+                                          }}</a>
+                                      </td>
+                                      <td >
+                                        <p-cellEditor>
+                                          <ng-template pTemplate="input">
+                                            <input
+                                              pInputText
+                                              type="number"
+                                              class="form-control"
+                                              [(ngModel)]="x.quantity"
+                                              (input)="calculateSubTotal($event.target.value, x.unitPrice, x)"
+                                            />
+                                          </ng-template>
+                                          <ng-template pTemplate="output">
+                                            {{ x.quantity }}
+                                          </ng-template>
+
+                                        </p-cellEditor>
+                                      </td>
+                                      <td>
+                                        <p-cellEditor>
+                                          <ng-template pTemplate="input">
+                                            <input
+                                              pInputText
+                                              type="number"
+                                              class="form-control"
+                                              [(ngModel)]="x.unitPrice"
+                                              (input)="calculateSubTotal(x.quantity, $event.target.value, x)"
+                                            />
+                                          </ng-template>
+                                          <ng-template pTemplate="output">
+                                            {{ x.unitPrice | number : '1.2-2' }}
+                                          </ng-template>
+
+                                        </p-cellEditor>
+                                      </td>
+                                      <td>
+                                        <a class="table_link">{{
+                                          x.subTotal | number : '1.2-2'
+                                          }}</a>
+                                      </td>
+                                      <td>
+                                        <p-cellEditor>
+                                          <ng-template pTemplate="input">
+                                            <select
+                                              class="form-control"
+                                              [(ngModel)]="x.classificationsetupId"
+                                            >
+                                              <option *ngFor="let item of classifications" [value]="item.classificationsetupId">{{item.name}}</option>
+                                            </select>
+                                          </ng-template>
+                                          <ng-template pTemplate="output">
+                                            {{ returnThisClassificationName(x.classificationsetupId) }}
+                                          </ng-template>
+
+                                        </p-cellEditor>
+                                        <!-- <p-cellEditor>
+                                          <ng-template pTemplate="input">
+                                            <select
+                                              class="form-control"
+                                              [(ngModel)]="x.classificationsetupId"
+                                            >
+                                              <option *ngFor="let item of classifications" [value]="item.classificationsetupId">{{item.name}}</option>
+                                            </select>
+                                          </ng-template>
+                                          <ng-template pTemplate="output">
+                                            {{ x.classificationsetupName }}
+                                          </ng-template>
+
+                                        </p-cellEditor> -->
+                                      </td>
+                                      <td>
+                                        <p-cellEditor>
+                                          <ng-template pTemplate="input">
+                                            <select
+                                              class="form-control"
+                                              [(ngModel)]="x.costCenterId"
+                                            >
+                                              <option *ngFor="let item of costCentreList" [value]="item.costCenterId">{{item.name}}</option>
+                                            </select>
+                                          </ng-template>
+                                          <ng-template pTemplate="output">
+                                            {{ returnCostCentreName(x.costCenterId) }}
+                                          </ng-template>
+
+                                        </p-cellEditor>
+                                      </td>
+                                      <td>
+                                        <p-cellEditor>
+                                          <ng-template pTemplate="input">
+                                            <input
+                                              type="checkbox"
+                                              [checked]="x.isBudgeted"
+                                              [(ngModel)]="x.isBudgeted"
+                                            />
+                                          </ng-template>
+                                          <ng-template pTemplate="output">
+                                            <span *ngIf="x.isBudgeted">Yes</span>
+                                            <span *ngIf="!x.isBudgeted">No</span>
+                                          </ng-template>
+
+                                        </p-cellEditor>
+                                      </td>
+                                      <td *ngIf="canEditPrivilege" style="text-align: center; width: 12em">
+                                        <button
+                                          *ngIf="!editingMode.includes(x.requisitionDetailId)"
+                                          pButton
+                                          type="button"
+                                          style="border-radius: 0"
+                                          pInitEditableRow
+                                          label="Adjust"
+                                          class="ui-button-info"
+                                          (click)="onRowEditInit(x, i)"
+                                        ></button>
+                                        <button
+                                          *ngIf="editingMode.includes(x.requisitionDetailId)"
+                                          pButton
+                                          type="button"
+                                          pSaveEditableRow
+                                          label="Save"
+                                          class="ui-button-success"
+                                          style="margin-right: 0.5em"
+                                          (click)="onRowEditSave(x)"
+                                        ></button>
+                                        <button
+                                          *ngIf="editingMode.includes(x.requisitionDetailId)"
+                                          pButton
+                                          type="button"
+                                          style="border-radius: 0"
+                                          pCancelEditableRow
+                                          label="Close"
+                                          class="ui-button-danger"
+                                          (click)="onRowEditCancel(x)"
+                                        ></button>
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                Approval
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div style="display: flex">
+                                  <label class="col-md-2 control-label">
+                                    <strong>Comment</strong>
+                                  </label>
+
+                                  <div class="col-md-4">
+                                    <textarea
+                                      class="form-control"
+                                      [(ngModel)]="ernDetails.approvalComment"
+                                      name="comment"
+                                      cols="15"
+                                      rows="3"
+                                    ></textarea>
+                                  </div>
+
+                                  <label class="col-md-2 control-label">
+                                    <strong>Status</strong>
+                                  </label>
+                                  <div class="col-md-4">
+                                    <select
+                                      name="approvalStatusId"
+                                      id="approvalStatusId"
+                                      class="form-control"
+                                      (change)="getValue($event.target.value)"
+                                      [(ngModel)]="ernDetails.approvalStatus"
+                                      [ngClass]="
+                                      !ernDetails.approvalStatus
+                                        ? 'required-input'
+                                        : 'valid-input'
+                                    "
+                                    >
+                                      <option value=""
+                                      >--- Select Approval ---</option
+                                      >
+                                      <option value="2"> Approve </option>
+                                      <option value="3"> Disapprove </option>
+                                      <option value="5"> Revert </option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <button
+                                type="submit"
+                                [disabled]="
+                                  !ernDetails.approvalComment ||
+                                  !ernDetails.approvalStatus
+                                "
+                                (click)="submitApproval(ernDetails)"
+                                class="btn btn-success pull-right"
+                              >
+                                Save
+                              </button>
+                              <button
+                                type="button"
+                                (click)="activeIndex = 0"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel header="Approval Details" [disabled]="!tabSelected">
+              <app-approval-details
+                [approvalDetails]="approvalDetails"
+              ></app-approval-details>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Revert to staff
+      </h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select
+            name="staff"
+            id="staff"
+            class="form-control"
+            [(ngModel)]="staffId"
+            (change)="dismissDialog()"
+          >
+            <option value="" [selected]="true" [disabled]="true"
+            >--Select Staff--</option
+            >
+            <option *ngFor="let item of staffs" [value]="item.staffId">{{
+              item.name | titlecase
+              }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

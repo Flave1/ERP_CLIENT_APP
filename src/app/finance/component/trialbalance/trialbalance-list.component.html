@@ -1,0 +1,419 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Trial Balance
+            </h2>
+
+            <!--                        <div-->
+            <!--                            style="padding-right: 5px;padding-left: 5px;width: 45px;"-->
+            <!--                            class="col-md-1 pull-right"-->
+            <!--                        >-->
+            <!--                            <button-->
+            <!--                                pButton-->
+            <!--                                style="padding:0.5em 0"-->
+            <!--                                type="button"-->
+            <!--                                class="ui-button-raised ui-button-danger"-->
+            <!--                                (click)="multipleDelete()"-->
+            <!--                                icon="ui-icon-delete"-->
+            <!--                                iconPos="center"-->
+            <!--                                pTooltip="Delete"-->
+            <!--                                tooltipPosition="top"-->
+            <!--                                label=""-->
+            <!--                            ></button>-->
+            <!--                        </div>-->
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="refreshData()"
+                icon="ui-icon-refresh"
+                iconPos="center"
+                pTooltip="Refresh"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <!-- <div
+                            style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                            class="col-md-1 pull-right"
+                        >
+                            <button
+                                pButton
+                                style="padding:0.5em 0"
+                                type="button"
+                                class="ui-button-raised ui-button-secondary"
+                                (click)="exportTrialBalance()"
+                                icon="ui-icon-file-download"
+                                pTooltip="Export"
+                                tooltipPosition="top"
+                                iconPos="center"
+                                label=""
+                            ></button>
+                        </div> -->
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                type="button"
+                style="padding:0.5em 0"
+                class="ui-button-raised ui-button-secondary"
+                (click)="uploadTrialBalance()"
+                icon="ui-icon-file-upload"
+                iconPos="center"
+                pTooltip="Excel file: SubGLCode,SubGLName, OB, DR,CR, CB, CompanyCode, CurrencyCode, Period"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+              <input
+                style="height:35px;"
+                class="form-control"
+                type="file"
+                (change)="handleFileInput($event.target.files)"
+                id="file1"
+                accept=".xls,.xlsx"
+                #fileInput
+                name="fileInput"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="trialBalanceInformation"
+            dataKey="trialBalanceId"
+            [(selection)]="selectedtrialBalanceInformation"
+            [paginator]="false"
+            [rows]="trialBalanceInformation?.length"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <form class="form__flex" [formGroup]="trialBalanceForm">
+                <div class="mr_5">
+                  <label>Company</label>
+                  <select
+                    name="companyId"
+                    id="company"
+                    class="form-control"
+                    formControlName="comp"
+                  >
+                    <option value="0" disabled>-- Select Company --</option>
+                    <option
+                      *ngFor="let row of companyInformation"
+                      [value]="row.companyStructureId"
+                    >
+                      {{ row.name }}
+                    </option>
+                  </select>
+                </div>
+                <div class="mr_5">
+                  <label>Start Date</label>
+                  <!--                                    <p-calendar-->
+                  <!--                                        class="form-control"-->
+                  <!--                                        [monthNavigator]="true"-->
+                  <!--                                        [yearNavigator]="true"-->
+                  <!--                                        [showIcon]="true"-->
+                  <!--                                        yearRange="1900:2100"-->
+                  <!--                                        [inputStyle]="{ width: '100%' }"-->
+                  <!--                                        [style]="{-->
+                  <!--                                            width: '100%',-->
+                  <!--                                            'z-index': '999'-->
+                  <!--                                        }"-->
+                  <!--                                        [(ngModel)]="dateFrom"-->
+                  <!--                                    ></p-calendar>-->
+                  <input
+                    type="date"
+                    class="form-control"
+                    formControlName="date1"
+                  />
+                </div>
+                <div class="mr_5">
+                  <label>End Date</label>
+                  <!--                                    <p-calendar-->
+                  <!--                                        class="form-control"-->
+                  <!--                                        [monthNavigator]="true"-->
+                  <!--                                        [yearNavigator]="true"-->
+                  <!--                                        [showIcon]="true"-->
+                  <!--                                        yearRange="1900:2100"-->
+                  <!--                                        [inputStyle]="{ width: '100%' }"-->
+                  <!--                                        [style]="{-->
+                  <!--                                            width: '100%',-->
+                  <!--                                            'z-index': '999'-->
+                  <!--                                        }"-->
+                  <!--                                        [(ngModel)]="dateTo"-->
+                  <!--                                    ></p-calendar>-->
+                  <input
+                    type="date"
+                    class="form-control"
+                   formControlName="date2"
+                  />
+                </div>
+                <div class="mr_5">
+                  <label>Period</label>
+                  <select
+                    name="period"
+                    id=""
+                    class="form-control"
+                    formControlName="period"
+                  >
+                    <option value="">--Select Financial Year--</option>
+                    <option
+                      *ngFor="let period of financialYear"
+                      [value]="period.name"
+                      >{{ period.name }}</option
+                    >
+                  </select>
+                </div>
+                <!-- <div class="mr_5">
+                                    <label>Include Sub</label>
+                                    <input type="checkbox" class="checkbox" [(ngModel)]="sub"/>
+                                </div> -->
+                <div class="process_btn_div">
+                  <button class="btn btn-success" (click)="processData(trialBalanceForm)">
+                    Process
+                  </button>
+                  <button
+                    pButton
+                    style="padding:0.5em 0; margin-left:10px; border: 1px solid"
+                    type="button"
+                    class="ui-button-raised ui-button-secondary"
+                    (click)="exportTrialBalance()"
+                    icon="ui-icon-file-download"
+                    pTooltip="Export"
+                    tooltipPosition="top"
+                    iconPos="center"
+                    label=""
+                  ></button>
+                </div>
+                <div style="margin-left:20px;" class="process_btn_div">
+                  <button class="btn btn-success" (click)="processTB()">
+                    Run TB in Different Currency
+                  </button>
+
+                  <button
+                    pButton
+                    style="padding:0.5em 0; margin-left:10px; border: 1px solid"
+                    type="button"
+                    class="ui-button-raised ui-button-secondary"
+                    (click)="exportTBCurrency()"
+                    icon="ui-icon-file-download"
+                    pTooltip="Export"
+                    tooltipPosition="top"
+                    iconPos="center"
+                    label=""
+                  ></button>
+                </div>
+              </form>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox> </p-tableHeaderCheckbox>
+                </th>
+                <!-- <th style="width:1em">S/N</th> -->
+                <th [pSortableColumn]="'glCode'">
+                  SubGL Code
+
+                </th>
+                <th [pSortableColumn]="'glDescription'">
+                  SubGL Name
+
+                </th>
+                <th [pSortableColumn]="'runningBalance'">
+                  Opening Balance
+
+                </th>
+                <th [pSortableColumn]="'debitAmount'">
+                  Dr
+
+                </th>
+                <th [pSortableColumn]="'creditAmount'">
+                  Cr
+
+                </th>
+                <th [pSortableColumn]="'closingBalance'">
+                  Closing Balance
+
+                </th>
+
+                <th [pSortableColumn]="'companyCode'">
+                  Company Code
+
+                </th>
+                <th [pSortableColumn]="'asset'">
+                  Account Type
+
+                </th>
+                <th [pSortableColumn]="'currencyName'">
+                  Currency
+
+                </th>
+                <th [pSortableColumn]="'period'">
+                  Period
+
+                </th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr
+                [pSelectableRow]="x"
+                *ngIf="trialBalanceInformation.length > 0"
+              >
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <!-- <td>{{ i + 1 }}</td> -->
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.subGLCode
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.subGLname
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.runningBalance | number: "1.2-2"
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.debitAmount | number: "1.2-2"
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.creditAmount | number: "1.2-2"
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.closingBalance | number: "1.2-2"
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.companyName
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.accountType
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.currencyName
+                  }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editTrialBalance(x)">{{
+                    x.period
+                  }}</a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitUserAccount(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right">
+                Close
+              </button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayProcessReport"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Run TB in Different Currency
+      </h2>
+    </div>
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="" class="control-label col-md-2">
+            Currency
+          </label>
+          <div class="col-md-4">
+            <select
+              type="text"
+              name="currency"
+              [(ngModel)]="currency"
+              id="currency"
+              class="form-control"
+            >
+              <option value="">-- Select Currency --</option>
+              <option
+                *ngFor="let row of currencyInformation"
+                [value]="row.currencyCode"
+              >
+                {{ row.currencyName }} - {{ row.currencyCode }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <button
+            type="submit"
+            (click)="processTBInDifferentCurrency()"
+            class="btn btn-success pull-right"
+          >
+            Run
+          </button>
+          <button
+            type="button"
+            (click)="displayProcessReport = false"
+            style="margin-right:5px"
+            class="btn btn-danger pull-right"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

@@ -1,0 +1,101 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <form novalidate [formGroup]="form">
+            <div class="row">
+              <input
+                type="hidden"
+                formControlName="loanStagingId"
+                name="loanStagingId"
+              />
+              <div class="form-group">
+                <div class="col-md-4">
+                  <label for="">
+                    Probation Period(Days)
+                  </label>
+                  <input
+                    type="number"
+                    formControlName="probationPeriod"
+                    name="probationPeriod"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="">
+                    From
+                  </label>
+                  <select
+                    class="form-control"
+                    formControlName="from"
+                    name="from"
+                    (change)="modifyStagingDropdown($event.target.value, 'from')"
+                  >
+                    <option
+                      *ngFor="let stage of selectedFrom"
+                      [value]="stage.value"
+                    >
+                      {{ stage.text }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label for="">
+                    To
+                  </label>
+                  <select
+                    class="form-control"
+                    formControlName="to"
+                    name="to"
+                    (change)="modifyStagingDropdown(form['value'].to, 'to')"
+                  >
+                    <option
+                      *ngFor="let stage of selectedTo"
+                      [value]="stage.value"
+                    >
+                      {{ stage.text }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="saveLoanStaging(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

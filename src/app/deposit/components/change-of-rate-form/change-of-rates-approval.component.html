@@ -1,0 +1,231 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Change of rates Approvals
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <p-tabView [activeIndex]="activeIndex" (onChange)="tabChange($event)">
+              <p-tabPanel header="Change of rates Awaiting Approvals">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-table [value]="ChangeOfRates" [scrollable]="true" [scrollHeight]="viewHeight"
+                      [responsive]="true">
+                      <ng-template pTemplate="caption">
+                        <h4>List of Change of rates Awaiting Approval</h4>
+                      </ng-template>
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="sn_width">S/N</th>
+                          <th>Product Name</th>
+                          <th>Current Rate</th>
+                          <th>Proposed Rate</th>
+                          <th>Reason</th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <td (click)="viewApprovalDetails(x)">{{x.productName}}</td>
+                          <td (click)="viewApprovalDetails(x)">{{x.currentRate}}</td>
+                          <td (click)="viewApprovalDetails(x)">{{x.proposedRate}}</td>
+                          <td (click)="viewApprovalDetails(x)"> {{x.reasons}}</td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Account Approval Details" [disabled]="!tabSelected">
+                <div style="margin-bottom:0" class="panel panel-default">
+                  <div class="panel-heading">
+                    <h2 class="panel-title">
+                      Change of rates Approval Details
+                    </h2>
+                  </div>
+
+                  <div class="panel-body">
+                    <div class="form-horizontal">
+                      <table class="table table-customer-information">
+                        <tbody>
+                          <tr>
+                            <td>
+                              <strong>Product Name:</strong>
+                            </td>
+                            <td>{{ ItemDetails?.productName }}</td>
+                            <td>
+                              <strong>Current Rate:</strong>
+                            </td>
+                            <td>{{ ItemDetails?.currentRate}} </td>
+                          </tr>
+                          <tr>
+                            <td>
+                              <strong>Proposed Rate:</strong>
+                            </td>
+                            <td>{{ ItemDetails?.proposedRate}} </td>
+                            <td>
+                              <strong>Rreasons :</strong>
+                            </td>
+                            <td>
+                              {{
+                                ItemDetails?.reasons
+                              }}
+                            </td>
+                          </tr>
+                          <br />
+                          <tr>
+                            <td>
+                              <strong>Comment</strong>
+                            </td>
+                            <td>
+                              <textarea class="form-control" [(ngModel)]="ItemDetails.comment" name="comment" cols="15"
+                                rows="3"></textarea>
+                            </td>
+                            <td>
+                              <strong>Status</strong>
+                            </td>
+                            <td>
+                              <select name="approvalStatusId" id="approvalStatusId" class="form-control"
+                                [(ngModel)]="ItemDetails.approvalStatusId" [ngClass]="
+                                  !ItemDetails.approvalStatusId
+                                    ? 'required-input'
+                                    : 'valid-input'
+                                ">
+                                <option value="">--- Select Approval ---</option>
+                                <option value="2"> Approve </option>
+                                <option value="3"> Disapprove </option>
+                                <option value="5"> Revert </option>
+                              </select>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                  <div class="panel-footer">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button type="submit" [disabled]="
+                            !ItemDetails.comment ||
+                            !ItemDetails.approvalStatusId
+                          " (click)="submitApproval(ItemDetails)" class="btn btn-success pull-right">
+                          Save
+                        </button>
+                        <button type="button" (click)="activeIndex = 1" style="margin-right:5px"
+                          class="btn btn-danger pull-right">
+                          Close
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Approval Details" [disabled]="!tabSelected">
+                <app-approval-details [approvalDetails]="approvalDetails"></app-approval-details>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [responsive]="true" [(visible)]="displayApproval" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        LPO Details
+      </h2>
+    </div>
+
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <table class="table table-customer-information">
+          <tbody>
+            <br />
+            <tr>
+              <td>
+                <strong>Comment</strong>
+              </td>
+              <td>
+                <textarea class="form-control" [(ngModel)]="ItemDetails.comment" name="comment" cols="15"
+                  rows="3"></textarea>
+              </td>
+              <td>
+                <strong>Status</strong>
+              </td>
+              <td>
+                <select name="approvalStatusId" id="approvalStatusId" class="form-control"
+                  [(ngModel)]="ItemDetails.approvalStatusId" [ngClass]="
+                    !ItemDetails.approvalStatusId
+                      ? 'required-input'
+                      : 'valid-input'
+                  ">
+                  <option value="">--- Select Approval ---</option>
+                  <option value="2"> Approve </option>
+                  <option value="3"> Disapprove </option>
+                  <option value="5"> Revert </option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <button type="submit" [disabled]="
+              !ItemDetails.comment || !ItemDetails.approvalStatusId
+            " (click)="submitApproval(ItemDetails)" class="btn btn-success pull-right">
+            Save
+          </button>
+          <button type="button" (click)="displayApproval = false" style="margin-right:5px"
+            class="btn btn-danger pull-right">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog [responsive]="true" [(visible)]="showDialog" id="modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Revert to staff
+      </h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select name="staff" id="staff" class="form-control" [(ngModel)]="staffId" (change)="dismissDialog()">
+            <option value="" [selected]="true" [disabled]="true">--Select Staff--</option>
+            <option *ngFor="let item of staffs" [value]="item.staffId">{{
+              item.name
+            }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

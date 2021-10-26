@@ -1,0 +1,143 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Loan Application
+            </h2>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-danger"
+                (click)="multipleDelete()"
+                icon="ui-icon-delete"
+                iconPos="center"
+                pTooltip="Delete"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <!-- <button
+                            pButton
+                            type="button"
+                            class="btn btn-primary pull-right"
+                            (click)="showAddNew()"
+                            icon="pi pi-plus"
+                            iconPos="left"
+                            label="Add New LoanCustomer"
+                        ></button> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="loanCustomerInformation"
+            dataKey="customerId"
+            [(selection)]="selectedLoanCustomerInformation"
+            selectionMode="single"
+            [paginator]="false"
+            [rows]="loanCustomerInformation?.length"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+            [responsive]="true"
+          >
+            <ng-template pTemplate="caption">
+              <form
+                [formGroup]="searchUser"
+                style="display: flex; justify-content: space-between"
+              >
+                <!--                <input-->
+                <!--                  type="text"-->
+                <!--                  pInputText-->
+                <!--                  size="50"-->
+                <!--                  class="form-control"-->
+                <!--                  placeholder="Search..."-->
+                <!--                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"-->
+                <!--                  style="width:auto"-->
+                <!--                />-->
+                <div>
+                  <input
+                    type="text"
+                    class="form-control search_input"
+                    formControlName="fullName"
+                    placeholder="Full Name"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    class="form-control search_input"
+                    formControlName="email"
+                    placeholder="Email"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="text"
+                    class="form-control search_input"
+                    formControlName="accountNumber"
+                    placeholder="Account Number"
+                  />
+                </div>
+                <button
+                  class="search_btn"
+                  (click)="searchCustomers(searchUser)"
+                >
+                  Search
+                </button>
+              </form>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'customerTypeName'">Customer Type</th>
+                <th [pSortableColumn]="'firstName'">Customer Name</th>
+                <th [pSortableColumn]="'phoneNo'">Phone Number</th>
+                <th [pSortableColumn]="'currentExposure'">Current Exposure</th>
+                <th [pSortableColumn]="'totalExposure'">Exposure Limit</th>
+                <th [pSortableColumn]="'accountNumber'">Account Number</th>
+                <th></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">{{ i + 1 }}</td>
+                <td style="font-weight: bold">{{ x.customerTypeName }}</td>
+                <td>{{ x.firstName }} {{ x.lastName }}</td>
+                <td>{{ x.phoneNo }}</td>
+                <td>{{ x.currentExposure | number: "1.2" }}</td>
+                <td>{{ x.totalExposure | number: "1.2" }}</td>
+                <td>{{ x.accountNumber }}</td>
+                <td>
+                  <a class="link_deco" (click)="applyForLoan(x)">Apply</a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

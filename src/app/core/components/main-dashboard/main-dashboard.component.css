@@ -1,0 +1,18 @@
+.page-wrapper {
+
+}
+.page-nav {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+  background: #fff;
+  padding: 1rem;
+  /*margin-left: 16px;*/
+  /*margin-right: 16px;*/
+  border-radius: 4px;
+}
+
+.nav-item {
+  flex-basis: 20%;
+  text-align: center;
+}

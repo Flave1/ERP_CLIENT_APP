@@ -1,0 +1,234 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Summary Report
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form__flex flex_wrap">
+                        <div class="mr_5 mb_10">
+                            <label>Company</label>
+                            <select
+                                name="companyId"
+                                id="company"
+                                class="form-control"
+                                [(ngModel)]="companyId"
+                            >
+                                <option value="0" disabled
+                                >-- Select Company --</option
+                                >
+                                <option
+                                    *ngFor="
+                                                let row of companyInformation
+                                            "
+                                    [value]="row.companyStructureId"
+                                >
+                                    {{ row.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mr_5 mb_10">
+                            <label>Report Types</label>
+                            <select
+                                name="reportTitle"
+                                id="reportTitle"
+                                class="form-control"
+                                [(ngModel)]="reportTitle"
+                                (change)="getColumnValue($event.target.value)"
+                            >
+                                <option value="0" disabled
+                                >-- Select Report Title --</option
+                                >
+                                <option
+                                    value="1"
+                                >
+                                    Customer Report
+                                </option>
+                                <option
+                                    value="2"
+                                >
+                                    Loan Report
+                                </option>
+                                <option
+                                value="3"
+                            >
+                                Repayment Report
+                            </option>
+                                <!-- <option
+                                    value="4"
+                                >
+                                    Restructured Loan Report
+                                </option> -->
+                            </select>
+                        </div>
+                      <div class="mr_5 mb_10" *ngIf="reportTitle == 1">
+                        <label for="customerType">Customer Type</label>
+                        <select name="customerType" id="customerType" [(ngModel)]="customerType" class="form-control" (change)="setCustomerColumn($event.target.value)">
+                          <option value="" disabled selected>--Select Customer Type--</option>
+                          <option *ngFor="let item of customerTypes" [value]="item.id">{{item.name}}</option>
+                        </select>
+                      </div>
+                        <div class="mr_5 mb_10 form__width" *ngIf="reportTitle == 1 || reportTitle == 2">
+                            <label>Columns</label>
+                            <!-- <p-multiSelect
+                                [options]="column2"
+                                [(ngModel)]="selectedColumn"
+                                styleClass="form-control"
+                                [panelStyle]="{ minWidth: '25em' }"
+                            ></p-multiSelect> -->
+                            <ng-select
+                      [items]="columns"
+                      bindValue="id"
+                      bindLabel="name"
+                      [(ngModel)]="selectedColumn"
+                      [multiple]="true"
+                      [closeOnSelect]="false"
+                      placeholder="Select columns"
+                    >
+                      <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                        <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected" [ngModelOptions]="{standalone: true}"/> {{item.name}}
+                      </ng-template>
+                    </ng-select>
+                        </div>
+                      <div class="mr_5 mb_10" *ngIf="reportTitle == 3">
+                        <label for="loanId">Loan ID</label>
+                        <input type="text" id="loanId" [(ngModel)]="loanId" class="form-control" placeholder="Loan ID">
+                      </div>
+                      <div class="process_btn_div" style="margin-top: 11px;">
+                        <button
+                            class="btn btn-success"
+                            (click)="processData(form)"
+                        >
+                            Download
+                        </button>
+                    </div>                                          
+                    </div>
+                    <div class="form__flex flex_wrap">
+                        <div class="mr_5 mb_10 form__width" *ngIf="reportTitle == 1 || reportTitle == 2">
+                            <label>Start Date</label>
+                            <p-calendar
+                                [monthNavigator]="true"
+                                [yearNavigator]="true"
+                                [showIcon]="true"
+                                yearRange="1900:2100"
+                                [inputStyle]="{ width: '100%' }"
+                                [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                [(ngModel)]="dateFrom"
+                            ></p-calendar>
+                        </div>
+                        <div class="mr_5 mb_10 form__width" *ngIf="reportTitle == 1 || reportTitle == 2">
+                            <label>End Date</label>
+                            <p-calendar
+                                [monthNavigator]="true"
+                                [yearNavigator]="true"
+                                [showIcon]="true"
+                                yearRange="1900:2100"
+                                [inputStyle]="{ width: '100%' }"
+                                [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                [(ngModel)]="dateTo"
+                            ></p-calendar>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--<p-dialog-->
+<!--    [responsive]="true"-->
+<!--    [(visible)]="displayProcessReport"-->
+<!--    id="add-modal"-->
+<!--    modal="modal"-->
+<!--    showEffect="fade"-->
+<!--    width="800"-->
+<!--&gt;-->
+<!--    <div style="margin-bottom:0" class="panel panel-default">-->
+<!--        <div class="panel-heading">-->
+<!--            <h2 class="panel-title">-->
+<!--                Process Report-->
+<!--            </h2>-->
+<!--        </div>-->
+
+<!--        <form novalidate [formGroup]="form">-->
+<!--            <div class="panel-body">-->
+<!--                <div class="form-horizontal">-->
+<!--                    <div class="form-group">-->
+<!--                        <label for="" class="control-label col-md-2">-->
+<!--                            Company-->
+<!--                        </label>-->
+<!--                        <div class="col-md-4">-->
+<!--                            <select-->
+<!--                                type="text"-->
+<!--                                name="companyCode"-->
+<!--                                formControlName="companyCode"-->
+<!--                                id="companyCode"-->
+<!--                                class="form-control"-->
+<!--                            >-->
+<!--                                <option value="">&#45;&#45; Select Company &#45;&#45;</option>-->
+<!--                                <option-->
+<!--                                    *ngFor="let row of companyInformation"-->
+<!--                                    [value]="row.companyCode"-->
+<!--                                >-->
+<!--                                    {{ row.companyName }}-->
+<!--                                </option>-->
+<!--                            </select>-->
+<!--                        </div>-->
+
+<!--                        <label for="" class="control-label col-md-2">-->
+<!--                            Date-->
+<!--                        </label>-->
+<!--                        <div class="col-md-4">-->
+<!--                            <p-calendar-->
+<!--                                id="runDate"-->
+<!--                                class="form-control"-->
+<!--                                formControlName="runDate"-->
+<!--                                [monthNavigator]="true"-->
+<!--                                [yearNavigator]="true"-->
+<!--                                yearRange="1900:2030"-->
+<!--                                [showIcon]="true"-->
+<!--                                [inputStyle]="{ width: '100%' }"-->
+<!--                                [style]="{ width: '100%', 'z-index': '999' }"-->
+<!--                            ></p-calendar>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </form>-->
+<!--        <div class="panel-footer">-->
+<!--            <div class="row">-->
+<!--                <div class="col-md-12">-->
+<!--                    <button-->
+<!--                        type="submit"-->
+<!--                        (click)="processData(form)"-->
+<!--                        class="btn btn-success pull-right"-->
+<!--                    >-->
+<!--                        Process-->
+<!--                    </button>-->
+<!--                    <button-->
+<!--                        type="button"-->
+<!--                        (click)="displayProcessReport = false"-->
+<!--                        style="margin-right:5px"-->
+<!--                        class="btn btn-danger pull-right"-->
+<!--                    >-->
+<!--                        Close-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</p-dialog>-->

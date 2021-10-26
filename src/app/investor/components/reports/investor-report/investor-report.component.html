@@ -1,0 +1,140 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Investors Report
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form__flex flex_wrap">
+                        <div style="display: none;" class="mr_5 mb_10 form__width">
+                            <label>Company</label>
+                            <select
+                                name="companyId"
+                                id="company"
+                                class="form-control"
+                                [(ngModel)]="companyId"
+                            >
+                                <option value="0" disabled
+                                >-- Select Company --</option
+                                >
+                                <option
+                                    *ngFor="
+                                                let row of companyInformation
+                                            "
+                                    [value]="row.companyStructureId"
+                                >
+                                    {{ row.name }}
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mr_5 mb_10">
+                            <label>Customer Type</label>
+                            <select
+                                name="customerType"
+                                id="customerType"
+                                class="form-control"
+                                [(ngModel)]="customerType"
+                            >
+                                <option value="0" disabled
+                                >-- Select Customer Type --</option
+                                >
+                                <option
+                                    value="1"
+                                >
+                                    Individual
+                                </option>
+                                <option
+                                    value="2"
+                                >
+                                    Corporate
+                                </option>
+                            </select>
+                        </div>
+                        <div class="mr_5 mb_10 form__width">
+                            <label>Start Date</label>
+                            <p-calendar
+                                class="form-control"
+                                [monthNavigator]="true"
+                                [yearNavigator]="true"
+                                [showIcon]="true"
+                                yearRange="1900:2100"
+                                [inputStyle]="{ width: '100%' }"
+                                [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                [(ngModel)]="dateFrom"
+                                (onSelect)="onDateSelect($event, 1)"
+                            ></p-calendar>
+                        </div>
+                        <div class="mr_5 mb_10 form__width">
+                            <label>End Date</label>
+                            <p-calendar
+                                class="form-control"
+                                [monthNavigator]="true"
+                                [yearNavigator]="true"
+                                [showIcon]="true"
+                                yearRange="1900:2100"
+                                [inputStyle]="{ width: '100%' }"
+                                [style]="{
+                                            width: '100%',
+                                            'z-index': '999'
+                                        }"
+                                [(ngModel)]="dateTo"
+                                (onSelect)="onDateSelect($event, 2)"
+                            ></p-calendar>
+                        </div>
+                        <div style="display: none;" class="mr_5 mb_10 form__width" *ngIf="customerType == 1 || customerType == 2">
+                            <label>Columns</label>
+                            <p-multiSelect
+                                *ngIf="customerType == 1"
+                                [options]="columns"
+                                [(ngModel)]="selectedColumn"
+                                styleClass="form-control"
+                                [panelStyle]="{ minWidth: '25em' }"
+                            ></p-multiSelect>
+                            <p-multiSelect
+                                *ngIf="customerType == 2"
+                                [options]="corporateColumns"
+                                [(ngModel)]="selectedColumn"
+                                styleClass="form-control"
+                                [panelStyle]="{ minWidth: '25em' }"
+                            ></p-multiSelect>
+                        </div>
+                        <!--                        <div class="mr_5">-->
+                        <!--                            <label>Include Sub</label>-->
+                        <!--                            <input type="checkbox" class="checkbox" [(ngModel)]="sub"/>-->
+                        <!--                        </div>-->
+                        <div class="process_btn_div" style="margin-top: 11px;">
+                            <button
+                                class="btn btn-success"
+                                (click)="getReport()"
+                            >
+                                Process
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="panel-body">
+  <div class="col-md-12" *ngIf="displayTestReport">
+    <iframe
+      [src]="reportSrc"
+      id="report"
+      name="report"
+     style="width: 100%"
+      height="900px"
+    ></iframe>
+  </div>
+</div>

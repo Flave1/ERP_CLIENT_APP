@@ -1,0 +1,16 @@
+.table_row:nth-child(odd) {
+    cursor: pointer !important;
+    background-color: #e8e8e8 !important;
+    color: #000000 !important;
+}
+.table_row:nth-child(even) {
+    cursor: pointer !important;
+    background-color: #fff !important;
+    color: #000000 !important;
+}
+.special_width {
+    width: 130px;
+}
+.status_width {
+    width: 85px;
+}

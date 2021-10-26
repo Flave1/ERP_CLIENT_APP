@@ -1,0 +1,138 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  CCF
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="ccf"
+                    name="ccf"
+                    class="form-control"
+                  />
+                </div>
+
+                <!-- <label for="" class="control-label col-md-2">
+                  Classification Type
+                </label>
+                 <div class="col-md-4">
+                    <select type="text" name="classification_Type" formControlName="classification_Type" id="classification_Type" class="form-control">
+                        <option value="">-- Select Classification Type --</option>
+                        <option  [value]="1">Classification Type 1 </option>
+                        <option  [value]="2">Classification Type 2 </option>
+                    </select>
+                 </div> -->
+              </div>
+              <div class="form-group">
+                <!-- <label for="" class="control-label col-md-2">
+                 Deteroriation Level
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="deteroriation_Level" name="deteroriation_Level" class="form-control" />
+                </div> -->
+
+                <label for="" class="control-label col-md-2">
+                  Run Date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar
+                    id="runDate"
+                    formControlName="runDate"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{ width: '100%', 'z-index': '999' }"
+                  ></p-calendar>
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Group Based
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="groupBased" name="groupBased" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                 Threshold
+                </label>
+                <div class="col-md-4">
+                  <input type="number" formControlName="threshold" name="threshold" class="form-control" />
+                </div>
+              </div> -->
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Historical PD Year Count
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    formControlName="historical_PD_Year_Count"
+                    name="historical_PD_Year_Count"
+                    class="form-control"
+                  />
+                </div>
+                <!--
+                <label for="" class="control-label col-md-2">
+                 LTPD Approach
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="ltpdapproach" name="ltpdapproach" class="form-control" />
+                </div> -->
+              </div>
+              <!-- <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  PD Basis
+                </label>
+               <div class="col-md-4">
+                  <input type="text" formControlName="pdBasis" name="pdBasis" class="form-control" />
+                </div>
+              </div> -->
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitSetupData(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

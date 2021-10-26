@@ -1,0 +1,138 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  FS Line Caption
+                </label>
+                <div class="col-md-4">
+                  <input type="text" [attr.disabled]="true" formControlName="subGLFSLineCaption" name="subGLFSLineCaption" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                   Note Line
+                </label>
+                <div class="col-md-4">
+                  <input type="text" [attr.disabled]="true" formControlName="subGLNoteLine" name="subGLNoteLine" class="form-control" />
+                </div>
+              </div>
+              <div class="form-group">
+                  <label for="" class="control-label col-md-2">
+                    Batch Code
+                  </label>
+                  <div class="col-md-4">
+                    <input type="text" [attr.disabled]="true" formControlName="batchCode" name="batchCode" class="form-control" />
+                  </div>
+  
+                  <label for="" class="control-label col-md-2">
+                    Reference Number
+                  </label>
+                  <div class="col-md-4">
+                    <input type="text" [attr.disabled]="true" formControlName="sourceReferenceNumber" name="sourceReferenceNumber" class="form-control" />
+                  </div>
+                </div>
+                <div class="form-group">
+                    <label for="" class="control-label col-md-2">
+                    Operation
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" [attr.disabled]="true" formControlName="operationName" name="operationName" class="form-control" />
+                    </div>
+    
+                    <label for="" class="control-label col-md-2">
+                        Description
+                    </label>
+                    <div class="col-md-4">
+                      <input type="text" [attr.disabled]="true" formControlName="description" name="description" class="form-control" />
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Debit Amount
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" [attr.disabled]="true" formControlName="debitAmount" name="debitAmount" class="form-control" />
+                      </div>
+      
+                      <label for="" class="control-label col-md-2">
+                        Credit Amount
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" [attr.disabled]="true" formControlName="creditAmount" name="creditAmount" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-2">
+                        Transaction Date
+                        </label>
+                        <div class="col-md-4">
+                          <input type="text" [attr.disabled]="true" formControlName="valueDate" name="valueDate" class="form-control" />
+                        </div>
+        
+                        <label for="" class="control-label col-md-2">
+                          Posted Date
+                        </label>
+                        <div class="col-md-4">
+                          <input type="text" [attr.disabled]="true" formControlName="postedDateTime" name="postedDateTime" class="form-control" />
+                        </div>
+                      </div>
+                      <!-- <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            FS Line Caption
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" [attr.disabled]="true" formControlName="subGLFSLineCaption" name="subGLFSLineCaption" class="form-control" />
+                          </div>
+          
+                          <label for="" class="control-label col-md-2">
+                             Note Line
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" [attr.disabled]="true" formControlName="subGLNoteLine" name="subGLNoteLine" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                              FS Line Caption
+                            </label>
+                            <div class="col-md-4">
+                              <input type="text" [attr.disabled]="true" formControlName="subGLFSLineCaption" name="subGLFSLineCaption" class="form-control" />
+                            </div>
+            
+                            <label for="" class="control-label col-md-2">
+                               Note Line
+                            </label>
+                            <div class="col-md-4">
+                              <input type="text" [attr.disabled]="true" formControlName="subGLNoteLine" name="subGLNoteLine" class="form-control" />
+                            </div>
+                          </div> -->
+              </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

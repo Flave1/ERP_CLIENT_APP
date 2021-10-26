@@ -1,0 +1,720 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Loan Review Application
+            </h2>
+            <div class="pull-right">
+              <div style="padding-right: 5px;padding-left: 5px;width: 45px;" class="col-md-1 pull-right">
+                <button
+                  pButton
+                  type="button"
+                  style="padding:0.5em 0"
+                  class="ui-button-raised ui-button-secondary"
+                  (click)="downloadLoan()"
+                  icon="ui-icon-file-download"
+                  iconPos="center"
+                  pTooltip="Download"
+                  tooltipPosition="top"
+                  label=""
+
+                ></button>
+              </div>
+              <div style="padding-right: 5px;padding-left: 5px;width: 45px;" class="col-md-1 pull-right">
+                <button
+                  pButton
+                  type="button"
+                  style="padding:0.5em 0"
+                  class="ui-button-raised ui-button-secondary"
+                  (click)="uploadFile()"
+                  icon="ui-icon-file-upload"
+                  iconPos="center"
+                  pTooltip="Excel file: CustomerEmail, loanRefNumber, ProductName, CurrencyName, EffectiveDate, OutStandingTenor, First PrincipalPaymentDate, First InterestPaymentDate, OutstandingPrincipal, OutstandingInterest, FrequencyTypeName, CompanyName"
+                  tooltipPosition="top"
+                  label=""
+
+                ></button>
+              </div>
+              <div class="pull-right">
+                <input
+                    #myInput
+                    style="height:35px;"
+                    class="form-control"
+                    type="file"
+                    (change)="handleFileInput($event.target.files)"
+                    id="file1"
+                    accept=".xls,.xlsx"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-tabView
+            (onChange)="onTabChange($event)"
+            [activeIndex]="activeIndex"
+          >
+            <p-tabPanel header="Loan Search">
+              <form
+                novalidate
+                [formGroup]="loanSearchForm"
+                (keydown.enter)="
+                  loanSearchForm.valid
+                    ? submitLoanSearchForm(loanSearchForm)
+                    : $event.preventDefault()
+                "
+                autocomplete="off"
+              >
+                <div class="form-group">
+                  <label for="customerTypeId" class="control-label col-md-3"
+                    >Customer Type</label
+                  >
+                  <label for="loanRefNumber" class="control-label col-md-4"
+                    >Loan Reference Number</label
+                  >
+                  <label for="searchString" class="control-label col-md-5"
+                    >Search</label
+                  >
+                  <div class="col-md-3">
+                    <select
+                      (change)="onChangeCustomerType($event.target.value)"
+                      name="customerTypeId"
+                      formControlName="customerTypeId"
+                      id="customerTypeId"
+                      class="form-control"
+                    >
+                      <option value="" disabled
+                        >-- Select Customer Type --</option
+                      >
+                      <option value="1">Individual</option>
+                      <option value="2">Corporate</option>
+                    </select>
+                  </div>
+                  <div class="col-md-4">
+                    <!-- <select
+                      (change)="onChangeProductType($event.target.value)"
+                      name="productTypeId"
+                      formControlName="productTypeId"
+                      id="productTypeId"
+                      class="form-control"
+                    >
+                      <option value="" disabled
+                        >-- Select Product Type --</option
+                      >
+                      <option
+                        *ngFor="let x of productTypes"
+                        [value]="x.productTypeId"
+                        >{{ x.productTypeName }}</option
+                      >
+                    </select> -->
+                    <input
+                    type="text"
+                    name="loanRefNumber"
+                    formControlName="loanRefNumber"
+                    id="loanRefNumber"
+                    class="form-control"
+                    placeholder="Search by Loan Reference Number"
+                    [ngClass]="
+                      !loanSearchForm.controls['loanRefNumber'].valid
+                        ? 'required-input'
+                        : 'valid-input'
+                    "
+                  />
+                  </div>
+                  <div class="col-md-5 input-group" style="padding:0 15px;">
+                    <input
+                      type="text"
+                      name="searchString"
+                      formControlName="searchString"
+                      id="searchString"
+                      class="form-control"
+                      placeholder="Search by customer name"
+                      [ngClass]="
+                        !loanSearchForm.controls['searchString'].valid
+                          ? 'required-input'
+                          : 'valid-input'
+                      "
+                    />
+
+                    <span
+                      (click)="submitLoanSearchForm(loanSearchForm)"
+                      class="input-group-addon btn btn-info"
+                    >
+                      <span class="glyphicon glyphicon-search"></span> Search
+                    </span>
+                  </div>
+                </div>
+              </form>
+
+              <p-table
+                #dt
+                [value]="disbursedLoanList"
+                dataKey="loanId"
+                [(selection)]="selectedLoan"
+                [paginator]="false"
+                [rows]="disbursedLoanList?.length"
+                [scrollable]="true"
+                [scrollHeight]="viewHeight"
+                [responsive]="true"
+                (onRowSelect)="rowClicked($event)"
+              >
+                <ng-template pTemplate="caption"> </ng-template>
+                <ng-template pTemplate="header">
+                  <tr>
+                    <!--                                  <th class="checkbox_row">-->
+                    <!--                                      <p-tableHeaderCheckbox>-->
+                    <!--                                      </p-tableHeaderCheckbox>-->
+                    <!--                                  </th>-->
+                    <th class="sn_width">S/N</th>
+                    <th [pSortableColumn]="'loanRefNumber'">
+                      Loan Reference Number
+                      <i class="ui-icon-arrow-drop-down"></i>
+                    </th>
+                    <th [pSortableColumn]="'principalAmount'">
+                      Loan Amount
+                      <i class="ui-icon-arrow-drop-down"></i>
+                    </th>
+                    <th [pSortableColumn]="'productName'">
+                      Product Name
+                      <i class="ui-icon-arrow-drop-down"></i>
+                    </th>
+                    <th [pSortableColumn]="'customerName'">
+                      Customer Name
+                      <i class="ui-icon-arrow-drop-down"></i>
+                    </th>
+                    <th [pSortableColumn]="'propposedAmount'">
+                      Outstanding Balance
+                      <i class="ui-icon-arrow-drop-down"></i>
+                    </th>
+                    <!-- <th [pSortableColumn]="'status'">
+                      Status
+                      <i class="ui-icon-arrow-drop-down"></i>
+                    </th> -->
+                    <th [pSortableColumn]="'effectiveDate'">
+                      Loan Date
+                      <i class="ui-icon-arrow-drop-down"></i>
+                    </th>
+<!--                    <th></th>-->
+<!--                    <th></th>-->
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-x let-i="rowIndex">
+                  <tr [pSelectableRow]="x"  (click)="rowClicked(x)" style="cursor: pointer">
+                    <!--                                  <td class="checkbox_row">-->
+                    <!--                                      <p-tableCheckbox-->
+                    <!--                                          [value]="x"-->
+                    <!--                                      ></p-tableCheckbox>-->
+                    <!--                                  </td>-->
+                    <td class="sn_width">{{ i + 1 }}</td>
+                    <td>{{ x.loanRefNumber }}</td>
+                    <td>{{ x.principalAmount | number: "1.2" }}</td>
+                    <td>{{ x.productName }}</td>
+                    <td>{{ x.customerName }}</td>
+                    <td>{{ x.propposedAmount | number: "1.2" }}</td>
+                    <!-- <td>{{ x.status }}</td> -->
+                    <td>{{ x.effectiveDate | date }}</td>
+<!--                    <td>-->
+<!--                      <a class="link_deco" (click)="rowClicked(x)">Select</a>-->
+<!--                    </td>-->
+<!--                    <td>-->
+<!--                      <a class="link_deco" (click)="showAddNew(x)">Manage</a>-->
+<!--                    </td>-->
+                  </tr>
+                </ng-template>
+              </p-table>
+            </p-tabPanel>
+            <p-tabPanel
+              [disabled]="loanNotSelected"
+              header="Selected Loan Details"
+            >
+              <app-view-loan-details [loanId]="loanId"></app-view-loan-details>
+              <app-view-loan-schedule
+                [loanId]="loanId"
+              ></app-view-loan-schedule>
+              <app-view-deleted-loan-schedule
+                [loanId]="loanId"
+              ></app-view-deleted-loan-schedule>
+            </p-tabPanel>
+            <p-tabPanel
+              [disabled]="loanNotSelected"
+              header="Loan Review Application"
+            >
+              <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div style="margin-bottom:0" class="panel panel-default">
+                    <div class="panel-heading">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <h2 class="panel-title pull-left">
+                            Loan Review Application
+                          </h2>
+                        </div>
+                      </div>
+                    </div>
+
+                    <form novalidate [formGroup]="form">
+                      <div class="panel-body">
+                        <div class="form-horizontal">
+                          <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                              Operation Type
+                            </label>
+                            <div class="col-md-4">
+                              <select
+                                type="text"
+                                name="operationId"
+                                formControlName="operationId"
+                                id="operationId"
+                                (change)="
+                                  onOperationChange($event.target.value)
+                                "
+                                class="form-control"
+                              >
+                                <option value="">-- Select Operation --</option>
+                                <option
+                                  *ngFor="let row of operationTypes"
+                                  [value]="row.lookupId"
+                                >
+                                  {{ row.lookupName }}
+                                </option>
+                              </select>
+                            </div>
+
+                            <label for="" class="control-label col-md-2">
+                              Proposed Amount
+                            </label>
+                            <div class="col-md-4">
+                              <input
+                                [attr.disabled]="true"
+                                type="number"
+                                formControlName="proposedAmount"
+                                name="proposedAmount"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                              Proposed Tenor
+                            </label>
+                            <div class="col-md-4">
+                              <input
+                                type="number"
+                                [attr.disabled]="true"
+                                formControlName="proposedTenor"
+                                name="proposedTenor"
+                                class="form-control"
+                              />
+                            </div>
+                            <label for="" class="control-label col-md-2">
+                              Proposed Rate
+                            </label>
+                            <div class="col-md-4">
+                              <input
+                                [attr.disabled]="true"
+                                type="number"
+                                formControlName="proposedRate"
+                                name="proposedRate"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+
+                          <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                              FirstInterestPaymentDate
+                            </label>
+                            <div class="col-md-4">
+                              <input
+                                type="text"
+                                [attr.disabled]="true"
+                                formControlName="firstInterestPaymentDate"
+                                name="firstInterestPaymentDate"
+                                class="form-control"
+                              />
+                            </div>
+                            <label for="" class="control-label col-md-2">
+                              FirstPrincipalPaymentDate
+                            </label>
+                            <div class="col-md-4">
+                              <input
+                                [attr.disabled]="true"
+                                type="text"
+                                formControlName="firstPrincipalPaymentDate"
+                                name="firstPrincipalPaymentDate"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                              InterestFrequency
+                            </label>
+                            <div class="col-md-4">
+                              <input
+                                type="text"
+                                [attr.disabled]="true"
+                                formControlName="interestFrequencyName"
+                                name="interestFrequencyName"
+                                class="form-control"
+                              />
+                            </div>
+                            <label for="" class="control-label col-md-2">
+                              PrincipalFrequency
+                            </label>
+                            <div class="col-md-4">
+                              <input
+                                [attr.disabled]="true"
+                                type="text"
+                                formControlName="principalFrequencyName"
+                                name="principalFrequencyName"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div *ngIf="onCharge">
+                            <div class="form-group">
+                              <div *ngFor="let x of productFees">
+                                <label for="" class="control-label col-md-2">
+                                  {{ x.productFeeName }}
+                                </label>
+                                <div class="col-md-4">
+                                  <input
+                                    type="text"
+                                    [formControlName]="x.productFeeId"
+                                    [name]="x.productFeeId"
+                                    class="form-control"
+                                    [placeholder]="x.productFeeName"
+                                    (input)="logInput($event.target.value)"
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                            <div class="form-group">
+                              <label for="" class="control-label col-md-2">
+                                Interest
+                              </label>
+                              <div class="col-md-4">
+                                <input
+                                  type="text"
+                                  formControlName="interest"
+                                  name="interest"
+                                  class="form-control"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                          <div *ngIf="onPrepayment" class="form-group">
+                            <label for="" class="control-label col-md-2">
+                              Prepayment Amount
+                            </label>
+                            <div class="col-md-4">
+                              <input
+                                type="text"
+                                formControlName="prepayment"
+                                name="prepayment"
+                                class="form-control"
+                              />
+                            </div>
+                          </div>
+                          <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                              Review Details
+                            </label>
+                            <div class="col-md-10">
+                              <textarea
+                                type="text"
+                                rows="4"
+                                formControlName="reviewDetails"
+                                name="reviewDetails"
+                                class="form-control"
+                              ></textarea>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12">
+                            <button
+                              type="button"
+                              [disabled]="!form.valid"
+                              (click)="submitLoanReviewApplication(form)"
+                              class="btn btn-success pull-right"
+                            >
+                              Save
+                            </button>
+                            <button
+                              type="button"
+                              (click)="goBack()"
+                              style="margin-right:5px"
+                              class="btn btn-danger pull-right"
+                            >
+                              Close
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+
+                    <div class="panel-body">
+                      <div class="form-horizontal">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                Previous Applications
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+                        <p-table #dt [value]="loanReviewApplications">
+                          <ng-template pTemplate="caption"> </ng-template>
+                          <ng-template pTemplate="header">
+                            <tr>
+                              <th>CustomerName</th>
+                              <th>ProductName</th>
+                              <th>ApprovedTenor</th>
+                              <th>ApprovedRate</th>
+                              <th>ApprovedAmount</th>
+                            </tr>
+                          </ng-template>
+                          <ng-template pTemplate="body" let-x let-i="rowIndex">
+                            <tr [pSelectableRow]="x" (click)="rowClicked(x)">
+                              <td>{{ x.customerName }}</td>
+                              <td>{{ x.approvedProductName }}</td>
+                              <td>{{ x.approvedTenor }}</td>
+                              <td>{{ x.approvedRate }}</td>
+                              <td>
+                                {{ x.approvedAmount }}
+                              </td>
+                            </tr>
+                          </ng-template>
+                        </p-table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel  [disabled]="loanNotSelected" header="Manage Loan">
+              <app-lms-application-manage [loanId]="loanId"></app-lms-application-manage>
+            </p-tabPanel>
+            <p-tabPanel  [disabled]="loanNotSelected" header="Cheque Information">
+              <div class="panel-body">
+                <div class="row" style="padding:0 15px 0 15px;">
+                    <p-table
+                    [value]="loanCheques"
+                    [responsive]="true"
+                  >
+                    <ng-template pTemplate="caption">
+                      <h4>Cheque Details</h4>
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th style="width:5em">S/N</th>
+                        <th>Cheque Number</th>
+                        <th>Status</th>
+                        <th>Amount</th>
+                        <th></th>
+                        <th>Update Status</th>
+<!--                        <th></th>-->
+                        <th></th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-x let-i="rowIndex">
+                      <tr>
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ x.chequeNo }}</td>
+                        <td>{{ x.statusName }}</td>
+                        <td>
+                          <input type="text" class="form-control" [(ngModel)]="x.amount">
+                        </td>
+                        <td>
+                          <button pButton class="ui-button-success" label="Save" (click)="saveAmount(x)">
+                          </button>
+                        </td>
+                        <td>
+                          <select
+                            type="text"
+                            [(ngModel)]="x.status"
+                            (change)="updateLoanCheque(x)"
+                            name="status"
+                            id="status"
+                            class="form-control"
+                            [disabled]="x.status == 2"
+                          >
+                            <option value="">-- Select Status --</option>
+                            <option value="1">Not Cleared</option>
+                            <option value="2">Cleared</option>
+                            <option value="3">Presented</option>
+                          </select>
+                      </td>
+<!--                        <td>-->
+<!--                          <button *ngIf="x.status!=2" pButton class="ui-button-success" label="Save" (click)="updateLoanCheque(x)"></button>-->
+<!--                        </td>-->
+                        <td>
+                          <button
+                            pButton
+                            type="button"
+                            class="ui-button-success"
+                            (click)="onUploadClicked(x)"
+                            label="Upload"
+                          ></button>
+                        </td>
+                        <td>
+                          <button
+                            pButton
+                            type="button"
+                            class="ui-button-success"
+                            (click)="downLoadClicked(x)"
+                            label="Download"
+                          ></button>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                    </div>
+            </div>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayChequeUpload"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Upload Cheque Document
+      </h2>
+    </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Upload Cheque
+            </label>
+            <div class="col-md-4">
+              <input
+                                    style="height:35px;"
+                                    class="form-control"
+                                    type="file"
+                                    (change)="handleFileInput($event.target.files)"
+                                    id="file1"
+                                    #fileInput name="fileInput"
+                                    #fileInput
+                                    name="fileInput"
+                                />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              type="submit"
+              (click)="UploadLoanCheque()"
+              class="btn btn-success pull-right"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              (click)="displayIdentityDetails = false"
+              style="margin-right:5px;"
+              class="btn btn-danger pull-right"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+</p-dialog>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayChequeUpdate"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Update Cheque Status
+      </h2>
+    </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Upload Cheque
+            </label>
+            <div class="col-md-4">
+              <select
+                type="text"
+                [(ngModel)]="status"
+                name="status"
+                id="status"
+                class="form-control"
+              >
+                <option value="">-- Select Status --</option>
+                <option value="1">Not Cleared</option>
+                <option value="2">Cleared</option>
+                <option value="3">Presented</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              type="submit"
+              class="btn btn-success pull-right"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              (click)="displayIdentityDetails = false"
+              style="margin-right:5px;"
+              class="btn btn-danger pull-right"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+  </div>
+</p-dialog>

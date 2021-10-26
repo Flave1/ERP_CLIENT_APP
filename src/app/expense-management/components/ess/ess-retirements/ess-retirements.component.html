@@ -1,0 +1,127 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">Retirement List</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="retirements"
+            dataKey="retirementId"
+            [(selection)]="selectedItem"
+            [paginator]="false"
+            [responsive]="true"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+          >
+            <ng-template pTemplate="caption">
+              <div>
+                <input
+                  type="text"
+                  pInputText
+                  size="50"
+                  class="form-control"
+                  placeholder="Search..."
+                  (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th class="sn_width">S/N</th>
+                <th [pSortableColumn]="'erNnumber'">ERN Number</th>
+                <th [pSortableColumn]="'totalAmountApproved'">Total Amount Approved</th>
+                <th pSortableColumn="requisitionDate">Requisition Date</th>
+                <th pSortableColumn="retirementDate">Retirement Date</th>
+                <th [pSortableColumn]="'description'">Description</th>
+                <th [pSortableColumn]="'amountUsed'">Amount Used</th>
+
+                <th [pSortableColumn]="'balance'">Balance</th>
+                <th [pSortableColumn]="'account'">Account</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td class="checkbox_row">
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td class="sn_width">
+                  <a class="table_link">{{ i + 1 }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.erNnumber
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.totalAmountApproved | number: '1.2-2'
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.requisitionDate | date
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.retirementDate
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.description
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.amountUsed
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{
+                    x.balance
+                    }}</a>
+                </td>
+                <td>
+                  <a class="table_link" (click)="editItem(x)">{{ x.account }}</a>
+                </td>
+                <!--                                <td><a class="table_link"-->
+                <!--                                       (click)="editProduct(x)">{{ x.paymentTypeName }}</a></td>-->
+                <!--                                <td><a class="table_link"-->
+                <!--                                       (click)="editProduct(x)">{{ x.rate }}</a></td>-->
+                <!--                                <td>-->
+                <!--                                    <a (click)="editProduct(x)">Edit</a>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <a (click)="deleteProduct(x)">Delete</a>-->
+                <!--                                </td>-->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <!-- <button pButton type="button" class="btn btn-primary pull-right" *ngIf="activeIndex < 5" (click)="openNext()" icon="pi pi-less-than" iconPos="right"
+                label="Next"></button>
+            <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px" *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                label="Previous"></button> -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

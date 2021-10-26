@@ -1,0 +1,75 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Purchase Information
+            </h2>
+            <button pButton type="button" class="btn btn-primary pull-right" (click)="showAddNew()" icon="pi pi-plus"
+              iconPos="left" label="Add New Purchase"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table #dt [value]="purchaseInformation" dataKey="lponumber" [(selection)]="selectedPurchaseInformation"
+            [paginator]="true" [rows]="10" [responsive]="true">
+            <ng-template pTemplate="caption">
+              <div style="text-align: right">
+                <input type="text" pInputText size="50" class="form-control" placeholder="Search..." (keyup)="
+                                                                                                                    dt.filterGlobal(
+                                                                                                                        $event.target.value,
+                                                                                                                        'contains'
+                                                                                                                    )
+                                                                                                                "
+                  style="width:auto" />
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th style="width: 3em">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="width:5em">S/N</th>
+                <th style="width:10em">LPO Number</th>
+                <th style="width:15em">Supplier Name</th>
+                <th>Payment Terms</th>
+                <th>Total</th>
+                <th style="width:5em"></th>
+                <th style="width:5em"></th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x">
+                <td>
+                  <p-tableCheckbox [value]="x"></p-tableCheckbox>
+                </td>
+                <td>{{ i + 1 }}</td>
+                <td>{{ x.lponumber }}</td>
+                <td>{{ x.name }}</td>
+                <td>{{ x.paymentTerms }}</td>
+                <td>{{ x.total | number: '1.2' }}</td>
+                <td>
+                  <a (click)="editPurchase(x)">Edit</a>
+                </td>
+                <td>
+                  <a (click)="deletePurchase(x)">Delete</a>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+           
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

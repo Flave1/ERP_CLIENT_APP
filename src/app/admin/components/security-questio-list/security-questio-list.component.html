@@ -1,0 +1,85 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+               Security Questions
+              </h2>
+              <div
+                style="padding-right: 5px;padding-left: 5px;width: 45px;"
+                class="col-md-1 pull-right"
+              >
+                <button
+                  pButton
+                  style="padding:0.5em 0"
+                  type="button"
+                  class="ui-button-raised"
+                  (click)="showAddNew()"
+                  icon="ui-icon-plus"
+                  iconPos="center"
+                  pTooltip="Add"
+                  tooltipPosition="top"
+                  label=""
+                ></button>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="row">
+              <div class="col-md-12">
+                <p-table
+                  [value]="questions"
+                  [scrollable]="true"
+                  [scrollHeight]="viewHeight"
+                  [responsive]="true"
+                  dataKey="bankGlId"
+                  [(selection)]="selectedItem"
+                >
+                  <ng-template pTemplate="header">
+                    <tr>
+<!--                      <th class="checkbox_head">-->
+<!--                        <p-tableHeaderCheckbox> </p-tableHeaderCheckbox>-->
+<!--                      </th>-->
+                      <th class="sn_width">S/N</th>
+                      <th>Question</th>
+                      <th></th>
+
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr [pSelectableRow]="x">
+
+                      <td class="sn_width">{{ i + 1 }}</td>
+                      <td
+                        (click)="editItem(x.questionId)"
+                        class="table_link"
+                        style="font-weight: bold"
+                      >
+                        {{ x.qiestion }}
+                      </td>
+                      <td>
+                        <a (click)="deleteItem(x.questionId)" style="color: tomato; cursor: pointer; text-decoration: none">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

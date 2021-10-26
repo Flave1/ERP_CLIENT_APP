@@ -1,0 +1,250 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                Workflow
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="workflowForm">
+                            <div class="form-group">
+                                    <label for="" class="control-label col-md-4">
+                                        Module
+                                    </label>
+                                    <label for="" class="control-label col-md-4">
+                                        Sub - Module
+                                    </label>
+                                    <label for="" class="control-label col-md-4">
+                                        Operation
+                                    </label>
+                                    <div class="col-md-4">
+                                        <select type="text" name="moduleId" formControlName="moduleId"
+                                            id="moduleId" class="form-control" (change)="onModuleChanged($event.target.value)">
+                                            <option value="">-- Select Operation Type --</option>
+                                            <option *ngFor="let type of modules" [value]="type.lookupId">
+                                                {{ type.lookupName }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="operationTypeId"
+                                        formControlName="operationTypeId"
+                                        id="operationTypeId"
+                                        class="form-control"
+                                        (change)="onOperationTypeChanged($event.target.value)"
+                                    >
+                                        <option value=""
+                                            >-- Select Operation Type --</option
+                                        >
+                                        <option
+                                            *ngFor="let type of filteredOprationTypes"
+                                            [value]="type.operationTypeId"
+                                        >
+                                            {{ type.operationTypeName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="operationId"
+                                        formControlName="operationId"
+                                        id="operationId"
+                                        class="form-control"
+                                        (change)="getWorkflowByOperation($event.target.value)"
+                                    >
+                                        <option value=""
+                                            >-- Select Operation --</option
+                                        >
+                                        <option
+                                            *ngFor="let type of filteredOperations"
+                                            [value]="type.operationId"
+                                        >
+                                            {{ type.operationName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
+                        <br />
+                        <div *ngIf="displayWorkflow">
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <div class="pull-right">
+                                        <button
+                                          pButton
+                                          style="padding:0.5em 0"
+                                          type="button"
+                                          class="ui-button-raised"
+                                          (click)="showAddNewWorkflow()"
+                                          icon="ui-icon-plus"
+                                          iconPos="center"
+                                          pTooltip="Add Workflow"
+                                          tooltipPosition="top"
+                                          label=""
+                                        ></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <p-table
+                                [value]="workflowList"
+                                [responsive]="true"
+                            >
+                                <ng-template pTemplate="caption">
+                                    <h4>List of Workflow</h4>
+                                </ng-template>
+                                <ng-template pTemplate="header">
+                                    <tr>
+                                        <th style="width:5em">S/N</th>
+                                        <th >Workflow Name</th>
+                                        <th>Operation</th>
+                                        <th>Access</th>
+                                        <th style="width:5em"></th>
+                                        <th style="width:5em"></th>
+                                    </tr>
+                                </ng-template>
+                                <ng-template
+                                    pTemplate="body"
+                                    let-x
+                                    let-i="rowIndex"
+                                >
+                                    <tr>
+                                        <td>{{ i + 1 }}</td>
+                                        <td>{{ x.workflowName }}</td>
+                                        <td>{{ x.operationName }}</td>
+                                        <td>
+                                            {{ x.accessName }}
+                                        </td>
+                                        <td>
+                                            <a (click)="editWorkflow(x)"
+                                                >Edit</a
+                                            >
+                                        </td>
+                                        <td>
+                                            <a
+                                                (click)="
+                                                    deleteWorkflow(x)
+                                                "
+                                                >Delete</a
+                                            >
+                                        </td>
+                                    </tr>
+                                </ng-template>
+                            </p-table>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--
+<p-dialog
+    [responsive]="true"
+    [(visible)]="displayAddNewWorkflow"
+    id="add-modal"
+    modal="modal"
+    showEffect="fade"
+    width="500"
+>
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Add New Workflow
+            </h2>
+        </div>
+
+        <form novalidate [formGroup]="approvalWorkflowForm">
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-4">
+                            Approval Group
+                        </label>
+                        <div class="col-md-8">
+                            <select
+                                type="text"
+                                name="groupId"
+                                formControlName="groupId"
+                                id="groupId"
+                                class="form-control"
+                            >
+                                <option value=""
+                                    >-- Select Approval Group --</option
+                                >
+                                <option
+                                    *ngFor="let type of approvalGroups"
+                                    [value]="type.approvalGroupId"
+                                >
+                                    {{ type.approvalGroupName }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-4">
+                            Position
+                        </label>
+                        <div class="col-md-8">
+                            <select
+                                type="text"
+                                name="position"
+                                formControlName="position"
+                                id="position"
+                                class="form-control"
+                            >
+                                <option value="">-- Select Position --</option>
+                                <option
+                                    *ngFor="let type of positions"
+                                    [value]="type.id"
+                                >
+                                    {{ type.name }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button
+                            type="submit"
+                            [disabled]="!approvalWorkflowForm.valid"
+                            (click)="
+                                submitApprovalWorkflow(approvalWorkflowForm)
+                            "
+                            class="btn btn-success pull-right"
+                        >
+                            Save
+                        </button>
+                        <button
+                            type="button"
+                            (click)="displayAddNewWorkflow = false"
+                            style="margin-right:5px"
+                            class="btn btn-danger pull-right"
+                        >
+                            Close
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</p-dialog> -->

@@ -1,0 +1,309 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">Investments</h2>
+            <!-- <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="showAddNew()"
+                icon="ui-icon-plus"
+                iconPos="center"
+                pTooltip="Add"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div> -->
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="exportFile()"
+                icon="ui-icon-file-download"
+                pTooltip="Download"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                type="button"
+                style="padding: 0.5em 0"
+                class="ui-button-raised ui-button-secondary"
+                (click)="uploadInvestments()"
+                icon="ui-icon-file-upload"
+                iconPos="center"
+                pTooltip="Excel file: CustomerEmail, ProductName, CurrencyName, EffectiveDate, ApprovedTenor, ApprovedRate, ApprovedAmount, CompanyName"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div class="col-md-3 col-sm-6 col-xs-12 pull-right">
+              <input
+                #myInput
+                style="height: 35px"
+                class="form-control"
+                type="file"
+                (change)="handleFileInput($event.target.files)"
+                id="file1"
+                accept=".xls,.xlsx"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [value]="investmentsLists"
+            [columns]="cols"
+            dataKey="investorFundId"
+            selectionMode="single"
+            [(selection)]="selectedLoanApplication"
+            [paginator]="false"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+            [rows]="investmentsLists?.length"
+            [responsive]="true"
+          >
+            <ng-template pTemplate="caption">
+              <div style="display: flex; justify-content: space-between">
+                <div>
+                  <input type="text" class="form-control search_input" [(ngModel)]="name" placeholder="Full Name"/>
+                </div>
+                <div>
+                  <input type="text" class="form-control search_input" [(ngModel)]="refNumber" placeholder="Reference Number"/>
+                </div>
+                <button class="search_btn" (click)="searchInvestments()">Search</button>
+                <div>
+                  <select
+                    name="filter"
+                    id=""
+                    class="form-control"
+                    (change)="filterResults($event.target.value)"
+                  >
+                    <option value="" selected disabled>Filter by status</option>
+                    <option value="-1">All</option>
+                    <option value="1">Running</option>
+                    <option value="2">Matured</option>
+                    <option value="3">Liquidated</option>
+                    <option value="4">Closed</option>
+                  </select>
+                </div>
+              </div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                                                <th class="checkbox_row">S/N</th>
+                <th [pSortableColumn]="'effectiveDate'">Effective Date</th>
+                <th [pSortableColumn]="'effectiveDate'">Maturity Date</th>
+                <th [pSortableColumn]="'refNumber'">Ref No</th>
+                <th [pSortableColumn]="'investorName'">Customer Name</th>
+                <th [pSortableColumn]="'approvedAmount'">Principal Amount</th>
+                <th [pSortableColumn]="'payout'">Expected Payout</th>
+                <th [pSortableColumn]="'interestEarned'">Current Balance</th>
+                <th class="status_width" [pSortableColumn]="'investmentStatus'">
+                  Status
+                </th>
+                <th>Actions</th>
+
+                <!--                                <th>Status</th>-->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x" class="table_row">
+                                                <td class="checkbox_row">{{ i + 1 }}</td>
+                <td>{{ x.effectiveDate | date }}</td>
+                <td>{{ x.maturityDate | date }}</td>
+                <td>{{ x.refNumber }}</td>
+                <td>{{ x.investorName }}</td>
+                <td>{{ x.approvedAmount | number: "1.2" }}</td>
+                <td>{{ x.payout | number: "1.2" }}</td>
+                <td>{{ x.interestEarned | number: "1.2" }}</td>
+                <td class="status_width">
+                  <div
+                    [innerHtml]="getApplicationStatus(x.investmentStatus)"
+                  ></div>
+                </td>
+                <td>
+                  <div class="btn-group">
+                    <button
+                      class="btn btn-secondary btn-sm dropdown-toggle"
+                      type="button"
+                      data-toggle="dropdown"
+                      aria-haspopup="true"
+                      aria-expanded="false"
+                    >
+                      <strong>....</strong>
+                    </button>
+                    <div class="dropdown-menu">
+                      <a
+                        class="link_deco btn btn-sm"
+                        *ngIf="x.investmentStatus == 2"
+                        (click)="collection(x)"
+                        >Collect</a
+                      ><br />
+                      <a
+                        class="link_deco btn btn-sm"
+                        *ngIf="
+                          x.investmentStatus == 1
+                        "
+                        (click)="liquidate(x)"
+                        >Liquidate</a
+                      ><br>
+                      <a
+                        class="link_deco btn btn-sm"
+                        *ngIf="x.investmentStatus == 2"
+                        (click)="rollover(x)"
+                        >Rollover</a
+                      ><br>
+                      <a
+                        class="link_deco btn btn-sm"
+                        *ngIf="
+                          x.investmentStatus == 1
+                        "
+                        (click)="topup(x)"
+                        >Top up</a
+                      ><br>
+                    </div>
+                  </div>
+                </td>
+                <!--                                <td>-->
+                <!--                                    <button-->
+                <!--                                    [disabled]="-->
+                <!--                                    x.investmentStatus != 2-->
+                <!--                                 "-->
+                <!--                                        class="btn btn-success"-->
+                <!--                                        style="padding: 2px"-->
+                <!--                                        -->
+                <!--                                    >-->
+                <!--                                        Collect-->
+                <!--                                    </button>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <button-->
+                <!--                                        [disabled]="-->
+                <!--                                            x.investmentStatus == 3 ||-->
+                <!--                                            x.investmentStatus == 2-->
+                <!--                                        "-->
+                <!--                                        class="btn btn-danger"-->
+                <!--                                        style="padding: 2px"-->
+                <!--                                        -->
+                <!--                                    >-->
+                <!--                                        Liquidate-->
+                <!--                                    </button>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <button-->
+                <!--                                    [disabled]="-->
+                <!--                                    x.investmentStatus != 2-->
+                <!--                                 "-->
+                <!--                                        class="btn btn-info"-->
+                <!--                                        style="padding: 2px"-->
+                <!--                                        (click)="rollover(x)"-->
+                <!--                                    >-->
+                <!--                                        Rollover-->
+                <!--                                    </button>-->
+                <!--                                </td>-->
+                <!--                                <td>-->
+                <!--                                    <button-->
+                <!--                                    [disabled]="-->
+                <!--                                    x.investmentStatus == 3 ||-->
+                <!--                                    x.investmentStatus == 4-->
+                <!--                                "-->
+                <!--                                        class="btn btn-success"-->
+                <!--                                        style="padding: 2px"-->
+                <!--                                        (click)="topup(x)"-->
+                <!--                                    >-->
+                <!--                                        TopUp-->
+                <!--                                    </button>-->
+                <!--                                </td>-->
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayTopUp"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom: 0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">Investment Top Up</h2>
+    </div>
+
+    <form novalidate [formGroup]="topForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2"> Top Up Amount </label>
+            <div class="col-md-4">
+              <input
+                type="text"
+                formControlName="proposedAmount"
+                name="proposedAmount"
+                class="form-control"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--buttons-->
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button
+              type="submit"
+              [disabled]="topForm.invalid"
+              (click)="submitTopUp(topForm)"
+              class="btn btn-success pull-right"
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              (click)="displayTopUp = false"
+              style="margin-right: 5px"
+              class="btn btn-danger pull-right"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>

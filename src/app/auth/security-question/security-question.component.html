@@ -1,0 +1,41 @@
+<div class="login_wrapper securityContainer">
+  <div class="page_container dp_f">
+    <!-- <div class="svg_container"> 
+      <img src="../../../../assets/images/loan.png" alt="SVG" class="svg" />
+    </div> -->
+    <div class="login_container">
+      <!-- <div class="auth_svg">
+        <img src="../../../../assets/images/undraw_authentication_fsn5.svg" alt="Auth svg" class="_svg" />
+      </div> -->
+      <div class="login_form">
+        <form [formGroup]="form">
+          <div class="input_container">
+            <select name="questionId" id="float-select" class="form-control">
+              <option value="" disabled>--Select Question--</option>
+              <option value="1">Individual</option>
+            </select>
+          </div>
+          <div class="input_container">
+            <span class="ui-float-label">
+              <input id="float-answer" type="text" name="answer" formControlName="answer" size="30" class="form-control"
+                pInputText />
+              <label for="float-answer">Answer</label>
+            </span>
+            <div class="btn_wrapper">
+              <button class="input_btn" (click)="submit(form)" [disabled]="loading">
+                <span *ngIf="!loading">Submit</span>
+                <i class="fa fa-refresh fa-spin" *ngIf="loading"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+        <!--        <div class="login_footer">-->
+        <!--          <a routerLink="/auth/forgot-password" class="a_link"-->
+        <!--            >Forgot Password?</a-->
+        <!--          >-->
+        <!--          <a routerLink="/auth/register" class="a_link">Register Here</a>-->
+        <!--        </div>-->
+      </div>
+    </div>
+  </div>
+</div>

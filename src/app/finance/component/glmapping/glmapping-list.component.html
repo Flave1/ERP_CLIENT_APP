@@ -1,0 +1,317 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Map Sub GL
+                        </h2>
+                        <button
+                            pButton
+                            type="button"
+                            class="btn btn-primary pull-right"
+                            (click)="addNew()"
+
+                            label="Perform Multiple Mapping"
+                        ></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <p-table
+                        #dt
+                        [columns]="cols"
+                        [value]="glMappingInformation"
+                        dataKey="subGlCode"
+                        [(selection)]="selectedglMappingInformation"
+                        [paginator]="false"
+                        [scrollable]="true"
+                        [scrollHeight]="viewHeight"
+                        [rows]="10"
+                        [responsive]="true"
+                    >
+
+                        <ng-template pTemplate="caption">
+                            <div style="display: flex; justify-content: space-between">
+                              <div>
+                                <input
+                                  type="text"
+                                  pInputText
+                                  size="50"
+                                  class="form-control"
+                                  placeholder="Search..."
+                                  (keyup)="
+                                        dt.filterGlobal(
+                                            $event.target.value,
+                                            'contains'
+                                        )
+                                    "
+                                  style="width:auto"
+                                />
+                              </div>
+                              <div>
+                                <div>
+                                  <select type="text" name="companyId" class="form-control" (change)="filterGlMapping($event.target.value)">
+                                    <option value="">-- Filter By Company --</option>
+                                    <option value="0">Group</option>
+                                    <option *ngFor="let row of companyInformation" [value]="row.companyStructureId">
+                                      {{ row.name }}
+                                    </option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr >
+                                <th class="checkbox_row">
+                                    <p-tableHeaderCheckbox> </p-tableHeaderCheckbox>
+                                </th>
+                                <th [pSortableColumn]="'companyName'">Company</th>
+                                <th [pSortableColumn]="'subGlCode'">Sub GL Code</th>
+                                <th [pSortableColumn]="'subGlName'">Sub GL Name</th>
+                                <th [pSortableColumn]="'glName'">GL Name</th>
+                                <th ></th>
+                                <!-- <th style="width:2em"></th> -->
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                            <tr [pSelectableRow]="x" (click) = "rowClicked(x)">
+                                <td class="checkbox_row">
+                                    <p-tableCheckbox
+                                        [value]="x"
+                                    ></p-tableCheckbox>
+                                </td>
+                                <!-- <td>{{ i + 1 }}</td> -->
+                                <td>{{ x.companyName }}</td>
+                                <td>{{ x.subGlCode }}</td>
+                                <td>{{ x.subGlName }}</td>
+                                <td>{{ x.glName }}</td>
+                                <td>
+                                    <a (click)="editGLMapping(x)">Map</a>
+                                    <!-- <a (click)="showMapping()">Map</a> -->
+                                </td>
+                                <!-- <td>
+                                    <a (click)="deleteGLMapping(x)">Delete</a>
+                                </td> -->
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitUserAccount(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right">
+                Close
+              </button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<p-dialog [responsive]=true [(visible)]="displayMapping" id="add-modal" modal="modal" showEffect="fade"
+    width="800">
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Mapping
+            </h2>
+        </div>
+
+        <form novalidate [formGroup]="glMappingForm">
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-2">
+                           Sub GL Name
+                        </label>
+                        <div class="col-md-4">
+                            <input type="text" formControlName="subGlName"  name="subGlName" class="form-control">
+
+                        </div>
+                        <label for="" class="control-label col-md-2">
+                        Sub GL Code
+                        </label>
+                        <div class="col-md-4">
+                            <input type="text" formControlName="subGlCode"  name="subGlCode" class="form-control">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                                    Company/Office
+                                </label>
+                                <div class="col-md-4">
+                                    <select type="text" name="companyId" formControlName="companyId" id="companyId" class="form-control">
+                                        <option value="">-- Select Company --</option>
+                                        <option *ngFor="let row of companyInformation" [value]="row.companyStructureId">
+                                                                                                                                                                      {{ row.name }}
+                                                                                                                    </option>
+                                    </select>
+                                </div>
+                        <!-- <label for="" class="control-label col-md-2">
+                                Position
+                        </label>
+                        <div class="col-md-4">
+                            <input type="number" formControlName="subPosition" name="subPosition" class="form-control">
+                        </div> -->
+                    </div>
+                    <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                                    FSLine
+                                </label>
+                                <div class="col-md-4">
+                                    <select type="text" name="caption" formControlName="caption" id="caption" class="form-control" (change)="onCaptionChange($event.target.value)">
+                                        <option value="">-- Select FSLine --</option>
+                                        <option *ngFor="let row of captionInformation" [value]="row.fsLine">
+                                                                                                                                                                      {{ row.fsLine }}
+                                                                                                                    </option>
+                                    </select>
+                                </div>
+
+                                <label for="" class="control-label col-md-2">
+                                        NoteLine
+                                        </label>
+                                        <div class="col-md-4">
+                                            <select type="text" name="caption" formControlName="subCaption" id="subCaption" class="form-control">
+                                                <option value="">-- Select NoteLine --</option>
+                                                <option *ngFor="let row of subCaptionInformation" [value]="row.noteLine">
+                                                                                                                                                                              {{ row.noteLine }}
+                                                                                                                            </option>
+                                            </select>
+                                        </div>
+                </div>
+            </div>
+        </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" [disabled]="glMappingForm.invalid"
+                            (click)="submitGLMappingInfo(glMappingForm)"
+                            class="btn btn-success pull-right">Save </button>
+                        <button type="button" (click)="displayMapping=false" style="margin-right:5px"
+                            class="btn btn-danger pull-right">Close</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+    </div>
+</p-dialog>
+
+
+<p-dialog [responsive]=true [(visible)]="displayUnMappingGL" id="add-modal" modal="modal" showEffect="fade"
+    width="800">
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Mapping
+            </h2>
+        </div>
+
+         <form novalidate [formGroup]="glMappingForm">
+            <div class="panel-body">
+                <div class="form-horizontal">
+                    <div class="form-group">
+
+                            <label for="" class="control-label col-md-2">
+                                    Company
+                                </label>
+                                <div class="col-md-4">
+                                    <select type="text" name="companyId" formControlName="companyId" id="companyId" class="form-control">
+                                        <option value="">-- Select Company --</option>
+                                        <option *ngFor="let row of companyInformation" [value]="row.companyStructureId">
+                                                                                                                                                                      {{ row.name }}
+                                                                                                                    </option>
+                                    </select>
+                                </div>
+
+                            <label for="" class="control-label col-md-2">
+                                    FSLine
+                                </label>
+                                <div class="col-md-4">
+                                    <select type="text" name="caption" formControlName="caption" id="caption" class="form-control" (change)="onCaptionChange($event.target.value)">
+                                        <option value="">-- Select FSLine --</option>
+                                        <option *ngFor="let row of captionInformation" [value]="row.fsLine">
+                                                                                                                                                                      {{ row.fsLine }}
+                                                                                                                    </option>
+                                    </select>
+                                </div>
+                </div>
+            </div>
+        </div>
+        </form>
+
+
+        <p-table [value]="selectedglMappingInformation">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>SubGL Code</th>
+                    <th>SubGL Name</th>
+                    <th>NoteLine</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-tempData>
+                <tr>
+                    <td pEditableColumn>
+                        <!-- <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <input pInputText type="text" [(ngModel)]="tempData.glCode">
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tempData.glCode}}
+                            </ng-template>
+                        </p-cellEditor> -->
+                        {{tempData.subGlCode}}
+                    </td>
+                    <td pEditableColumn>
+                        {{tempData.subGlName}}
+                    </td>
+                    <td pEditableColumn>
+                        <p-cellEditor>
+                            <ng-template pTemplate="input">
+                                <p-dropdown [options]="subCaptionOption" [(ngModel)]="tempData.noteLine" [style]="{'width':'100%'}"></p-dropdown>
+                            </ng-template>
+                            <ng-template pTemplate="output">
+                                {{tempData.noteLine}}
+                            </ng-template>
+                        </p-cellEditor>
+                    </td>
+                </tr>
+            </ng-template>
+            <!-- <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" [disabled]="glMappingForm.invalid"
+                                (click)="submitGLMappingInfo(glMappingForm)"
+                                class="btn btn-success pull-right">Save </button>
+                            <button type="button" (click)="displayMapping=false" style="margin-right:5px"
+                                class="btn btn-danger pull-right">Close</button>
+                        </div>
+                    </div>
+                </div> -->
+
+        </p-table>
+        <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit"
+                            (click)="submitGLMapping(selectedglMappingInformation,glMappingForm)"
+                            class="btn btn-success pull-right">Save </button>
+                        <button type="button" (click)="displayUnMappingGL=false" style="margin-right:5px"
+                            class="btn btn-danger pull-right">Close</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+</p-dialog>

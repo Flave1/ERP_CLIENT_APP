@@ -1,0 +1,111 @@
+<div class="dashboard-container">
+  <div class="item-list">
+    <div
+      class="item tomato"
+      (click)="router.navigate(['/purchases-and-supplier/supplier-approval'])"
+    >
+      <span>Suppliers</span>
+      <span>{{ dashboardCount.supplierCount }}</span>
+    </div>
+    <div
+      class="item purple"
+      (click)="router.navigateByUrl('/purchases-and-supplier/prn-approvals')"
+    >
+      <span>PRN</span>
+      <span>{{ dashboardCount.prnCount }}</span>
+    </div>
+    <div
+      class="item dk-blue"
+      (click)="router.navigateByUrl('/purchases-and-supplier/bids-approvals')"
+    >
+      <span>Bids</span>
+      <span>{{ dashboardCount.bidCount }}</span>
+    </div>
+    <div
+      class="item tomato"
+      (click)="router.navigateByUrl('/purchases-and-supplier/lpo-approvals')"
+    >
+      <span>LPO</span>
+      <span>{{ dashboardCount.lpoCount }}</span>
+    </div>
+    <div
+      class="item purple"
+      (click)="router.navigateByUrl('/purchases-and-supplier/payment-lists')"
+    >
+      <span>Payments</span>
+      <span>{{ dashboardCount.paymentsCount }}</span>
+    </div>
+    <div class="item dk-blue">
+      <span>Payables</span>
+      <span>{{ dashboardCount.payablesCount }}</span>
+    </div>
+  </div>
+  <div class="second-layer">
+    <div class="quick-links mr_10">
+      <h3 class="layer-header">Quick Links</h3>
+      <ul class="link-lists">
+        <li class="list-item">
+          <a
+            [routerLink]="'/purchases-and-supplier/supplier-info'"
+            class="item-link"
+            >Supplier</a
+          >
+        </li>
+        <li class="list-item">
+          <a
+            [routerLink]="'/purchases-and-supplier/requisition-info'"
+            class="item-link"
+            >Requests</a
+          >
+        </li>
+        <li class="list-item">
+          <a
+            [routerLink]="'/purchases-and-supplier/bid-tender'"
+            class="item-link"
+            >Bids</a
+          >
+        </li>
+        <li class="list-item">
+          <a
+            [routerLink]="'/purchases-and-supplier/payment-lists'"
+            class="item-link"
+            >Payments</a
+          >
+        </li>
+      </ul>
+    </div>
+    <div class="payable-days mr_10 pd_10">
+      <h3 class="layer-header">Payable Days</h3>
+      <div class="payable-item-wrapper">
+        <div class="payable-item">
+          <span *ngFor="let item of supplierTypes">{{ item }}</span>
+        </div>
+        <div class="payable-item">
+          <span *ngFor="let item of payableDays">{{ item }}</span>
+        </div>
+      </div>
+    </div>
+    <div class="trend-analysis pd_10">
+      <h3 class="layer-header">Trend Analysis</h3>
+      <p-chart
+        type="bar"
+        [data]="payableDaysAnalysis"
+        [height]="'250px'"
+      ></p-chart>
+    </div>
+  </div>
+  <div class="third_layer mt_10">
+    <div class="age-analysis pd_10 mr_10">
+      <h3 class="layer-header">Age Analysis</h3>
+      <p-chart type="bar" [data]="ageAnalysis" [height]="'350px'"></p-chart>
+    </div>
+    <div class="purchaseable-days pd_10 mr_10">
+      <h3 class="layer-header">Purchaseable Days</h3>
+      <p-chart type="bar" [data]="purchasableDays" [height]="'350px'"></p-chart>
+    </div>
+    <div class="project-status pd_10">
+      <h3 class="layer-header">Project Status</h3>
+      <p-chart type="bar" [data]="projectStatus" [height]="'350px'"></p-chart>
+    </div>
+  </div>
+</div>

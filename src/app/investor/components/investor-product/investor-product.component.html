@@ -1,0 +1,491 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="xd no-padding">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{formTitle}}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <div class="form-group">
+                                <label for="" class="control-label col-md-2">Product Type</label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="productTypeId"
+                                        formControlName="productTypeId"
+                                        id="productTypeId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                        >-- Select Product Type
+                                            --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                        let row of productTypeList
+                                                    "
+                                            [value]="
+                                                        row.productTypeId
+                                                    "
+                                        >
+                                            {{ row.name }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Product Code
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="text"
+                                        formControlName="productCode"
+                                        name="productCode"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Product Name
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="text"
+                                        formControlName="productName"
+                                        name="productName"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Product Limit
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="number"
+                                        formControlName="productLimit"
+                                        name="productLimit"
+                                        class="form-control"
+                                    />
+                                </div>
+<!--                                <label-->
+<!--                                    for=""-->
+<!--                                    class="control-label col-md-2"-->
+<!--                                >-->
+<!--                                    Interest Rate (Maximum)-->
+<!--                                </label>-->
+<!--                                <div class="col-md-4">-->
+<!--                                    <input-->
+<!--                                        type="text"-->
+<!--                                        name="interestRateMax"-->
+<!--                                        formControlName="interestRateMax"-->
+<!--                                        class="form-control"-->
+<!--                                    />-->
+<!--                                </div>-->
+
+                            </div>
+                            <div style="display: none;" class="form-group">
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Interest Repayment
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="interestRepaymentTypeId"
+                                        formControlName="interestRepaymentTypeId"
+                                        id="interestRepaymentTypeId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                        >-- Select Interest Repayment --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                        let row of repaymentTypeInformation
+                                                    "
+                                            [value]="
+                                                        row.repaymentTypeId
+                                                    "
+                                        >
+                                            {{ row.repaymentTypeName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Schedule Method
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="scheduleMethodId"
+                                        formControlName="scheduleMethodId"
+                                        id="scheduleMethodId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                        >-- Select Schedule Method
+                                            --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                        let row of scheduleTypes
+                                                    "
+                                            [value]="
+                                                        row.lookupId
+                                                    "
+                                        >
+                                            {{ row.lookupName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Frequency
+                                </label>
+                                <div class="col-md-4">
+                                    <select
+                                        type="text"
+                                        name="frequencyId"
+                                        formControlName="frequencyId"
+                                        id="frequencyId"
+                                        (change)="onFrequencyTypeChanged($event.target.value)"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                        >-- Select Frequency
+                                            --</option
+                                        >
+                                        <option
+                                            *ngFor="
+                                                        let row of frequencyTypeList
+                                                    "
+                                            [value]="
+                                                        row.lookupId
+                                                    "
+                                        >
+                                            {{ row.lookupName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Maximum Period(Days)
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="number"
+                                        formControlName="maximumPeriod"
+                                        name="maximumPeriod"
+                                        class="form-control"
+                                    />
+                                </div>
+
+                            </div>
+<!--                            <div class="form-group">-->
+<!--                                <label-->
+<!--                                    for=""-->
+<!--                                    class="control-label col-md-2"-->
+<!--                                >-->
+<!--                                    Collateral(% of loan amt)-->
+<!--                                </label>-->
+<!--                                <div class="col-md-4">-->
+<!--                                    <input-->
+<!--                                        type="number"-->
+<!--                                        formControlName="collateralPercentage"-->
+<!--                                        name="collateralPercentage"-->
+<!--                                        class="form-control"-->
+<!--                                    />-->
+<!--                                </div>-->
+<!--                                -->
+<!--                            </div>-->
+                            <div class="form-group">
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Interest Rate(Annual)
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="number"
+                                        (blur)="onInterestRateChanged($event.target.value)"
+                                        formControlName="interestRateAnnual"
+                                        name="interestRateAnnual"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Interest Rate( {{selectedFrequency}} )
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="number"
+                                        [attr.disabled]="true"
+                                        formControlName="interestRateFrequency"
+                                        name="interestRateFrequency"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Product Principal GL
+                                </label>
+                                <div class="col-md-4">
+                                  <p-dropdown
+                                    [options]="glArr"
+                                    formControlName="productPrincipalGl"
+                                    [filter]="true"
+                                    [filterBy]="'label'"
+                                    class="form-control"
+                                    [style]="{ width: '100%' }"
+                                    placeholder="Select an Item"
+                                  >
+                                    <ng-template let-item pTemplate="selectedItem">
+                          <span
+                            style="vertical-align:middle; margin-left: .5em"
+                          >{{ item.label }}</span
+                          >
+                                    </ng-template>
+                                    <ng-template let-x pTemplate="item">
+                                      <div
+                                        class="ui-helper-clearfix"
+                                        style="position: relative;height: 25px;"
+                                      >
+                                        <div style="font-size:14px;margin-top:4px">
+                                          {{ x.label }}
+                                        </div>
+                                      </div>
+                                    </ng-template>
+                                  </p-dropdown>
+                                </div>
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Receiver Principal GL
+                                </label>
+                                <div class="col-md-4">
+
+                                  <p-dropdown
+                                    [options]="glArr"
+                                    formControlName="receiverPrincipalGl"
+                                    [filter]="true"
+                                    [filterBy]="'label'"
+                                    class="form-control"
+                                    [style]="{ width: '100%' }"
+                                    placeholder="Select an Item"
+                                  >
+                                    <ng-template let-item pTemplate="selectedItem">
+                          <span
+                            style="vertical-align:middle; margin-left: .5em"
+                          >{{ item.label }}</span
+                          >
+                                    </ng-template>
+                                    <ng-template let-x pTemplate="item">
+                                      <div
+                                        class="ui-helper-clearfix"
+                                        style="position: relative;height: 25px;"
+                                      >
+                                        <div style="font-size:14px;margin-top:4px">
+                                          {{ x.label }}
+                                        </div>
+                                      </div>
+                                    </ng-template>
+                                  </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Interest Expense GL
+                                </label>
+                                <div class="col-md-4">
+
+                                  <p-dropdown
+                                    [options]="glArr"
+                                    formControlName="interstExpenseGl"
+                                    [filter]="true"
+                                    [filterBy]="'label'"
+                                    class="form-control"
+                                    [style]="{ width: '100%' }"
+                                    placeholder="Select an Item"
+                                  >
+                                    <ng-template let-item pTemplate="selectedItem">
+                          <span
+                            style="vertical-align:middle; margin-left: .5em"
+                          >{{ item.label }}</span
+                          >
+                                    </ng-template>
+                                    <ng-template let-x pTemplate="item">
+                                      <div
+                                        class="ui-helper-clearfix"
+                                        style="position: relative;height: 25px;"
+                                      >
+                                        <div style="font-size:14px;margin-top:4px">
+                                          {{ x.label }}
+                                        </div>
+                                      </div>
+                                    </ng-template>
+                                  </p-dropdown>
+                                </div>
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Interest Payable GL
+                                </label>
+                                <div class="col-md-4">
+
+                                  <p-dropdown
+                                    [options]="glArr"
+                                    formControlName="interestPayableGl"
+                                    [filter]="true"
+                                    [filterBy]="'label'"
+                                    class="form-control"
+                                    [style]="{ width: '100%' }"
+                                    placeholder="Select an Item"
+                                  >
+                                    <ng-template let-item pTemplate="selectedItem">
+                          <span
+                            style="vertical-align:middle; margin-left: .5em"
+                          >{{ item.label }}</span
+                          >
+                                    </ng-template>
+                                    <ng-template let-x pTemplate="item">
+                                      <div
+                                        class="ui-helper-clearfix"
+                                        style="position: relative;height: 25px;"
+                                      >
+                                        <div style="font-size:14px;margin-top:4px">
+                                          {{ x.label }}
+                                        </div>
+                                      </div>
+                                    </ng-template>
+                                  </p-dropdown>
+                                </div>
+                            </div>
+                            <div class="form-group">    
+                                <label
+                                for=""
+                                class="control-label col-md-2"
+                            >
+                                Tax GL
+                            </label>
+                            <div class="col-md-4">
+
+                              <p-dropdown
+                                [options]="glArr"
+                                formControlName="taxGl"
+                                [filter]="true"
+                                [filterBy]="'label'"
+                                class="form-control"
+                                [style]="{ width: '100%' }"
+                                placeholder="Select an Item"
+                              >
+                                <ng-template let-item pTemplate="selectedItem">
+                      <span
+                        style="vertical-align:middle; margin-left: .5em"
+                      >{{ item.label }}</span
+                      >
+                                </ng-template>
+                                <ng-template let-x pTemplate="item">
+                                  <div
+                                    class="ui-helper-clearfix"
+                                    style="position: relative;height: 25px;"
+                                  >
+                                    <div style="font-size:14px;margin-top:4px">
+                                      {{ x.label }}
+                                    </div>
+                                  </div>
+                                </ng-template>
+                              </p-dropdown>
+                            </div>
+                            </div>
+                            <div class="form-group">
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Liquidation Charge (%)
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="number"
+                                        formControlName="earlyTerminationCharge"
+                                        name="earlyTerminationCharge"
+                                        class="form-control"
+                                    />
+                                </div>
+                                <label
+                                    for=""
+                                    class="control-label col-md-2"
+                                >
+                                    Tax Rate (%)
+                                </label>
+                                <div class="col-md-4">
+                                    <input
+                                        type="number"
+                                        formControlName="taxRate"
+                                        name="taxRate"
+                                        class="form-control"
+                                    />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button style="margin-right:5px" type="button"  class="btn btn-primary pull-right"
+                                    (click)="submitProductInfo(form)">
+                                Save
+                            </button>
+                            <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

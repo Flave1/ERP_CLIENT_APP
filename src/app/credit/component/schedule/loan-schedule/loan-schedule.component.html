@@ -1,0 +1,698 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              {{ scheduleTitle }}
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Schedule Method</label>
+            <div class="col-md-4">
+              <select
+                (change)="onscheduleMethodChangedOne($event.target.value)"
+                name="scheduleMethod"
+                [(ngModel)]="data.scheduleMethod"
+                class="form-control"
+                [ngClass]="
+                  !data.scheduleMethod ? 'required-input' : 'valid-input'
+                "
+              >
+                <option value="">Select Schedule Method</option>
+                <option
+                  *ngFor="let st of scheduleTypes"
+                  value="{{ st.lookupId }}"
+                >
+                  {{ st.lookupName }}
+                </option>
+              </select>
+            </div>
+
+            <label for="" class="control-lable col-md-2">Loan Amount</label>
+            <div class="col-md-4 ">
+              <input
+                type="text"
+                [attr.disabled]="true"
+                value="{{ _loanAmount }}"
+                [(ngModel)]="data.principalAmount"
+                class="form-control"
+                (blur)="onPrincipalblur()"
+                [ngClass]="
+                  !data.principalAmount ? 'required-input' : 'valid-input'
+                "
+              />
+              <!-- <input type="text" [disabled]="viewStatus" value={{_loanAmount}} [(ngModel)]="data.principalAmount" class="form-control" (blur)="onPrincipalblur()" [ngClass]="!data.principalAmount ? 'required-input' : 'valid-input'"> -->
+            </div>
+          </div>
+          <div *ngIf="scatteredMethod">
+            <div class="form-group">
+              <label for="" class="control-lable col-md-2"
+                >Effective Date</label
+              >
+              <div class="col-md-4 ">
+<!--                <input-->
+<!--                  type="date"-->
+<!--                  class="form-control"-->
+<!--                  [(ngModel)]="data.loanDate"-->
+<!--                />-->
+                                <p-calendar
+                                  name="loanDate"
+                                  [monthNavigator]="true"
+                                  [(ngModel)]="data.loanDate"
+                                  [yearNavigator]="true"
+                                  yearRange="1900:2030"
+                                  [showIcon]="true"
+                                  [inputStyle]="{ width: '100%' }"
+                                  [style]="{ width: '100%', 'z-index': '100' }"
+                                ></p-calendar>
+              </div>
+              <label for="" class="control-lable col-md-2"
+                >Contractual Interest Rate</label
+              >
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  [attr.disabled]="true"
+                  value="{{ interestRate }}"
+                  [(ngModel)]="data.interestRate"
+                  class="form-control"
+                  [ngClass]="
+                    !data.interestRate ? 'required-input' : 'valid-input'
+                  "
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="basis" class="control-label col-md-2">Basis</label>
+              <div class="col-md-4">
+                <select
+                  name="basis"
+                  id="basis"
+                  [(ngModel)]="data.basis"
+                  class="form-control"
+                >
+                  <option value=""></option>
+                  <option *ngFor="let b of basis" value="{{ b.lookupId }}">
+                    {{ b.lookupName }}
+                  </option>
+                </select>
+              </div>
+              <label for="" class="control-label col-md-2"
+                >Integral Fee Amount</label
+              >
+              <div class="col-md-4 {{ noDataDiv }}">
+                <input
+                  [disabled]="true"
+                  [value]="integralFeeAmount"
+                  (blur)="formatFeeValue()"
+                  type="text"
+                  [(ngModel)]="data.integralFeeAmount"
+                  name="integralFeeAmount1"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <fieldset>
+              <legend style="color:#ff0000">Payment Plans</legend>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-1">
+                  Date
+                </label>
+                <div class="col-md-3">
+<!--                  <input-->
+<!--                    type="date"-->
+<!--                    class="form-control"-->
+<!--                    [(ngModel)]="data.scateredDate"-->
+<!--                  />-->
+                                    <p-calendar
+                                      name="scateredDate"
+                                      [monthNavigator]="true"
+                                      [(ngModel)]="data.scateredDate"
+                                      [yearNavigator]="true"
+                                      yearRange="1900:2030"
+                                      [showIcon]="true"
+                                      [inputStyle]="{ width: '100%' }"
+                                      [style]="{ width: '100%', 'z-index': '100' }"
+                                    ></p-calendar>
+                </div>
+                <label for="" class="control-label col-md-1">
+                  Amount
+                </label>
+                <div class="col-md-3">
+                  <input
+                    (blur)="formatValue()"
+                    type="text"
+                    [(ngModel)]="data.amount"
+                    class="form-control"
+                  />
+                </div>
+                <div class="col-md-2">
+                  <button
+                    [disabled]="!data.amount"
+                    (click)="addToList()"
+                    pButton
+                    type="button"
+                    label="Add To List"
+                    icon="fa-plus"
+                  ></button>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="col-md-8">
+                  <table class="table table-striped">
+                    <thead>
+                      <tr>
+                        <th>S/No</th>
+                        <th>Date</th>
+                        <th style="text-align: right">Amount</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let p of scatterdPayments; let indx = index">
+                        <td>
+                          {{ indx + 1 }}
+                        </td>
+                        <td>
+                          {{ p.payDate }}
+                        </td>
+                        <td style="text-align: right;width:120px">
+                          {{ p.payAmount }}
+                        </td>
+                        <td style="padding: 0;width:50px">
+                          <a
+                            (click)="removeItem($event, indx)"
+                            style="color:#ff0000"
+                            href="#"
+                            ><i class="fa fa-times" aria-hidden="true"></i>X</a
+                          >
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div style="text-align: left" class="col-md-2">
+                  Balance:
+                  <span style="margin:0;text-align: right">
+                    {{ principalValanceString }}
+                  </span>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="form-group">
+              <div class="col-md-2 col-md-offset-10">
+                <button
+                  type="button"
+                  [disabled]="
+                    !data.principalAmount ||
+                    !data.scheduleMethod ||
+                    !data.loanDate ||
+                    !data.interestRate
+                  "
+                  (click)="generateIrregularSchedule()"
+                  class="btn btn-success btn-block"
+                >
+                  Generate
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <form
+          *ngIf="!scatteredMethod"
+          novalidate
+          class="form-horizontal"
+          [formGroup]="scheduleGroupForm"
+        >
+          <div style="margin-bottom: 9px" class="form-group">
+            <label for="" style="margin-top:8px" class="control-lable col-md-2"
+              >Effective Date</label
+            >
+            <div class="col-md-4">
+<!--              <input-->
+<!--                type="date"-->
+<!--                class="form-control"-->
+<!--                formControlName="loanDate"-->
+<!--                (change)="onEffectiveDateSelect($event.target.value)"-->
+<!--              />-->
+                            <p-calendar
+                              name="loanDate"
+                              [ngClass]="
+                                !scheduleGroupForm.controls['loanDate'].valid
+                                  ? 'required-input'
+                                  : 'valid-input'
+                              "
+                              formControlName="loanDate"
+                              [monthNavigator]="true"
+                              [yearNavigator]="true"
+                              yearRange="1900:2030"
+                              [showIcon]="true"
+                              [inputStyle]="{ width: '100%' }"
+                              (onSelect)="onEffectiveDateSelect($event)"
+                              [style]="{ width: '100%', 'z-index': '100' }"
+                            ></p-calendar>
+            </div>
+
+            <label for="" style="margin-top:8px" class="control-lable col-md-2"
+              >Contractual Interest Rate</label
+            >
+
+            <div class="col-md-4">
+              <input
+                type="text"
+                [attr.disabled]="true"
+                value="{{ interestRate }}"
+                formControlName="interestRate"
+                class="form-control"
+                [ngClass]="
+                  !scheduleGroupForm.controls['interestRate'].valid
+                    ? 'required-input'
+                    : 'valid-input'
+                "
+              />
+              <!-- <input type="text" [attr.disabled]="viewStatus" value={{interestRate}} formControlName="interestRate" class="form-control" [ngClass]="!scheduleGroupForm.controls['interestRate'].valid ? 'required-input' : 'valid-input'"> -->
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="basis" class="control-label col-md-2">Basis</label>
+            <div class="col-md-4">
+              <select
+                name="accurialBasis"
+                id="accurialBasis"
+                formControlName="accurialBasis"
+                class="form-control"
+                [ngClass]="
+                  !scheduleGroupForm.controls['accurialBasis'].valid
+                    ? 'required-input'
+                    : 'valid-input'
+                "
+              >
+                <option value=""></option>
+                <option *ngFor="let b of basis" value="{{ b.lookupId }}">
+                  {{ b.lookupName }}
+                </option>
+              </select>
+            </div>
+            <label for="" class="control-label col-md-2"
+              >Integral Fee Amount</label
+            >
+            <div class="col-md-4">
+              <input
+                type="text"
+                [attr.disabled]="true"
+                [value]="integralFeeAmount"
+                formControlName="integralFeeAmount"
+                formatM
+                name="integralFeeAmount"
+                class="form-control"
+              />
+            </div>
+          </div>
+
+          <!-- End scatteredDetails -->
+
+          <div id="mGroup">
+            <div class="form-group">
+              <div *ngIf="bulletMethod">
+                <label for="" class="control-label col-md-2"
+                  >Interest Freq</label
+                >
+                <div class="col-md-4">
+                  <select
+                    name="interestfrequency"
+                    id="interestFrequency"
+                    formControlName="interestFrequency"
+                    class="form-control"
+                    [ngClass]="
+                      !scheduleGroupForm.controls['interestFrequency'].valid
+                        ? 'required-input'
+                        : 'valid-input'
+                    "
+                  >
+                    <option value=""> Select Frequency</option>
+                    <option
+                      *ngFor="let feq of frequencies"
+                      value="{{ feq.lookupId }}"
+                    >
+                      {{ feq.lookupName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div *ngIf="ballonMethod">
+                <label for="" class="control-label col-md-2"
+                  >Interest Freq</label
+                >
+                <div class="col-md-4">
+                  <select
+                    name="interestfrequency"
+                    id="interestFrequency"
+                    formControlName="interestFrequency"
+                    class="form-control"
+                    [ngClass]="
+                      !scheduleGroupForm.controls['scheduleMethod'].valid
+                        ? 'required-input'
+                        : 'valid-input'
+                    "
+                  >
+                    <option value=""> Select Frequency</option>
+                    <option
+                      *ngFor="let feq of frequencies"
+                      value="{{ feq.lookupId }}"
+                    >
+                      {{ feq.lookupName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+
+              <div *ngIf="ballonMethod">
+                <label
+                  for=""
+                  style="margin-top:8px;"
+                  class="control-lable col-md-2"
+                  >Interest First Pmt Date</label
+                >
+                <div class="col-md-4">
+<!--                  <input-->
+<!--                    type="date"-->
+<!--                    class="form-control"-->
+<!--                    formControlName="principalFirstDate"-->
+<!--                    (change)="onInterestDateSelect($event.target.value)"-->
+<!--                  />-->
+                                    <p-calendar
+                                      name="principalFirstDate"
+                                      [ngClass]="
+                                        !scheduleGroupForm.controls['principalFirstDate'].valid
+                                          ? 'required-input'
+                                          : 'valid-input'
+                                      "
+                                      formControlName="principalFirstDate"
+                                      [monthNavigator]="true"
+                                      [yearNavigator]="true"
+                                      yearRange="1900:2030"
+                                      [showIcon]="true"
+                                      [inputStyle]="{ width: '100%' }"
+                                      [style]="{ width: '100%', 'z-index': '100' }"
+                                    ></p-calendar>
+                  <!-- <p-calendar name="principalFirstDate" class="form-control" formControlName="principalFirstDate"
+                                            [monthNavigator]="true" [yearNavigator]="true" yearRange="2010:2050" (onSelect)="onInterestDateSelect($event)"
+                                            [showIcon]="true" [inputStyle]="{'width': '100%'}" [style]="{'width': '100%', 'z-index': '100'}"></p-calendar> -->
+                </div>
+              </div>
+
+              <div *ngIf="bulletMethod">
+                <label for="" class="control-label col-md-2"
+                  >Principal Freq</label
+                >
+                <div class="col-md-4">
+                  <select
+                    name="principalfrequency"
+                    id="principalfrequency"
+                    formControlName="principalfrequency"
+                    class="form-control"
+                  >
+                    <option value=""> Select Frequency</option>
+                    <option
+                      *ngFor="let feq of frequencies"
+                      value="{{ feq.lookupId }}"
+                    >
+                      {{ feq.lookupName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <div style="margin-bottom: 9px" class="form-group">
+              <div *ngIf="bulletMethod">
+                <label
+                  for=""
+                  style="margin-top:8px;"
+                  class="control-lable col-md-2"
+                  >Interest First Pmt Date</label
+                >
+                <div class="col-md-4">
+<!--                  <input-->
+<!--                    type="date"-->
+<!--                    class="form-control"-->
+<!--                    formControlName="intrestFirstDate"-->
+<!--                    (change)="onInterestDateSelect($event.target.value)"-->
+<!--                  />-->
+                                    <p-calendar
+                                      name="intrestFirstDate"
+                                      formControlName="intrestFirstDate"
+                                      [monthNavigator]="true"
+                                      [yearNavigator]="true"
+                                      yearRange="2010:2050"
+                                      [showIcon]="true"
+                                      [inputStyle]="{ width: '100%' }"
+                                      [style]="{ width: '100%', 'z-index': '100' }"
+                                    ></p-calendar>
+                  <!-- <p-calendar name="intrestFirstDate" class="form-control" formControlName="intrestFirstDate"
+                                            [monthNavigator]="true" (onSelect)="onInterestDateSelect($event)" [yearNavigator]="true" yearRange="2010:2050"
+                                            [showIcon]="true" [inputStyle]="{'width': '100%'}" [style]="{'width': '100%', 'z-index': '100'}" ></p-calendar> -->
+                </div>
+              </div>
+              <div *ngIf="bulletMethod">
+                <label
+                  for=""
+                  style="margin-top:8px;"
+                  class="control-lable col-md-2"
+                  >Principal First Pmt Date</label
+                >
+                <div class="col-md-4">
+<!--                  <input-->
+<!--                    type="date"-->
+<!--                    class="form-control"-->
+<!--                    formControlName="principalFirstDate"-->
+<!--                  />-->
+                                    <p-calendar
+                                      name="principalFirstDate"
+                                      formControlName="principalFirstDate"
+                                      [monthNavigator]="true"
+                                      [yearNavigator]="true"
+                                      yearRange="2010:2050"
+                                      [showIcon]="true"
+                                      [inputStyle]="{ width: '100%' }"
+                                      [style]="{ width: '100%', 'z-index': '100' }"
+                                    ></p-calendar>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label
+                for=""
+                style="margin-top:8px"
+                class="control-lable col-md-2"
+                >Maturity Date</label
+              >
+              <div class="col-md-4">
+<!--                <input-->
+<!--                  type="date"-->
+<!--                  class="form-control"-->
+<!--                  formControlName="maturityDate"-->
+<!--                  (change)="calculateTenor()"-->
+<!--                />-->
+                                <p-calendar
+                                  name="maturityDate"
+                                  (onSelect)="calculateTenor()"
+                                  formControlName="maturityDate"
+                                  [monthNavigator]="true"
+                                  [yearNavigator]="true"
+                                  yearRange="1900:2030"
+                                  [showIcon]="true"
+                                  [inputStyle]="{ width: '100%' }"
+                                  [style]="{ width: '100%', 'z-index': '100' }"
+                                  [disabled]="true"
+                                ></p-calendar>
+              </div>
+              <label
+                for=""
+                style="margin-top:8px;"
+                class="control-lable col-md-2"
+                >Tenor</label
+              >
+              <div class="col-md-4">
+                <input
+                  type="text"
+                  [attr.disabled]="true"
+                  value="{{ tenor }}"
+                  formControlName="tenor"
+                  class="form-control"
+                />
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="" class="control-label col-md-2">Type</label>
+              <div class="col-md-4">
+                <select
+                  name="firstDayType"
+                  formControlName="firstDayType"
+                  id="firstDayType"
+                  class="form-control"
+                >
+                  <option value=""></option>
+                  <option value="0">First Day Interest</option>
+                  <option value="1">Second Day Interest</option>
+                </select>
+              </div>
+
+              <div class="col-md-2 col-md-offset-4">
+                <button
+                  type="submit"
+                  (click)="onSubmit(scheduleGroupForm)"
+                  class="btn btn-success btn-block"
+                >
+                  Generate
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  header="Loan Schedule"
+  [responsive]="true"
+  resizable="true"
+  [(visible)]="displayScheduleModalForm"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="1000"
+  height="500"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-body">
+      <div class="pull-right">
+        <button
+          *ngIf="schedules"
+          pButton
+          style="padding:0.5em 0; border: 1px solid #333"
+          type="button"
+          class="ui-button-raised ui-button-secondary"
+          (click)="exportToExcel()"
+          icon="ui-icon-file-download"
+          pTooltip="Export to Excel"
+          tooltipPosition="top"
+          iconPos="center"
+          label=""
+        ></button>
+      </div>
+      <div class="form-horizontal">
+        <fieldset>
+          <table style="margin-bottom: 20px">
+            <tr>
+              <td style="font-size: 12px;font-weight: bold;padding: 4px">
+                Granted Amount
+              </td>
+              <td style="padding: 4px">
+                {{ scheduleHeader?.principalAmount }}
+              </td>
+              <td
+                style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px"
+              >
+                Interest Rate
+              </td>
+              <td style="padding: 4px">{{ scheduleHeader?.interestRate }} %</td>
+              <td
+                style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px"
+              >
+                Effective Interest Rate
+              </td>
+              <td style="text-align: right;padding: 4px">
+                {{ scheduleHeader?.effectiveInterestRate | number: "1.2-2" }} %
+              </td>
+            </tr>
+            <tr>
+              <td style="font-size: 12px;font-weight: bold;padding: 4px">
+                Effective Date
+              </td>
+              <td style="text-align: right;padding-left: 10px;padding: 4px">
+                {{ scheduleHeader?.effectiveDate | date }}
+              </td>
+              <td
+                style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px"
+              >
+                Maturity Date
+              </td>
+              <td style="text-align: right;padding: 4px">
+                {{ scheduleHeader?.maturityDate | date }}
+              </td>
+            </tr>
+          </table>
+
+          <p-table
+            #dt
+            [rows]="100"
+            scrollable="true"
+            scrollHeight="200px"
+            [value]="schedules"
+            [responsive]="true"
+            selectionMode="single"
+          >
+            <ng-template pTemplate="caption">
+              <div style="text-align: right"></div>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th>S/N</th>
+                <th>Payment Date</th>
+                <th>Start Principal</th>
+                <th>Periodic Amount</th>
+                <th>Principal Amount</th>
+                <th>Interest Amount</th>
+                <th>Balance</th>
+                <!-- <th>AM Start Amount</th>
+                <th>AM Periodic Amount</th>
+                <th>AM Principal Amount</th>
+                <th>AM Interest Amount</th>
+                <th>AM Balance</th>
+                <th>IRR</th> -->
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr style="font-size:1rem !important;" [pSelectableRow]="x">
+                <td>{{ x.paymentNumber }}</td>
+                <td>{{ x.paymentDate | date }}</td>
+                <td>{{ x.startPrincipalAmount | number: "1.2-2" }}</td>
+                <td>{{ x.periodPaymentAmount | number: "1.2-2" }}</td>
+                <td>{{ x.periodPrincipalAmount | number: "1.2-2" }}</td>
+                <td>{{ x.periodInterestAmount | number: "1.2-2" }}</td>
+                <td>{{ x.endPrincipalAmount | number: "1.2-2" }}</td>
+                <!-- <td>{{ x.amortisedStartPrincipalAmount | number: "1.2-2" }}</td>
+                <td>{{ x.amortisedPeriodPaymentAmount | number: "1.2-2" }}</td>
+                <td>
+                  {{ x.amortisedPeriodPrincipalAmount | number: "1.2-2" }}
+                </td>
+                <td>{{ x.amortisedPeriodInterestAmount | number: "1.2-2" }}</td>
+                <td>{{ x.amortisedEndPrincipalAmount | number: "1.2-2" }}</td>
+                <td>{{ x.effectiveInterestRate | number: "1.2-2" }}</td> -->
+              </tr>
+            </ng-template>
+          </p-table>
+        </fieldset>
+      </div>
+    </div>
+  </div>
+</p-dialog>

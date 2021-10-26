@@ -1,0 +1,433 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label
+                  for="investorFundCustomerId"
+                  class="control-label col-md-2"
+                  >Customer</label
+                >
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="investorFundCustomerId"
+                   formControlName="investorFundCustomerId"
+                    id="investorFundCustomerId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Customer --</option>
+                    <option
+                      *ngFor="let row of customers"
+                      [value]="row.investorFundCustomerId"
+                    >
+                      {{ row.customerName }}
+                    </option>
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2">Product</label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="productId"
+                   formControlName="productId"
+                    id="productId"
+                    class="form-control"
+                    (change)="getProduct($event.target.value)"
+                  >
+                    <option value="">-- Select Product --</option>
+                    <option
+                      *ngFor="let row of productTypeList"
+                      [value]="row.productId"
+                    >
+                      {{ row.productName }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Tenor
+                </label>
+                <div class="col-md-4">
+                  <input
+                    disabled
+                    type="text"
+                    [(ngModel)]="tenor"
+                    name="tenor"
+                    class="form-control"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Rate(Annual)
+                </label>
+                <div class="col-md-4">
+                  <input
+                    disabled
+                    type="text"
+                    name="rate"
+                    [(ngModel)]="rate"
+                    [ngModelOptions]="{ standalone: true }"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Proposed Tenor(days)
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                   formControlName="proposedTenor"
+                    name="proposedTenor"
+                    class="form-control"
+                    (input)="onInputMethod($event.target.value)"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Proposed Rate(Annual)
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="proposedRate"
+                   formControlName="proposedRate"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Frequency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    disabled
+                    type="text"
+                    name="frequencyId"
+                   formControlName="frequencyId"
+                    id="frequencyId"
+                    class="form-control"
+                  >
+                    <option value="">-- Select Frequency --</option>
+                    <option
+                      *ngFor="let row of frequencyTypeList"
+                      [value]="row.lookupId"
+                    >
+                      {{ row.lookupName }}
+                    </option>
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Period
+                </label>
+                <div class="col-md-4">
+                  <input
+                    disabled
+                    type="text"
+                    name="period"
+                   formControlName="period"
+                    id="period"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Proposed Amount
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="proposedAmount"
+                   formControlName="proposedAmount"
+                    id="proposedAmount"
+                    class="form-control"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Currency
+                </label>
+                <div class="col-md-4">
+                  <select
+                   formControlName="currencyId"
+                    name="currencyId"
+                    class="form-control"
+                  >
+                    <option value="" disabled>--Select Currency--</option>
+                    <option
+                      [value]="currency.lookupId"
+                      *ngFor="let currency of currencies"
+                      >{{ currency.lookupName }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Effective Date
+                </label>
+                <div class="col-md-4">
+                  <!--                  <p-calendar-->
+                  <!--                    class="form-control"-->
+                  <!--                    [monthNavigator]="true"-->
+                  <!--                    [yearNavigator]="true"-->
+                  <!--                    [showIcon]="true"-->
+                  <!--                    yearRange="1900:2100"-->
+                  <!--                    [inputStyle]="{ width: '100%' }"-->
+                  <!--                    [style]="{-->
+                  <!--                      width: '100%',-->
+                  <!--                      'z-index': '999'-->
+                  <!--                    }"-->
+                  <!--                   formControlName="effectiveDate"-->
+                  <!--                    name="effectiveDate"-->
+                  <!--                  ></p-calendar>-->
+                  <input
+                    type="date"
+                    class="form-control"
+                   formControlName="effectiveDate"
+                    name="effectiveDate"
+                    [value]="date1 | date: 'yyyy-MM-dd'"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2">
+                  Investment Purpose
+                </label>
+                <div class="col-md-4">
+                  <textarea
+                    type="text"
+                   formControlName="investmentPurpose"
+                    name="investmentPurpose"
+                    class="form-control"
+                    style="resize: none"
+                  ></textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Instrument
+                </label>
+                <div class="col-md-4">
+                  <select
+                    type="text"
+                    name="instrumentId"
+                    [attr.disabled]="Payment ? true : null"
+                   formControlName="instrumentId"
+                    id="instrumentId"
+                    class="form-control"
+                    (change)="getValue($event.target.value)"
+                  >
+                    <option value="" disabled>-- Select Instrument --</option>
+                    <option value="1">
+                      Transfer/Card/Cash
+                    </option>
+                    <option value="2">
+                      Cheque
+                    </option>
+                    <option value="3">
+                      Operating Account
+                    </option>
+                  </select>
+                </div>
+                <ng-container *ngIf="val == 2">
+                  <label for="" class="control-label col-md-2">
+                    Instrument Number
+                  </label>
+                  <div class="col-md-4">
+                    <input
+                      type="text"
+                      name="instrumentNumer"
+                     formControlName="instrumentNumer"
+                      id="instrumentNumber"
+                      class="form-control"
+                    />
+                  </div>
+                </ng-container>
+              </div>
+              <div class="form-group">
+                <ng-container *ngIf="val == 2">
+                  <label for="" class="control-label col-md-2">
+                    Instrument Date
+                  </label>
+                  <div class="col-md-4">
+                    <input type="date" class="form-control" formControlName="instrumentDate"
+                    [value]="selectedDate2 | date: 'yyyy-MM-dd'"
+                    />                   
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="val != 3">
+                  <label for="" class="control-label col-md-2">
+                    Confirmed Payment
+                  </label>
+                  <div class="col-md-4">
+                    <input
+                      type="checkbox"
+                      [attr.disabled]="Payment ? true : null"
+                      class="checkbox"
+                      name="confirmedPayment"
+                     formControlName="confirmedPayment"
+                    />
+                  </div>
+                </ng-container>
+                <label for="" class="control-label col-md-2">
+                  Enable Rollover
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="checkbox"
+                    class="checkbox"
+                    name="enableRollOver"
+                   formControlName="enableRollOver"
+                  />
+                </div>
+              </div>
+              <!-- <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Disbursement Account
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    name="paymentMode"
+                    formControlName="paymentMode"
+                    (change)="getPaymentMode($event.target.value)"
+                  >
+                    <option value="">--Select Payment--</option>
+                    <option value="1">Operating Account</option>
+                    <option value="2">Other Banks</option>
+                  </select>
+                </div>
+                <ng-container *ngIf="val2 == 1">
+                  <label for="" class="control-label col-md-2">
+                    Account Number
+                  </label>
+                  <div class="col-md-4">
+                    <select
+                      class="form-control"
+                      name="paymentAccount"
+                      formControlName="paymentAccount"
+                    >
+                      <option value="">--Select Account Number</option>
+                      <option [value]="customerAccount">{{
+                        customerAccount
+                      }}</option>
+                    </select>
+                  </div>
+                </ng-container>
+                <ng-container *ngIf="val2 == 2">
+                  <label for="" class="control-label col-md-2">
+                    Accounts
+                  </label>
+                  <div class="col-md-4">
+                    <select
+                      class="form-control"
+                      name="paymentAccount"
+                      formControlName="paymentAccount"
+                    >
+                      <option value="">--Select Account--</option>
+                      <option
+                        *ngFor="let bank of bankDetails"
+                        [value]="bank.bank + ' - ' + bank.account"
+                        >{{ bank.bank }} - {{ bank.account }}</option
+                      >
+                    </select>
+                  </div>
+                </ng-container>
+              </div> -->
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                class="btn btn-primary pull-right"
+                (click)="submitInvestment(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- <div class="panel-body">
+          <div class="form-horizontal">
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-md-12">
+                  <h2 class="panel-title pull-left">
+                    Running Investments
+                  </h2>
+                </div>
+              </div>
+            </div>
+            <p-table #dt [value]="runningFacilities" [columns]="cols">
+              <ng-template pTemplate="caption">
+                <div style="text-align: right">
+                  <input
+                    type="text"
+                    pInputText
+                    size="50"
+                    class="form-control"
+                    placeholder="Search..."
+                    (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                    style="width:auto"
+                  />
+                </div>
+              </ng-template>
+              <ng-template pTemplate="header">
+                <tr>
+                  <th>CustomerName</th>
+                  <th>ProductName</th>
+                  <th>ApprovedTenor</th>
+                  <th>ApprovedRate</th>
+                  <th>EffectiveDate</th>
+                  <th>MaturityDate</th>
+                  <th>ApprovedAmount</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-x let-i="rowIndex">
+                <tr [pSelectableRow]="x" (click)="rowClicked(x)">
+                  <td>{{ x.customerName }}</td>
+                  <td>{{ x.productName }}</td>
+                  <td>{{ x.approvedTenor }}</td>
+                  <td>{{ x.approvedRate }}</td>
+                  <td>{{ x.effectiveDate | date }}</td>
+                  <td>
+                    {{ x.maturityDate | date }}
+                  </td>
+                  <td>
+                    {{ x.approvedAmount }}
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div> -->
+      </div>
+    </div>
+  </div>
+</div>

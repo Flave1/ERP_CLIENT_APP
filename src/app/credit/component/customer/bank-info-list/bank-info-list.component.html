@@ -1,0 +1,42 @@
+<div class="form-group">
+  <div class="col-md-12">
+    <div class="pull-right">
+      <button
+        (click)="showAddNewBankDetails()"
+        pButton
+        type="button"
+        pTooltip="Add Bank Details"
+        icon="ui-icon-plus"
+      ></button>
+    </div>
+  </div>
+</div>
+<p-table [value]="loanCustomerBankDetails" [responsive]="true">
+  <ng-template pTemplate="caption">
+    <h4>Bank Details</h4>
+  </ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th style="width: 5em">S/N</th>
+      <th style="width: 15em">Bank</th>
+      <th style="width: 15em">Account</th>
+      <th>BVN</th>
+      <th style="width: 5em"></th>
+      <th style="width: 5em"></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-x let-i="rowIndex">
+    <tr>
+      <td>{{ i + 1 }}</td>
+      <td>{{ x.bank }}</td>
+      <td>{{ x.account }}</td>
+      <td>{{ x.bvn }}</td>
+      <td>
+        <a (click)="editBankDetails(x)">Edit</a>
+      </td>
+      <td>
+        <a (click)="deleteBankDetails(x)">Delete</a>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>

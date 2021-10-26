@@ -1,0 +1,146 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                  <label for="" class="control-label col-md-2">
+                      Staff
+                  </label>
+                  <div class="col-md-4">
+                      <select type="text" name="staffId" formControlName="staffId" id="staffId" class="form-control">
+                          <option value="">-- Select Staff --</option>
+                          <option *ngFor="let row of staffList" [value]="row.staffId">
+                                                                                                                                                        {{ row.staffName }}
+                                                                                                      </option>  
+                      </select>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="checkbox-container">
+                      <input formControlName="canViewDocument" id="canViewDocument" type="checkbox">
+                    </div>
+                    <label class="checkbox">Can View Document</label>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="checkbox-container">
+                      <input formControlName="canViewApproval" id="canViewApproval" type="checkbox">
+                    </div>
+                    <label class="checkbox">Can View Approval</label>
+                  </div>
+              </div>
+              <div class="form-group">
+              <label for="" class="control-label col-md-2">
+                  Approval Level
+              </label>
+              <div class="col-md-4">
+                  <select type="text" name="approvalLevelId" formControlName="approvalLevelId" 
+                  (change)="onApprovalLevelChanged($event.target.value)"
+                  id="approvalLevelId" class="form-control">
+                      <option value="">-- Select Approval Level --</option>
+                      <option *ngFor="let row of approvalLevelList" [value]="row.approvalLevelId">
+                                                                                                                                                    {{ row.approvalLevelName }}
+                                                                                                  </option>  
+                  </select>
+              </div>
+                <div class="col-md-3">
+                  <div class="checkbox-container">
+                    <input formControlName="canApprove" id="canApprove" type="checkbox">
+                    <label class="checkbox">Can Approve</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox-container">
+                    <input formControlName="canEdit" id="canEdit" type="checkbox">
+                      <label class="checkbox">Can Edit</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Position
+                </label>
+
+                <div class="col-md-4">
+                  <select type="text" name="position" formControlName="position" id="position" class="form-control">
+                    <option value="">-- Select Position --</option>
+                       <option
+                                    *ngFor="let type of positions"
+                                    [value]="type.id"
+                                >
+                                    {{ type.name }}
+                                </option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox-container">
+                    <input formControlName="canUpload" id="canUpload" type="checkbox">
+                    <label class="checkbox">Can Upload</label>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox-container">
+                    <input formControlName="canEscalate" id="canEscalate" type="checkbox">
+                         <label class="checkbox">Can Escalate</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Maximum Amount
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="maximumAmount" name="maximumAmount" class="form-control"/>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox-container">
+                    <input formControlName="canRecieveSMS" id="canRecieveSMS" type="checkbox">
+                    <label class="checkbox">SMS Notification</label>
+                   </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="checkbox-container">
+                    <input formControlName="canReceiveEmail" id="canReceiveEmail" type="checkbox">
+                      <label class="checkbox">Email Notification</label>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+              <label for="" class="control-label col-md-2">
+                  IsActive
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox"  binary="true" formControlName="isActive" name="isActive"/>
+                </div>
+              </div>
+              </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitApprovalLevelStaffInfo(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

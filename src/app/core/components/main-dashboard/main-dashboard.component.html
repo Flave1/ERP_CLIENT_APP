@@ -1,0 +1,16 @@
+<div class="page-wrapper">
+
+
+  <div class="page-nav">
+    <div class="nav-item" *ngIf="moduleName.includes('CREDIT')">
+      <a routerLink="/credit">Credit</a>
+    </div>
+    <div class="nav-item" *ngIf="moduleName.includes('INVESTOR')">
+      <a routerLink="/investor">Investor Fund</a>
+    </div>
+    <div class="nav-item" *ngIf="moduleName.includes('PURCHASE')">
+      <a routerLink="/purchases">Purchases and Payables</a>
+    </div>
+  </div>
+  <router-outlet></router-outlet>
+</div>

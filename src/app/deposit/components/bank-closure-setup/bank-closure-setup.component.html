@@ -1,0 +1,107 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Product
+                </label>
+                <div class="col-md-3">
+                  <select class="form-control" name="productId" formControlName="productId">
+                    <option disabled>--Select Product</option>
+                    <option *ngFor="
+                                                let product of accountSetUpProduct
+                                            " [value]="product.depositAccountId">{{ product.accountName }}</option>
+                  </select>
+                </div>
+
+                <label for="" class="control-label col-md-2 pr_0">
+                  Structure
+                </label>
+                <div class="col-md-3">
+                  <select class="form-control" name="structure" formControlName="structure">
+                    <option disabled>--Select Company</option>
+                    <option *ngFor="
+                                                                let structure of companyStructures
+                                                            " [value]="structure.companyStructureId">
+                      {{ structure.name }}</option>
+                  </select>
+                </div>
+
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Charge
+                </label>
+                <div class="col-md-3">
+                  <select class="form-control" (change)="onChargeChange($event.target.value)" name="charge"
+                    formControlName="charge">
+                    <option disabled>--Select Charge</option>
+                    <option value="percentage">Percentage</option>
+                    <option value="fixed">Fixed</option>
+                  </select>
+                </div>
+                <div *ngIf="!isfixed">
+                  <label for="" class="control-label col-md-2 pr_0">
+                    <span>Percentage Basis</span>
+                  </label>
+                  <div class="col-md-3">
+                    <input type="text" name="percentage" class="form-control" formControlName="percentage" />
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Closure Charges applicable
+                </label>
+                <div class="col-md-2">
+                  <input type="checkbox" formControlName="closureChargeApplicable" name="closureChargeApplicable" />
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Use Preset Chart of Account
+                </label>
+                <div class="col-md-3">
+                  <input type="checkbox" formControlName="presetChart" name="presetChart" />
+                </div>
+                <label for="" class="control-label col-md-1 pr_0">
+                  Settlement Balance
+                </label>
+                <div class="col-md-2">
+                  <input type="checkbox" formControlName="settlementBalance" name="settlementBalance" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitDetails(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

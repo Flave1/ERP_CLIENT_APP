@@ -1,0 +1,264 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom: 0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">GL Transaction</h2>
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised"
+                (click)="refreshData()"
+                icon="ui-icon-refresh"
+                iconPos="center"
+                pTooltip="Refresh"
+                tooltipPosition="top"
+                label=""
+              ></button>
+            </div>
+            <div
+              style="padding-right: 5px; padding-left: 5px; width: 45px"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding: 0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="exportGlTransaction()"
+                icon="ui-icon-file-download"
+                pTooltip="Export"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="glTransactionList"
+            dataKey="transactionId"
+            selectionMode="single"
+            (onRowSelect)="onRowSelect($event)"
+            [(selection)]="selectedGLTransaction"
+            [paginator]="false"
+            [rows]="glTransactionList?.length"
+            [scrollable]="true"
+            [scrollHeight]="viewHeight"
+            [responsive]="true"
+          >
+            <ng-template pTemplate="caption">
+              <form [formGroup]="searchForm">
+                <div class="flex-wrapper">
+                  <div class="form__flex">
+                    <div class="col-md-3">
+                      <label>Company/Office</label>
+                      <select
+                        name="companyId"
+                        id="company"
+                        class="form-control"
+                        formControlName="comp"
+                      >
+                        <option value="0" disabled>-- Select Company --</option>
+                        <option
+                          *ngFor="let row of companyInformation"
+                          [value]="row.companyStructureId"
+                        >
+                          {{ row.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="col-md-3">
+                      <label>Start Date</label>
+                      <!--                                        <p-calendar-->
+                      <!--                                            class="form-control"-->
+                      <!--                                            [monthNavigator]="true"-->
+                      <!--                                            [yearNavigator]="true"-->
+                      <!--                                            [showIcon]="true"-->
+                      <!--                                            yearRange="1900:2100"-->
+                      <!--                                            [inputStyle]="{ width: '100%' }"-->
+                      <!--                                            [style]="{-->
+                      <!--                                                width: '100%',-->
+                      <!--                                                'z-index': '999'-->
+                      <!--                                            }"-->
+                      <!--                                            formControlName="date1"-->
+                      <!--                                        ></p-calendar>-->
+                      <input
+                        type="date"
+                        class="form-control"
+                        formControlName="date1"
+                      />
+                    </div>
+                    <div class="col-md-3">
+                      <label>End Date</label>
+                      <!--                                        <p-calendar-->
+                      <!--                                            class="form-control"-->
+                      <!--                                            [monthNavigator]="true"-->
+                      <!--                                            [yearNavigator]="true"-->
+                      <!--                                            [showIcon]="true"-->
+                      <!--                                            yearRange="1900:2100"-->
+                      <!--                                            [inputStyle]="{ width: '100%' }"-->
+                      <!--                                            [style]="{-->
+                      <!--                                                width: '100%',-->
+                      <!--                                                'z-index': '999'-->
+                      <!--                                            }"-->
+                      <!--                                            formControlName="date2"-->
+                      <!--                                        ></p-calendar>-->
+                      <input
+                        type="date"
+                        class="form-control"
+                        formControlName="date2"
+                      />
+                    </div>
+                    <div style="display: none" class="mr_5">
+                      <label>Period</label>
+                      <select
+                        name="period"
+                        id=""
+                        class="form-control"
+                        formControlName="period"
+                      >
+                        <option value="">--Select Financial Year--</option>
+                        <option
+                          *ngFor="let period of finacialYear"
+                          [value]="period.name"
+                        >
+                          {{ period.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div class="mr_5">
+                      <label>Include Sub</label>
+                      <input
+                        type="checkbox"
+                        class="checkbox"
+                        name="sub"
+                        formControlName="sub"
+                      />
+                    </div>
+                    <div class="process_btn_div">
+                      <button
+                        class="btn btn-success"
+                        (click)="processData(searchForm)"
+                      >
+                        Process
+                      </button>
+                    </div>
+                  </div>
+                  <div style="margin-top: 10px; margin-left: 15px">
+                    <input
+                      type="text"
+                      pInputText
+                      size="50"
+                      class="form-control"
+                      placeholder="Search..."
+                      (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                      style="width: auto"
+                    />
+                  </div>
+                </div>
+              </form>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <!--                                <th style="width:5em">Batch No</th>-->
+                <th [pSortableColumn]="'sourceReferenceNumber'">Ref No</th>
+                <!--                                <th>Trans No</th>-->
+                <th [pSortableColumn]="'description'">Description</th>
+                <th [pSortableColumn]="'valueDate'">Trans Date</th>
+                <!--                                <th>GL</th>-->
+                <th [pSortableColumn]="'subGLname'">Sub GL</th>
+                <th [pSortableColumn]="'subGLCode'">Sub GL Code</th>
+                <th [pSortableColumn]="'debitAmount'">Dr</th>
+                <th [pSortableColumn]="'creditAmount'">Cr</th>
+                <!--                                <th>Company Code</th>-->
+                <!--                                <th>Account Type</th>-->
+                <!--                                <th>Currency</th>-->
+                <th [pSortableColumn]="'journalType'">Journal type</th>
+                <!--                                <th [pSortableColumn]="'approver'">Approvers-->
+                <!--                                    <i-->
+                <!--                                        class="ui-icon-arrow-drop-down sort&#45;&#45;icon"-->
+                <!--                                    ></i>-->
+                <!--                                </th>-->
+                <!--                                <th>Approval comments</th>-->
+                <!--                                <th>Date approved</th>-->
+                <th [pSortableColumn]="'runningBalance'">Running Balance</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x" *ngIf="glTransactionList.length > 0">
+                <td>{{ x.sourceReferenceNumber }}</td>
+                <!--                                <td>{{ x.transactionId }}</td>-->
+                <td>{{ x.description }}</td>
+                <td>{{ x.valueDate | date }}</td>
+                <!--                                <td>GL Name</td>-->
+                <td>{{ x.subGLname }}</td>
+                <td>{{ x.subGLCode }}</td>
+                <td>{{ x.debitAmount | number: "1.2-2" }}</td>
+                <td>{{ x.creditAmount | number: "1.2-2" }}</td>
+                <!--                                <td>{{ x.companyCode }}</td>-->
+                <!--                                <td>Account type</td>-->
+                <!--                                <td>{{ x.currencyName }}</td>-->
+                <td>{{ x.journalType }}</td>
+                <!--                                <td>{{ x.approver }}</td>-->
+                <!--                                <td>comments</td>-->
+                <!--                                <td>{{ x.approvedDate | date }}</td>-->
+                <td>{{ x.runningBalance | number: "1.2-2" }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- <p-dialog header="GL Transaction" [responsive]=true resizable="true" [(visible)]="displayInfo" id="add-modal"
+    modal="modal" showEffect="fade" width="1000" height="500">
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-body">
+            <div class="form-horizontal">
+                <fieldset>
+                    <table style="margin-bottom: 20px">
+                        <tr>
+                            <div>
+                            <td style="font-size: 12px;font-weight: bold">Description</td>
+                            <td style="text-align: right;padding-left: 100px">{{glTransactionSelected?.description}}</td>
+                            <td style="font-size: 12px;font-weight: bold">Operations</td>
+                            <td style="text-align: right;padding-left: 100px">{{glTransactionSelected?.operationName}}</td>
+                        </div>
+                        </tr>
+                        <tr>
+                            <td style="font-size: 12px;font-weight: bold;padding: 4px">Transaction Date</td>
+                            <td style="text-align: right;padding-left: 10px;padding: 4px">{{glTransactionSelected?.postedDateTime
+                                | date}}</td>
+                            <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">FS LineCaption</td>
+                            <td style="text-align: right;padding: 4px">{{glTransactionSelected?.subGLFSLineCaption}}</td>
+                            <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">debit Amount</td>
+                            <td style="text-align: right;padding: 4px">{{glTransactionSelected?.debitAmount |
+                                number: '1.2-2'}}</td>
+                            <td style="font-size: 12px;font-weight: bold;padding-left: 20px;padding: 4px">Currency</td>
+                            <td style="text-align: right;padding: 4px">{{glTransactionSelected?.currencyName}}</td>
+                        </tr>
+                    </table>
+                </fieldset>
+            </div>
+        </div>
+    </div>
+</p-dialog> -->

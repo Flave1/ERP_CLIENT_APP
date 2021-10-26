@@ -1,0 +1,313 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form [formGroup]="form" novalidate>
+              <div class="form-group">
+                <label
+                  for=""
+                  class="control-label col-md-2 pr_0"
+                >
+                  Product
+                </label>
+                <div class="col-md-4">
+                  <select
+                    name="product"
+                    class="form-control"
+                    id=""
+                    formControlName="product"
+                  >
+                    <option
+                      *ngFor="let product of accountSetUpProduct"
+                      [value]="product.depositAccountId"
+                    >{{ product.accountName }}</option
+                    >
+                  </select>
+                </div>
+
+                <label
+                  for=""
+                  class="control-label col-md-2 pr_0"
+                >
+                  Transaction Reference
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="transactionReference"
+                    name="transactionReference"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label
+                  for=""
+                  class="control-label col-md-2 pr_0"
+                >
+                  Customer Name
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    name="payingAccountName"
+                    [(ngModel)]="customer"
+                    [ngModelOptions]="{ standalone: true }"
+                    (ngModelChange)="getCustomerDetails($event)"
+                  >
+                    <option value="" selected disabled
+                    >--Select Customer--</option
+                    >
+                    <option
+                      *ngFor="let customer of customers"
+                      [ngValue]="customer"
+                    >{{ customer.firstName }} {{customer.lastName}}</option
+                    >
+                  </select>
+                </div>
+                <label
+                  for=""
+                  class="control-label col-md-2 pr_0"
+                >
+                  Account Number
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="payingAccountNumber"
+                    name="payingAccountNumber"
+                    readonly
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label
+                  for=""
+                  class="control-label col-md-2 pr_0"
+                >
+                  Beneficiary Account Name
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    name="beneficiaryAccountName"
+                    class="form-control"
+                    formControlName="beneficiaryAccountName"
+                  />
+                </div>
+                <label
+                  for=""
+                  class="control-label col-md-2 pr_0"
+                >
+                  Beneficiary Account Number
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="beneficiaryAccountNumber"
+                    name="accountNumber"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="control-label col-md-2 pr_0"
+                >Paying Account Currency</label
+                >
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    formControlName="payingAccountCurrency"
+                    name="payingAccountCurrency"
+                  >
+                    <option
+                      *ngFor="let currency of currencies"
+                      [value]="currency.lookupId"
+                    >{{ currency.lookupName }}</option
+                    >
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Beneficiary Currency
+                </label>
+                <div class="col-md-4">
+                  <select
+                    class="form-control"
+                    formControlName="beneficiaryAccountCurrency"
+                    name="beneficiaryAccountCurrency"
+                  >
+                    <option
+                      *ngFor="let currency of currencies"
+                      [value]="currency.lookupId"
+                    >{{ currency.lookupName }}</option
+                    >
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <label
+                  for=""
+                  class="control-label col-md-2 pr_0"
+                >
+                  Amount
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="amount"
+                    name="amount"
+                  />
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Transaction Narration
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    formControlName="transactionNarration"
+                    name="transactionNarration"
+                    class="form-control"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  Transaction date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar
+                    name="transactionDate"
+                    class="form-control"
+                    formControlName="transactionDate"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{
+                                            width: '100%',
+                                            'z-index': '100'
+                                        }"
+                  ></p-calendar>
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Value Date
+                </label>
+                <div class="col-md-4">
+                  <p-calendar
+                    name="valueDate"
+                    class="form-control"
+                    formControlName="valueDate"
+                    [monthNavigator]="true"
+                    [yearNavigator]="true"
+                    yearRange="1900:2100"
+                    [showIcon]="true"
+                    [inputStyle]="{ width: '100%' }"
+                    [style]="{
+                                            width: '100%',
+                                            'z-index': '100'
+                                        }"
+                  ></p-calendar>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2 pr_0">
+                  External Reference
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="externalReference"
+                    formControlName="externalReference"
+                  />
+                </div>
+                <label
+                  for=""
+                  class="control-label col-md-2 pr_0"
+                >Exchange Rate</label
+                >
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="exchangeRate"
+                    name="exchangeRate"
+                  />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="col-md-2 control-label">Structure</label>
+                <div class="col-md-4">
+                  <select
+                    name=""
+                    id=""
+                    formControlName="structure"
+                    class="form-control"
+                  >
+                    <option value="" selected disabled
+                    >--Select Structure--</option
+                    >
+                    <option
+                      *ngFor="let item of companyStructure"
+                      [value]="item.companyStructureId"
+                    >{{ item.name }}</option
+                    >
+                  </select>
+                </div>
+                <label for="" class="control-label col-md-2 pr_0">
+                  Total Charge
+                </label>
+                <div class="col-md-4">
+                  <input
+                    type="text"
+                    class="form-control"
+                    name="totalCharge"
+                    formControlName="totalCharge"
+                  />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button
+                style="margin-right:5px"
+                type="button"
+                [disabled]="!form.valid"
+                class="btn btn-primary pull-right"
+                (click)="submitWithdrawal(form)"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                style="margin-right:5px"
+                class="btn btn-danger pull-right"
+                (click)="goBack()"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

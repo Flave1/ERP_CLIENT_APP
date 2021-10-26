@@ -1,0 +1,83 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="panel-title pull-left">
+                            Credit Rating
+                        </h2>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-body">
+                <div class="row" style="padding:0 15px 0 15px;">
+                    <h6>
+                        <strong> Credit Rating Score and PD </strong>
+                    </h6>
+                    <table class="table table-casa-information">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Credit Score:</strong>
+                                </td>
+                                <td>{{ creditRatingDetail?.creditScore }}</td>
+                                <td>
+                                    <strong>Probability of Default:</strong>
+                                </td>
+                                <td>
+                                    {{
+                                        creditRatingDetail?.probabilityOfDefault | number: "1.30"
+                                    }}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Product Weighted Score:</strong>
+                                </td>
+                                <td>
+                                    {{
+                                        creditRatingDetail?.productWeighterScore
+                                    }}
+                                </td>
+                                <td>
+                                    <strong>Credit Rating:</strong>
+                                </td>
+                                <td>{{ creditRatingDetail?.creditRating }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="row" style="padding:0 15px 0 15px;">
+                    <h6>
+                        <strong> Credit Bureau </strong>
+                    </h6>
+                    <table class="table table-casa-information">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Credit Bureau Name:</strong>
+                                </td>
+                                <td>{{ "CRC Credit Bureau" }}</td>
+                                <td>
+                                    <strong>Report Status:</strong>
+                                </td>
+                                <td>
+                                    {{
+                                        "Positive"
+                                    }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

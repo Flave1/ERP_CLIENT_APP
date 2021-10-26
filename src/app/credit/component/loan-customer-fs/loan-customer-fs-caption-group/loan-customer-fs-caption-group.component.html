@@ -1,0 +1,93 @@
+<div class="ui-g">
+    <div class="ui-g-12 no-padding">
+        <div class="card no-padding">
+            <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h2 class="panel-title pull-left">
+                                {{ formTitle }}
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                        <form novalidate [formGroup]="form">
+                            <input for="fSCaptionGroupId"
+                             type="hidden" 
+                             id="fSCaptionGroupId"
+                             name="fSCaptionGroupId" />
+                            <div class="form-group">
+                                <label
+                                    for="fSCaptionGroupName"
+                                    class="control-label col-md-3"
+                                    >FS Caption Group Name</label
+                                >
+                                <div class="col-md-5">
+                                    <input
+                                        type="text"
+                                        id="fSCaptionGroupName"
+                                        name="fSCaptionGroupName"
+                                        class="form-control"
+                                        formControlName="fSCaptionGroupName"
+                                        [ngClass]="
+                                            form.controls['fSCaptionGroupName']
+                                                .valid
+                                                ? 'valid-input'
+                                                : 'required-input'
+                                        "
+                                    />
+                                </div>
+                                <!-- <label
+                                    for="position"
+                                    class="control-label col-md-2"
+                                    >Position</label
+                                >
+                                <div class="col-md-4">
+                                    <input
+                                        type="number"
+                                        min="0"
+                                        max="100"
+                                        name="position"
+                                        class="form-control"
+                                        formControlName="position"
+                                        [ngClass]="
+                                            form.controls['position'].valid
+                                                ? 'valid-input'
+                                                : 'required-input'
+                                        "
+                                    />
+                                </div> -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button
+                                style="margin-right:5px"
+                                type="button"
+                                [disabled]="!form.valid"
+                                class="btn btn-primary pull-right"
+                                (click)="submitForm(form)"
+                            >
+                                Save
+                            </button>
+                            <button
+                                type="button"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                                (click)="goBack()"
+                            >
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

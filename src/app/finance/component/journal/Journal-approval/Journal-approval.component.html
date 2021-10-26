@@ -1,0 +1,242 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                Journal Approval
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <p-tabView [activeIndex]="activeIndex" (onChange)="tabChange($event)">
+            <p-tabPanel header="Journal Approvals">
+              <div class="form-horizontal">
+                <p-table
+                  [value]="journalAwaitingApproval"
+                  [scrollable]="true"
+                  [scrollHeight]="viewHeight"
+                  [responsive]="true"
+                >
+                  <ng-template pTemplate="caption">
+                    <h4>List of Journal Entry Awaiting Approval</h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>S/N</th>
+                      <th>Company</th>
+                      <th>Transaction Number</th>
+                      <th>Journal Type</th>
+                      <th>Journal Date</th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td>{{ i + 1 }}</td>
+                      <td>{{ x.company }}</td>
+                      <td>{{ x.transactionReference }}</td>
+                      <td>{{ x.journalType }}</td>
+                      <td>{{ x.journalDate | date }}</td>
+                      <td>
+                        <a (click)="viewApprovalDetails(x)">View</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </div>
+            </p-tabPanel>
+            <p-tabPanel header="Journal Entries" [disabled]="!tabSelected">
+              <div style="margin-bottom:0" class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">
+                    Journal Approval
+                  </h2>
+                </div>
+
+                <div class="panel-body">
+                  <div class="form-horizontal">
+                    <form novalidate>
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Journal Type
+                          </label>
+                          <div class="col-md-4">
+                            <input
+                              type="text"
+                              value="{{ selectedApprovalData.journalType }}"
+                              class="form-control"
+                              readonly
+                            />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Transaction Number
+                          </label>
+                          <div class="col-md-4">
+                            <input
+                              type="text"
+                              value="{{
+                                selectedApprovalData.transactionReference
+                              }}"
+                              readonly
+                              class="form-control"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Total Debit
+                          </label>
+                          <div class="col-md-4">
+                            <input
+                              type="text"
+                              value="{{ debitAmount }}"
+                              class="form-control"
+                              readonly
+                            />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Total Credit
+                          </label>
+                          <div class="col-md-4">
+                            <input
+                              type="text"
+                              value="{{ creditAmount }}"
+                              readonly
+                              class="form-control"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                    <div class="row">
+                      <p-table
+                        [value]="journalEntries"
+                        [scrollable]="true"
+                        [scrollHeight]="viewHeight"
+                        [responsive]="true"
+                      >
+                        <ng-template pTemplate="caption">
+                          <h4>Journal Entries</h4>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                          <tr>
+                            <th>S/N</th>
+                            <th>Company</th>
+                            <th>Transaction Number</th>
+                            <th>Debit</th>
+                            <th>Credit</th>
+                            <th>SubGL Name</th>
+                          </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                          <tr>
+                            <td>{{ i + 1 }}</td>
+                            <td>{{ x.company }}</td>
+                            <td>{{ x.transactionReference }}</td>
+                            <td>{{ x.debitAmount }}</td>
+                            <td>{{ x.creditAmount }}</td>
+                            <td>{{ x.glName }}</td>
+                          </tr>
+                        </ng-template>
+                      </p-table>
+                    </div>
+                    <div class="row">
+                      <div style="margin-top:20px; padding: 20px" class="form-group">
+                        <label for="" class="control-label col-md-2">
+                          Comment
+                        </label>
+                        <div class="col-md-4">
+                          <textarea
+                            [ngClass]="
+                              !selectedApprovalData.comment
+                                ? 'required-input'
+                                : 'valid-input'
+                            "
+                            class="form-control"
+                            [(ngModel)]="selectedApprovalData.comment"
+                            name="comment"
+                            cols="15"
+                            rows="3"
+                          ></textarea>
+                        </div>
+                        <label for="" class="control-label col-md-2">
+                          Status
+                        </label>
+                        <div class="col-md-4">
+                          <select
+                            name="approvalStatusId"
+                            id="approvalStatusId"
+                            class="form-control"
+                            [(ngModel)]="selectedApprovalData.approvalStatusId"
+                            [ngClass]="
+                              !selectedApprovalData.approvalStatusId
+                                ? 'required-input'
+                                : 'valid-input'
+                            "
+                          >
+                            <option value="">--- Select Approval ---</option>
+                            <option value="2"> Approve </option>
+                            <option value="3"> Disapprove </option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="panel-footer">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button
+                        type="submit"
+                        [disabled]="
+                          !selectedApprovalData.comment ||
+                          !selectedApprovalData.approvalStatusId
+                        "
+                        (click)="submitApproval(selectedApprovalData)"
+                        class="btn btn-success pull-right"
+                      >
+                        Save
+                      </button>
+                      <button
+                        type="button"
+                        (click)="close()"
+                        style="margin-right:5px"
+                        class="btn btn-danger pull-right"
+                      >
+                        Close
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </p-tabPanel>
+          </p-tabView>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayApproval"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+</p-dialog>

@@ -1,0 +1,2420 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{ formTitle }}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <p-tabView (onChange)="onTabChange($event)" [activeIndex]="activeIndex">
+              <p-tabPanel header="Customer Information">
+                <form novalidate [formGroup]="form">
+                  <div *ngIf="!isCorporate">
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Customer Type
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="customerTypeId" formControlName="customerTypeId" id="customerTypeId"
+                          class="form-control" (change)="onCustomerTypeChange($event.target.value)">
+                          <option value="">-- Select Customer Type --</option>
+                          <option value="1"> Individual </option>
+                          <option value="2"> Corporate </option>
+                        </select>
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Relationship Officer
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="relationshipOfficerId" formControlName="relationshipOfficerId"
+                          id="relationshipOfficerId" class="form-control">
+                          <option value="">-- Select Staff --</option>
+                          <option *ngFor="let row of staffList" [value]="row.staffId">
+                            {{ row.firstName }} {{ row.lastName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Title
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="title" formControlName="title" id="title" class="form-control">
+                          <option value="">-- Select Title --</option>
+                          <option *ngFor="let row of titleList" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        Tax ID number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="taxIDNumber" name="taxIDNumber" class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Sur name
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="surname" name="surname" class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        First name
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="firstname" name="firstname" class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Other names
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="othername" name="othername" class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Marital Status
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="maritalStatusId" formControlName="maritalStatusId"
+                          id="maritalStatusId" class="form-control">
+                          <option value="">-- Select Marital Status --</option>
+                          <option *ngFor="let row of martialStatusList" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Gender
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="genderId" formControlName="genderId" id="genderId"
+                          class="form-control">
+                          <option value="">-- Select Gender --</option>
+                          <option *ngFor="let row of genderList" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Mother's Maiden Name
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="motherMaidenName" name="motherMaidenName"
+                          class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Date of birth
+                      </label>
+                      <div class="col-md-4">
+                        <p-calendar name="dob" formControlName="dob" [monthNavigator]="true" [yearNavigator]="true"
+                          yearRange="1900:2030" [showIcon]="true" [inputStyle]="{ width: '100%' }"
+                          [style]="{ width: '100%', 'z-index': '999' }">
+                        </p-calendar>
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        Permit Expiry Date
+                      </label>
+                      <div class="col-md-4">
+                        <p-calendar name="permitExpiryDate" formControlName="permitExpiryDate" [monthNavigator]="true"
+                          [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true"
+                          [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '999' }"></p-calendar>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        BVN number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="bvn" name="bvn" class="form-control" />
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        Resident Permit Number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="residentPermitNumber" name="residentPermitNumber"
+                          class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Permit Issue Date
+                      </label>
+                      <div class="col-md-4">
+                        <p-calendar name="permitIssueDate" formControlName="permitIssueDate" [monthNavigator]="true"
+                          [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true"
+                          [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '999' }"></p-calendar>
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        Social Security Number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="socialSecurityNumber" name="socialSecurityNumber"
+                          class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Country(Nationality)
+                      </label>
+
+                      <div class="col-md-4">
+                        <select type="text" name="nationality" formControlName="nationality" id="nationality"
+                          class="form-control" (change)="getState($event.target.value)">
+                          <option value="">-- Select Country --</option>
+                          <option *ngFor="let row of countryInformation" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        State of Origin
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="stateOfOrigin" formControlName="stateOfOrigin" id="stateOfOrigin"
+                          class="form-control">
+                          <option value="">-- Select State --</option>
+                          <option *ngFor="let row of stateList" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Is customer resident address
+                      </label>
+                      <div class="col-md-4 ">
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1"
+                            value="true" checked />
+                          <label class="form-check-label" for="exampleRadios1">
+                            Yes
+                          </label>
+                        </div>
+                        <div class="form-check">
+                          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2"
+                            value="false" />
+                          <label class="form-check-label" for="exampleRadios2">
+                            No
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                    <hr />
+
+                    <p class="control-label">
+                      Residential address
+                    </p>
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Country
+                      </label>
+
+                      <div class="col-md-4">
+                        <select type="text" name="nationality" formControlName="residentCountryId"
+                          id="residentCountryId" class="form-control"
+                          (change)="getResidentialState($event.target.value)">
+                          <option value="">-- Select Country --</option>
+                          <option *ngFor="let row of countryInformation" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        State
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="residentialState" formControlName="residentialState"
+                          id="residentialState" class="form-control" (change)="getResidentialCity($event.target.value)">
+                          <option value="">-- Select State --</option>
+                          <option *ngFor="let row of stateList" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        CITY
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="residentialCity" formControlName="residentialCity"
+                          id="residentialCity" class="form-control">
+                          <option value="">-- Select City --</option>
+                          <option *ngFor="let row of cityList" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        Email Address
+                      </label>
+                      <div class="col-md-4">
+                        <input type="email" formControlName="email" name="email" class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        LGA
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="residentialLGA" name="residentialLGA"
+                          class="form-control" />
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        Mailing Address
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="mailingAddress" name="mailingAddress"
+                          class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Address Line (1)
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="residentAddress1" name="residentAddress1"
+                          class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Address Line (2)
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="residentAddress2" name="residentAddress2"
+                          class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Mobile number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="mobileNumber" name="mobileNumber" class="form-control" />
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        Telephone number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="phoneNumber" name="phoneNumber" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <div *ngIf="isCorporate">
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Customer Type
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="customerTypeId" formControlName="customerTypeId" id="customerTypeId"
+                          class="form-control" (change)="onCustomerTypeChange($event.target.value)">
+                          <option value="">-- Select Customer Type --</option>
+                          <option value="1"> Individual </option>
+                          <option value="2"> Corporate </option>
+                        </select>
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        Company Name
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="companyName" name="companyName" class="form-control" />
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Certificate Of Incorporation Number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="certOfIncorporationNumber" name="certOfIncorporationNumber"
+                          class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Date Of Incorporation
+                      </label>
+                      <div class="col-md-4">
+                        <p-calendar name="dateOfIncorporation" formControlName="dateOfIncorporation"
+                          [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true"
+                          [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '999' }"></p-calendar>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Reg. address if not Opreating address
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="regAddifDifffromopAdd" name="companyName"
+                          class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Relationship Officer
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="relationshipOfficerId" formControlName="relationshipOfficerId"
+                          id="relationshipOfficerId" class="form-control">
+                          <option value="">-- Select Staff --</option>
+                          <option *ngFor="let row of staffList" [value]="row.staffId">
+                            {{ row.firstName}} {{ row.lastName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Jurisdiction Of Incorporation
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="jurisdictionOfincorporatoin"
+                          name="jurisdictionOfincorporatoin" class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Nature Of Business
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="natureOfBusiness" name="natureOfBusiness"
+                          class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Operating Country
+                      </label>
+
+                      <div class="col-md-4">
+                        <select type="text" name="nationality" formControlName="residentCountryId"
+                          id="residentCountryId" class="form-control" (change)="getState($event.target.value)">
+                          <option value="">-- Select Country --</option>
+                          <option *ngFor="let row of countryInformation" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+
+                      <label for="" class="control-label col-md-2">
+                        State of Origin
+                      </label>
+                      <div class="col-md-4">
+                        <select type="text" name="stateId" formControlName="stateId" id="stateId" class="form-control">
+                          <option value="">-- Select State --</option>
+                          <option *ngFor="let row of stateList" [value]="row.lookupId">
+                            {{ row.lookupName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Operating Adress One
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="operatingAdress1" name="operatingAdress1"
+                          class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Operating Adress Two
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="operatingAdress2" name="operatingAdress2"
+                          class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Local Government
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="localGovernment" name="localGovernment"
+                          class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Sector Or Industry
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="sectorOrIndustry" name="sectorOrIndustry"
+                          class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Email Address
+                      </label>
+                      <div class="col-md-4">
+                        <input type="email" formControlName="email" name="email" class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Website (if any)
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="website" name="website" class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Mobile Number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="number" formControlName="mobileNumber" name="mobileNumber" class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        Telephone Number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="phoneNumber" name="phoneNumber" class="form-control" />
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        Tax ID Number
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="taxIDNumber" name="taxIDNumber" class="form-control" />
+                      </div>
+                      <label for="" class="control-label col-md-2">
+                        SCUML
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="scuml" name="scuml" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+
+                  <p *ngIf="!isCorporate" class="page-header">Employment information</p>
+                  <br />
+                  <div class="form-group">
+                    <div *ngIf="!isCorporate" class="col-md-4" style="padding-left: 0;">
+                      <input class="form-check-input" type="radio" name="employmentType"
+                        formControlName="employmentType" [checked]="employmentType == 1"
+                        (change)="onSelfEmplyedOrEmplyedChange($event)" value="1" />
+                      <label class="control-label mr_10 ml_5" for="1">
+                        Employed</label>
+                      <!--                      <div class="form-check form-check-inline">-->
+                      <!--                       -->
+                      <!--                        -->
+                      <!--                      </div>-->
+                      <input class="form-check-input" type="radio" name="employmentType" [checked]="employmentType == 2"
+                        formControlName="employmentType" (change)="onSelfEmplyedOrEmplyedChange($event)" value="2" />
+                      <label class="control-label mr_10 ml_5" for="2">
+                        Self Employed</label>
+                      <!--                      <div class="form-check form-check-inline">-->
+                      <!--                       -->
+                      <!--                      </div>-->
+                    </div>
+                    <div *ngIf="!isCorporate" class="col-md-4">
+                      <input class="form-check-input" type="radio" name="employmentType"
+                        formControlName="employmentType" [checked]="employmentType == 3"
+                        (change)="onSelfEmplyedOrEmplyedChange($event)" value="3" />
+                      <label class="control-label mr_10 ml_5" for="3">
+                        Unemployed</label>
+                      <!--                      <div class="form-check form-check-inline">-->
+                      <!--                       -->
+                      <!--                      </div>-->
+                      <input class="form-check-input" [checked]="employmentType == 4" type="radio" name="employmentType"
+                        formControlName="employmentType" (change)="onSelfEmplyedOrEmplyedChange($event)" value="4" />
+                      <label class="control-label mr_10 ml_5" for="4">
+                        Retired</label>
+                      <!--                      <div class="form-check form-check-inline">-->
+                      <!--                        -->
+                      <!--                      </div>-->
+                    </div>
+                    <div *ngIf="!isCorporate" class="col-md-4">
+                      <input class="form-check-input" type="radio" name="employmentType"
+                        formControlName="employmentType" [checked]="employmentType == 5"
+                        (change)="onSelfEmplyedOrEmplyedChange($event)" value="5" />
+                      <label class="control-label mr_10 ml_5" for="5">
+                        Student</label>
+                      <!--                      <div class="form-check form-check-inline">-->
+                      <!--                       -->
+                      <!--                      </div>-->
+                      <input class="form-check-input" type="radio" name="employmentType"
+                        formControlName="employmentType" [checked]="employmentType == 6"
+                        (change)="onSelfEmplyedOrEmplyedChange($event)" value="6" />
+                      <label class="form-check-label mr_10 ml_5" for="6">
+                        Others</label>
+                      <!--                      <div class="form-check form-check-inline">-->
+                      <!--                        -->
+                      <!--                      </div>-->
+                    </div>
+
+                    <div *ngIf="
+                        IfEmployedOrSelfEmployed ||
+                        employmentType == 1 ||
+                        employmentType == 2
+                      ">
+                      <br />
+                      <div class="form-group">
+                        <label for="" class="control-label col-md-2">
+                          <span *ngIf="employed">Employer Name</span>
+                          <span *ngIf="selfemployed">Business Name</span>
+                        </label>
+                        <div class="col-md-4">
+                          <input type="text" formControlName="businessName" name="businessName" class="form-control" />
+                        </div>
+                        <label for="" class="control-label col-md-2">
+                          <span *ngIf="employed">Employer Address</span>
+                          <span *ngIf="selfemployed">Address</span>
+                        </label>
+                        <div class="col-md-4">
+                          <input type="text" formControlName="businessAddress" name="businessAddress"
+                            class="form-control" />
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="" class="control-label col-md-2">
+                          <span *ngIf="employed"> State</span>
+                          <span *ngIf="selfemployed"> State</span>
+                        </label>
+                        <div class="col-md-4">
+                          <input type="text" formControlName="businessState" name="businessState"
+                            class="form-control" />
+                        </div>
+                        <label for="" class="control-label col-md-2">
+                          <span *ngIf="employed">Occuption</span>
+                          <span *ngIf="selfemployed">Job title</span>
+                        </label>
+                        <div class="col-md-4">
+                          <input type="text" formControlName="jobTitle" name="jobTitle" class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+
+                    <div *ngIf="employmentTypeIsOthers || employmentType == 6" class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        <span>Specify Others</span>
+                      </label>
+                      <div class="col-md-4">
+                        <input type="text" formControlName="jobTitle" name="jobTitle" class="form-control" />
+                      </div>
+                    </div>
+                  </div>
+                </form>
+
+                <!-- <form>
+                  <p class="page-header">Employment information</p>
+                  <br>
+                  <div class="form-group">
+                    <p class="control-label">
+                      Customer Signature or thumb print
+                    </p>
+                    <div class="form-group">
+                      <label for="" class="control-label col-md-2">
+                        <div class="col-md-4">
+                          <img [src]=" fileUrl" height="200"> <br />
+                          <input type='file' (change)="onSelectFile($event)">
+
+                        </div>
+                    </div>
+                  </div>
+                </form> -->
+              </p-tabPanel>
+
+              <p-tabPanel [disabled]="identityTabDisabled" header="Account Information">
+                <form novalidate [formGroup]="accountinformation">
+                  <div class="container-fluid">
+                    <hr />
+                    <p>Account Required services</p>
+                    <div class="form-group">
+                      <div class="col-md-4">
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" name="internetBanking" formControlName="internetBanking"
+                            class="custom-control-input" id="internetBanking" />
+                          <label class="custom-control-label ml_5" for="internetBanking">Internet Banking</label>
+                        </div>
+
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" name="emailStatement" formControlName="emailStatement"
+                            class="custom-control-input" id="emailStatement" />
+                          <label class="custom-control-label ml_5" for="emailStatement">Email Statement</label>
+                        </div>
+
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" name="card" formControlName="card" class="custom-control-input"
+                            id="card" />
+                          <label class="custom-control-label ml_5" for="card">Card</label>
+                        </div>
+                      </div>
+
+                      <div class="col-md-4">
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" name="smsAlert" formControlName="smsAlert" class="custom-control-input"
+                            id="smsAlert" />
+                          <label class="custom-control-label ml_5" for="smsAlert">Sms Alert</label>
+                        </div>
+
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" name="emailAlert" formControlName="emailAlert"
+                            class="custom-control-input" id="emailAlert" />
+                          <label class="custom-control-label ml_5" for="emailAlert">Email Alert</label>
+                        </div>
+
+                        <div class="custom-control custom-switch">
+                          <input type="checkbox" name="token" formControlName="token" class="custom-control-input"
+                            id="token" />
+                          <label class="custom-control-label ml_5" for="token">Token</label>
+                        </div>
+                      </div>
+                      <div class="col-md-4" *ngIf="isCorporate">
+                        <div class="custom-control custom-switch col-md-12">
+                          <label class="custom-control-label" for="isYourCompanyQuotedOnTheStockExchange">Is Your
+                            Company Quoted On The Stock Exchange</label>
+                          <input type="checkbox" name="isYourCompanyQuotedOnTheStockExchange"
+                            (change)="isInStockExchangeChange($event)"
+                            formControlName="isYourCompanyQuotedOnTheStockExchange" class="custom-control-input"
+                            id="isYourCompanyQuotedOnTheStockExchange" />
+                        </div>
+                        <div class="custom-control custom-switch col-md-12" *ngIf="inStockExchange">
+                          <label class="custom-control-label" for="emailAlert">Indicate Stock Exchange</label>
+                          <input type="text" name="stockExchange" formControlName="stockExchange" class="form-control"
+                            id="stockExchange" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-2">
+                      Account Type
+                    </label>
+                    <div class="col-md-4">
+                      <select type="text" name="accountTypeId" formControlName="accountTypeId" id="accountTypeId"
+                        class="form-control">
+                        <option selected value="">-- Select Accountype --</option>
+                        <option *ngFor="let row of accountype" [value]="row.accountTypeId">
+                          {{ row.name }}
+                        </option>
+                      </select>
+                    </div>
+
+                    <label for="" class="control-label col-md-2">
+                      Account Category
+                    </label>
+                    <div class="col-md-4">
+                      <select type="text" name="accountCategoryId" formControlName="accountCategoryId"
+                        id="accountCategoryId" class="form-control">
+                        <option selected value="">-- Select Category --</option>
+                        <option *ngFor="let row of accountCategory" [value]="row.categoryId">
+                          {{ row.name }}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-2">
+                      Account Currency
+                    </label>
+                    <div class="col-md-4">
+                      <ng-select [items]="currencyArray" bindValue="id" bindLabel="itemName"
+                        formControlName="currencies" [multiple]="true" [closeOnSelect]="false">
+                        <ng-template ng-option-tmp let-item="item" let-item$="item$" let-index="index">
+                          <input id="item-{{index}}" type="checkbox" [ngModel]="item$.selected"
+                            [ngModelOptions]="{standalone: true}" /> {{item.itemName}}
+                        </ng-template>
+                      </ng-select>
+                      <!--                      <angular2-multiselect-->
+                      <!--                        [data]="currencyArray"-->
+                      <!--                        [settings]="dropdownSettings"-->
+                      <!--                        (onSelect)="onItemSelect($event.id)"-->
+                      <!--                        (onDeSelect)="OnItemDeSelect($event)"-->
+                      <!--                        (onSelectAll)="onSelectAll($event)"-->
+                      <!--                        (onDeSelectAll)="onDeSelectAll($event)"-->
+                      <!--                        formControlName="currencies"-->
+                      <!--                      >-->
+                      <!--                      </angular2-multiselect>-->
+
+                      <!--                      <p-multiSelect [options]="currencyArray" formControlName="currencies" placeholder="Select Currencies" [style]="{width: '100%'}"-->
+                      <!--                        [panelStyle]="{ minWidth: '25em' }" id="currencies"></p-multiSelect>-->
+
+                      <!-- <select type="text" name="currencies" formControlName="currencies" id="currencies"
+                        class="form-control">
+                        <option selected value="">-- Select Currency --</option>
+                        <option *ngFor="let row of currency" [value]="row.lookupId">
+                          {{ row.lookupName }}
+                        </option>
+                      </select> -->
+                    </div>
+                  </div>
+                  <div class="panel-footer">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <button type="submit" [disabled]="accountinformation.invalid"
+                          (click)="submitAccountinformation(accountinformation)" class="btn btn-success pull-right">
+                          Save
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </p-tabPanel>
+
+              <p-tabPanel *ngIf="!isCorporate" [disabled]="identityTabDisabled" header="Identity Details">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="showAddNewIdentityDetails()" pButton type="button" label="Add Identity Details"
+                        icon="fa-plus"></button>
+                    </div>
+                  </div>
+                </div>
+                <p-table [value]="CustomerIdentityDetails" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    <h4>Identity Details</h4>
+                  </ng-template>
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th>S/N</th>
+                      <th>Means of Identification</th>
+                      <th>Identification Number</th>
+                      <th>Date Issued</th>
+                      <th>Date Expired</th>
+                    </tr>
+                  </ng-template>
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td class="table_link" (click)="editIdentityDetails(x)">
+                        {{ i + 1 }}
+                      </td>
+                      <td class="table_link" (click)="editIdentityDetails(x)">
+                        {{ x.identificationName }}
+                      </td>
+                      <td class="table_link" (click)="editIdentityDetails(x)">
+                        {{ x.idNumber }}
+                      </td>
+                      <td class="table_link" (click)="editIdentityDetails(x)">
+                        <a> {{ x.dateIssued | date }}</a>
+                      </td>
+                      <td class="table_link">
+                        <a (click)="deleteIdentityDetails(x)">{{
+                          x.expiryDate | date
+                        }}</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+
+              <p-tabPanel *ngIf="!isCorporate" [disabled]="nextOfKinTabDisabled" header="Next of kin">
+                <div style="margin-bottom:0" class="panel panel-default">
+                  <form novalidate [formGroup]="nextOfKinForm">
+                    <div class="panel-body">
+                      <div class="form-horizontal">
+                        <hr />
+                        <p class="page-header">Next of kin</p>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Title
+                          </label>
+                          <div class="col-md-4">
+                            <select type="text" name="nextOfKinTitle" formControlName="nextOfKinTitle"
+                              id="nextOfKinTitle" class="form-control">
+                              <option value="">-- Select Title --</option>
+                              <option *ngFor="let row of titleList" [value]="row.lookupId">
+                                {{ row.lookupName }}
+                              </option>
+                            </select>
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            First Name
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="nextOfKinFirstName" name="nextOfKinFirstName"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Middle Name
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="nextOfKinOtherNames" name="nextOfKinOtherNames"
+                              class="form-control" />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Last Name
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="nextOfKinSurname" name="nextOfKinSurname"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Relationship
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="nextOfKinRelationship" name="nextOfKinRelationship"
+                              class="form-control" />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Gender
+                          </label>
+                          <div class="col-md-4">
+                            <select type="text" name="nextOfKinGender" formControlName="nextOfKinGender"
+                              id="nextOfKinGender" class="form-control">
+                              <option value="">-- Select Gender --</option>
+                              <option *ngFor="let row of genderList" [value]="row.lookupId">
+                                {{ row.lookupName }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Phone Number
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="nextOfKinMobileNumber" name="nextOfKinMobileNumber"
+                              class="form-control" />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Email
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="nextOfKinEmailAddress" name="nextOfKinEmailAddress"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            City
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="nextOfKinCity" name="nextOfKinCity"
+                              class="form-control" />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            State
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="nextOfKinState" name="nextOfKinState"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Date of Birth
+                          </label>
+                          <div class="col-md-4">
+                            <p-calendar name="nextOfKinDateOfBirth" formControlName="nextOfKinDateOfBirth"
+                              [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true"
+                              [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '100' }">
+                            </p-calendar>
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Address
+                          </label>
+                          <div class="col-md-4">
+                            <textarea rows="3" formControlName="nextOfKinAddress" name="nextOfKinAddress"
+                              class="form-control"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="panel-footer">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <button type="submit" [disabled]="nextOfKinForm.invalid"
+                            (click)="submitCustomerNextOfKins(nextOfKinForm)" class="btn btn-success pull-right">
+                            Save
+                          </button>
+                          <button type="button" (click)="displayNextOfKins = false" style="margin-right:5px"
+                            class="btn btn-danger pull-right">
+                            Close
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel [disabled]="kycTabDisabled" header="KYC">
+                <div style="margin-bottom:0" class="">
+                  <p class="page-header">Know Your Customer</p>
+                  <form novalidate [formGroup]="kycForm">
+                    <div class="panel-body">
+                      <div class="form-horizontal">
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-5">
+                            Is Customer Socially or finacially disadvantaged?
+                          </label>
+                          <div class="col-md-1">
+                            <input type="checkbox" [(ngModel)]="selectfinanciallydisadvantaged" binary="true"
+                              formControlName="financiallydisadvantaged" name="financiallydisadvantaged" />
+                          </div>
+                          <div *ngIf="
+                              kycForm.get('financiallydisadvantaged').value !=
+                              false
+                            ">
+                            <label for="" class="control-label col-md-2">
+                              State Documents Obtained
+                            </label>
+                            <div class="col-md-4">
+                              <input type="text" formControlName="otherDocumentsObtained" name="otherDocumentsObtained"
+                                class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-5">
+                            Does Customer Enjoy Teired KYC Requirement?
+                          </label>
+                          <div class="col-md-1">
+                            <input type="checkbox" [(ngModel)]="selecttieredKycrequirement" binary="true"
+                              formControlName="doesTheCustomerEnjoyTieredKYC" name="doesTheCustomerEnjoyTieredKYC" />
+                          </div>
+                          <div *ngIf="
+                              kycForm.get('doesTheCustomerEnjoyTieredKYC')
+                                .value != false
+                            ">
+                            <label for="" class="control-label col-md-2">
+                              Identify customer Risk
+                            </label>
+                            <div class="col-md-4">
+                              <select type="text" name="riskCategory" formControlName="riskCategory" id="riskCategory"
+                                class="form-control">
+                                <option value="">-- Select Risk --</option>
+                                <option value="1">Low Risk</option>
+                                <option value="2">Medium Risk</option>
+                                <option value="3">High Risk</option>
+                              </select>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-5">
+                            Is Customer a Politically Exposed Person?
+                          </label>
+                          <div class="col-md-1">
+                            <input type="checkbox" [(ngModel)]="selectpoliticallyExposedPerson" binary="true"
+                              formControlName="isCustomerPoliticalyExposed" name="isCustomerPoliticalyExposed" />
+                          </div>
+                          <div *ngIf="
+                              kycForm.get('isCustomerPoliticalyExposed')
+                                .value != false
+                            ">
+                            <label for="" class="control-label col-md-2">
+                              Provide details
+                            </label>
+                            <div class="col-md-4">
+                              <input type="text" formControlName="politicalyExposedDetails"
+                                name="politicalyExposedDetails" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                        <br />
+                        <hr />
+                        <p class="page-header">Customer Address Verification</p>
+                        <hr />
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Is address visited?
+                          </label>
+                          <div class="col-md-4">
+                            <select type="text" name="addressVisited" formControlName="addressVisited"
+                              id="addressVisited" class="form-control">
+                              <option value="">-- Select Item --</option>
+                              <option value="1">Yes</option>
+                              <option value="2">No</option>
+                            </select>
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Comments on Location
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="commentOnLocation" name="commentOnLocation"
+                              class="form-control" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Color of location
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="location_ColorOfbuilding"
+                              name="location_ColorOfbuilding" class="form-control" />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Description of location
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="location_DescriptionOfBuilding"
+                              name="location_DescriptionOfBuilding" class="form-control" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Full Name of visiting staff
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="fullNameOfVisitingStaff" name="fullNameOfVisitingStaff"
+                              class="form-control" />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Visiting date
+                          </label>
+                          <div class="col-md-4">
+                            <p-calendar name="dateOfVisitation" formControlName="dateOfVisitation"
+                              [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true"
+                              [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '100' }">
+                            </p-calendar>
+                          </div>
+                        </div>
+
+                        <br />
+                        <hr />
+                        <p class="page-header">Documentation check</p>
+                        <hr />
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-4">
+                            Is account opening form duly completed?
+                          </label>
+                          <div class="col-md-2">
+                            <input type="checkbox" binary="true" formControlName="dulyCompletedAccountOpenningForm"
+                              name="dulyCompletedAccountOpenningForm" />
+                          </div>
+                          <label for="" class="control-label col-md-4">
+                            Is recent pPassport photograph uploaded?
+                          </label>
+                          <div class="col-md-2">
+                            <input type="checkbox" binary="true" formControlName="recentPassportPhotograph"
+                              name="recentPassportPhotograph" />
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-4">
+                            Is utility bills submitted
+                          </label>
+                          <div class="col-md-2">
+                            <input type="checkbox" binary="true" [checked]="isUtilityBillSubmitted == true"
+                              formControlName="isUtilityBillSubmitted" name="isUtilityBillSubmitted" />
+                          </div>
+                        </div>
+                        <br />
+                        <hr />
+                        <p class="page-header">Deferral/Waiver of Document</p>
+                        <hr />
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-2">
+                            Full Name
+                          </label>
+                          <div class="col-md-4">
+                            <input type="text" formControlName="deferralFullName" name="deferralFullName"
+                              class="form-control" />
+                          </div>
+                          <label for="" class="control-label col-md-2">
+                            Date
+                          </label>
+                          <div class="col-md-4">
+                            <p-calendar name="deferralDate" formControlName="deferralDate" [monthNavigator]="true"
+                              [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true"
+                              [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '100' }">
+                            </p-calendar>
+                          </div>
+                        </div>
+
+                        <div class="form-group">
+                          <div class="col-md-2">
+                            <label for="" class="control-label col-md-2">
+                              Approved
+                            </label>
+                          </div>
+                          <div class="col-md-4">
+                            <select type="text" name="confirmed" formControlName="confirmed" id="confirmed"
+                              class="form-control">
+                              <option value="">-- Select Item --</option>
+                              <option value="1">Approved</option>
+                              <option value="0">Pending</option>
+                            </select>
+                          </div>
+                        </div>
+                        <br />
+                        <hr />
+
+                        <p class="page-header">Deferral/Waiver of Document</p>
+                        <hr />
+                        <div class="form-group">
+                          <label for="" class="control-label col-md-12">
+                            I hereby confirm that the information contained
+                            herein is correct and a true representation of the
+                            Customer's profile
+                          </label>
+                        </div>
+                        <div class="form-group">
+                          <div class="col-md-2">
+                            <label for="" class="control-label col-md-2">
+                              Name
+                            </label>
+                          </div>
+                          <div class="col-md-4">
+                            <input name="confirmaiotnname" formControlName="confirmaiotnname" formCont
+                              class="form-control" />
+                          </div>
+                          <div class="col-md-2">
+                            <label for="" class="control-label col-md-2">
+                              Date
+                            </label>
+                          </div>
+                          <div class="col-md-4">
+                            <p-calendar name="confirmationDate" formControlName="confirmationDate"
+                              [monthNavigator]="true" [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true"
+                              [inputStyle]="{ width: '100%' }" [style]="{ width: '100%', 'z-index': '100' }">
+                            </p-calendar>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="panel-footer">
+                      <div class="row">
+                        <div class="col-md-12">
+                          <button type="button" [disabled]="kycForm.invalid" (click)="submitCustomerKYC(kycForm)"
+                            class="btn btn-success pull-right">
+                            Save
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </p-tabPanel>
+
+              <p-tabPanel *ngIf="isCorporate" [disabled]="kycTabDisabled" header="Key contact persons">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="showAddNewContactPersons()" pButton type="button" label="Add key Contact Persons"
+                        icon="fa-plus"></button>
+                    </div>
+                  </div>
+                </div>
+
+                <p-table [value]="CustomerContactPersons" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    key contact persons
+                  </ng-template>
+
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="sn_width">S/N</th>
+                      <th>Full Name</th>
+                      <th>Job Title</th>
+                      <th>Email</th>
+                      <th>phoneNumber</th>
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td class="sn_width">{{ i + 1 }}</td>
+                      <td (click)="editContactPersons(x)">{{ x.fullName }}</td>
+                      <td (click)="editContactPersons(x)">{{ x.jobTitle }}</td>
+                      <td (click)="editContactPersons(x)" style="word-break: break-word">
+                        {{ x.email }}
+                      </td>
+                      <td (click)="editContactPersons(x)">
+                        {{ x.phoneNumber }}
+                      </td>
+                      <td>
+                        <a (click)="deleteCustomerKeyContactDetails(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+
+              <p-tabPanel [disabled]="SignatoryTabDisabled" header="Signatory/Account mandate">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="showAddNewSigatory()" pButton type="button" label="Add Signatory"
+                        icon="fa-plus"></button>
+                      <button *ngIf="isCorporate" (click)="showAddCorporateSigatory()" pButton type="button"
+                        label="Add Signatory" icon="fa-plus"></button>
+                    </div>
+                  </div>
+                </div>
+
+                <p class="control-label">
+                  Mandate authorization or combination rule
+                </p>
+                <hr />
+                <br />
+                <form novalidate [formGroup]="signatoryMandate">
+                  <div class="form-group">
+                    <label for="" class="control-label col-md-4">
+                      Please tick as appropriate
+                    </label>
+                    <div class="col-md-6">
+                      <div class="col-md-3">
+                        <input  type="radio" name="soleSignatory" value="true" id="single"
+                          formControlName="soleSignatory" (change)="onSoleSignatoryChange($event)"
+                        />
+                        <label for="single" class="form-check-label">
+                          Sole Signatory</label>
+                      </div>
+                      <div class="col-md-3">
+                        <input id="more" type="radio" name="soleSignatory" value="false"
+                          formControlName="soleSignatory" (change)="onSoleSignatoryChange($event)"  />
+                        <label for="more" class="form-check-label">
+                          Two or more to sign</label>
+                      </div>
+                    </div>
+                  </div>
+                  <div *ngIf="signatoryMandate.get('soleSignatory').value == false" class="row">
+                    <label for="" class="control-label col-md-4">
+                      Specify number of people to sign
+                    </label>
+                    <br />
+                    <div class="col-md-4">
+                      <input type="text" formControlName="number_of_to_sign" name="number_of_to_sign"
+                        class="form-control" />
+                    </div>
+                  </div>
+
+                  <p-table [value]="CustomerSignatory" [responsive]="true">
+                    <ng-template pTemplate="caption"> </ng-template>
+                    <ng-template pTemplate="header">
+                      <tr>
+                        <th class="sn_width">S/N</th>
+                        <th>Full Name</th>
+                        <th>Class of Signatory</th>
+                        <th>Signature</th>
+                        <th></th>
+                      </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-x let-i="rowIndex">
+                      <tr>
+                        <td class="sn_width">{{ i + 1 }}</td>
+                        <td (click)="editSignatory(x)">
+                          {{ x.surname + " " + x.firstName }}
+                        </td>
+                        <td (click)="editSignatory(x)">
+                          {{ x.signatoryClassName }}
+                        </td>
+                        <td>
+                          <a (click)="viewSignature(x.signatoriesId)">View</a>
+                        </td>
+                        <!-- <td>
+
+                                <a (click)="EditCorporateSigatory(x)">Edit</a>
+                              </td> -->
+                        <td>
+                          <a (click)="deleteSignatory(x)">Delete</a>
+                        </td>
+                      </tr>
+                    </ng-template>
+                  </p-table>
+
+                  <br />
+                  <hr />
+                  <div class="form-group">
+                    <div class="row">
+                      <div class="col-md-8">
+                        <div class="col-md-2">
+                          <input type="checkbox" formControlName="declarationChecked" name="declarationChecked" />
+                        </div>
+
+                        <div class="col-md-10">
+                          I/We hereby apply for the opening of an account with
+                          Company name. <br />
+                          I/We understand that the information given herein and
+                          the documents supplied are the basis for opening such
+                          account and <br />
+                          I/We therefore warrant that such information is
+                          correct. <br />
+                          I/We have read the terms and conditions governing the
+                          operations of the account which are presented overleaf
+                          and agree to be bound by them.
+                        </div>
+                      </div>
+                      <div class="col-md-4">
+                        <label for="" class="control-label col-md-4">
+                          Name
+                        </label>
+                        <div class="col-md-8">
+                          <input type="text" formControlName="declarationName" name="declarationName"
+                            class="form-control" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-md-12">
+                      <button type="button" [disabled]="signatoryMandate.invalid"
+                        (click)="submitMandate(signatoryMandate)" class="btn btn-success pull-right">
+                        Save
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </p-tabPanel>
+              <p-tabPanel *ngIf="isCorporate" header="Directors">
+                <div class="form-group">
+                  <div class="col-md-12">
+                    <div class="pull-right">
+                      <button (click)="showAddNewDirectors()" pButton type="button" label="Add Directors"
+                        icon="fa-plus"></button>
+                    </div>
+                  </div>
+                </div>
+
+                <p-table [value]="CustomerDirector" [responsive]="true">
+                  <ng-template pTemplate="caption">
+                    Directors
+                  </ng-template>
+
+                  <ng-template pTemplate="header">
+                    <tr>
+                      <th class="sn_width">S/N</th>
+                      <th>Full Name</th>
+                      <th>Job Title</th>
+                      <th>Position</th>
+                      <th>Email Address</th>
+                      <th>Phone Number</th>
+                      <th></th>
+                    </tr>
+                  </ng-template>
+
+                  <ng-template pTemplate="body" let-x let-i="rowIndex">
+                    <tr>
+                      <td class="sn_width">{{ i + 1 }}</td>
+                      <td (click)="editDirector(x)" class="cursor_pointer">{{ x.surname }} {{x.firstName}}</td>
+                      <td (click)="editDirector(x)" class="cursor_pointer">{{ x.jobTitle }}</td>
+                      <td (click)="editDirector(x)" class="cursor_pointer">
+                        {{ x.position }}
+                      </td>
+                      <td (click)="editDirector(x)" class="cursor_pointer" style="word-break: break-word">
+                        {{ x.emailAddress }}
+                      </td>
+                      <td (click)="editDirector(x)" class="cursor_pointer">
+                        {{x.phoneNumber}}
+                      </td>
+                      <td>
+                        <a (click)="deleteDirector(x)">Delete</a>
+                      </td>
+                    </tr>
+                  </ng-template>
+                </p-table>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button *ngIf="activeIndex == 5" style="margin-right:5px" type="button"   class="btn btn-primary pull-right" (click)="onSavedButtonPressed()">
+                Save
+              </button>
+
+              <!-- <button pButton type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                *ngIf="activeIndex == 0" (click)="submitCustomerInfo(form)" icon="pi pi-less-than" iconPos="right"
+                label="Save and Continue">
+              </button> -->
+              <button pButton *ngIf="activeIndex == 0" type="button" class="btn btn-primary pull-right"
+                (click)="submitCustomerInfo(form)" icon="pi pi-less-than" iconPos="right"
+                label="Save and Continue"></button>
+
+              <button pButton type="button" class="btn btn-primary pull-right" *ngIf="
+                  (activeIndex > 0 && activeIndex < 5)
+                " (click)="openNext()" icon="pi pi-less-than" iconPos="right" label="Next"></button>
+
+              <button pButton type="button" class="btn btn-primary pull-right" style="margin-right:10px"
+                *ngIf="activeIndex > 0" (click)="openPrev()" icon="pi pi-greater-than" iconPos="left"
+                label="Previous"></button>
+
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog [responsive]="true" [(visible)]="displayContactPersons" id="add-modal" modal="modal" showEffect="fade"
+  width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Contact Persons
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="ContactPersonForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Full name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="fullName" name="fullName" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Job title
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="jobTitle" name="jobTitle" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Phone number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="phoneNumber" name="phoneNumber" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Office address
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="officeAddress" name="officeAddress" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Email
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="email" name="email" class="form-control" />
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" [disabled]="!ContactPersonForm.invalid"
+                (click)="submitCustomerContactPersons(ContactPersonForm)" class="btn btn-success pull-right">
+                Save
+              </button>
+              <button type="button" (click)="displayContactPersons = false" style="margin-right:5px"
+                class="btn btn-danger pull-right">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog [responsive]="true" [(visible)]="displayDirectorsForm" id="add-modal" modal="modal" showEffect="fade"
+  width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Director
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="directorForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Surname
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="surname" name="surname" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              First Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="firstName" name="jobTitle" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Other Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="otherNames" name="phoneNumber" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Marital Status
+            </label>
+            <div class="col-md-4">
+              <select name="" id="" class="form-control" formControlName="maritalStatus">
+                <option value="1">Single</option>
+                <option value="2">Married</option>
+                <option value="3">Others</option>
+              </select>
+              <!--              <input type="text" formControlName="officeAddress" name="officeAddress" class="form-control" />-->
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Gender
+            </label>
+            <div class="col-md-4">
+              <select name="" id="" class="form-control" formControlName="gender">
+                <option value="1">Male</option>
+                <option value="2">Female</option>
+                <option value="3">Others</option>
+              </select>
+              <!--              <input type="text" formControlName="email" name="email" class="form-control" />-->
+            </div>
+            <label for="" class="control-label col-md-2">Date of birth</label>
+            <div class="col-md-4">
+              <input type="date" class="form-control" formControlName="dob" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Place of Birth</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="pob" />
+            </div>
+            <label for="" class="col-md-2 control-label">Mother's Maiden Name</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="motherMaidienName" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">State of origin(Citizens by birth only)</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="state" />
+            </div>
+            <label for="" class="control-label col-md-2">LGA of origin(Citizens by birth only)</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="lga" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Tax Identification Number</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="taxIdentitfication" />
+            </div>
+            <label for="" class="control-label col-md-2">BVN</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Means of Identification</label>
+            <div class="col-md-4">
+              <select name="" id="" class="form-control" formControlName="meansOfIdentification"></select>
+            </div>
+            <label for="" class="control-label col-md-2">Identification number</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="identificationNumber" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">ID issue date</label>
+            <div class="col-md-4">
+              <input type="date" class="form-control" formControlName="idIssuedate" />
+            </div>
+            <label for="" class="control-label col-md-2">ID expiry date</label>
+            <div class="col-md-4">
+              <input type="date" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Occupation</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="occupation" />
+            </div>
+            <label for="" class="control-label col-md-2">Job title</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="jobTitle" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Position</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="position" />
+            </div>
+            <label for="" class="control-label col-md-2">Nationality</label>
+            <div class="col-md-4">
+              <input class="form-control" formControlName="nationality" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Resident permit number (for non citizens)</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="residentPermitNumber" />
+            </div>
+            <label for="" class="control-label col-md-2">Permit issue date</label>
+            <div class="col-md-4">
+              <input type="date" class="form-control" formControlName="permitIssueDate" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Permit expiry date</label>
+            <div class="col-md-4">
+              <input type="date" class="form-control" formControlName="permitExpiryDate" />
+            </div>
+            <label for="" class="control-label col-md-2">Social security number</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="socialSecurityNumber" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Are you a resident of the country (Yes/No)</label>
+            <div class="col-md-4">
+              <select class="form-control">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+            <label for="" class="control-label col-md-2">Residential LGA</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="residentialLGA" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Residential City</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="residentialCity" />
+            </div>
+            <label for="" class="control-label col-md-2">Residential State</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="residentialState" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Mailing address (if different from residential address)</label>
+            <div class="col-md-4">
+              <input type="checkbox" formControlName="mailingAddressSameWithResidentialAddress" />
+            </div>
+            <label for="" class="control-label col-md-2">Mailing LGA</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="mailingLGA" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Mailing city</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="mailingCity" />
+            </div>
+            <label for="" class="control-label col-md-2">Mailing State</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="mailingState" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Mobile Number</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="mobileNumber" />
+            </div>
+            <label for="" class="control-label col-md-2">Phone Number</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="phoneNumber" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Email Address</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="emailAddress" />
+            </div>
+            <label for="" class="control-label col-md-2">Signature Upload(Name)</label>
+            <div class="col-md-4">
+              <input type="text" class="form-control" formControlName="signatureName" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">Signature</label>
+            <div class="col-md-4">
+              <input type="file" class="form-control" formControlName="signatureFile" />
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button type="submit" (click)="submitDirectors(directorForm)" class="btn btn-success pull-right">
+                Save
+              </button>
+              <button type="button" (click)="displayDirectorsForm = false" style="margin-right:5px"
+                class="btn btn-danger pull-right">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog [responsive]="true" [(visible)]="displayIdentityDetails" id="add-modal" modal="modal" showEffect="fade"
+  width="800" height="400">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Identity Details
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="identityDetailsForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Means of ID
+            </label>
+            <div class="col-md-4">
+              <select type="text" name="identification" formControlName="identification" id="identification"
+                class="form-control">
+                <option value="">-- Select Means of ID --</option>
+                <option *ngFor="let row of identificationInformation" [value]="row.lookupId">
+                  {{ row.lookupName }}
+                </option>
+              </select>
+            </div>
+            <label for="" class="control-label col-md-2">
+              ID Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="identificationNumber" name="identificationNumber"
+                class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Date Issued
+            </label>
+            <div class="col-md-4">
+              <p-calendar name="dateIssued" formControlName="dateIssued" [monthNavigator]="true" [yearNavigator]="true"
+                yearRange="1900:2030" [showIcon]="true" [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%', 'z-index': '999' }"></p-calendar>
+            </div>
+            <label for="" class="control-label col-md-2">
+              Expired Date
+            </label>
+            <div class="col-md-4">
+              <p-calendar name="expiryDate" formControlName="expiryDate" [monthNavigator]="true" [yearNavigator]="true"
+                yearRange="1900:2030" [showIcon]="true" [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%', 'z-index': '999' }"></p-calendar>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="button" [disabled]="identityDetailsForm.invalid"
+              (click)="submitCustomerIdentificationDetail(identityDetailsForm)" class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="displayIdentityDetails = false" style="margin-right:5px"
+              class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<p-dialog [responsive]="true" [(visible)]="displaySigatory" id="add-modal" modal="modal" showEffect="fade" width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Signatory
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="signatoryForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              First Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="firstname" name="firstname" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Last Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="surname" name="surname" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Middle Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="otherNames" name="otherNames" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Class of Signatory
+            </label>
+            <div class="col-md-4">
+              <select type="text" name="classofSignatory" formControlName="classofSignatory" id="classofSignatory"
+                class="form-control">
+                <option value="">-- Class of Signatory --</option>
+                <option value="1">Class A</option>
+                <option value="2">Class B</option>
+                <option value="3">Class C</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Identification Type
+            </label>
+            <div class="col-md-4">
+              <select type="text" name="identificationType" formControlName="identificationType" id="identificationType"
+                class="form-control">
+                <option value="">-- Identification Type --</option>
+                <option *ngFor="let row of identificationInformation" [value]="row.lookupId">
+                  {{ row.lookupName }}
+                </option>
+              </select>
+            </div>
+            <label for="" class="control-label col-md-2">
+              Identification Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="identificationNumber" name="identificationNumber"
+                class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Telephone
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="telephone" name="telephone" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Date
+            </label>
+            <div class="col-md-4">
+              <p-calendar name="date" formControlName="date" [monthNavigator]="true" [yearNavigator]="true"
+                yearRange="1900:2030" [showIcon]="true" [inputStyle]="{ width: '100%' }"
+                [style]="{ width: '100%', 'z-index': '100' }"></p-calendar>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="file" class="control-label col-md-2">
+              file
+            </label>
+            <div class="col-md-4">
+              <input type="file" (change)="onSignatoryImgFileChange($event)" class="form-control" id="file"
+                #SignaturefileInput />
+            </div>
+          </div>
+
+          <!-- <div *ngIf="signatoryForm.get('signatoryId').value > 0">
+            <div style="margin-left:10px;" class="row">
+              <h4><b>Signature Upload Section</b></h4>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="" class="control-label col-md-3">
+                Signature Upload
+              </label>
+              <div class="col-md-4">
+                <input type="file" (change)="onSignatoryImgFileChange($event)" placeholder="Upload Signature"
+                  accept=".jpg,.jpeg,.png" #SignaturefileInput name="SignaturefileInput" style="padding-top:2px;"
+                  class="form-control" />
+              </div>
+              <div class="col-md-3">
+                <button type="button" (click)="SignatoryImgUpload()" class="btn btn-success pull-right">
+                  <span class="pi pi-upload"></span> Signature Upload
+                </button>
+              </div>
+            </div>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="signatoryForm.invalid" (click)="submitCustomerSigatory(signatoryForm)"
+              class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="displaySigatory = false" style="margin-right:5px"
+              class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog>
+
+<!-- <p-dialog [responsive]="true" [(visible)]="displayContactPersons" id="add-modal" modal="modal" showEffect="fade"
+  width="800">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Contact Persons
+      </h2>
+    </div>
+
+    <form novalidate [formGroup]="ContactPersonForm">
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Title
+            </label>
+            <div class="col-md-4">
+              <select type="text" name="title" formControlName="title" id="title" class="form-control">
+                <option value="">-- Select Title --</option>
+                <option *ngFor="let row of titleList" [value]="row.lookupId">
+                  {{ row.lookupName }}
+                </option>
+              </select>
+            </div>
+            <label for="" class="control-label col-md-2">
+              First Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="firstName" name="firstName" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Middle Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="otherName" name="otherName" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Last Name
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="surName" name="surName" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Relationship
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="relationship" name="relationship" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Gender
+            </label>
+            <div class="col-md-4">
+              <select type="text" name="genderId" formControlName="genderId" id="genderId" class="form-control">
+                <option value="">-- Select Gender --</option>
+                <option *ngFor="let row of genderList" [value]="row.lookupId">
+                  {{ row.lookupName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Phone Number
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="mobileNumber" name="mobileNumber" class="form-control" />
+            </div>
+            <label for="" class="control-label col-md-2">
+              Email
+            </label>
+            <div class="col-md-4">
+              <input type="text" formControlName="email" name="email" class="form-control" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label for="" class="control-label col-md-2">
+              Address
+            </label>
+            <div class="col-md-10">
+              <textarea rows="3" formControlName="address" name="address" class="form-control"></textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12">
+            <button type="submit" [disabled]="ContactPersonForm.invalid"
+              (click)="submitCustomerContactPersons(ContactPersonForm)" class="btn btn-success pull-right">
+              Save
+            </button>
+            <button type="button" (click)="displayContactPersons = false" style="margin-right:5px"
+              class="btn btn-danger pull-right">
+              Close
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</p-dialog> -->
+
+<!-- <p-dialog [responsive]=true [(visible)]="displayKYC" id="add-modal" modal="modal" showEffect="fade" width="800">
+        <div style="margin-bottom:0" class="panel panel-default">
+            <div class="panel-heading">
+                <h2 class="panel-title">
+                    Know Your Customer
+                </h2>
+            </div>
+
+            <form novalidate [formGroup]="nextOfKinForm">
+                <div class="panel-body">
+                    <div class="form-horizontal">
+                            <div class="form-group">
+                                    <label for="" class="control-label col-md-3">
+                                        Socially or finacially disadvantaged?
+                                    </label>
+                                    <div class="col-md-3">
+                                            <div class="ui-g-12">
+                                            <p-radioButton formControlName="financiallydisadvantaged" name="financiallydisadvantaged" label="Yes"  value="true"   [(ngModel)]="selectfinanciallydisadvantaged"></p-radioButton>&nbsp;
+                                            <p-radioButton formControlName="financiallydisadvantaged" name="financiallydisadvantaged" label="No"   value="false"   [(ngModel)]="selectfinanciallydisadvantaged"></p-radioButton>
+                                          </div>
+                                          </div>
+                                    <label for="" class="control-label col-md-2">
+                                            Documents
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="text" formControlName="name" name="name"
+                                                class="form-control">
+                                        </div>
+                                </div>
+                        <div class="form-group">
+                            <label for="" class="control-label col-md-3">
+                                Enjoy Teired KYC Requirement?
+                            </label>
+                            <div class="col-md-3">
+                                    <div class="ui-g-12">
+                                    <p-radioButton formControlName="kycrequirement" name="kycrequirement" label="Yes"  value="true"   [(ngModel)]="selectkycrequirement"></p-radioButton>&nbsp;
+                                    <p-radioButton formControlName="kycrequirement" name="kycrequirement" label="No"   value="false"   [(ngModel)]="selectkycrequirement"></p-radioButton>
+                                  </div>
+                            </div>
+                            <label for="" class="control-label col-md-2">
+                                    Select Risk
+                                </label>
+                                <div class="col-md-4">
+                                        <select
+                                        type="text"
+                                        name="customerTypeId"
+                                        formControlName="customerTypeId"
+                                        id="customerTypeId"
+                                        class="form-control"
+                                    >
+                                        <option value=""
+                                            >-- Select Risk --</option
+                                        >
+                                        <option value="1"
+                                            >Low Risk</option
+                                        >
+                                        <option value="2"
+                                            >Medium Risk</option
+                                        >
+                                        <option value="3"
+                                            >High Risk</option
+                                        >
+                                    </select>
+                                </div>
+                        </div>
+                        <div class="form-group">
+                                <label for="" class="control-label col-md-3">
+                                        Politically Exposed Person?
+                                    </label>
+                                    <div class="col-md-3">
+                                            <div class="ui-g-12">
+                                            <p-radioButton formControlName="kycrequirement" name="kycrequirement" label="Yes"  value="true"   [(ngModel)]="selectkycrequirement"></p-radioButton>&nbsp;
+                                            <p-radioButton formControlName="kycrequirement" name="kycrequirement" label="No"   value="false"   [(ngModel)]="selectkycrequirement"></p-radioButton>
+                                          </div>
+                                    </div>
+                                    <label for="" class="control-label col-md-2">
+                                            Details
+                                        </label>
+                                        <div class="col-md-4">
+                                            <input type="text" formControlName="relationship" name="relationship"
+                                                class="form-control">
+                                        </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="" class="control-label col-md-2">
+                                Address Visited?
+                            </label>
+                            <div class="col-md-4">
+                                    <select
+                                    type="text"
+                                    name="customerTypeId"
+                                    formControlName="customerTypeId"
+                                    id="customerTypeId"
+                                    class="form-control"
+                                >
+                                    <option value=""
+                                        >-- Select Item --</option
+                                    >
+                                    <option value="1"
+                                        >Yes</option
+                                    >
+                                    <option value="2"
+                                        >No</option
+                                    >
+                                </select>
+                            </div>
+                            <label for="" class="control-label col-md-2">
+                                Comments on Location
+                            </label>
+                            <div class="col-md-4">
+                                <input type="text" formControlName="email" name="email"
+                                    class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                <label for="" class="control-label col-md-2">
+                                    Location Color
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" formControlName="phoneNo" name="phoneNo"
+                                        class="form-control">
+                                </div>
+                                <label for="" class="control-label col-md-2">
+                                    Location Description
+                                </label>
+                                <div class="col-md-4">
+                                    <input type="text" formControlName="email" name="email"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                    <label for="" class="control-label col-md-2">
+                                        Full Name of Visiting Staff
+                                    </label>
+                                    <div class="col-md-4">
+                                        <input type="text" formControlName="phoneNo" name="phoneNo"
+                                            class="form-control">
+                                    </div>
+                                    <label for="" class="control-label col-md-2">
+                                        Date of Visitation
+                                    </label>
+                                    <div class="col-md-4">
+                                            <p-calendar name="dob" class="form-control" formControlName="dob" [monthNavigator]="true"
+                                            [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                                            [style]="{'width': '100%', 'z-index': '100'}"></p-calendar>
+                                    </div>
+                                </div>
+                        <div class="form-group">
+                                <label for="" class="control-label col-md-3">
+                                        Utility Bills Submitted
+                                    </label>
+                                    <div class="col-md-3">
+                                            <div class="ui-g-12">
+                                            <p-radioButton formControlName="billsSubmitted" name="billsSubmitted" label="Yes"  value="true"   [(ngModel)]="selectbillsSubmitted"></p-radioButton>&nbsp;
+                                            <p-radioButton formControlName="billsSubmitted" name="billsSubmitted" label="No"   value="false"   [(ngModel)]="selectbillsSubmitted"></p-radioButton>
+                                          </div>
+                                    </div>
+                            <label for="" class="control-label col-md-3">
+                                Documentation Checked
+                            </label>
+                            <div class="col-md-3">
+                                    <div class="ui-g-12">
+                                    <p-radioButton formControlName="docChecked" name="docChecked" label="Yes"  value="true"   [(ngModel)]="selectdocChecked"></p-radioButton>&nbsp;
+                                    <p-radioButton formControlName="docChecked" name="docChecked" label="No"   value="false"   [(ngModel)]="selectdocChecked"></p-radioButton>
+                                  </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                                <label for="" class="control-label col-md-4">
+                                   Duly Completed
+                                </label>
+                                <div class="col-md-2">
+                                        <input
+                                        type="checkbox"
+                                        [(ngModel)]="duly"
+                                        binary="true"
+                                        name="duly"
+                                    />
+                                </div>
+                                <label for="" class="control-label col-md-4">
+                                    Recent Passport Photograph
+                                </label>
+                                <div class="col-md-2">
+                                        <input
+                                        type="checkbox"
+                                        [(ngModel)]="passport"
+                                        binary="true"
+                                        name="passport"
+                                    />
+                                </div>
+                            </div>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <button type="submit" [disabled]="nextOfKinForm.invalid"
+                                (click)="submitLoanCustomerNextOfKins(nextOfKinForm)" class="btn btn-success pull-right">Save
+                            </button>
+                            <button type="button" (click)="displayKYC=false" style="margin-right:5px"
+                                class="btn btn-danger pull-right">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+        </div>
+    </p-dialog> -->
+
+
+
+
+<p-dialog [responsive]="true" [(visible)]="displayDocumentUpload" id="add-modal" modal="modal" showEffect="fade"
+  width="700">
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Document Upload
+      </h2>
+    </div>
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="documentTypeId" class="control-label col-md-2">Document Type</label>
+          <div class="col-md-8">
+            <select type="text" name="documentTypeId" [(ngModel)]="documentTypeId" id="documentTypeId"
+              class="form-control" [ngClass]="'valid-input'">
+              <option value="">-- Select Upload Type --</option>
+              <option *ngFor="let type of documentTypeList" [value]="type.lookupId">
+                {{ type.lookupName }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="documentTitle" class="control-label col-md-2">Document Title</label>
+          <div class="col-md-8">
+            <input type="text" [(ngModel)]="documentName" class="form-control" name="documentName"
+              placeholder="Document name..." />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="documentTitle" class="control-label col-md-2">Physical Location</label>
+          <div class="col-md-8">
+            <input type="text" [(ngModel)]="physicalLocation" class="form-control" name="physicalLocation"
+              placeholder="Document Physical Location..." />
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="document" class="control-label col-md-2">Select Document</label>
+          <div class="col-md-8">
+            <input type="file" (change)="onFileChange($event)" placeholder="Upload file" accept=".jpg,.jpeg,.png"
+              #fileInput name="fileInput" style="padding-top:2px;" class="form-control" />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <button type="button" (click)="uploadFile()" [disabled]="documentName == null || file == undefined"
+            class="btn btn-success pull-right">
+            <span class="pi pi-upload"></span> Upload
+          </button>
+          <button type="button" (click)="displayDocumentUpload = false" style="margin-right:5px"
+            class="btn btn-danger pull-right">
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+
+<!--<p-dialog [responsive]="true" [(visible)]="displayDocument" modal="modal" showEffect="fade" width="1200">-->
+<!--  <div *ngIf="displayDocument" style="margin-bottom:0" class="panel panel-default">-->
+<!--    <div class="panel-heading">-->
+<!--      <h2 class="panel-title">-->
+<!--        Document Title:-->
+<!--        <strong>{{ selectedDocument }}</strong>-->
+<!--      </h2>-->
+<!--      <div class="pull-right">-->
+<!--        <a class="close" (click)="displayDocument = false">&times;</a>-->
+<!--      </div>-->
+<!--    </div>-->
+
+<!--    <div class="panel-body" style="overflow:auto;height:500px">-->
+<!--      <div style="margin: auto; width: 50%">-->
+<!--        <img *ngIf="binaryFile" style="max-width: 100%; display: block 2px black;"-->
+<!--          [src]="'data:image/jpg;base64,' + binaryFile" alt="" class="img-thumbnail" />-->
+<!--      </div>-->
+<!--    </div>-->
+<!--  </div>-->
+<!--</p-dialog>-->
+
+<p-dialog [responsive]="true" [(visible)]="displaySignature" modal="modal" showEffect="fade" Height="200" width="800">
+  <div *ngIf="displaySignature" style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Name:
+        <strong>{{ selectedDocument }}</strong>
+      </h2>
+      <div class="pull-right">
+        <a class="close" (click)="displaySignature = false">&times;</a>
+      </div>
+    </div>
+
+    <div class="panel-body" style="overflow:auto;height:500px">
+      <div style="margin: auto; width: 50%">
+        <img *ngIf="binaryFile" style="max-width: 100%; display: block" [src]="'data:image/jpg;base64,' + binaryFile"
+          alt="" class="img-thumbnail" />
+      </div>
+    </div>
+  </div>
+</p-dialog>

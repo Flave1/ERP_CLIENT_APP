@@ -1,0 +1,107 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                 Smtp Client
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="smtpClient" name="smtpClient" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  smtp Port
+                </label>
+                <div class="col-md-4">
+                  <input type="text" formControlName="smtpPort" name="smtpPort" class="form-control" />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                 Sender Email
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="senderEmail" name="senderEmail"/>
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                 Mail Caption
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="mailCaption" name="mailCaption"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Sender Username
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="senderUserName" name="senderUserName"/>
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                 Sender Password
+                </label>
+                <div class="col-md-4">
+                  <input type="password" class="form-control" formControlName="senderPassword" name="senderPassword"/>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                 Base Frontend
+                </label>
+                <div class="col-md-4">
+                  <input type="text" class="form-control" formControlName="baseFrontend" name="baseFrontend"/>
+                </div>
+                <label for="sendNotification" class="control-label col-md-2">Send Notification</label>
+                <div class="col-md-4">
+                  <input type="checkbox" id="sendNotification" formControlName="sendNotification" name="sendNotification"/>
+<!--                  <select name="sendNotification" id="sendNotification" formControlName="sendNotification" class="form-control">-->
+<!--                    <option value="yes">Yes</option>-->
+<!--                    <option value="no">No</option>-->
+<!--                  </select>-->
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  Enable SSL
+                </label>
+                <div class="col-md-4">
+                  <input type="checkbox" formControlName="enableSSL" name="enableSSL"/>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                      (click)="addEmailConfig(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

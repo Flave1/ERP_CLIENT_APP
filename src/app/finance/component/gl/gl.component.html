@@ -1,0 +1,75 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                {{formTitle}}
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <form novalidate [formGroup]="form">
+              <div class="form-group">
+                <label for="" class="control-label col-md-2">
+                  GL Code
+                </label>
+                <div class="col-md-4 mb_5">
+                  <input type="text" formControlName="glCode" name="glCode" class="form-control" />
+                </div>
+
+                <label for="" class="control-label col-md-2">
+                  GL Name
+                </label>
+                <div class="col-md-4 mb_5">
+                  <input type="text" formControlName="glName" name="glName" class="form-control" />
+                </div>
+
+                <!-- <label for="" class="control-label col-md-2">
+                  Company
+              </label>
+              <div class="col-md-4">
+                  <select type="text" name="companyId" formControlName="companyId" id="companyId" class="form-control">
+                      <option value="">-- Select Company --</option>
+                      <option *ngFor="let row of companyInformation" [value]="row.companyStructureId">
+                                                                                                                                                    {{ row.name }}
+                                                                                                  </option>
+                  </select>
+              </div> -->
+
+<!--              <label for="" class="control-label col-md-2">-->
+<!--                  GL Class-->
+<!--                </label>-->
+<!--                <div class="col-md-4 mb_5">-->
+<!--                  <select type="text" name="glClassId" formControlName="glClassId" id="glClassId" class="form-control">-->
+<!--                    <option value="">&#45;&#45; Select  GL Class &#45;&#45;</option>-->
+<!--                    <option value=1>CASA</option>-->
+<!--                    <option value=2>Others</option>-->
+<!--                  </select>-->
+<!--                </div>-->
+              </div>
+              </form>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12">
+              <button style="margin-right:5px" type="button" [disabled]="!form.valid" class="btn btn-primary pull-right"
+                (click)="submitGLInfo(form)">
+                Save
+              </button>
+              <button type="button" style="margin-right:5px" class="btn btn-danger pull-right" (click)="goBack()">
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

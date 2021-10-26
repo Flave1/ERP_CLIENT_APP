@@ -1,0 +1,204 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div style="margin-bottom:0" class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-md-12">
+            <h2 class="panel-title pull-left">
+              Customer Transaction
+            </h2>
+            <div
+              style="padding-right: 5px;padding-left: 5px;width: 45px;"
+              class="col-md-1 pull-right"
+            >
+              <button
+                pButton
+                style="padding:0.5em 0"
+                type="button"
+                class="ui-button-raised ui-button-secondary"
+                (click)="exportCustomerTransaction()"
+                icon="ui-icon-file-download"
+                pTooltip="Export"
+                tooltipPosition="top"
+                iconPos="center"
+                label=""
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="form-horizontal">
+          <p-table
+            #dt
+            [columns]="cols"
+            [value]="customerTransactions"
+            dataKey="customerTransactionId"
+            selectionMode="single"
+            [(selection)]="selectedCustomerTransactions"
+            [paginator]="false"
+            [scrollable]="true"
+            [scrollHeight]="'600px'"
+            [responsive]="true"
+          >
+            <ng-template pTemplate="caption">
+              <form class="customer_header_flex" [formGroup]="form">
+                <input
+                  type="text"
+                  class="form-control customer_search_input"
+                  placeholder="Search columns"
+                  [(ngModel)]="searchString"
+                  (click)="openSearchBox()"
+                  [ngModelOptions]="{standalone: true}"
+                />
+                <!--                                <p-calendar-->
+                <!--                                    [yearNavigator]="true"-->
+                <!--                                    placeholder="From"-->
+                <!--                                    [monthNavigator]="true"-->
+                <!--                                    [showIcon]="true"-->
+                <!--                                    yearRange="1900:2100"-->
+                <!--                                    formControlName="date1"-->
+                <!--                                    [inputStyle]="{ width: '100%' }"-->
+                <!--                                    [style]="{-->
+                <!--                                        width: '100%',-->
+                <!--                                        'z-index': '999'-->
+                <!--                                    }"-->
+                <!--                                    class="form-control customer_search_input"-->
+                <!--                                ></p-calendar>-->
+                <!--                                <p-calendar-->
+                <!--                                    [yearNavigator]="true"-->
+                <!--                                    [showIcon]="true"-->
+                <!--                                    yearRange="1900:2100"-->
+                <!--                                    placeholder="To"-->
+                <!--                                    [monthNavigator]="true"-->
+                <!--                                   formControlName="date2"-->
+                <!--                                    [inputStyle]="{ width: '100%' }"-->
+                <!--                                    [style]="{-->
+                <!--                                        width: '100%',-->
+                <!--                                        'z-index': '999'-->
+                <!--                                    }"-->
+                <!--                                    class="form-control customer_search_input"-->
+                <!--                                ></p-calendar>-->
+                <input type="date" class="form-control customer_search_input" formControlName="date1"/>
+                <input type="date" class="form-control customer_search_input" formControlName="date2"/>
+                <div class="search_btn_wrapper">
+                  <button class="search_btn" (click)="getDepositTransaction(form)">Search</button>
+                </div>
+              </form>
+            </ng-template>
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="checkbox_row">
+                  <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <!-- <th>Account Name</th> -->
+                <th pSortableColumn="casaAccountNumber">Account Number</th>
+                <th pSortableColumn="transactionCode">Transaction No</th>
+                <th pSortableColumn="description">Description</th>
+                <th pSortableColumn="transactionDate">Transaction Date</th>
+                <!-- <th>Value Date</th> -->
+                <th pSortableColumn="amount">Amount</th>
+                <th pSortableColumn="transactionType">Transaction Type</th>
+                <th pSortableColumn="availableBalance">Available Balance</th>
+                <th pSortableColumn="beneficiary">Beneficiary</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-x let-i="rowIndex">
+              <tr [pSelectableRow]="x" *ngIf="customerTransactions.length > 0">
+                <td class="checkbox_row">
+                  <p-tableCheckbox
+                    [value]="x"
+                  ></p-tableCheckbox>
+                </td>
+                <!-- <td>{{x.firstName}} {{x.secondName}}</td> -->
+                <td>{{x.casaAccountNumber}}</td>
+                <td>{{ x.transactionCode }}</td>
+                <td>{{ x.description }}</td>
+                <td>{{ x.transactionDate | date }}</td>
+                <!-- <td>{{ x.valueDate | date }}</td> -->
+                <td>{{ x.amount | number: "1.2" }}</td>
+                <td>{{ x.transactionType }}</td>
+                <td>{{ x.availableBalance | number: "1.2" }}</td>
+                <td>{{ x.beneficiary }}</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <div class="row">
+          <div class="col-md-12"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displaySearchModal"
+  modal="modal"
+  id="searchModal"
+  showEffect="fade"
+  width="650"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <div style="margin-left:0" class="row">
+        <h2 class="panel-title pull-left">
+          Search Customer
+        </h2>
+      </div>
+    </div>
+    <div style="padding:3px" class="panel-body">
+      <div class="form-group">
+        <div class="col-md-12">
+          <input
+            type="text"
+            id="search"
+            [(ngModel)]="searchWords"
+            (keyup)="searchDB($event.target.value)"
+            class="form-control"
+            placeholder="Type in your search parameter"
+          />
+        </div>
+      </div>
+      <div class="form-group">
+        <div class="col-md-12">
+          <p>
+            <!--{{mfacilityType}}-->
+          </p>
+          <table class="table table-striped table-hover">
+            <thead>
+            <tr>
+              <th>Customer Type</th>
+              <th>Customer Name</th>
+              <th>CustomerId</th>
+              <th>Action</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr
+              (click)="pickSearchedData(res)"
+              style="cursor: pointer"
+              *ngFor="
+                                    let res of filteredSearchResults;
+                                    let i = index
+                                "
+            >
+              <td>{{ res.customerTypeName }}</td>
+              <td>{{ res.firstName }} {{ res.lastName }}</td>
+              <td>{{ res.customerId }}</td>
+              <td>
+                <a (click)="pickSearchedData(res)"
+                >Select</a
+                >
+              </td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+

@@ -1,0 +1,812 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+    <div class="card no-padding">
+      <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+          <div class="row">
+            <div class="col-md-12">
+              <h2 class="panel-title pull-left">
+                LPO Approvals
+              </h2>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel-body">
+          <div class="form-horizontal">
+            <p-tabView
+              [activeIndex]="activeIndex"
+              (onChange)="tabChange($event)"
+            >
+              <p-tabPanel header="LPO Awaiting Approvals">
+                <div class="row">
+                  <div class="col-md-12">
+                    <p-table
+                      #dt
+                      [columns]="cols"
+                      [value]="lpoApprovals"
+                      [scrollable]="true"
+                      [scrollHeight]="viewHeight"
+                      [responsive]="true"
+                    >
+                      <ng-template pTemplate="caption">
+                        <div style="text-align: right">
+                          <input
+                            type="text"
+                            pInputText
+                            size="50"
+                            class="form-control"
+                            placeholder="Search..."
+                            (keyup)="dt.filterGlobal($event.target.value, 'contains')"
+                            style="width:auto"
+                          />
+                        </div>
+                      </ng-template>
+<!--                      <ng-template pTemplate="caption">-->
+<!--                        <h4>List of LPOS Awaiting Approval</h4>-->
+<!--                      </ng-template>-->
+                      <ng-template pTemplate="header">
+                        <tr>
+                          <th class="sn_width">S/N</th>
+                          <!--                      <th >Supplier Name</th>-->
+                          <th [pSortableColumn]="'lpoNumber'">LPO Number</th>
+                          <th [pSortableColumn]="'requestDate'">Request Date</th>
+                          <th [pSortableColumn]="'amountPayable'">Amount Payable</th>
+                          <th [pSortableColumn]="'grossAmount'">Gross Amount</th>
+                          <th [pSortableColumn]="'description'">Description</th>
+                          <th></th>
+                        </tr>
+                      </ng-template>
+                      <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr>
+                          <td class="sn_width">{{ i + 1 }}</td>
+                          <!--                      <td>{{ x.supplierName }}</td>-->
+                          <td>{{ x.lpoNumber }}</td>
+                          <td>{{ x.requestDate | date }}</td>
+                          <td>{{ x.amountPayable | number: "1.2-2" }}</td>
+                          <td>{{ x.grossAmount | number: "1.2-2" }}</td>
+                          <td>{{ x.description }}</td>
+                          <td>
+                            <a (click)="viewApprovalDetails(x)">Select</a>
+                          </td>
+                        </tr>
+                      </ng-template>
+                    </p-table>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="LPO Details" [disabled]="!tabSelected">
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                <strong>SUPPLIER DETAILS</strong>
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <table class="table table-customer-information">
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <strong>Supplier Name</strong>
+                                      </td>
+                                      <td>{{ supplierDetails?.name }}</td>
+                                      <td>
+                                        <strong>Supplier Number</strong>
+                                      </td>
+                                      <td>
+                                        {{ supplierDetails?.supplierNumber }}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <strong>Email</strong>
+                                      </td>
+                                      <td>
+                                        {{ supplierDetails?.email }}
+                                      </td>
+                                      <td>
+                                        <strong>Phone Number</strong>
+                                      </td>
+                                      <td>
+                                        {{ supplierDetails?.phoneNo }}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <strong>Address</strong>
+                                      </td>
+                                      <td>
+                                        {{ supplierDetails?.address }}
+                                      </td>
+                                      <td>
+                                        <strong>Postal Address</strong>
+                                      </td>
+                                      <td>
+                                        {{ supplierDetails?.postalAddress }}
+                                      </td>
+                                    </tr>
+
+                                    <tr>
+                                      <td>
+                                        <strong>Registration Number</strong>
+                                      </td>
+                                      <td>
+                                        {{ supplierDetails?.registrationNo }}
+                                      </td>
+                                      <td>
+                                        <strong>Website</strong>
+                                      </td>
+                                      <td>
+                                        <a
+                                          target="_blank"
+                                          [href]="supplierDetails.website"
+                                          >{{ supplierDetails?.website }}</a
+                                        >
+                                      </td>
+
+                                      <!--            <td>-->
+                                      <!--              <strong>Address</strong>-->
+                                      <!--            </td>-->
+                                      <!--            <td>{{ bidDetails?.address }}</td>-->
+                                    </tr>
+                                    <br />
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                <strong>PRN DETAILS</strong>
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <p-table
+                                  [value]="prnDetail"
+                                  [scrollable]="true"
+                                  [scrollHeight]="viewHeight"
+                                  [responsive]="true"
+                                >
+                                  <ng-template pTemplate="header">
+                                    <tr>
+                                      <th class="sn_width">S/N</th>
+                                      <th>Request By</th>
+                                      <th>Description</th>
+                                      <th>PRN Number</th>
+                                      <th>Request Date</th>
+                                      <th>Expected Delivery Date</th>
+
+                                      <!--                                      <th>Subtotal</th>-->
+                                      <!--                                      <th>Suppliers</th>-->
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template
+                                    pTemplate="body"
+                                    let-item
+                                    let-i="rowIndex"
+                                  >
+                                    <tr>
+                                      <td class="sn_width">{{ i + 1 }}</td>
+                                      <td>{{ item.requestBy }}</td>
+                                      <td>{{ item.description }}</td>
+                                      <td>
+                                        {{ item.prnNumber }}
+                                      </td>
+                                      <td>{{item.requestDate | date}}</td>
+                                      <td>
+                                        {{ item.expectedDeliveryDate | date }}
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                <strong>BID DETAILS</strong>
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <p-table
+                                  [value]="bidDetail"
+                                  [scrollable]="true"
+                                  [scrollHeight]="viewHeight"
+                                  [responsive]="true"
+                                >
+                                  <ng-template pTemplate="header">
+                                    <tr>
+                                      <th class="sn_width">S/N</th>
+                                      <th>Requesting Department</th>
+                                      <th>Item</th>
+                                      <th>Supplier</th>
+                                      <th>Expected Delivery Date</th>
+
+                                      <th>Delivery Location</th>
+                                      <th>Proposed Amount</th>
+                                      <th>Approved Amount</th>
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template
+                                    pTemplate="body"
+                                    let-item
+                                    let-i="rowIndex"
+                                  >
+                                    <tr>
+                                      <td class="sn_width">{{ i + 1 }}</td>
+                                      <td>{{ item.requestingDepartmentName }}</td>
+                                      <td>{{ item.descriptionOfRequest }}</td>
+                                      <td>
+                                        {{ item.supplierName }}
+                                      </td>
+                                      <td>
+                                        {{ item.expectedDeliveryDate | date }}
+                                      </td>
+                                      <td>
+                                        {{item.location}}
+                                      </td>
+                                      <td>
+                                        {{item.proposedAmount | number: '1.2-2'}}
+                                      </td>
+                                      <td>
+                                        {{item.amountApproved | number: '1.2-2'}}
+                                      </td>
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                <strong>LPO DETAILS</strong>
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <table class="table table-customer-information">
+                                  <tbody>
+                                    <tr>
+                                      <td>
+                                        <strong>Item</strong>
+                                      </td>
+                                      <td>{{ bidDetails?.description }}</td>
+                                      <td>
+                                        <strong>LPO Number</strong>
+                                      </td>
+                                      <td>{{ bidDetails?.lpoNumber }}</td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <strong>Request Date</strong>
+                                      </td>
+                                      <td>
+                                        {{ bidDetails?.requestDate | date }}
+                                      </td>
+                                      <td>
+                                        <strong>Amount Payable</strong>
+                                      </td>
+                                      <td>
+                                        {{
+                                          bidDetails?.amountPayable
+                                            | number: "1.2-2"
+                                        }}
+                                      </td>
+                                    </tr>
+                                    <tr>
+                                      <td>
+                                        <strong>Gross Amount</strong>
+                                      </td>
+                                      <td>
+                                        {{
+                                          bidDetails?.grossAmount
+                                            | number: "1.2-2"
+                                        }}
+                                      </td>
+
+                                      <td>
+                                        <strong></strong>
+                                      </td>
+                                      <td></td>
+                                    </tr>
+                                    <br />
+                                  </tbody>
+                                </table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="ui-g">
+                <div class="ui-g-12 no-padding">
+                  <div class="card no-padding">
+                    <div style="margin-bottom:0" class="panel panel-default">
+                      <div class="panel-heading">
+                        <div class="row">
+                          <div class="col-md-12 flex">
+                            <h2 class="panel-title pull-left">
+                              <strong>BID PAYMENT TERMS</strong>
+                            </h2>
+                            <h2>
+                              <strong>Total Amount: {{supplierAmt | number: '1.2-2'}}</strong>
+                            </h2>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="panel-body">
+                        <div class="form-horizontal">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <p-table
+                                [value]="paymentTerms"
+                                [scrollable]="true"
+                                [scrollHeight]="viewHeight"
+                                [responsive]="true"
+                              >
+                                <ng-template pTemplate="header">
+                                  <tr>
+                                    <th class="sn_width">S/N</th>
+                                    <th>Description</th>
+                                    <th>Phase</th>
+                                    <th>Percentage Completion</th>
+                                    <th>Payment(%)</th>
+                                    <th>Amount</th>
+                                    <!--                                      <th>Suppliers</th>-->
+                                  </tr>
+                                </ng-template>
+                                <ng-template
+                                  pTemplate="body"
+                                  let-item
+                                  let-i="rowIndex"
+                                >
+                                  <tr>
+                                    <td class="sn_width">{{ i + 1 }}</td>
+                                    <td>
+                                      {{ item.projectStatusDescription }}
+                                    </td>
+                                    <td>{{ item.phase }}</td>
+                                    <td>{{ item.completion }}</td>
+                                    <td>
+                                      {{ item.payment }}
+                                    </td>
+                                    <td>
+                                      {{ item.amount | number: '1.2-2' }}
+                                    </td>
+                                    <!--                                      <td>{{ item.suppliers }}</td>-->
+                                  </tr>
+                                </ng-template>
+                              </p-table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="panel-footer">
+                        <div class="row">
+                          <div class="col-md-12"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12 flex">
+                              <h2 class="panel-title pull-left">
+                                <strong>PAYMENT TERMS</strong>
+                              </h2>
+                              <h2>
+                                <strong>Total: {{approvedAmt | number: '1.2-2'}}</strong>
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <p-table
+                                  [value]="proposedPaymentTerms"
+                                  [scrollable]="true"
+                                  [scrollHeight]="viewHeight"
+                                  [responsive]="true"
+                                >
+                                  <ng-template pTemplate="header">
+                                    <tr>
+                                      <th class="sn_width">S/N</th>
+                                      <th>Description</th>
+                                      <th>Phase</th>
+                                      <th>Percentage Completion</th>
+                                      <th>Payment(%)</th>
+                                      <th>Amount</th>
+                                      <!--                                      <th>Suppliers</th>-->
+                                    </tr>
+                                  </ng-template>
+                                  <ng-template
+                                    pTemplate="body"
+                                    let-item
+                                    let-i="rowIndex"
+                                  >
+                                    <tr>
+                                      <td class="sn_width">{{ i + 1 }}</td>
+                                      <td>
+                                        {{ item.projectStatusDescription }}
+                                      </td>
+                                      <td>{{ item.phase }}</td>
+                                      <td>{{ item.completion }}</td>
+                                      <td>
+                                        {{ item.payment }}
+                                      </td>
+                                      <td>
+                                        {{ item.amount | number: '1.2-2' }}
+                                      </td>
+                                      <!--                                      <td>{{ item.suppliers }}</td>-->
+                                    </tr>
+                                  </ng-template>
+                                </p-table>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="ui-g">
+                  <div class="ui-g-12 no-padding">
+                    <div class="card no-padding">
+                      <div style="margin-bottom:0" class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <h2 class="panel-title pull-left">
+                                Approval
+                              </h2>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="panel-body">
+                          <div class="form-horizontal">
+                            <div class="row">
+                              <div class="col-md-12">
+                                <div style="display: flex">
+                                  <label class="col-md-2 control-label">
+                                    <strong>Comment</strong>
+                                  </label>
+
+                                  <div class="col-md-4">
+                                    <textarea
+                                      class="form-control"
+                                      [(ngModel)]="bidDetails.comment"
+                                      name="comment"
+                                      cols="15"
+                                      rows="3"
+                                    ></textarea>
+                                  </div>
+
+                                  <label class="col-md-2 control-label">
+                                    <strong>Status</strong>
+                                  </label>
+                                  <div class="col-md-4">
+                                    <select
+                                      name="approvalStatusId"
+                                      id="approvalStatusId"
+                                      class="form-control"
+                                      (change)="getValue($event.target.value)"
+                                      [(ngModel)]="bidDetails.approvalStatusId"
+                                      [ngClass]="
+                                        !bidDetails.approvalStatus
+                                          ? 'required-input'
+                                          : 'valid-input'
+                                      "
+                                    >
+                                      <option value=""
+                                        >--- Select Approval ---</option
+                                      >
+                                      <option value="2"> Approve </option>
+                                      <option value="3"> Disapprove </option>
+                                      <option value="5"> Revert </option>
+                                    </select>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel-footer">
+                          <div class="row">
+                            <div class="col-md-12">
+                              <button
+                                type="submit"
+                                [disabled]="
+                                  !bidDetails.comment ||
+                                  !bidDetails.approvalStatusId
+                                "
+                                (click)="submitApproval(bidDetails)"
+                                class="btn btn-success pull-right"
+                              >
+                                Save
+                              </button>
+                              <button
+                                type="button"
+                                (click)="activeIndex = 1"
+                                style="margin-right:5px"
+                                class="btn btn-danger pull-right"
+                              >
+                                Close
+                              </button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </p-tabPanel>
+              <p-tabPanel header="Approval Details" [disabled]="!tabSelected">
+                <app-approval-details
+                  [approvalDetails]="approvalDetails"
+                ></app-approval-details>
+              </p-tabPanel>
+            </p-tabView>
+          </div>
+        </div>
+        <div class="panel-footer">
+          <div class="row">
+            <div class="col-md-12"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [responsive]="true"
+  [(visible)]="displayApproval"
+  id="add-modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        LPO Details
+      </h2>
+    </div>
+
+    <div class="panel-body">
+      <div class="form-horizontal">
+        <table class="table table-customer-information">
+          <tbody>
+            <tr>
+              <!--            <td>-->
+              <!--              <strong></strong>-->
+              <!--            </td>-->
+              <!--            <td>{{ bidDetails?.supplierName }}</td>-->
+              <td>
+                <strong>LPO Number</strong>
+              </td>
+              <td>{{ bidDetails?.lpoNumber }}</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Request Date</strong>
+              </td>
+              <td>{{ bidDetails?.requestDate | date }}</td>
+              <td>
+                <strong>Proposed Amount</strong>
+              </td>
+              <td>{{ bidDetails?.amountPayable | number: "1.2-2" }}</td>
+            </tr>
+            <tr>
+              <td>
+                <strong>Gross Amount</strong>
+              </td>
+              <td>{{ bidDetails?.grossAmount | number: "1.2-2" }}</td>
+              <!--            <td>-->
+              <!--              <strong>Address</strong>-->
+              <!--            </td>-->
+              <!--            <td>{{ bidDetails?.address }}</td>-->
+            </tr>
+            <br />
+            <tr>
+              <td>
+                <strong>Comment</strong>
+              </td>
+              <td>
+                <textarea
+                  class="form-control"
+                  [(ngModel)]="bidDetails.comment"
+                  name="comment"
+                  cols="15"
+                  rows="3"
+                ></textarea>
+              </td>
+              <td>
+                <strong>Status</strong>
+              </td>
+              <td>
+                <select
+                  name="approvalStatusId"
+                  id="approvalStatusId"
+                  class="form-control"
+                  [(ngModel)]="bidDetails.approvalStatusId"
+                  [ngClass]="
+                    !bidDetails.approvalStatusId
+                      ? 'required-input'
+                      : 'valid-input'
+                  "
+                >
+                  <option value="">--- Select Approval ---</option>
+                  <option value="2"> Approve </option>
+                  <option value="3"> Disapprove </option>
+                  <option value="5"> Revert </option>
+                </select>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="panel-footer">
+      <div class="row">
+        <div class="col-md-12">
+          <button
+            type="submit"
+            [disabled]="!bidDetails.comment || !bidDetails.approvalStatusId"
+            (click)="submitApproval(bidDetails)"
+            class="btn btn-success pull-right"
+          >
+            Save
+          </button>
+          <button
+            type="button"
+            (click)="displayApproval = false"
+            style="margin-right:5px"
+            class="btn btn-danger pull-right"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>
+<p-dialog
+  [responsive]="true"
+  [(visible)]="showDialog"
+  id="modal"
+  modal="modal"
+  showEffect="fade"
+  width="800"
+>
+  <div style="margin-bottom:0; width: 700px" class="panel panel-default">
+    <div class="panel-heading">
+      <h2 class="panel-title">
+        Revert to staff
+      </h2>
+    </div>
+
+    <div class="panel-body" style="margin: 0 30px">
+      <div class="form-horizontal">
+        <div class="form-group">
+          <label for="staff" class="control-label col-md-2">Staffs</label>
+          <select
+            name="staff"
+            id="staff"
+            class="form-control"
+            [(ngModel)]="staffId"
+            (change)="dismissDialog()"
+          >
+            <option value="" [selected]="true" [disabled]="true"
+              >--Select Staff--</option
+            >
+            <option *ngFor="let item of staffs" [value]="item.staffId">{{
+              item.name
+            }}</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</p-dialog>

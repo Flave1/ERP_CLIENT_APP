@@ -1,0 +1,253 @@
+<div class="ui-g">
+  <div class="ui-g-12 no-padding">
+      <div class="card no-padding">
+          <div style="margin-bottom:0" class="panel panel-default">
+              <div class="panel-heading">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <h2 class="panel-title pull-left">
+                              {{ formTitle }}
+                          </h2>
+                      </div>
+                  </div>
+              </div>
+
+              <div class="panel-body">
+                  <div class="form-horizontal">
+                    <app-view-loan-details [loanId]=_loanId></app-view-loan-details>
+                  </div>
+                  <div class="form-horizontal">
+                    <p-table
+                    #dt
+                    [value]=selectedLoan
+                    dataKey=loanScheduleId
+                    [paginator]="false"
+                    [rows]=selectedLoan?.length
+                    [scrollable]="true"
+                    [scrollHeight]=viewHeight
+                    [responsive]="true"
+                >
+                    <ng-template pTemplate="caption">
+                    </ng-template>
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th class="sn_width">S/N</th>
+                            <th>Date</th>
+                            <th>Expected Repayment</th>
+                            <th>Actual Repayment</th>
+                            <th>Repayment Pending</th>
+                            <th>Outstanding Balance</th>
+                            <!-- <th>Operating Account Balance</th> -->
+                            <th>Status</th>
+                            <th>Comment</th>
+                            <th>Decision</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-x let-i="rowIndex">
+                        <tr [pSelectableRow]="x">
+                            <td class="sn_width">{{ i + 1 }}</td>
+                            <td>{{ x.paymentDate | date:"dd-MM-yyyy"}}</td>
+                            <td>{{ x.repayment | number: "1.2"}}</td>
+                            <td>{{ x.repaymentActual | number: "1.2"}}</td>
+                            <td>{{ x.repaymentPending | number: "1.2"}}</td>
+                            <td>{{ x.outstandingBalance | number: "1.2"}}</td>
+                            <!-- <td>{{ x.operatingAccountBal | number: "1.2"}}</td> -->
+                            <td>{{ x.loanStatus }}</td>
+                              <td>
+                                  <a class="link_deco" (click)="getManagedLoanInformationComment(x.loanScheduleId)" *ngIf="!x.commented">Select</a>
+                                <a class="link_deco" (click)="getManagedLoanInformationComment(x.loanScheduleId)" *ngIf="x.commented">View</a>
+                              </td>
+                              <td>
+                                  <a class="link_deco" (click)="getManagedLoanInformationDecision(x.loanScheduleId)" *ngIf="!x.decided">Select</a>
+                                  <a class="link_deco" (click)="getManagedLoanInformationDecision(x.loanScheduleId)" *ngIf="x.decided">View</a>
+                              </td>
+                        </tr>
+                    </ng-template>
+              </p-table>
+                  </div>
+              </div>
+<!--              <div class="panel-footer">-->
+<!--                  <div class="row">-->
+<!--                      <div class="col-md-12">-->
+<!--                          <button-->
+<!--                              type="button"-->
+<!--                              style="margin-right:5px"-->
+<!--                              class="btn btn-danger pull-right"-->
+<!--                              (click)="goBack()"-->
+<!--                          >-->
+<!--                              Back-->
+<!--                          </button>-->
+<!--                      </div>-->
+<!--                  </div>-->
+<!--              </div>-->
+          </div>
+      </div>
+  </div>
+</div>
+
+<p-dialog [responsive]=true [(visible)]="displayComments" id="add-modal" modal="modal" showEffect="fade" width="1200">
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Loan Comment
+            </h2>
+        </div>
+
+
+            <div class="panel-body">
+                <div class="horizontal">
+                    <p-table [value]="selectedComment" [responsive]="true">
+                        <ng-template pTemplate="caption">
+                            <h4>Loan Comment</h4>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width:3em">S/N</th>
+                                <th style="width:7em"> Date </th>
+                                <th style="width:15em"> Comment</th>
+                                <th style="width:15em">Next Steps</th>
+                                <th style="width:5em"></th>
+                                <th style="width:5em"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                            <tr>
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ x.date | date:"dd-MM-yyyy"}}</td>
+                                <td>{{ x.comment }}</td>
+                                <td>{{ x.nextStep }}</td>
+                                <td>
+                                    <a (click)="editComment(x)">Edit</a>
+                                </td>
+                                <td>
+                                    <a (click)="deleteLoanComment(x)">Delete</a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+                <form novalidate [formGroup]="commentForm">
+                <div style="margin-top:20px;" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-2">
+                            Date
+                        </label>
+                        <div class="col-md-4">
+                                <p-calendar name="date" class="form-control" [monthNavigator]="true"
+                                      [yearNavigator]="true" yearRange="1900:2100" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                                      [style]="{'width': '100%', 'z-index': '999'}" formControlName="date"
+                                        ></p-calendar>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-2">
+                            Comment
+                        </label>
+                        <div class="col-md-4">
+                            <textarea type="text" formControlName="comment" cols="2" rows="2" name="comment"
+                            class="form-control"></textarea>
+                        </div>
+                        <label for="" class="control-label col-md-2">
+                            Next Step
+                        </label>
+                        <div class="col-md-4">
+                            <textarea type="text" formControlName="nextStep" cols="2" rows="2" name="nextStep"
+                            class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" [disabled]="commentForm.invalid"
+                            (click)="submitLoanComment(commentForm)" class="btn btn-success pull-right">Save
+                        </button>
+                        <button type="button" (click)="displayComments=false" style="margin-right:5px"
+                            class="btn btn-danger pull-right">Close</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+</p-dialog>
+
+<p-dialog [responsive]=true [(visible)]="displayDecision" id="add-modal" modal="modal" showEffect="fade" width="800">
+    <div style="margin-bottom:0" class="panel panel-default">
+        <div class="panel-heading">
+            <h2 class="panel-title">
+                Loan Decision
+            </h2>
+        </div>
+
+
+            <div class="panel-body">
+                <div class="horizontal">
+                    <p-table [value]="selectedDecision" [responsive]="true">
+                        <ng-template pTemplate="caption">
+                            <h4>Loan Decision</h4>
+                        </ng-template>
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th style="width:3em">S/N</th>
+                                <th style="width:7em"> Date </th>
+                                <th style="width:15em"> Decision</th>
+                                <th style="width:5em"></th>
+                                <th style="width:5em"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-x let-i="rowIndex">
+                            <tr>
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ x.date | date:"dd-MM-yyyy"}}</td>
+                                <td>{{ x.decision }}</td>
+                                <td>
+                                    <a (click)="editDecision(x)">Edit</a>
+                                </td>
+                                <td>
+                                    <a (click)="deleteLoanDecision(x)">Delete</a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+
+                <form novalidate [formGroup]="decisionForm">
+                <div style="margin-top:20px;" class="form-horizontal">
+                    <div class="form-group">
+                        <label for="" class="control-label col-md-2">
+                            Date
+                        </label>
+                        <div class="col-md-4">
+                                <p-calendar name="date" class="form-control" [monthNavigator]="true"
+                                      [yearNavigator]="true" yearRange="1900:2030" [showIcon]="true" [inputStyle]="{'width': '100%'}"
+                                      [style]="{'width': '100%', 'z-index': '999'}" [(ngModel)]="selectedDate" [ngModelOptions]="{standalone: true}"
+                                        ></p-calendar>
+                        </div>
+                        <label for="" class="control-label col-md-2">
+                            Decision
+                        </label>
+                        <div class="col-md-4">
+                            <textarea type="text" formControlName="decision" cols="2" rows="2" name="decision"
+                            class="form-control"></textarea>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            </div>
+
+            <div class="panel-footer">
+                <div class="row">
+                    <div class="col-md-12">
+                        <button type="submit" [disabled]="decisionForm.invalid"
+                            (click)="submitLoanDecision(decisionForm)" class="btn btn-success pull-right">Save
+                        </button>
+                        <button type="button" (click)="displayDecision=false" style="margin-right:5px"
+                            class="btn btn-danger pull-right">Close</button>
+                    </div>
+                </div>
+            </div>
+    </div>
+</p-dialog>
